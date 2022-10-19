@@ -5,5 +5,7 @@ import service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
+    public static void test() {
 
+    }
 }
