@@ -1,5 +1,9 @@
 spring:
-
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://ec2-3-39-143-94.ap-northeast-2.compute.amazonaws.com/handfarm?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8&amp
+    username: ssafy
+    password: ssafy
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
