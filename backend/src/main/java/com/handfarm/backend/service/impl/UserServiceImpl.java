@@ -1,28 +1,30 @@
 package com.handfarm.backend.service.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.handfarm.backend.domain.entity.UserEntity;
+import com.handfarm.backend.repository.UserRepository;
 import com.handfarm.backend.service.UserService;
-import org.json.simple.JSONObject;
-import org.springframework.http.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
-    public static void test() {
+    private UserRepository userRepository;
 
+    @Autowired
+    UserServiceImpl(UserRepository userRepository){
+        this.userRepository = userRepository;
     }
-    public String getKakaoAccessToken (String code ) {
+    public String[] getKakaoAccessToken (String code ) {
+        String[] res = new String[2];
         String access_Token = "";
         String refresh_Token = "";
         String reqURL = "https://kauth.kakao.com/oauth/token";
@@ -66,6 +68,8 @@ public class UserServiceImpl implements UserService {
             access_Token = element.getAsJsonObject().get("access_token").getAsString();
             refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
 
+            res[0] = access_Token;
+            res[1] = refresh_Token;
             System.out.println("access_token : " + access_Token);
             System.out.println("refresh_token : " + refresh_Token);
 
@@ -75,13 +79,13 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
         }
 
-        return access_Token;
+        return res;
     }
 
-    public void createKakaoUser(String token) {
-
+    public Map<String,Object> createKakaoUser(String token) {
+        Map<String, Object> resultMap = new HashMap<>();
         String reqURL = "https://kapi.kakao.com/v2/user/me";
-
+        String nickname = "k";
         //access_token을 이용하여 사용자 정보 조회
         try {
             URL url = new URL(reqURL);
@@ -116,13 +120,33 @@ public class UserServiceImpl implements UserService {
                 email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
             }
 
+            nickname += id; // DB에 저장할 임시 닉네임
             System.out.println("id : " + id);
             System.out.println("email : " + email);
 
             br.close();
 
+            resultMap.put("userId", email);
+            resultMap.put("userNickname", nickname);
+
+            // DB조회해서 기존 회원인지 찾기
+            Optional<UserEntity> userEntityOptional = userRepository.findByUserId(email);
+
+            // 존재하지 않으면 -> 회원가입
+            if(!userEntityOptional.isPresent()){
+                UserEntity userEntity = UserEntity.builder()
+                        .userId(email)
+                        .userNickname(nickname)
+                        .build();
+                userRepository.save(userEntity);
+                resultMap.put("isRegisted", false);
+            }else{ // 회원인 상태 -> 바로 로그인
+                resultMap.put("isRegisted", true);
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return resultMap;
     }
 }
