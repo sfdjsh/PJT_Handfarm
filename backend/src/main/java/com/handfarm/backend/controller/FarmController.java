@@ -1,5 +1,6 @@
 package com.handfarm.backend.controller;
 
+import com.handfarm.backend.service.KakaoService;
 import com.handfarm.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,10 +19,12 @@ public class FarmController {
     private static HttpStatus status = HttpStatus.NOT_FOUND; // 404에러
 
     private UserService userService;
+    private KakaoService kakaoService;
 
     @Autowired
-    FarmController(UserService userService){
+    FarmController(UserService userService, KakaoService kakaoService){
         this.userService = userService;
+        this.kakaoService = kakaoService;
     }
 
 
@@ -49,12 +52,12 @@ public class FarmController {
 
         String code = request.getHeader("code");
         try{
-            String[] res = userService.getKakaoAccessToken(code);
+            String[] res = kakaoService.getKakaoAccessToken(code);
 
             String accessToken = res[0];
             String refreshToken = res[1];
 
-            Map<String, Object> user = userService.createKakaoUser(accessToken);
+            Map<String, Object> user = kakaoService.createKakaoUser(accessToken);
 
             resultMap.put("message", success);
             resultMap.put("isRegisted", user.get("isRegisted"));
