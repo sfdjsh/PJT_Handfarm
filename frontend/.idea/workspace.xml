@@ -4,24 +4,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7b358377-0603-4f79-b706-b10077c8f612" name="Changes" comment="settings" />
+    <list default="true" id="4b81b8fd-fc66-4b80-83f5-fee977677905" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/common/Footer.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stylesheet.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/auth/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/auth/Login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/style/GlobalStyle.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/style/GlobalStyle.jsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$/.." value="frontend" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="2GYd7mcAGZRDnFbgKEG1QRbl25j" />
+  <component name="ProjectId" id="2GZ84PTtW3FNR6ZUGKqL6el1xrK" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -42,24 +47,14 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="7b358377-0603-4f79-b706-b10077c8f612" name="Changes" comment="" />
-      <created>1666569292589</created>
+      <changelist id="4b81b8fd-fc66-4b80-83f5-fee977677905" name="Changes" comment="" />
+      <created>1666584553693</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1666569292589</updated>
-      <workItem from="1666569297979" duration="579000" />
-      <workItem from="1666569913926" duration="5068000" />
-      <workItem from="1666584055560" duration="29000" />
-      <workItem from="1666584094130" duration="53000" />
+      <updated>1666584553693</updated>
+      <workItem from="1666584555168" duration="467000" />
+      <workItem from="1666585033641" duration="6441000" />
     </task>
-    <task id="LOCAL-00001" summary="settings">
-      <created>1666579983331</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1666579983331</updated>
-    </task>
-    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -75,9 +70,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="settings" />
-    <option name="LAST_COMMIT_MESSAGE" value="settings" />
   </component>
 </project>

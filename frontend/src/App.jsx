@@ -8,19 +8,26 @@ import {
 } from "react-router-dom"
 import Login from "./pages/auth/Login";
 import GlobalStyle from "./style/GlobalStyle";
+import Footer from "./components/common/Footer";
+import styled from 'styled-components';
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+//
+// export const Wrapper = styled.div`
+//   height : auto;
+//   min-height: 100%;
+// `
 
 function App() {
   return (
     <>
       <GlobalStyle />
-      <Router>
-        <Routes>
-          <Route exact path='/login' element={<Login/>} />
-        </Routes>
-      </Router>
-      {/* <Button variant="text">Text</Button>
-      <Button variant="contained">Contained</Button>
-      <Button variant="outlined">Outlined</Button> */}
+          <Router>
+            <Routes>
+              <Route exact path='/login' element={<Login/>} />
+            </Routes>
+          </Router>
+        <Footer/>
     </>
   )
 };
