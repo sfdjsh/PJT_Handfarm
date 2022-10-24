@@ -14,8 +14,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 public class FarmController {
-    private static final String success = "SUCCESS";
-    private static final String fail = "FAIL";
+    private static final String success = "success";
+    private static final String fail = "error";
+    private static final String timeOut = "access-token timeout";
     private static HttpStatus status = HttpStatus.NOT_FOUND; // 404에러
 
     private UserService userService;
@@ -54,16 +55,16 @@ public class FarmController {
         try{
             String[] res = kakaoService.getKakaoAccessToken(code);
 
-            String accessToken = res[0];
-            String refreshToken = res[1];
+            Map<String, Object> userInfo = new HashMap<>();
 
-            Map<String, Object> user = kakaoService.createKakaoUser(accessToken);
+            userInfo.put("accessToken", res[0]);
+            userInfo.put("refreshToken", res[1]);
+            Map<String, Object> user = kakaoService.createKakaoUser(res[0]);
+            userInfo.put("userNickname", user.get("userNickname"));
 
             resultMap.put("message", success);
             resultMap.put("isRegisted", user.get("isRegisted"));
-            resultMap.put("userNickname", user.get("userNickname"));
-            resultMap.put("accessToken", accessToken);
-            resultMap.put("refreshToken", refreshToken);
+            resultMap.put("userInfo", userInfo);
 
             status = HttpStatus.OK;
         }catch (Exception e){
@@ -73,4 +74,5 @@ public class FarmController {
 
         return new ResponseEntity<>(resultMap, status);
     }
+
 }
