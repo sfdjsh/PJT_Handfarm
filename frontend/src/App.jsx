@@ -12,6 +12,7 @@ import Footer from "./components/common/Footer";
 import styled from 'styled-components';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
+import ArticleForm from "./pages/community/ArticleForm";
 //
 // export const Wrapper = styled.div`
 //   height : auto;
@@ -25,6 +26,7 @@ function App() {
           <Router>
             <Routes>
               <Route exact path='/login' element={<Login/>} />
+              <Route exact path='/community/create' element={<ArticleForm/>} />
             </Routes>
           </Router>
         <Footer/>
