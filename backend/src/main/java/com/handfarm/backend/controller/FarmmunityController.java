@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/community")
+@RequestMapping("/api")
 public class FarmmunityController {
     private static final String success = "success";
     private static final String fail = "error";
@@ -54,25 +54,25 @@ public class FarmmunityController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<?> testDecodeId(HttpServletRequest request){
-        Map<String, Object> resultMap = new HashMap<>();
-        String decodeId = checkToken(request, resultMap);
-
-        try{
-            if(decodeId != null){
-                String nickname = userService.findByUserId(decodeId);
-                resultMap.put("userNickname", nickname);
-                resultMap.put("message", success);
-                status = HttpStatus.OK;
-            }
-        }catch (Exception e){
-            resultMap.put("message", fail);
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-        }
-
-        return new ResponseEntity<>(resultMap, status);
-    }
+//    @GetMapping("/test")
+//    public ResponseEntity<?> testDecodeId(HttpServletRequest request){
+//        Map<String, Object> resultMap = new HashMap<>();
+//        String decodeId = checkToken(request, resultMap);
+//
+//        try{
+//            if(decodeId != null){
+//                String nickname = userService.findByUserId(decodeId);
+//                resultMap.put("userNickname", nickname);
+//                resultMap.put("message", success);
+//                status = HttpStatus.OK;
+//            }
+//        }catch (Exception e){
+//            resultMap.put("message", fail);
+//            status = HttpStatus.INTERNAL_SERVER_ERROR;
+//        }
+//
+//        return new ResponseEntity<>(resultMap, status);
+//    }
 
     public String checkToken(HttpServletRequest request, Map<String, Object> resultMap){
         String accessToken = request.getHeader("Authorization"); // access-token 정보
