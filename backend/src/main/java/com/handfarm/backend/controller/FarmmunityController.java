@@ -65,9 +65,6 @@ public class FarmmunityController {
                 resultMap.put("userNickname", nickname);
                 resultMap.put("message", success);
                 status = HttpStatus.OK;
-            }else{
-                resultMap.put("message", fail);
-                status = HttpStatus.INTERNAL_SERVER_ERROR;
             }
         }catch (Exception e){
             resultMap.put("message", fail);
