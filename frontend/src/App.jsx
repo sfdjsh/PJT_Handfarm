@@ -31,8 +31,8 @@ function App() {
               <Route exact path='/community' element={<CommunityMain />}></Route>
               <Route exact path='/community/create' element={<ArticleForm/>} />
             </Routes>
+            <Footer/>
           </Router>
-        <Footer/>
     </>
   )
 };
