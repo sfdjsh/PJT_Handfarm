@@ -13,6 +13,8 @@ import styled from 'styled-components';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import ArticleForm from "./pages/community/ArticleForm";
+import CommunityMain from "./pages/community/CommunityMain"
+
 //
 // export const Wrapper = styled.div`
 //   height : auto;
@@ -25,7 +27,8 @@ function App() {
       <GlobalStyle />
           <Router>
             <Routes>
-              <Route exact path='/login' element={<Login/>} />
+              <Route exact path='/' element={<Login/>} />
+              <Route exact path='/community' element={<CommunityMain />}></Route>
               <Route exact path='/community/create' element={<ArticleForm/>} />
             </Routes>
           </Router>
