@@ -1,5 +1,6 @@
 package com.handfarm.backend.domain.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,6 +8,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -20,13 +22,24 @@ public class NoticeEntity {
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Integer idx;
 
-    @Column(name="comment_idx")
-    private Integer commentIdx;
+    @ManyToOne
+    @JoinColumn(name="to_user_idx")
+    private UserEntity toUser;
 
-    @Column(name="comment_up_idx")
-    private Integer commentUpIdx;
+    @ManyToOne
+    @JoinColumn(name="from_user_idx")
+    private UserEntity fromUser;
 
-    @Column(name="notice_tpye")
+    @Column(name="notice_type")
     private String noticeType;
+
+    @Column(name="notice_time")
+    private LocalDateTime noticeTime;
+
+    @Column(name="is_read")
+    private Boolean isRead;
+
+    @Column(name="article_idx")
+    private Integer articleIdx;
 
 }
