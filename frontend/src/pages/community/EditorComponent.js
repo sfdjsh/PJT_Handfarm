@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-// import './ArticleForm.css'
+import './ArticleForm.css'
 
 class EditorComponent extends Component{
     constructor(props){
