@@ -1,5 +1,6 @@
 package com.handfarm.backend.domain.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,10 +24,11 @@ public class NoticeEntity {
 
     @ManyToOne
     @JoinColumn(name="to_user_idx")
-    private UserEntity user;
+    private UserEntity toUser;
 
-    @Column(name="from_user_idx")
-    private Integer fromUserIdx;
+    @ManyToOne
+    @JoinColumn(name="from_user_idx")
+    private UserEntity fromUser;
 
     @Column(name="notice_type")
     private String noticeType;
@@ -37,12 +39,7 @@ public class NoticeEntity {
     @Column(name="is_read")
     private Boolean isRead;
 
-    @Column(name="post_idx")
-    private Integer postIdx;
+    @Column(name="article_idx")
+    private Integer articleIdx;
 
-    @Column(name="comment_idx")
-    private Integer commentIdx;
-
-    @Column(name="comment_up_idx")
-    private Integer commentUpIdx;
 }
