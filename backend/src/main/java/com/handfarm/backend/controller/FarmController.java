@@ -29,29 +29,10 @@ public class FarmController {
     }
 
 
-    @GetMapping("/test")
-    public ResponseEntity<?> apiTest(){
-        Map<String, Object> resultMap = new HashMap<>();
-
-        resultMap.put("message", success);
-        status = HttpStatus.OK;
-
-        return new ResponseEntity<>(resultMap, status);
-    }
-
-//    @ResponseBody
-//    @GetMapping("/kakao")
-//    public void kakaoCallback(@RequestParam String code) {
-//        System.out.println(code);
-//        String access_token = userService.getKakaoAccessToken(code);
-//        userService.createKakaoUser(access_token);
-//    }
-
     @GetMapping("/kakao")
-    public ResponseEntity<?> kakaoCallBack(HttpServletRequest request){
+    public ResponseEntity<?> kakaoCallBack(String code){
         Map<String, Object> resultMap = new HashMap<>();
 
-        String code = request.getHeader("code");
         try{
             String[] res = kakaoService.getKakaoAccessToken(code);
 

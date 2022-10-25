@@ -2,6 +2,7 @@ package com.handfarm.backend;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.handfarm.backend.service.impl.KakoServiceImpl;
 import com.handfarm.backend.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import java.net.URL;
 @SpringBootTest
 class BackendApplicationTests {
 	@Autowired
-	UserServiceImpl userService;
+	KakoServiceImpl kakoService;
 	@Test
 		public void createKakaoUser() {
 			String token = "aHfLOaZJmVDKy9T350AIiqzSgzj13s5PqlSvrGyPCilwnwAAAYPzw1_w";
@@ -65,6 +66,25 @@ class BackendApplicationTests {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		}
+		@Test
+		public void 리프레시토큰_테스트(){
+			kakoService.CheckRefreshToken("dpWLqImx-eYD3Tl109Pam-qegZ364dTDxQT-rQhvCilwnwAAAYQNmNTD");
+		}
+		@Test
+		public void	엑세스토큰_테스트() throws IOException {
+			kakoService.CheckAccessToken("onnGs-4He5Lb4A1tY807DG6Fgm_h_DU9nXOrt8SyCisMpgAAAYQM0OHU");
+		}
+
+		@Test
+		public void 엑세스토큰으로_아이디찾기(){
+			String id = kakoService.decodeToken("onnGs-4He5Lb4A1tY807DG6Fgm_h_DU9nXOrt8SyCisMpgAAAYQM0OHU");
+			System.out.println(id);
+		}
+
+		@Test
+		public void 로그아웃() throws IOException {
+			kakoService.KakaoLogout("GsiDLe0yafgBrlP7B1mQo3u0HNyAFHeFFyL7n6tLCj10mAAAAYQNmanE");
 		}
 
 }
