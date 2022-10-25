@@ -10,7 +10,7 @@ export async function articleCreate (desc) {
             "Content-Type": `application/json`,
         },
         body: JSON.stringify({
-            content : descs
+            content : desc
         }),
     })
 
