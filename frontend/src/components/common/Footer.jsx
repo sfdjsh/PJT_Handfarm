@@ -13,10 +13,6 @@ import styled from 'styled-components';
 import Divider from "@mui/material/Divider";
 import { makeStyles } from '@mui/styles';
 
-// export const footer = styled.div`
-//     height : 100%;
-//     font-family: "New Gulim";
-// `
 const useStyles = makeStyles({
     root: {
         width: "100vw",

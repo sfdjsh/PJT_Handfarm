@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
 import axios from 'axios'
-import {LOCAL_URL} from "../../config";
 
 export const CommunityMain = () => {
     const href = window.location.href;
+    console.log(href)
     let params = new URL(document.URL).searchParams
     let code = params.get("code")
     console.log(code)
@@ -15,15 +15,9 @@ export const CommunityMain = () => {
     //     isRegisted: null
     // });
   
-    useEffect(async () => { 
-    //   axios({
-    //     method: 'GET',
-    //     url: `${LOCAL_URL}/api/kakao`,
-    //     Headers: {code}
-    //   })
-    //     .then(response => {
-    //         console.log(response.data)
-    //     })
+    useEffect(() => { 
+        axios.get(`https://handfarm.co.kr/api/kakao?code=${code}`)
+            .then(response => {console.log(response.data)})
     })
 
     return (
