@@ -99,11 +99,7 @@ public class KakoServiceImpl implements KakaoService {
             }
 
             nickname += id; // DB에 저장할 임시 닉네임
-            System.out.println("id : " + id);
-            System.out.println("email : " + email);
-
-            resultMap.put("userId", email);
-            resultMap.put("userNickname", nickname);
+            String deviceId = "null";
 
             // DB조회해서 기존 회원인지 찾기
             Optional<UserEntity> userEntityOptional = userRepository.findByUserId(email);
@@ -118,7 +114,14 @@ public class KakoServiceImpl implements KakaoService {
                 resultMap.put("isRegisted", false);
             }else{ // 회원인 상태 -> 바로 로그인
                 resultMap.put("isRegisted", true);
+                nickname = userEntityOptional.get().getUserNickname();
+                if(!userEntityOptional.get().getUserDevice().isEmpty()){
+                    deviceId = userEntityOptional.get().getUserDevice();
+                }
             }
+            resultMap.put("userId", email);
+            resultMap.put("userNickname", nickname);
+            resultMap.put("devicdId", deviceId);
         }catch (IOException e){
             e.printStackTrace();
             resultMap.put("error" , "timeOut");

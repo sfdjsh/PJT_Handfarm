@@ -42,6 +42,7 @@ public class FarmController {
             userInfo.put("refreshToken", res[1]);
             Map<String, Object> user = kakaoService.createKakaoUser(res[0]);
             userInfo.put("userNickname", user.get("userNickname"));
+            userInfo.put("deviceId", user.get("deviceId"));
 
             resultMap.put("message", success);
             resultMap.put("isRegisted", user.get("isRegisted"));
