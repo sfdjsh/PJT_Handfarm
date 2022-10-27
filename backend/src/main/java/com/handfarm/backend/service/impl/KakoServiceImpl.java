@@ -24,7 +24,7 @@ public class KakoServiceImpl implements KakaoService {
         this.userRepository = userRepository;
     }
 
-    public String[] getKakaoAccessToken (String code ) {                // 로그인 시도 서비스
+    public String[] getKakaoAccessToken (String code ) throws IOException{                // 로그인 시도 서비스
         String[] res = new String[2];
         String access_Token = "";
         String refresh_Token = "";
@@ -42,8 +42,8 @@ public class KakoServiceImpl implements KakaoService {
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
-            sb.append("&client_id=115759604dfe8a9071598cf92c78fc6d"); // TODO REST_API_KEY 입력
-            sb.append("&redirect_uri=http://localhost:3000/community"); // TODO 인가코드 받은 redirect_uri 입력
+            sb.append("&client_id=82b326c371f84c0865324d00fab3561d"); // TODO REST_API_KEY 입력
+            sb.append("&redirect_uri=http://localhost:8081/api/kakao"); // TODO 인가코드 받은 redirect_uri 입력
             sb.append("&code=" + code);
             bw.write(sb.toString());
             bw.flush();
@@ -98,11 +98,11 @@ public class KakoServiceImpl implements KakaoService {
             }
 
             nickname += id; // DB에 저장할 임시 닉네임
-            String deviceId = "null";
+            Integer deviceId = null;
 
             // DB조회해서 기존 회원인지 찾기
             Optional<UserEntity> userEntityOptional = userRepository.findByUserId(email);
-
+            System.out.println("userEntity : " + userEntityOptional);
             // 존재하지 않으면 -> 회원가입
             if(!userEntityOptional.isPresent()){
                 UserEntity userEntity = UserEntity.builder()
@@ -114,9 +114,7 @@ public class KakoServiceImpl implements KakaoService {
             }else{ // 회원인 상태 -> 바로 로그인
                 resultMap.put("isRegisted", true);
                 nickname = userEntityOptional.get().getUserNickname();
-                if(!userEntityOptional.get().getUserDevice().isEmpty()){
-                    deviceId = userEntityOptional.get().getUserDevice();
-                }
+                deviceId = userEntityOptional.get().getUserDevice();
             }
             resultMap.put("userId", email);
             resultMap.put("userNickname", nickname);
@@ -195,7 +193,7 @@ public class KakoServiceImpl implements KakaoService {
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=refresh_token");
-            sb.append("&client_id=115759604dfe8a9071598cf92c78fc6d");
+            sb.append("&client_id=82b326c371f84c0865324d00fab3561d");
             sb.append("&refresh_token=" + refreshToken);
             bw.write(sb.toString());
             bw.flush();

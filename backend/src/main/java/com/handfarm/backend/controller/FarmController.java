@@ -50,7 +50,7 @@ public class FarmController {
             resultMap.put("userInfo", userInfo);
 
             status = HttpStatus.OK;
-        }catch (Exception e){
+        } catch (IOException e) {
             resultMap.put("message", fail);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
