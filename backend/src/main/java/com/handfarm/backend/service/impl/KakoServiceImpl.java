@@ -6,7 +6,6 @@ import com.handfarm.backend.domain.entity.UserEntity;
 import com.handfarm.backend.repository.UserRepository;
 import com.handfarm.backend.service.KakaoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.couchbase.CouchbaseProperties;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -180,6 +179,7 @@ public class KakoServiceImpl implements KakaoService {
         }
     }
 
+    @Override
     public String CheckRefreshToken(String refreshToken)  {              // 리프레시 토큰 체크
         String access_Token = "";
         String reqURL = "https://kauth.kakao.com/oauth/token";
@@ -231,6 +231,7 @@ public class KakoServiceImpl implements KakaoService {
         return access_Token;
     }
 
+    @Override
     public String KakaoLogout(String accessToken) throws IOException {
             String reqURL = "https://kapi.kakao.com/v1/user/logout";
 
