@@ -4,10 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4b81b8fd-fc66-4b80-83f5-fee977677905" name="Changes" comment="">
+    <list default="true" id="4b81b8fd-fc66-4b80-83f5-fee977677905" name="Changes" comment="article, Navbar, mqtt, farmmunityMain">
+      <change afterPath="$PROJECT_DIR$/public/assets/img/handFarm.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/atom.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/common/Navbar.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/mqtt/Mqtt.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/mqtt/Mqtt2.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/community/FarmmunityMain.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pictures/handFarmLogo.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/community/ArticleForm.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/community/ArticleForm.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/Footer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/Footer.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/api/Article.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/Article.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/auth/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/auth/Login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/community/ArticleForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/community/ArticleForm.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/community/EditorComponent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/community/EditorComponent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/style/GlobalStyle.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/style/GlobalStyle.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,7 +32,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="F04_FE_김강현" />
+        <entry key="$PROJECT_DIR$/.." value="frontend" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -53,6 +68,10 @@
       <updated>1666584553693</updated>
       <workItem from="1666584555168" duration="467000" />
       <workItem from="1666585033641" duration="6441000" />
+      <workItem from="1666741496441" duration="6347000" />
+      <workItem from="1666828729060" duration="2831000" />
+      <workItem from="1666848317351" duration="2084000" />
+      <workItem from="1666850550646" duration="5339000" />
     </task>
     <servers />
   </component>
@@ -69,5 +88,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="article, Navbar, mqtt, farmmunityMain" />
+    <option name="LAST_COMMIT_MESSAGE" value="article, Navbar, mqtt, farmmunityMain" />
   </component>
 </project>
