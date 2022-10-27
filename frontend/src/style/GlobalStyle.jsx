@@ -5,6 +5,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: SCoreDream;
     background-color: #212528;
     text-align : center;
+    color: white;
   }
 `
 export default GlobalStyle
