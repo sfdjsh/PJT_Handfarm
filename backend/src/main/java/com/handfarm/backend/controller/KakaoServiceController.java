@@ -14,7 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
-public class FarmController {
+public class KakaoServiceController {
     private static final String success = "success";
     private static final String fail = "error";
     private static final String timeOut = "access-token timeout";
@@ -24,7 +24,7 @@ public class FarmController {
     private KakaoService kakaoService;
 
     @Autowired
-    FarmController(UserService userService, KakaoService kakaoService){
+    KakaoServiceController(UserService userService, KakaoService kakaoService){
         this.userService = userService;
         this.kakaoService = kakaoService;
     }
