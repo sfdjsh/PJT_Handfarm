@@ -11,21 +11,39 @@ export const FarmCreate = () => {
                 <Container>
                     <Box>
                         <h3>기기</h3>
-                        <TextField variant="outlined" label="기기를 등록해주세요." fullWidth style={{ color: 'white' }} />
+                        <TextField variant="outlined" label="기기 등록" fullWidth
+                        sx={{
+                            ' .MuiOutlinedInput-root': {
+                                color: 'black',
+                                border : '1px solid white',
+                                backgroundColor : "white"
+                            }}} />
                     </Box>
                     <Box>
                         <h3>농장 이름</h3>
-                        <TextField variant="outlined" label="농장 이름을 등록해주세요." fullWidth style={{ color: 'white' }} />
+                        <TextField variant="outlined" label="농장 이름을 등록해주세요." fullWidth
+                        sx={{
+                            ' .MuiOutlinedInput-root': {
+                                color: 'black',
+                                border : '1px solid white',
+                                backgroundColor : "white"
+                            }}} />
                     </Box>
                     <Box>
                         <h3>작물</h3>
-                        <TextField variant="outlined" label="작물을 등록해주세요." fullWidth style={{ color: 'white' }} />
+                        <TextField variant="outlined" label="작물을 등록해주세요." fullWidth
+                        sx={{
+                            ' .MuiOutlinedInput-root': {
+                                color: 'black',
+                                border : '1px solid white',
+                                backgroundColor : "white"
+                            }}} />
                     </Box>
                 </Container>
 
                 <Box style={
-                    { display: 'flex', justifyContent: 'center', marginTop: '30px' }}>
-                    <Button variant="contained" sx={{ width: 80, height: 60, mr:2, background:'#424B5A'}}
+                    { display: 'flex', justifyContent: 'center', marginTop: '40px' }}>
+                    <Button variant="contained" sx={{ width: 80, height: 60, mr:4, background:'#424B5A'}}
                     ><h3>등록</h3>
                     </Button>
                     <Button variant="contained" sx={{ width: 80, height: 60, background:'#757575' }}>
