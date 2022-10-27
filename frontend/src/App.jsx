@@ -20,16 +20,18 @@ function App() {
       <GlobalStyle />
         <Header />
           <Router>
+              <Navbar/>
             <Routes>
               <Route exact path='/' element={<Login/>} />
-              <Route exact path='/community' element={<CommunityMain />}></Route>
+              <Route exact path='/community' element={<FarmmunityMain />}></Route>
               <Route exact path='/community/create' element={<ArticleForm/>} />
+                <Route exact path='/mqtt' element={<Mqtt/>} />
               <Route exact path='/myfarm/registing' element={<FarmRegisting />}></Route>
               <Route exact path='/myfarm/create' element={<FarmCreate />}></Route>
               <Route exact path='/kakao' element={<Kakao />}></Route>
             </Routes>
+            <Footer/>
           </Router>
-        <Footer />
     </>
   )
 };

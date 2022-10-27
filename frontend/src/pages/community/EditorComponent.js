@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import './ArticleForm.css'
 
 class EditorComponent extends Component{
     constructor(props){
@@ -48,9 +49,9 @@ class EditorComponent extends Component{
     render(){
         const { value, onChange } = this.props;
         return(
-            <div style={{height: "650px"}}>
+            <div style={{height: "320px"}}>
                 <ReactQuill
-                    style={{height: "600px"}}
+                    style={{height: "300px", color : "black", backgroundColor : "white", margin : "15px"}}
                     theme="snow"
                     modules={this.modules}
                     formats={this.formats}

@@ -12,6 +12,7 @@ import GiteOutlinedIcon from '@mui/icons-material/GiteOutlined';
 import styled from 'styled-components';
 import Divider from "@mui/material/Divider";
 import { makeStyles } from '@mui/styles';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles({
     root: {
@@ -23,6 +24,7 @@ const useStyles = makeStyles({
 export const Footer = () => {
     const classes = useStyles();
     const [value, setValue] = useState(0)
+    const navigator = useNavigate();
 
     return (
         <>
@@ -39,7 +41,7 @@ export const Footer = () => {
                 >
                     <BottomNavigationAction style={{ color : "white" }}  label="농장" icon={<GiteOutlinedIcon />} />
                     <BottomNavigationAction style={{ color : "white" }}  label="커뮤니티" icon={<ChatBubbleOutlineIcon />} />
-                    <BottomNavigationAction style={{ color : "white" }}  label="쪽지함" icon={<MailOutlineOutlinedIcon />} />
+                    <BottomNavigationAction style={{ color : "white" }}  label="쪽지함"  icon={<MailOutlineOutlinedIcon />} />
                     <BottomNavigationAction style={{ color : "white" }}  label="프로필" icon={<PermIdentityOutlinedIcon />} />
                 </BottomNavigation>
             </Box>
