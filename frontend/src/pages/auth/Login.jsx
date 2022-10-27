@@ -1,7 +1,12 @@
 import React from 'react';
 import {KAKAO_AUTH_URL} from './OAuth';
+import {useRecoilState} from "recoil";
+import {isLogin} from "../../atom";
 
 export const Login = () => {
+    const [userLogin, setUserLogin] = useRecoilState(isLogin)
+
+
     return (
         <>
             <img src="handFarm.png" alt="핸드팜" 

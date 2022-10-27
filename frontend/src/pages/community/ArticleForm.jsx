@@ -72,7 +72,7 @@ export const ArticleForm = () => {
     //             console.log(res)
     //         }))
     // }
-    const submitArticle = async (userInput) => {
+    const submitArticle = async () => {
         if(!image.image_file){
             articleCreate(userInput)
                 .then((res) => res.json().then(res => {
@@ -97,10 +97,7 @@ export const ArticleForm = () => {
                 upLoadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
                     console.log("File available at", downloadURL);
                     setImageUrl(downloadURL);
-                    setUserInput((state) => {
-                        return { ...state, articleImg : downloadURL}
-                    })
-                    const res = articleCreate(userInput)
+                    const res = articleCreate({...userInput, articleImg : downloadURL})
                         .then((res) => {
                             console.log(res)
                             // if (res.ok) {
