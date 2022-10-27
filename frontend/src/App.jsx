@@ -12,6 +12,7 @@ import ArticleForm from "./pages/community/ArticleForm";
 import CommunityMain from "./pages/community/CommunityMain"
 import FarmRegisting from './pages/myFarm/FarmRegisting';
 import FarmCreate from './pages/myFarm/FarmCreate';
+import Kakao from './pages/auth/Kakao'
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
               <Route exact path='/community/create' element={<ArticleForm/>} />
               <Route exact path='/myfarm/registing' element={<FarmRegisting />}></Route>
               <Route exact path='/myfarm/create' element={<FarmCreate />}></Route>
+              <Route exact path='/kakao' element={<Kakao />}></Route>
             </Routes>
           </Router>
         <Footer />
