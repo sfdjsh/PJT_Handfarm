@@ -1,22 +1,16 @@
 import React from 'react';
-import { AppBar, IconButton, Divider } from '@mui/material'
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import { AppBar, IconButton, Divider, Box } from '@mui/material'
+import NotificationsIcon from '@mui/icons-material/NotificationsNone';
+import { display } from '@mui/system';
 
 export const Header = () => {
   return (
     <>
-      <AppBar positionStatic
-      sx={{p:1, backgroundColor:'#212528'}}>
-        {/* <IconButton
-          size='large'
-          edge='start'
-          sx={{mr : 2}}> */}
-          <Box>
-            <NotificationsNoneIcon sx={{flexDirection :'row', alignItems: 'start'}}/>
-          </Box>
-          {/* </IconButton> */}
-      </AppBar>
-      <hr />
+      <Box sx={{ display:"flex", justifyContent:"end", alignItems:"center" }}>
+          <IconButton size='large' color='inherit'>
+              <NotificationsIcon />
+          </IconButton>
+      </Box>
     </>
   )
 }
