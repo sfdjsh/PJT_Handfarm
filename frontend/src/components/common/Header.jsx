@@ -1,13 +1,23 @@
 import React from 'react';
-import { Box } from '@mui/material'
+import { AppBar, IconButton, Divider } from '@mui/material'
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 
 export const Header = () => {
   return (
-    <Box>
-      <div style={{backgroundColor: 'white', position : "fixed", top : 0 }}>
-        <h1>navbar</h1>
-      </div>
-  </Box>
+    <>
+      <AppBar positionStatic
+      sx={{p:1, backgroundColor:'#212528'}}>
+        {/* <IconButton
+          size='large'
+          edge='start'
+          sx={{mr : 2}}> */}
+          <Box>
+            <NotificationsNoneIcon sx={{flexDirection :'row', alignItems: 'start'}}/>
+          </Box>
+          {/* </IconButton> */}
+      </AppBar>
+      <hr />
+    </>
   )
 }
 
