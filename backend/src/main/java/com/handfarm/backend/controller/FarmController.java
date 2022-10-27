@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,4 +58,25 @@ public class FarmController {
         return new ResponseEntity<>(resultMap, status);
     }
 
+    @GetMapping("/kakao/logout")
+    public ResponseEntity<?> kakaologout(HttpServletRequest request) throws IOException {
+        System.out.println("accesstoken?" + request);
+        String accessToken = request.getHeader("accessToken");
+        System.out.println("\naccesstoken?" + accessToken);
+        Map<String ,Object> map = new HashMap<>();
+        map.put("message", kakaoService.KakaoLogout(accessToken));
+
+        status = HttpStatus.OK;
+        return new ResponseEntity<>(map, status);
+    }
+
+    @GetMapping("/kakao/token")
+    public  ResponseEntity<?> checkRefreshToken(HttpServletRequest request){
+        String refreshToken = request.getHeader("refreshToken");
+        Map<String ,Object> map = new HashMap<>();
+        map.put("accessToken", kakaoService.CheckRefreshToken(refreshToken));
+
+        status = HttpStatus.OK;
+        return new ResponseEntity<>(map, status);
+    }
 }
