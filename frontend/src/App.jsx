@@ -14,7 +14,10 @@ import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import ArticleForm from "./pages/community/ArticleForm";
 import CommunityMain from "./pages/community/CommunityMain"
-
+import Navbar from "./components/common/Navbar";
+import FarmmunityMain from "./pages/community/FarmmunityMain";
+import Mqtt from "./mqtt/Mqtt";
+// import Mqtt2 from "./mqtt/Mqtt2";
 //
 // export const Wrapper = styled.div`
 //   height : auto;
@@ -26,10 +29,12 @@ function App() {
     <>
       <GlobalStyle />
           <Router>
+              <Navbar/>
             <Routes>
               <Route exact path='/' element={<Login/>} />
-              <Route exact path='/community' element={<CommunityMain />}></Route>
+              <Route exact path='/community' element={<FarmmunityMain />}></Route>
               <Route exact path='/community/create' element={<ArticleForm/>} />
+                <Route exact path='/mqtt' element={<Mqtt/>} />
             </Routes>
             <Footer/>
           </Router>
