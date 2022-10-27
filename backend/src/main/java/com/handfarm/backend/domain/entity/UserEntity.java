@@ -33,8 +33,8 @@ public class UserEntity {
     @Column(name="user_open")
     private Boolean userOpen;
 
-    @Column(name="user_device")
-    private String userDevice;
+    @Column(name="user_device", nullable = false)
+    private Integer userDevice;
 
     @Builder
     public UserEntity(String userId, String userNickname){

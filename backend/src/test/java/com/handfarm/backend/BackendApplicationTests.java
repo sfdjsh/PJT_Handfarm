@@ -2,8 +2,9 @@
 //
 //import com.google.gson.JsonElement;
 //import com.google.gson.JsonParser;
+//import com.handfarm.backend.domain.entity.UserEntity;
+//import com.handfarm.backend.repository.UserRepository;
 //import com.handfarm.backend.service.impl.KakoServiceImpl;
-//import com.handfarm.backend.service.impl.UserServiceImpl;
 //import org.junit.jupiter.api.Test;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.context.SpringBootTest;
@@ -13,11 +14,14 @@
 //import java.io.InputStreamReader;
 //import java.net.HttpURLConnection;
 //import java.net.URL;
+//import java.util.Optional;
 //
 //@SpringBootTest
 //class BackendApplicationTests {
 //	@Autowired
 //	KakoServiceImpl kakoService;
+//    @Autowired
+//    UserRepository userRepository;
 //	@Test
 //		public void createKakaoUser() {
 //			String token = "aHfLOaZJmVDKy9T350AIiqzSgzj13s5PqlSvrGyPCilwnwAAAYPzw1_w";
@@ -35,7 +39,7 @@
 //				//결과 코드가 200이라면 성공
 //				int responseCode = conn.getResponseCode();
 //				System.out.println("responseCode : " + responseCode);
-
+//
 //				//요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
 //				BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 //				String line = "";
@@ -86,5 +90,11 @@
 //		public void 로그아웃() throws IOException {
 //			kakoService.KakaoLogout("GsiDLe0yafgBrlP7B1mQo3u0HNyAFHeFFyL7n6tLCj10mAAAAYQNmanE");
 //		}
+//
+//        @Test
+//        public void  test(){
+//            Optional<UserEntity> userEntity =  userRepository.findByUserId("swyou1123@naver.com");
+//            System.out.println(userEntity.get().getUserDevice());
+//        }
 //
 //}
