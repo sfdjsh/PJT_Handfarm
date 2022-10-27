@@ -35,7 +35,7 @@ export const Footer = () => {
                         setValue(newValue);
                     }}
                     className={classes.root}
-                    style={{ backgroundColor : "black" }}
+                    style={{ backgroundColor : "#212528" }}
                 >
                     <BottomNavigationAction style={{ color : "white" }}  label="농장" icon={<GiteOutlinedIcon />} />
                     <BottomNavigationAction style={{ color : "white" }}  label="커뮤니티" icon={<ChatBubbleOutlineIcon />} />
