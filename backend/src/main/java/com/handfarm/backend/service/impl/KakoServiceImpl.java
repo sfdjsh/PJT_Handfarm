@@ -43,8 +43,8 @@ public class KakoServiceImpl implements KakaoService {
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
-            sb.append("&client_id=82b326c371f84c0865324d00fab3561d"); // TODO REST_API_KEY 입력
-            sb.append("&redirect_uri=http://localhost:8080/api/kakao"); // TODO 인가코드 받은 redirect_uri 입력
+            sb.append("&client_id=115759604dfe8a9071598cf92c78fc6d"); // TODO REST_API_KEY 입력
+            sb.append("&redirect_uri=http://localhost:3000/community"); // TODO 인가코드 받은 redirect_uri 입력
             sb.append("&code=" + code);
             bw.write(sb.toString());
             bw.flush();
@@ -195,7 +195,7 @@ public class KakoServiceImpl implements KakaoService {
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=refresh_token");
-            sb.append("&client_id=82b326c371f84c0865324d00fab3561d");
+            sb.append("&client_id=115759604dfe8a9071598cf92c78fc6d");
             sb.append("&refresh_token=" + refreshToken);
             bw.write(sb.toString());
             bw.flush();
