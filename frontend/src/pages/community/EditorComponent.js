@@ -49,7 +49,7 @@ class EditorComponent extends Component{
     render(){
         const { value, onChange } = this.props;
         return(
-            <div style={{height: "350px"}}>
+            <div style={{height: "320px"}}>
                 <ReactQuill
                     style={{height: "300px", color : "black", backgroundColor : "white", margin : "15px"}}
                     theme="snow"
