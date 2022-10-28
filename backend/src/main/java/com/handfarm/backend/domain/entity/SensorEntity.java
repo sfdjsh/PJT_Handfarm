@@ -15,7 +15,7 @@ import javax.persistence.*;
 @DynamicInsert
 @NoArgsConstructor
 @Table(name="sensor")
-public class SeosorEntity {
+public class SensorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idx;
