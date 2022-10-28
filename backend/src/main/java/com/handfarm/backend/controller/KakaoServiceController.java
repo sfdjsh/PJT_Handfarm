@@ -43,7 +43,7 @@ public class KakaoServiceController {
             userInfo.put("refreshToken", res[1]);
             Map<String, Object> user = kakaoService.createKakaoUser(res[0]);
             userInfo.put("userNickname", user.get("userNickname"));
-            userInfo.put("deviceId", user.get("deviceId"));
+            userInfo.put("deviceNo", user.get("deviceNo"));
 
             resultMap.put("message", success);
             resultMap.put("isRegisted", user.get("isRegisted"));
