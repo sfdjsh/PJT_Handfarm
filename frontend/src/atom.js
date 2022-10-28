@@ -3,8 +3,8 @@ import {recoilPersist} from "recoil-persist";
 
 const { persistAtom } = recoilPersist()
 
-export const isLogin = atom({
-    key : "isLogin",
+export const userInfo = atom({
+    key : "userInfo",
     default : [{
         isRegisted: false,
         userNickname: '',
@@ -14,7 +14,7 @@ export const isLogin = atom({
     effects_UNSTABLE: [persistAtom],
 })
 
-export const userInfo = atom({
-    key : "userInfo",
+export const userFarm = atom({
+    key : "userFarm",
     default : []
 })
