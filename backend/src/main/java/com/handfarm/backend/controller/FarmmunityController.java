@@ -75,7 +75,7 @@ public class FarmmunityController {
 //    }
 
     public String checkToken(HttpServletRequest request, Map<String, Object> resultMap){
-        String accessToken = request.getHeader("Authorization"); // access-token 정보
+        String accessToken = request.getHeader("accessToken"); // access-token 정보
         String decodeId = kakaoService.decodeToken(accessToken);
         if(!decodeId.equals("timeout")){
             return decodeId;
