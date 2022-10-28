@@ -31,7 +31,7 @@ public class NoticeController {
         this.kakaoService = kakaoService;
     }
 
-    @GetMapping("/notice/count")
+    @GetMapping("/alarm/count")
     public ResponseEntity<?> countNotice(HttpServletRequest request){
         Map<String, Object> resultMap = new HashMap<>();
         String decodeId = checkToken(request, resultMap);
@@ -50,7 +50,7 @@ public class NoticeController {
         return new ResponseEntity<>(resultMap,status);
     }
 
-    @GetMapping("/notice") // 전체 알림 조회
+    @GetMapping("/alarm") // 전체 알림 조회
     public ResponseEntity<?> viewNoticeList(HttpServletRequest request){
         Map<String, Object> resultMap = new HashMap<>();
         String decodeId = checkToken(request, resultMap);
@@ -70,7 +70,7 @@ public class NoticeController {
         return new ResponseEntity<>(resultMap,status);
     }
 
-    @PostMapping("/notice/{notice_idx}")
+    @PostMapping("/alarm/{notice_idx}")
     public ResponseEntity<?> readNotice(HttpServletRequest request, @PathVariable("notice_idx") Integer idx){
         Map<String, Object> resultMap = new HashMap<>();
         String decodeId = checkToken(request, resultMap);
@@ -87,7 +87,7 @@ public class NoticeController {
         return new ResponseEntity<>(resultMap,status);
     }
 
-    @DeleteMapping("/notice/{notice_idx}")
+    @DeleteMapping("/alarm/{notice_idx}")
     public ResponseEntity<?> deleteNotice(HttpServletRequest request, @PathVariable("notice_idx") Integer idx){
         Map<String, Object> resultMap = new HashMap<>();
         String decodeId = checkToken(request, resultMap);
