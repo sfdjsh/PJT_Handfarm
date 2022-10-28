@@ -8,12 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
-public class FarmController {
+public class KakaoServiceController {
     private static final String success = "success";
     private static final String fail = "error";
     private static final String timeOut = "access-token timeout";
@@ -23,35 +24,16 @@ public class FarmController {
     private KakaoService kakaoService;
 
     @Autowired
-    FarmController(UserService userService, KakaoService kakaoService){
+    KakaoServiceController(UserService userService, KakaoService kakaoService){
         this.userService = userService;
         this.kakaoService = kakaoService;
     }
 
 
-    @GetMapping("/test")
-    public ResponseEntity<?> apiTest(){
-        Map<String, Object> resultMap = new HashMap<>();
-
-        resultMap.put("message", success);
-        status = HttpStatus.OK;
-
-        return new ResponseEntity<>(resultMap, status);
-    }
-
-//    @ResponseBody
-//    @GetMapping("/kakao")
-//    public void kakaoCallback(@RequestParam String code) {
-//        System.out.println(code);
-//        String access_token = userService.getKakaoAccessToken(code);
-//        userService.createKakaoUser(access_token);
-//    }
-
     @GetMapping("/kakao")
-    public ResponseEntity<?> kakaoCallBack(HttpServletRequest request){
+    public ResponseEntity<?> kakaoCallBack(String code){
         Map<String, Object> resultMap = new HashMap<>();
 
-        String code = request.getHeader("code");
         try{
             String[] res = kakaoService.getKakaoAccessToken(code);
 
@@ -61,13 +43,14 @@ public class FarmController {
             userInfo.put("refreshToken", res[1]);
             Map<String, Object> user = kakaoService.createKakaoUser(res[0]);
             userInfo.put("userNickname", user.get("userNickname"));
+            userInfo.put("deviceId", user.get("deviceId"));
 
             resultMap.put("message", success);
             resultMap.put("isRegisted", user.get("isRegisted"));
             resultMap.put("userInfo", userInfo);
 
             status = HttpStatus.OK;
-        }catch (Exception e){
+        } catch (IOException e) {
             resultMap.put("message", fail);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
@@ -75,4 +58,25 @@ public class FarmController {
         return new ResponseEntity<>(resultMap, status);
     }
 
+    @GetMapping("/kakao/logout")
+    public ResponseEntity<?> kakaologout(HttpServletRequest request) throws IOException {
+        System.out.println("accesstoken?" + request);
+        String accessToken = request.getHeader("accessToken");
+        System.out.println("\naccesstoken?" + accessToken);
+        Map<String ,Object> map = new HashMap<>();
+        map.put("message", kakaoService.KakaoLogout(accessToken));
+
+        status = HttpStatus.OK;
+        return new ResponseEntity<>(map, status);
+    }
+
+    @GetMapping("/kakao/token")
+    public  ResponseEntity<?> checkRefreshToken(HttpServletRequest request){
+        String refreshToken = request.getHeader("refreshToken");
+        Map<String ,Object> map = new HashMap<>();
+        map.put("accessToken", kakaoService.CheckRefreshToken(refreshToken));
+
+        status = HttpStatus.OK;
+        return new ResponseEntity<>(map, status);
+    }
 }

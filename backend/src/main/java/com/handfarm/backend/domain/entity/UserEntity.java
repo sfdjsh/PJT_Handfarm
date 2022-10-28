@@ -33,6 +33,10 @@ public class UserEntity {
     @Column(name="user_open")
     private Boolean userOpen;
 
+    @ManyToOne
+    @JoinColumn(name="user_device")
+    private DeviceEntity userDevice;
+
     @Builder
     public UserEntity(String userId, String userNickname){
         this.userId = userId;
