@@ -43,7 +43,7 @@ function App() {
           <Route exact path="/kakao" element={<Kakao />}></Route>
           <Route exact path="/myfarm" element={<MyFarm />}></Route>
         </Routes>
-        <Footer />
+        {/* <Footer /> */}
       </Router>
     </>
   );
