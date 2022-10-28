@@ -1,0 +1,2 @@
+float* getTempHumid();
+int getCDS();
