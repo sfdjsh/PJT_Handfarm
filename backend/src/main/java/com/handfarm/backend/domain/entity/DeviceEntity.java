@@ -33,14 +33,13 @@ public class DeviceEntity {
 
     @Column(name="device_name")
     private String deviceName;
-
     @ManyToOne
     @JoinColumn(name="device_crops")
-    private CropEntity CropsIdx;
+    private CropEntity crop;
 
     @Builder
     private DeviceEntity(String deviceNo, CropEntity deviceCrops){
         this.deviceNo = deviceNo;
-        this.CropsIdx = deviceCrops;
+        this.crop = deviceCrops;
     }
 }
