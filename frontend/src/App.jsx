@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Login from "./pages/auth/Login";
@@ -12,21 +12,14 @@ import FarmmunityMain from "./pages/community/FarmmunityMain";
 import FarmRegisting from "./pages/myFarm/FarmRegisting";
 import FarmCreate from "./pages/myFarm/FarmCreate";
 import MyFarm from "./pages/myFarm/MyFarm";
-import { useRecoilState } from "recoil";
-import {isLogin} from './atom'
+
 
 function App() {
-
-  // useEffect(() => {
-  //   if (localStorge.getItem('access_token') === null) {
-  //     window.location.replace("http://localhost:3000/");
-  //   }
-  // }, []);
 
   return (
     <>
       <GlobalStyle />
-      <Header />
+      {/* <Header /> */}
       <Router>
         {/* <Navbar/> */}
         <Routes>
