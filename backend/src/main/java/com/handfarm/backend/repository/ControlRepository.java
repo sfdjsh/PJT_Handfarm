@@ -1,4 +1,7 @@
 package com.handfarm.backend.repository;
 
-public interface ControlRepository {
+import com.handfarm.backend.domain.entity.ControlEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ControlRepository extends JpaRepository<ControlEntity, Integer> {
 }
