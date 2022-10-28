@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import axios from 'axios'
 import { useRecoilState } from 'recoil';
-import { isLogin } from '../../atom';
+import { userInfo } from '../../atom';
 import { useNavigate } from 'react-router-dom';
 
 export const Kakao = () => {
@@ -9,15 +9,17 @@ export const Kakao = () => {
 
     let params = new URL(document.URL).searchParams
     let code = params.get("code")
-    console.log(code)
   
-    const [user, setUser] = useRecoilState(isLogin)
+    const [user, setUser] = useRecoilState(userInfo)
 
     useEffect(() => { 
         axios.get(`https://handfarm.co.kr/api/kakao?code=${code}`)
             .then(response => {
-              console.log(response.data)
-              localStorage.setItem('access_token', response.data.userInfo.accessToken)
+              const accessToken = response.data.userInfo.accessToken
+              if (accessToken) {
+                localStorage.setItem('access_token', accessToken)
+              }
+
               setUser({
                 isLoggedIn: true,
                 isRegisted: response.data.isRegisted,
@@ -25,7 +27,6 @@ export const Kakao = () => {
                 deviceId: response.data.userInfo.deviceId
               })
             })
-            console.log(user)
     }, [])
     
     const renderFarm = () => {

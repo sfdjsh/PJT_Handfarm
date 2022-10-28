@@ -1,12 +1,17 @@
 import React, { useEffect } from "react";
 import { KAKAO_AUTH_URL } from "./OAuth";
 import { Button } from "@mui/material";
-import { useRecoilState } from "recoil";
-import { isLogin } from "../../atom";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
-  const [userLogin, setUserLogin] = useRecoilState(isLogin);
-  const LoggedIn = localStorage.getItem("accessToken");
+  const navigate = useNavigate()
+  const LoggedIn = localStorage.getItem("access_token");
+  
+  useEffect(() => {
+    if (LoggedIn) {
+      navigate('/myfarm/registing')  
+    }
+  })
 
   return (
     <>
