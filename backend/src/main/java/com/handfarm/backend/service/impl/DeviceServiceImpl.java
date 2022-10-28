@@ -50,22 +50,26 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public void userRegistDevice(HttpServletRequest request, DeviceRegistDto deviceRegistDto) throws IOException {
-        JsonElement element = kakaoService.CheckAccessToken(request.getHeader("accesstoken"));
-        String email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
+    public String userRegistDevice(HttpServletRequest request, DeviceRegistDto deviceRegistDto) throws IOException {
+        try{
+            JsonElement element = kakaoService.CheckAccessToken(request.getHeader("accesstoken"));
+            String email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
 
-        Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceRegistDto.getDeviceNo());
-        deviceEntity.get().setDeviceName(deviceRegistDto.getDeviceName());
-        deviceEntity.get().setCropsIdx(cropRepository.findByCropName(deviceRegistDto.getDeviceCrops()));
-        deviceRepository.save(deviceEntity.get());
+            Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceRegistDto.getDeviceNo());
+            deviceEntity.get().setDeviceName(deviceRegistDto.getDeviceName());
+            deviceEntity.get().setCropsIdx(cropRepository.findByCropName(deviceRegistDto.getDeviceCrops()));
+            deviceRepository.save(deviceEntity.get());
 
-        Optional<UserEntity> userEntity = userRepository.findByUserId(email);
-        userEntity.get().setUserDevice(deviceEntity.get());
+            Optional<UserEntity> userEntity = userRepository.findByUserId(email);
+            userEntity.get().setUserDevice(deviceEntity.get());
 
-        userRepository.save(userEntity.get());
+           userRepository.save(userEntity.get());
 
+        }catch (IOException e){
+            e.printStackTrace();
+            return "timeOut";
+        }
+        return "sucess";
     }
-
-
 
 }

@@ -34,7 +34,7 @@ public class UserEntity {
     private Boolean userOpen;
 
     @ManyToOne
-    @JoinColumn(name="user_device", nullable = false)
+    @JoinColumn(name="user_device")
     private DeviceEntity userDevice;
 
     @Builder

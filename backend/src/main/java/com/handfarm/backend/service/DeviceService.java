@@ -8,5 +8,5 @@ import java.io.IOException;
 public interface DeviceService {
     void registDevice(DeviceRegistDto deviceRegistDto) throws IOException;
 
-    void userRegistDevice(HttpServletRequest request, DeviceRegistDto deviceRegistDto) throws IOException;
+    Object userRegistDevice(HttpServletRequest request, DeviceRegistDto deviceRegistDto) throws IOException;
 }

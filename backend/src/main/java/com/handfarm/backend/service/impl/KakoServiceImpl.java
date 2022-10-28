@@ -2,6 +2,7 @@ package com.handfarm.backend.service.impl;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.handfarm.backend.domain.entity.DeviceEntity;
 import com.handfarm.backend.domain.entity.UserEntity;
 import com.handfarm.backend.repository.UserRepository;
 import com.handfarm.backend.service.KakaoService;
@@ -116,7 +117,7 @@ public class KakoServiceImpl implements KakaoService {
             }else{ // 회원인 상태 -> 바로 로그인
                 resultMap.put("isRegisted", true);
                 nickname = userEntityOptional.get().getUserNickname();
-                deviceId = userEntityOptional.get().getUserDevice();
+                deviceId = userEntityOptional.get().getUserDevice().getIdx();
             }
             resultMap.put("userId", email);
             resultMap.put("userNickname", nickname);
