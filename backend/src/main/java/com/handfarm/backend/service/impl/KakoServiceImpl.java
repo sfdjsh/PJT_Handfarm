@@ -145,6 +145,7 @@ public class KakoServiceImpl implements KakaoService {
     }
 
 
+    @Override
     public JsonElement CheckAccessToken(String accessToken) throws IOException { // 엑세스토큰 만료 확인 및 리턴
         String reqURL = "https://kapi.kakao.com/v2/user/me";
         try {
