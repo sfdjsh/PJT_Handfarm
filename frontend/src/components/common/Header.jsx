@@ -4,7 +4,6 @@ import NotificationsIcon from '@mui/icons-material/NotificationsNone';
 import { display } from '@mui/system';
 
 export const Header = () => {
-
   return (
     <>
       <Box sx={{ display:"flex", justifyContent:"end", alignItems:"center" }}>
