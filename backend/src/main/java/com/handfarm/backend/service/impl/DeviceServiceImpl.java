@@ -52,7 +52,7 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public String userRegistDevice(HttpServletRequest request, DeviceRegistDto deviceRegistDto) throws IOException {
         try{
-            JsonElement element = kakaoService.CheckAccessToken(request.getHeader("accesstoken"));
+            JsonElement element = kakaoService.CheckAccessToken(request.getHeader("accessToken"));
             String email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
 
             Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceRegistDto.getDeviceNo());
