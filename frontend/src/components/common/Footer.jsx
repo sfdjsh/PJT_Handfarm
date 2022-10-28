@@ -14,10 +14,6 @@ import Divider from "@mui/material/Divider";
 import { makeStyles } from '@mui/styles';
 import { useNavigate } from 'react-router-dom';
 
-// export const footer = styled.div`
-//     height : 100%;
-//     font-family: "New Gulim";
-// `
 const useStyles = makeStyles({
     root: {
         width: "100vw",
