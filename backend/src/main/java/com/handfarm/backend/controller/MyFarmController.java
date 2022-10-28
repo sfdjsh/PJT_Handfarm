@@ -4,6 +4,7 @@ import com.handfarm.backend.domain.dto.device.DeviceRegistDto;
 import com.handfarm.backend.service.DeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,8 +23,8 @@ public class MyFarmController {
         deviceService.userRegistDevice(request, deviceRegistDto);
     }
     @PostMapping("/device")
-    public void deviceRegister(HttpServletRequest request, DeviceRegistDto deviceRegistDto) throws IOException {
+    public void deviceRegister(@RequestBody DeviceRegistDto deviceRegistDto) throws IOException {
         System.out.println(deviceRegistDto);
-        deviceService.registDevice(request, deviceRegistDto);
+        deviceService.registDevice(deviceRegistDto);
     }
 }

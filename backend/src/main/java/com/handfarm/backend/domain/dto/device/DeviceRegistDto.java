@@ -22,5 +22,5 @@ public class DeviceRegistDto {
     private Float deviceLatitude;
     private Integer deviceLong;
     private String deviceName;
-    private Integer devicecrops;
+    private String deviceCrops;
 }
