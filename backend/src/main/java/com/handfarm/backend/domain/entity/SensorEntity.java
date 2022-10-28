@@ -1,4 +1,4 @@
 package com.handfarm.backend.domain.entity;
 
-public class SeosorEntity {
+public class SensorEntity {
 }
