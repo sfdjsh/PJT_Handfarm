@@ -18,3 +18,5 @@ logging:
       springframework:
         web: debug
     sql: debug
+server:
+  port: 8081
