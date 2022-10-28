@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 public interface DeviceService {
-    void registDevice(HttpServletRequest request, DeviceRegistDto deviceRegistDto) throws IOException;
+    void registDevice(DeviceRegistDto deviceRegistDto) throws IOException;
 
     void userRegistDevice(HttpServletRequest request, DeviceRegistDto deviceRegistDto) throws IOException;
 }

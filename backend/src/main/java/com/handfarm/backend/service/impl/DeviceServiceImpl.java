@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.handfarm.backend.domain.dto.device.DeviceRegistDto;
 import com.handfarm.backend.domain.entity.DeviceEntity;
 import com.handfarm.backend.domain.entity.UserEntity;
+import com.handfarm.backend.repository.CropRepository;
 import com.handfarm.backend.repository.DeviceRepository;
 import com.handfarm.backend.repository.UserRepository;
 import com.handfarm.backend.service.DeviceService;
@@ -36,10 +37,13 @@ public class DeviceServiceImpl implements DeviceService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    CropRepository cropRepository;
+
     @Override
-    public void registDevice(HttpServletRequest request, DeviceRegistDto deviceRegistDto) throws IOException {
+    public void registDevice(DeviceRegistDto deviceRegistDto) throws IOException {
         DeviceEntity deviceEntity = DeviceEntity.builder()
-                .deviceCrops(deviceRegistDto.getDevicecrops())
+                .deviceCrops(cropRepository.findByCropName(deviceRegistDto.getDeviceCrops()))
                 .deviceNo(deviceRegistDto.getDeviceNo())
                 .build();
         deviceRepository.save(deviceEntity);
@@ -50,9 +54,13 @@ public class DeviceServiceImpl implements DeviceService {
         JsonElement element = kakaoService.CheckAccessToken(request.getHeader("accesstoken"));
         String email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
 
-        Optional<UserEntity> userEntity = userRepository.findByUserId(email);
-        userEntity.get().setUserDevice(deviceRegistDto.getIdx());
+        Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceRegistDto.getDeviceNo());
+        deviceEntity.get().setDeviceName(deviceRegistDto.getDeviceName());
+        deviceEntity.get().setCropsIdx(cropRepository.findByCropName(deviceRegistDto.getDeviceCrops()));
+        deviceRepository.save(deviceEntity.get());
 
+        Optional<UserEntity> userEntity = userRepository.findByUserId(email);
+        userEntity.get().setUserDevice(deviceEntity.get());
 
         userRepository.save(userEntity.get());
 
