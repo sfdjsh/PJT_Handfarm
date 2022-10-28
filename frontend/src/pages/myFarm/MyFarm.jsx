@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
-export const MyFarm = () => {
-    return (
-        <div>
-
-        </div>
-    );
+const MyFarm = () => {
+  return (
+    <div>
+      내 농장 페이지임
+    </div>
+  )
 };
 
 export default MyFarm;
