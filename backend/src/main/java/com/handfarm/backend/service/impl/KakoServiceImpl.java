@@ -2,7 +2,6 @@ package com.handfarm.backend.service.impl;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.handfarm.backend.domain.entity.DeviceEntity;
 import com.handfarm.backend.domain.entity.UserEntity;
 import com.handfarm.backend.repository.UserRepository;
 import com.handfarm.backend.service.KakaoService;
@@ -92,7 +91,7 @@ public class KakoServiceImpl implements KakaoService {
         //access_token을 이용하여 사용자 정보 조회
 
         try{
-            JsonElement element = (JsonElement)CheckAccessToken(accessToken);
+            JsonElement element = (JsonElement)GetUserInfo(accessToken);
             String id = element.getAsJsonObject().get("id").getAsString();
             boolean hasEmail = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("has_email").getAsBoolean();
             String email = "";
@@ -133,7 +132,7 @@ public class KakoServiceImpl implements KakaoService {
     public String decodeToken(String accessToken)  { // 엑세스토큰으로 닉네임 찾기
         String decodeId = "";
         try{
-            JsonElement element = (JsonElement)CheckAccessToken(accessToken);
+            JsonElement element = (JsonElement)GetUserInfo(accessToken);
             boolean hasEmail = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("has_email").getAsBoolean();
             if(hasEmail){
                 decodeId = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
@@ -147,7 +146,7 @@ public class KakoServiceImpl implements KakaoService {
 
 
     @Override
-    public JsonElement CheckAccessToken(String accessToken) throws IOException { // 엑세스토큰 만료 확인 및 리턴
+    public JsonElement GetUserInfo(String accessToken) throws IOException { // 사용자 정보 가져오기
         String reqURL = "https://kapi.kakao.com/v2/user/me";
         try {
             URL url = new URL(reqURL);
@@ -272,6 +271,88 @@ public class KakoServiceImpl implements KakaoService {
                 return "timeOut";
             }
         return "Logout Sucess";
+
+    }
+    @Override
+    public Boolean CheckAccessToken(String accessToken) throws IOException {
+        String reqURL = "https://kapi.kakao.com/v1/user/access_token_info";
+
+        try {
+            URL url = new URL(reqURL);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            //POST 요청을 위해 기본값이 false인 setDoOutput을 true로
+            conn.setRequestMethod("GET");
+            conn.setDoOutput(true);
+            conn.setRequestProperty("Authorization", "Bearer " + accessToken);
+
+            //결과 코드가 200이라면 성공
+            int responseCode = conn.getResponseCode();
+            System.out.println("responseCode : " + responseCode);
+
+            //요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line = "";
+            String result = "";
+
+            while ((line = br.readLine()) != null) {
+                result += line;
+            }
+            System.out.println("response body : " + result);
+
+            //Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
+            JsonParser parser = new JsonParser();
+            JsonElement element = parser.parse(result);
+
+            System.out.println(element);
+
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+
+    }
+    @Override
+    public Boolean KakaoUnlink(String accessToken) throws IOException {
+        String reqURL = "https://kapi.kakao.com/v1/user/unlink";
+
+        try {
+            URL url = new URL(reqURL);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            //POST 요청을 위해 기본값이 false인 setDoOutput을 true로
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+            conn.setRequestProperty("Authorization", "Bearer " + accessToken);
+
+            //결과 코드가 200이라면 성공
+            int responseCode = conn.getResponseCode();
+            System.out.println("responseCode : " + responseCode);
+
+            //요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line = "";
+            String result = "";
+
+            while ((line = br.readLine()) != null) {
+                result += line;
+            }
+            System.out.println("response body : " + result);
+
+            //Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
+            JsonParser parser = new JsonParser();
+            JsonElement element = parser.parse(result);
+
+            System.out.println(element);
+
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
 
     }
 }

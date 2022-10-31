@@ -60,9 +60,7 @@ public class KakaoServiceController {
 
     @GetMapping("/kakao/logout")
     public ResponseEntity<?> kakaologout(HttpServletRequest request) throws IOException {
-        System.out.println("accesstoken?" + request);
         String accessToken = request.getHeader("accessToken");
-        System.out.println("\naccesstoken?" + accessToken);
         Map<String ,Object> map = new HashMap<>();
         map.put("message", kakaoService.KakaoLogout(accessToken));
 
@@ -78,5 +76,24 @@ public class KakaoServiceController {
 
         status = HttpStatus.OK;
         return new ResponseEntity<>(map, status);
+    }
+
+    @GetMapping("/test")
+    public String tokencheck(HttpServletRequest request) throws IOException {
+        String accessToken = request.getHeader("accessToken");
+        if(kakaoService.CheckAccessToken(accessToken)){
+            return success;
+        }else{
+            return fail;
+        }
+    }
+    @GetMapping("/test/unlink")
+    public String servicenulink(HttpServletRequest request) throws IOException {
+        String accessToken = request.getHeader("accessToken");
+        if(kakaoService.KakaoUnlink(accessToken)){
+            return success;
+        }else{
+            return fail;
+        }
     }
 }
