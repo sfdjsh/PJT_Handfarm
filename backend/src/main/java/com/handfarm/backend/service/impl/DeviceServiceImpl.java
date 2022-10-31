@@ -54,6 +54,9 @@ public class DeviceServiceImpl implements DeviceService {
         try{
             JsonElement element = kakaoService.CheckAccessToken(request.getHeader("accessToken"));
             String email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
+            System.out.println(email);
+            System.out.println(deviceRegistDto);
+            System.out.println(deviceRegistDto.getDeviceNo());
 
             Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceRegistDto.getDeviceNo());
             deviceEntity.get().setDeviceName(deviceRegistDto.getDeviceName());

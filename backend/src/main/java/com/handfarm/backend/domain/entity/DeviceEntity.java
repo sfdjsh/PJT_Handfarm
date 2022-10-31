@@ -34,7 +34,7 @@ public class DeviceEntity {
     @Column(name="device_name")
     private String deviceName;
     @ManyToOne
-    @JoinColumn(name="device_crops")
+    @JoinColumn(name="crop_idx")
     private CropEntity crop;
 
     @Builder
