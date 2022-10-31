@@ -11,6 +11,11 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  redis:
+    host: handfarm.co.kr
+    port: 6379
+    prefix:
+
 
 logging:
   level:
