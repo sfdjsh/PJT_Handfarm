@@ -48,6 +48,7 @@ const Mqtt = () => {
     // called when subscribing topic(s)
     const _onUnsubscribe = () => {
         for (var i = 0; i < _topic.length; i++) {
+            console.log(_topic)
             client.unsubscribe(_topic[i], _options);
         }
     }
