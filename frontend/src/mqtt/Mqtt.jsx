@@ -7,13 +7,14 @@ const Mqtt = () => {
     const [ client, setClient ] = React.useState(null);
     const _topic = ["ssafy/c101/temp"];
     const _options = {};
-
+    console.log(client)
     React.useEffect(() => {
         _init();
     },[])
 
     const _init = () => {
         const c = mqtt.connect("54.180.201.1", Number(1883), "mqtt", _onConnectionLost, _onMessageArrived); // mqtt.connect(host, port, clientId, _onConnectionLost, _onMessageArrived)
+        console.log(c)
         setClient(c);
     }
 
@@ -41,8 +42,10 @@ const Mqtt = () => {
         client.connect({ onSuccess: () => {
                 for (var i = 0; i < _topic.length; i++) {
                     client.subscribe(_topic[i], _options);
+                    console.log("통신됨")
                 }}
         }); // called when the client connects
+        console.log(client)
     }
 
     // called when subscribing topic(s)
