@@ -36,6 +36,19 @@ public class MyFarmController {
         }
         return new ResponseEntity<>(returnMap, status);
     }
+
+    @PutMapping("/farm")
+    public ResponseEntity<?> deviceUpdate(HttpServletRequest request, @RequestBody DeviceRegistDto deviceRegistDto) throws IOException {
+        Map<String, Object> returnMap = new HashMap<>();
+        if(deviceService.deviceUpdate(request, deviceRegistDto)) {
+            returnMap.put("message", success);
+            status = HttpStatus.OK;
+        }else{
+            returnMap.put("message", fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<>(returnMap, status);
+    }
     @GetMapping("/farm")
     public ResponseEntity<?> userDeviceGet(HttpServletRequest request, @RequestBody DeviceRegistDto deviceRegistDto) throws IOException {
         Map<String, Object> returnMap = new HashMap<>();
