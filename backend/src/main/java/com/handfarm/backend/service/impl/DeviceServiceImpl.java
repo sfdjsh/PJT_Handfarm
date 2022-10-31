@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -66,13 +67,26 @@ public class DeviceServiceImpl implements DeviceService {
             Optional<UserEntity> userEntity = userRepository.findByUserId(email);
             userEntity.get().setDevice(deviceEntity.get());
 
-           userRepository.save(userEntity.get());
+            userRepository.save(userEntity.get());
 
         }catch (IOException e){
             e.printStackTrace();
             return "timeOut";
         }
         return "sucess";
+    }
+
+    @Override
+    public Boolean deviceUpdate(HttpServletRequest request, DeviceRegistDto deviceRegistDto){
+        try {
+            Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceRegistDto.getDeviceNo());
+            deviceEntity.get().setDeviceName(deviceRegistDto.getDeviceName());
+            deviceEntity.get().setCrop(cropRepository.findByCropName(deviceRegistDto.getDeviceCrops()));
+            deviceRepository.save(deviceEntity.get());
+            return true;
+        } catch (NoSuchElementException e){
+            return false;
+        }
     }
 
 }
