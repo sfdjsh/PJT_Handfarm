@@ -14,6 +14,9 @@ import FarmCreate from "./pages/myFarm/FarmCreate";
 import MyFarm from "./pages/myFarm/MyFarm";
 import { useRecoilState } from "recoil";
 import {isLogin} from './atom'
+import Mqtt from "./mqtt/Mqtt";
+import CommunityInfo from "./pages/community/CommunityInfo";
+import CommunityRegion from "./pages/community/CommunityRegion";
 
 function App() {
 
@@ -33,7 +36,9 @@ function App() {
           <Route exact path="/" element={<Login />} />
           <Route exact path="/community" element={<FarmmunityMain />}></Route>
           <Route exact path="/community/create" element={<ArticleForm />} />
-          {/* <Route exact path='/mqtt' element={<Mqtt/>} /> */}
+           <Route exact path='/mqtt' element={<Mqtt/>} />
+            <Route exact path="/community/info" element={<CommunityInfo/>} />
+            <Route exact path="/community/region" element={<CommunityRegion/>} />
           <Route
             exact
             path="/myfarm/registing"
@@ -43,7 +48,7 @@ function App() {
           <Route exact path="/kakao" element={<Kakao />}></Route>
           <Route exact path="/myfarm" element={<MyFarm />}></Route>
         </Routes>
-        {/* <Footer /> */}
+         <Footer />
       </Router>
     </>
   );
