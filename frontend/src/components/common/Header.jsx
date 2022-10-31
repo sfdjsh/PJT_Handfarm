@@ -8,7 +8,7 @@ export const Header = () => {
     <>
       <Box sx={{ display:"flex", justifyContent:"end", alignItems:"center" }}>
           <IconButton size='large' color='inherit'>
-              <NotificationsIcon />
+              <NotificationsIcon sx={{ fontSize : "30px" }} />
           </IconButton>
       </Box>
     </>
