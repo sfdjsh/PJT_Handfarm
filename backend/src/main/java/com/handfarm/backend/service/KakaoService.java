@@ -3,6 +3,7 @@ package com.handfarm.backend.service;
 import com.google.gson.JsonElement;
 
 import java.io.IOException;
+import java.io.IOException;
 import java.util.Map;
 
 public interface KakaoService {
