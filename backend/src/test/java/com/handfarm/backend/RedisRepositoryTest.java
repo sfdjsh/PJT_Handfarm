@@ -1,73 +1,151 @@
 //package com.handfarm.backend;
 //
 //import com.handfarm.backend.domain.entity.ChatEntity;
-//import com.handfarm.backend.repository.ChatInfoRedisRepository;
+//import com.handfarm.backend.domain.entity.ChatInfoEntity;
+//import com.handfarm.backend.domain.entity.UserEntity;
+//import com.handfarm.backend.repository.ChatInfoRepository;
 //import com.handfarm.backend.repository.ChatRedisRepository;
+//import com.handfarm.backend.repository.UserRepository;
 //import org.junit.jupiter.api.Test;
 //import org.springframework.beans.factory.annotation.Autowired;
 //
 //import org.springframework.boot.test.context.SpringBootTest;
 //import org.springframework.data.redis.core.ListOperations;
-//import org.springframework.data.redis.core.RedisOperations;
 //import org.springframework.data.redis.core.RedisTemplate;
 //
 //import java.time.LocalDateTime;
-//import java.time.ZonedDateTime;
-//import java.util.ArrayList;
-//import java.util.Date;
 //import java.util.List;
+//import java.util.Optional;
 //
 //@SpringBootTest
+////@Disabled
 //public class RedisRepositoryTest {
 //
-//    private final ChatInfoRedisRepository chattInfoRedisRepository;
-//    private final ChatRedisRepository chattRedisRepository;
-//    private final RedisTemplate<String, Object> redisTemplate;
+//    private final ChatInfoRepository chatInfoRepository;
+//    private final ChatRedisRepository chatRedisRepository;
+//    private final RedisTemplate<String, ChatEntity> redisTemplate;
+//    private final UserRepository userRepository;
 //
 //
 //    @Autowired
-//    RedisRepositoryTest(ChatInfoRedisRepository chattInfoRedisRepository, ChatRedisRepository chattRedisRepository, RedisTemplate<String, Object> redisTemplate){
-//        this.chattInfoRedisRepository = chattInfoRedisRepository;
-//        this.chattRedisRepository = chattRedisRepository;
+//    RedisRepositoryTest(ChatInfoRepository chatInfoRepository, ChatRedisRepository chatRedisRepository, RedisTemplate<String, ChatEntity> redisTemplate, UserRepository userRepository){
+//        this.chatInfoRepository = chatInfoRepository;
+//        this.chatRedisRepository = chatRedisRepository;
 //        this.redisTemplate = redisTemplate;
+//        this.userRepository = userRepository;
 //    }
 //
 //    @Test
-//    void 채팅처음보내기_테스트22(){
+//    void 채팅보내기(){
+//        String decodeId = "aa981204@daum.net";
+//        String toUserNickname = "k2502318301";
+//        String content = "gogo!!";
+//
+//        UserEntity personA = userRepository.findByUserId(decodeId).get();
+//        UserEntity personB = userRepository.findByUserNickname(toUserNickname).get();
+//        Integer roomId;
+//        Optional<ChatInfoEntity> chatInfoEntity = chatInfoRepository.findByPersonAOrPersonB(personA, personB);
+//        if(chatInfoEntity.isPresent()){ // 이미 있는 채팅, 채팅방 번호 가져와서 레디스에 연결
+//            roomId = chatInfoEntity.get().getIdx();
+//            System.out.println("채팅 방 번호 : " + roomId);
+//        }else{ // 없으면 새로운 채팅방 생성 후 채팅방 번호 가져오기
+//            ChatInfoEntity chatInfo = new ChatInfoEntity(personA, personB);
+//            chatInfoRepository.save(chatInfo);
+//            roomId = chatInfo.getIdx();
+//            System.out.println("채팅 방 번호 : " + roomId);
+//        }
+//
+//        ChatEntity chat = new ChatEntity(String.valueOf(roomId), personB.getUserId(), content, LocalDateTime.now());
+//        redisTemplate.opsForList().leftPush(String.valueOf(roomId),chat);
+//    }
+//
+//    @Test
+//    void 사용자_채팅목록_조회(){
 //        String decodeId = "aa981204@daum.net";
 //
-//        String redisKey = decodeId+"swyou1123@naver.com";
+//        UserEntity user = userRepository.findByUserId(decodeId).get();
+//        List<ChatInfoEntity> chatInfoList = chatInfoRepository.findByUserChatInfo(user);
 //
-//        Integer roomId = 12;
-//        String toUserId = "swyou1123@naver.com";
-//        String content = "ㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇ";
+//        if(!chatInfoList.isEmpty()){
+//            for(ChatInfoEntity c : chatInfoList){
+//                System.out.println("참여 채팅 방 번호 : " + c.getIdx());
+//                String roomId = String.valueOf(c.getIdx());
+//                ChatEntity chatInfo = redisTemplate.opsForList().index(roomId,0);
+//
+//                System.out.println(chatInfo);
+////                ChatEntity chat = chatRedisRepository.findById(String.valueOf(c.getIdx())).get();
 ////
-////        List<ChatEntity2.Value> values = new ArrayList<>();
-////        ChatEntity2.Value value= new ChatEntity2.Value(roomId, toUserId, content, LocalDateTime.now());
-////        values.add(value);
-////        ChatEntity2 chat = new ChatEntity2(redisKey, values);
+////                System.out.println(chat.getContent());
 //
-/////        redisTemplate.opsForList().leftPush(redisKey, chat);
-//
-////        chattRedisRepository.save(values);
+//            }
+//        }
 //
 //    }
 //
 //    @Test
-//    void 채팅보내기테스트(){
-//        // given
+//    void 채팅상세조회(){
 //        String decodeId = "aa981204@daum.net";
+//        String roomId = "6";
 //
-//        Integer roomId = 12;
-//        String toUserId = "swyou1123@naver.com";
-//        String content = "ㅎㅇㅎㅇ?";
-//        String redisKey = decodeId+"swyou1123@naver.com";
-//        ChatEntity chat = new ChatEntity(redisKey,roomId, toUserId, content, LocalDateTime.now());
+//        List<ChatEntity> chat = redisTemplate.opsForList().range(roomId , 0, redisTemplate.opsForList().size(roomId));
+////        System.out.println(chat);
 //
+////        chat.stream().forEach(chatEntity -> System.out.println());
 //
-//        String keyName = "chatList:"+redisKey;
-//        redisTemplate.opsForList().leftPush(keyName,chat);
-////        redisTemplate.expireAt(keyName, Date.from(ZonedDateTime.now().plusDays(30).toInstant())); // 유효기간 TTL 30일
+//        for(int i=0; i<chat.size(); i++){
+//            System.out.println(chat.get(i));
+//        }
+//
 //
 //    }
+////    @Test
+////    void 첫_채팅(){
+////        String decodeId = "tkdltprp0212@naver.com";
+////
+////        Integer roomId = 16;
+////        String toUserId = "swyou1123@naver.com";
+////        String content = "Redis 저장 테스트";
+////        String redisKey = decodeId + ","+toUserId;
+////
+////        ChatEntity chat = new ChatEntity(redisKey, roomId, toUserId, content, LocalDateTime.now());
+////        chattRedisRepository.save(chat);
+//////        redisTemplate.opsForHash().put("chatList",redisKey,chat);
+////    }
+////    @Test
+////    void 채팅보내기테스트(){
+////        ListOperations<String, Object> stringObjectListOperations = redisTemplate.opsForList();
+////        // given
+////        String decodeId = "kiki249@naver.com";
+////
+////        Integer roomId = 12;
+////        String toUserId = "swyou1123@naver.com";
+////        String content = "ddddd..";
+////        String redisKey = decodeId+","+ toUserId;
+////        ChatEntity chat = new ChatEntity(redisKey,roomId, toUserId, content, LocalDateTime.now());
+////
+////
+//////        String keyName = "chatList:"+redisKey;
+////        redisTemplate.opsForList().leftPush(redisKey,chat);
+//////        redisTemplate.expireAt(redisKey, Date.from(ZonedDateTime.now().plusDays(30).toInstant())); // 유효기간 TTL 30일
+////
+//////        stringObjectListOperations.leftPush(redisKey,chat);
+////
+////    }
+////
+////    @Test
+////    void 사용자_채팅_목록_조회(){
+////        String decodeId = "aa981204@daum.net";
+////        String redisKey = decodeId+","+"swyou1123@naver.com";
+////        UserEntity user = userRepository.findByUserId(decodeId).get();
+////        String userNickname = user.getUserNickname();
+////
+////
+////
+////        ListOperations<String, Object> listOperations = redisTemplate.opsForList();
+////        System.out.println("대화 Size : " + listOperations.size(redisKey));
+////        List<Object> chatDetails = listOperations.range(redisKey,0, listOperations.size(redisKey));
+////        for(Object c :  chatDetails){
+////            System.out.println(c.toString());
+////        }
+////    }
 //}

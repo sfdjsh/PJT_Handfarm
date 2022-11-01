@@ -10,27 +10,18 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
-@RedisHash(value="chatList") // redis의 keyspace값
+@RedisHash(value="chatList")
 public class ChatEntity {
     // Redis Key 값 (사용자들 id 저장)
     // 레디스에 저장된 최종 키 값 -> keyspace:id (chatList:participants)
     @Id
-    private String participants;
+    private String roomId;
 
-    private Integer roomId;
     private String toUserId;
     private String content;
     private LocalDateTime time;
 
-    public ChatEntity(String participants, Integer roomId, String toUserId, String content, LocalDateTime time) {
-        this.participants = participants;
-        this.roomId = roomId;
-        this.toUserId = toUserId;
-        this.content = content;
-        this.time = time;
-    }
-
-    public ChatEntity(Integer roomId, String toUserId, String content, LocalDateTime time) {
+    public ChatEntity(String roomId, String toUserId, String content, LocalDateTime time) {
         this.roomId = roomId;
         this.toUserId = toUserId;
         this.content = content;
