@@ -5,24 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4b81b8fd-fc66-4b80-83f5-fee977677905" name="Changes" comment="article, Navbar, mqtt, farmmunityMain">
-      <change afterPath="$PROJECT_DIR$/public/assets/img/handFarm.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/atom.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/common/Navbar.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/mqtt/Mqtt.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/mqtt/Mqtt2.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/community/FarmmunityMain.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pictures/handFarmLogo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/common/ArticleFilter.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/common/Card.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/common/SelectForm.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/community/CommunityInfo.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/community/CommunityRegion.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/common/Footer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/Footer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/Article.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/Article.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/auth/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/auth/Login.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/community/ArticleForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/community/ArticleForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/community/EditorComponent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/community/EditorComponent.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/style/GlobalStyle.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/style/GlobalStyle.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/Header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/Header.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mqtt/Mqtt.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/mqtt/Mqtt.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mqtt/Mqtt2.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/mqtt/Mqtt2.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/community/FarmmunityMain.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/community/FarmmunityMain.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,18 +41,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Git.Branch.Popup.ShowAllRemotes": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm"
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -72,6 +68,7 @@
       <workItem from="1666828729060" duration="2831000" />
       <workItem from="1666848317351" duration="2084000" />
       <workItem from="1666850550646" duration="5339000" />
+      <workItem from="1667175507576" duration="20288000" />
     </task>
     <servers />
   </component>
