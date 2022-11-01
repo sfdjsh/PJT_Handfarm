@@ -4,22 +4,24 @@ import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
-  // const navigate = useNavigate()
-  // const LoggedIn = localStorage.getItem("access_token");
-  
-  // useEffect(() => {
-  //   if (LoggedIn) {
-  //     navigate('/myfarm/registing')  
-  //   }
-  // })
+  const navigate = useNavigate()
+  const LoggedIn = localStorage.getItem("access_token");
+
+  useEffect(() => {
+    if (LoggedIn) {
+      navigate('/myfarm/registing')
+    }
+  })
 
   return (
     <>
-      <img
-        src="HandFarm1.png"
-        alt="핸드팜"
-        style={{ width: "50vmin", height: "50vmin", paddingTop: "100px" }}
-      />
+      <div style={{ textAlign: 'center' }}>
+        <img
+          src="HandFarm1.png"
+          alt="핸드팜"
+          style={{ width: "50vmin", height: "50vmin", paddingTop: "100px" }}
+        />
+      </div>
       <div className="Main-word">
         <h3 style={{ color: "#F24822" }}>원격으로 농장 관리와,</h3>
         <h3 style={{ color: "#0D99FF" }}>커뮤니티 기능으로,</h3>
@@ -29,7 +31,7 @@ export const Login = () => {
         </h3>
       </div>
 
-      <Button>
+      <Button display="flex" justifyContent="center">
         <a href={KAKAO_AUTH_URL}>
           <img src="kakaoBUtton.png" alt="로그인" />
         </a>

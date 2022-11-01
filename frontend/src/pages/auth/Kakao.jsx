@@ -11,17 +11,17 @@ export const Kakao = () => {
   let code = params.get("code")
   console.log(code)
 
-  // const accessToken = ''
-  const [user, setUser] = useRecoilState(userInfo)  
+  const [user, setUser] = useRecoilState(userInfo)
 
-  const getKakao = () => {
-    axios.get(`https://handfarm.co.kr/api/kakao?code=${code}`)  
+  useEffect(() => {
+    axios.get(`https://handfarm.co.kr/api/kakao?code=${code}`)
       .then(response => {
         console.log(response.data)
         const accessToken = response.data.userInfo.accessToken
         if (accessToken) {
           localStorage.setItem('access_token', accessToken)
           setUser({
+            refreshToken: response.data.userInfo.refreshToken,
             isLoggedIn: true,
             isRegisted: response.data.isRegisted,
             userNickname: response.data.userInfo.userNickname,
@@ -29,34 +29,15 @@ export const Kakao = () => {
           })
         }
       })
-  }
-  // useEffect(() => { 
-  //     axios.get(`https://handfarm.co.kr/api/kakao?code=${code}`)
-  //         .then(response => {
-  //           console.log(response.data)
-  //           const accessToken = response.data.userInfo.accessToken
-  //           if (accessToken) {
-  //             localStorage.setItem('access_token', accessToken)
-  //           }
-  //           setUser({
-  //             isLoggedIn: true,
-  //             isRegisted: response.data.isRegisted,
-  //             userNickname: response.data.userInfo.userNickname,
-  //             deviceId: response.data.userInfo.deviceId
-  //           })
-  //         })
-  // }, [user])
-
-  // const renderFarm = () => {
-  //   if (user.deviceId) {
-  //     navigate('/myfarm/registing')
-  //   } else {
-  //     navigate('/myfarm')
-  //   }
-  // }
+  }, [])
 
   useEffect(() => {
-    getKakao()
+    const renderFarm = user.deviceId
+    if (renderFarm) {
+      navigate('/myfarm')
+    } else {
+      navigate('/myfarm/registing')
+    }
   })
 
   return (
