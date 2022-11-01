@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 public class ChatViewDto {
     private String fromUserNickname;
-    private String toUserNickname;
+    private String fromUserProfileImg;
     private String content;
     private LocalDateTime time;
 }
