@@ -9,6 +9,7 @@ import {Container} from "@mui/material";
 import Divider from "@mui/material/Divider";
 import ArticleFilter from "../../components/common/ArticleFilter";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import DialButton from "../../components/common/DialButton";
 
 const CommunityInfo = () => {
 
@@ -25,10 +26,10 @@ const CommunityInfo = () => {
                 />
             </Box>
             <Grid container spacing={1}>
-                <Grid item xs={6}>
-                    <Box sx={{ fontSize : "25px", m : 1 }}>딸기</Box>
+                <Grid item xs={7}>
+                    <Box sx={{ fontSize : "25px", m : 1, textAlign : "right" }}>딸기</Box>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={5}>
                     <Box sx={{ display : "flex" ,fontSize : "20px" ,m : 1.5, alignItems : "center", justifyContent : "center" }}><span style={{ fontSize : "15px", margin : "5px" }}>123</span><PermIdentityIcon/></Box>
                 </Grid>
             </Grid>
@@ -37,7 +38,7 @@ const CommunityInfo = () => {
                     딸기에 대한 정보글을 확인해보세요!
                 </p>
             </Box>
-            <Divider style={{ backgroundColor : "#757575" }}/>
+            <Divider style={{ backgroundColor : "white" }}/>
             <Box sx={{ display : "flex", justifyContent : "start" }}>
                 <ArticleFilter/>
             </Box>
@@ -57,6 +58,8 @@ const CommunityInfo = () => {
                         <Box sx={{mt : 2, display : "flex" ,fontSize : "20px", alignItems : "center", justifyContent : "start", color : "#B3B3B3" }}><span style={{ fontSize : "15px", margin : "5px" }}>123</span><PermIdentityIcon/><span style={{ fontSize : "15px", margin : "5px" }}>1234</span><FavoriteBorderIcon/></Box>
                     </Grid>
                 </Grid>
+                <Divider sx={{ backgroundColor : "#757575", marginLeft: '5%', marginRight: '5%' }}/>
+                <DialButton/>
             </Box>
         </Box>
     );
