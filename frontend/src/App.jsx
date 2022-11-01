@@ -18,15 +18,29 @@ import SensorDetail from "./pages/myFarm/SensorDetail"
 import ControlDetail from "./pages/myFarm/ControlDetail";
 import CommunityInfo from "./pages/community/CommunityInfo";
 import CommunityRegion from "./pages/community/CommunityRegion";
+import { useLocation } from 'react-router-dom';
+import {useEffect} from "react";
+import FarmmunityInfoDetail from "./pages/community/FarmmunityInfoDetail";
+import Box from "@mui/material/Box";
+import CommentForm from "./components/common/CommentForm";
 
 // scrollbar.init(document.querySelector('#smooth-scroll'))
 
 function App() {
+  const location = useLocation();
+
+  useEffect(() => {
+    console.log(location);
+    console.log(location.pathname.split('/'))
+    console.log(typeof parseInt(location.pathname.split('/')[3]))
+  }, [ location ])
+
   return (
     <>
       <GlobalStyle />
-      {/* <Header /> */}
-      <Router>
+      <Box sx={{ display : "flex", flexDirection : "column", height : "100vh" }}>
+       <Box sx={{ flex : 1 }}>
+        <Header />
         {/* <Navbar/> */}
         <Routes>
           <Route exact path="/" element={<Login />} />
@@ -35,6 +49,7 @@ function App() {
            {/* <Route exact path='/mqtt' element={<Mqtt/>} /> */}
             <Route exact path="/community/info" element={<CommunityInfo/>} />
             <Route exact path="/community/region" element={<CommunityRegion/>} />
+          <Route exact path="/community/info/:id"  element={<FarmmunityInfoDetail/>} />
           <Route
             exact
             path="/myfarm/registing"
@@ -46,8 +61,9 @@ function App() {
           <Route exact path="/sensor/detail" element={<SensorDetail />}></Route>
           <Route exact path="/control/detail" element={<ControlDetail />}></Route>
         </Routes>
-         {/* <Footer /> */}
-      </Router>
+       </Box>
+        { location.pathname === '/' || (location.pathname.split('/')[2] === 'info' && parseInt(location.pathname.split('/')[3]) >= 1 )? (<CommentForm/>) : (<Footer />) }
+      </Box>
     </>
   );
 }
