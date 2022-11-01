@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ChatViewDto {
-    private String fromUserNickname;
-    private String fromUserProfileImg;
+public class ChatListViewDto {
+    private String anotherUserNickname;
+    private String anotherUserProfileImg;
     private String content;
     private LocalDateTime time;
 }

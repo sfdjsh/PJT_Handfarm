@@ -1,5 +1,6 @@
 //package com.handfarm.backend;
 //
+//import com.handfarm.backend.domain.dto.chat.ChatListViewDto;
 //import com.handfarm.backend.domain.entity.ChatEntity;
 //import com.handfarm.backend.domain.entity.ChatInfoEntity;
 //import com.handfarm.backend.domain.entity.UserEntity;
@@ -14,6 +15,7 @@
 //import org.springframework.data.redis.core.RedisTemplate;
 //
 //import java.time.LocalDateTime;
+//import java.util.ArrayList;
 //import java.util.List;
 //import java.util.Optional;
 //
@@ -37,9 +39,9 @@
 //
 //    @Test
 //    void 채팅보내기(){
-//        String decodeId = "aa981204@daum.net";
-//        String toUserNickname = "k2502318301";
-//        String content = "gogo!!";
+//        String decodeId = "da9065@naver.com";
+//        String toUserNickname = "k2502031290";
+//        String content = "제발 되어주라............";
 //
 //        UserEntity personA = userRepository.findByUserId(decodeId).get();
 //        UserEntity personB = userRepository.findByUserNickname(toUserNickname).get();
@@ -63,23 +65,31 @@
 //    void 사용자_채팅목록_조회(){
 //        String decodeId = "aa981204@daum.net";
 //
+//        List<ChatListViewDto> chatList = new ArrayList<>();
+//
 //        UserEntity user = userRepository.findByUserId(decodeId).get();
 //        List<ChatInfoEntity> chatInfoList = chatInfoRepository.findByUserChatInfo(user);
 //
 //        if(!chatInfoList.isEmpty()){
 //            for(ChatInfoEntity c : chatInfoList){
-//                System.out.println("참여 채팅 방 번호 : " + c.getIdx());
 //                String roomId = String.valueOf(c.getIdx());
-//                ChatEntity chatInfo = redisTemplate.opsForList().index(roomId,0);
+//                ChatEntity chatInfo = redisTemplate.opsForList().index(roomId, 0);
+//                ChatInfoEntity chatRoomInfo = chatInfoRepository.findByIdx(Integer.valueOf(roomId));
 //
-//                System.out.println(chatInfo);
-////                ChatEntity chat = chatRedisRepository.findById(String.valueOf(c.getIdx())).get();
-////
-////                System.out.println(chat.getContent());
-//
+//                UserEntity personA = chatRoomInfo.getPersonA();
+//                UserEntity personB = chatRoomInfo.getPersonB();
+//                if(personA.getUserId().equals(decodeId)){
+//                    chatList.add(new ChatListViewDto(personB.getUserNickname(), personB.getUserProfile(),chatInfo.getContent(), chatInfo.getTime()));
+//                }else{
+//                    chatList.add(new ChatListViewDto(personA.getUserNickname(), personB.getUserProfile(),chatInfo.getContent(), chatInfo.getTime()));
+//                }
 //            }
+//
 //        }
 //
+//        for(ChatListViewDto c : chatList){
+//            System.out.println(c.toString());
+//        }
 //    }
 //
 //    @Test
