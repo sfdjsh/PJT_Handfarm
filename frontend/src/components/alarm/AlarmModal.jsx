@@ -1,16 +1,18 @@
 import React from "react";
+import AlarmInfo from "./AlarmInfo";
+import { Box, Modal, Button } from "@mui/material";
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 250,
-  height: 500,
-  bgcolor: '#212528',
-  border: '2px solid #000',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 350,
+  height: 700,
+  bgcolor: "#212528",
+  border: "2px solid #000",
   boxShadow: 24,
-  p: 4,
 };
 
 const AlarmModal = () => {
@@ -20,6 +22,10 @@ const AlarmModal = () => {
 
   return (
     <>
+      <NotificationsNoneIcon
+        sx={{ fontSize: "30px" }}
+        onClick={handleOpen}
+      />
       <Modal
         open={open}
         onClose={handleClose}
@@ -27,11 +33,11 @@ const AlarmModal = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <div>ㅇㅋ</div>
+          <AlarmInfo />
         </Box>
       </Modal>
     </>
-  )
-}
+  );
+};
 
-export default AlarmModal
+export default AlarmModal;
