@@ -4,14 +4,14 @@ import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
-  const navigate = useNavigate()
-  const LoggedIn = localStorage.getItem("access_token");
+  // const navigate = useNavigate()
+  // const LoggedIn = localStorage.getItem("access_token");
   
-  useEffect(() => {
-    if (LoggedIn) {
-      navigate('/myfarm/registing')  
-    }
-  })
+  // useEffect(() => {
+  //   if (LoggedIn) {
+  //     navigate('/myfarm/registing')  
+  //   }
+  // })
 
   return (
     <>
