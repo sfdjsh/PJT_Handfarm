@@ -1,13 +1,11 @@
 package com.handfarm.backend.controller;
 
-import com.handfarm.backend.domain.dto.chat.ChatViewDto;
-import com.handfarm.backend.domain.dto.notice.NoticeViewDto;
+import com.handfarm.backend.domain.dto.chat.ChatListViewDto;
 import com.handfarm.backend.service.ChatService;
 import com.handfarm.backend.service.KakaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,7 +39,7 @@ public class ChatController {
 
         try{
             if(decodeId != null){
-                List<ChatViewDto> chatList = chatService.getChatList(decodeId);
+                List<ChatListViewDto> chatList = chatService.getChatList(decodeId);
             }
         }catch (Exception e){
             resultMap.put("message", fail);
