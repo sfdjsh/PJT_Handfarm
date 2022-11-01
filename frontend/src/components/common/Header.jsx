@@ -4,8 +4,7 @@ import NotificationsIcon from '@mui/icons-material/NotificationsNone';
 import axios from 'axios';
 import { BASE_URL } from '../../config';
 import { useState } from 'react';
-// import AlarmCount from '../../pages/api/AlarmCount'
-
+import AlarmModal from '../alarm/AlarmModal'
 
 export const Header = () => {
   const location = window.location.pathname
@@ -34,7 +33,7 @@ export const Header = () => {
         <Box sx={{ display: "flex", justifyContent:"end", alignItems: "center", mt:1, mr:1 }}>
           <IconButton size='large' color='inherit'>
             <Badge badgeContent={alarmCount} color="error">
-              <NotificationsIcon sx={{ fontSize: "30px" }}/>
+              < AlarmModal />
             </Badge>
           </IconButton>
         </Box>
