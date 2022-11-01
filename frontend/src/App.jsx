@@ -1,6 +1,6 @@
 import "./App.css";
 import React from "react";
-import scrollbar from 'smooth-scrollbar'
+// import scrollbar from 'smooth-scrollbar'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Login from "./pages/auth/Login";
@@ -13,14 +13,13 @@ import FarmmunityMain from "./pages/community/FarmmunityMain";
 import FarmRegisting from "./pages/myFarm/FarmRegisting";
 import FarmCreate from "./pages/myFarm/FarmCreate";
 import MyFarm from "./pages/myFarm/MyFarm";
-import Mqtt from "./mqtt/Mqtt"
+// import Mqtt from "./mqtt/Mqtt"
 import SensorDetail from "./pages/myFarm/SensorDetail"
 import ControlDetail from "./pages/myFarm/ControlDetail";
-import Mqtt from "./mqtt/Mqtt";
 import CommunityInfo from "./pages/community/CommunityInfo";
 import CommunityRegion from "./pages/community/CommunityRegion";
 
-scrollbar.init(document.querySelector('#smooth-scroll'))
+// scrollbar.init(document.querySelector('#smooth-scroll'))
 
 function App() {
   return (
@@ -33,7 +32,7 @@ function App() {
           <Route exact path="/" element={<Login />} />
           <Route exact path="/community" element={<FarmmunityMain />}></Route>
           <Route exact path="/community/create" element={<ArticleForm />} />
-           <Route exact path='/mqtt' element={<Mqtt/>} />
+           {/* <Route exact path='/mqtt' element={<Mqtt/>} /> */}
             <Route exact path="/community/info" element={<CommunityInfo/>} />
             <Route exact path="/community/region" element={<CommunityRegion/>} />
           <Route
@@ -47,7 +46,7 @@ function App() {
           <Route exact path="/sensor/detail" element={<SensorDetail />}></Route>
           <Route exact path="/control/detail" element={<ControlDetail />}></Route>
         </Routes>
-         <Footer />
+         {/* <Footer /> */}
       </Router>
     </>
   );
