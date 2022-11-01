@@ -9,14 +9,14 @@ import org.springframework.data.redis.core.RedisHash;
 @Getter
 @NoArgsConstructor
 @RedisHash(value = "ChattInfo") // Redis의 keyspace값
-public class ChattInfoEntity {
+public class ChatInfoEntity {
     @Id
     private Integer idx;
     private String personA;
     private String personB;
     private Integer roomId;
 
-    public ChattInfoEntity(Integer idx, String personA, String personB, Integer roomId) {
+    public ChatInfoEntity(Integer idx, String personA, String personB, Integer roomId) {
         this.idx = idx;
         this.personA = personA;
         this.personB = personB;
