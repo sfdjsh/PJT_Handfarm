@@ -61,7 +61,7 @@ export const Kakao = () => {
 
   return (
     <div>
-      <h1>잠시만</h1>
+      <h1>여기서 디바이스 장치 유무에 따라 다르게 렌더링 시킬꺼임</h1>
       {/* {renderFarm()} */}
     </div>
   );
