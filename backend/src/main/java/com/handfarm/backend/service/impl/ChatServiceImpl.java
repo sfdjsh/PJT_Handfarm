@@ -1,6 +1,6 @@
 package com.handfarm.backend.service.impl;
 
-import com.handfarm.backend.domain.dto.chat.ChatViewDto;
+import com.handfarm.backend.domain.dto.chat.ChatListViewDto;
 import com.handfarm.backend.domain.entity.ChatEntity;
 import com.handfarm.backend.domain.entity.ChatInfoEntity;
 import com.handfarm.backend.domain.entity.UserEntity;
@@ -34,8 +34,8 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public List<ChatViewDto> getChatList(String decodeId) { // 채팅 목록 조회
-        List<ChatViewDto> chatList = new ArrayList<>();
+    public List<ChatListViewDto> getChatList(String decodeId) { // 채팅 목록 조회
+        List<ChatListViewDto> chatList = new ArrayList<>();
 
         UserEntity user = userRepository.findByUserId(decodeId).get();
         List<ChatInfoEntity> chatInfoList = chatInfoRepository.findByUserChatInfo(user);
@@ -44,8 +44,14 @@ public class ChatServiceImpl implements ChatService {
             for(ChatInfoEntity c : chatInfoList){
                 String roomId = String.valueOf(c.getIdx());
                 ChatEntity chatInfo = redisTemplate.opsForList().index(roomId, 0);
-                UserEntity fromUser = userRepository.findByUserId(chatInfo.getToUserId()).get(); // 이거 아냐..
-                chatList.add(new ChatViewDto(fromUser.getUserNickname(), fromUser.getUserProfile(), chatInfo.getContent(), chatInfo.getTime()));
+                ChatInfoEntity chatRoomInfo = chatInfoRepository.findByIdx(Integer.valueOf(roomId));
+                UserEntity personA = chatRoomInfo.getPersonA();
+                UserEntity personB = chatRoomInfo.getPersonB();
+                if(personA.getUserId().equals(decodeId)){
+                    chatList.add(new ChatListViewDto(personB.getUserNickname(), personB.getUserProfile(),chatInfo.getContent(), chatInfo.getTime()));
+                }else{
+                    chatList.add(new ChatListViewDto(personA.getUserNickname(), personB.getUserProfile(),chatInfo.getContent(), chatInfo.getTime()));
+                }
             }
 
             return chatList;
@@ -53,7 +59,6 @@ public class ChatServiceImpl implements ChatService {
             return new ArrayList<>();
         }
 
-
     }
-    // 새로운 대화 상대가 접속할 때마다 생성
+
 }
