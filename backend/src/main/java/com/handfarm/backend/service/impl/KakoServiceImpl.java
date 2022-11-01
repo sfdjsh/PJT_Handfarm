@@ -116,7 +116,9 @@ public class KakoServiceImpl implements KakaoService {
             }else{ // 회원인 상태 -> 바로 로그인
                 resultMap.put("isRegisted", true);
                 nickname = userEntityOptional.get().getUserNickname();
-                deviceNo = userEntityOptional.get().getDevice().getDeviceNo();
+                if(userEntityOptional.get().getDevice() != null){
+                    deviceNo = userEntityOptional.get().getDevice().getDeviceNo();
+                }
             }
             resultMap.put("userId", email);
             resultMap.put("userNickname", nickname);
