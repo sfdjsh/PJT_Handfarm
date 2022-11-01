@@ -1,5 +1,8 @@
 package com.handfarm.backend.config;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.eclipse.paho.client.mqttv3.MqttAsyncClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,9 +18,10 @@ import org.springframework.messaging.MessageHandler;
 @Configuration
 public class MqttConfig {
 
+    static String deviceId = "D30";
     private static final String BROKER_URL = "tcp://54.180.201.1:1883";
     private static final String MQTT_CLIENT_ID = MqttAsyncClient.generateClientId();
-    private static final String TOPIC_FILTER = "ssafy/c101/temp";
+    private static final String TOPIC_FILTER = "ssafy/" + deviceId+ "/info";
 
     @Bean
     public MessageChannel mqttInputChannel() {
@@ -42,6 +46,8 @@ public class MqttConfig {
             String topic = (String) message.getHeaders().get(MqttHeaders.RECEIVED_TOPIC);
             System.out.println("Topic:" + topic);
             System.out.println("Payload : " + message.getPayload());
+            JsonParser parser = new JsonParser();
+            System.out.println(parser.parse((String) message.getPayload()));
         };
     }
 }
