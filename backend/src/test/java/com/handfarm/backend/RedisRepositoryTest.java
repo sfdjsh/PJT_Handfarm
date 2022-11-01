@@ -1,7 +1,6 @@
 package com.handfarm.backend;
 
 import com.handfarm.backend.domain.entity.ChatEntity;
-import com.handfarm.backend.domain.entity.ChatEntity2;
 import com.handfarm.backend.repository.ChatInfoRedisRepository;
 import com.handfarm.backend.repository.ChatRedisRepository;
 import org.junit.jupiter.api.Test;
@@ -42,11 +41,11 @@ public class RedisRepositoryTest {
         Integer roomId = 12;
         String toUserId = "swyou1123@naver.com";
         String content = "ㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇ";
-
-        List<ChatEntity2.Value> values = new ArrayList<>();
-        ChatEntity2.Value value= new ChatEntity2.Value(roomId, toUserId, content, LocalDateTime.now());
-        values.add(value);
-        ChatEntity2 chat = new ChatEntity2(redisKey, values);
+//
+//        List<ChatEntity2.Value> values = new ArrayList<>();
+//        ChatEntity2.Value value= new ChatEntity2.Value(roomId, toUserId, content, LocalDateTime.now());
+//        values.add(value);
+//        ChatEntity2 chat = new ChatEntity2(redisKey, values);
 
 ///        redisTemplate.opsForList().leftPush(redisKey, chat);
 
