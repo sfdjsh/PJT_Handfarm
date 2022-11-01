@@ -1,6 +1,5 @@
 import "./App.css";
-import React from "react";
-// import scrollbar from 'smooth-scrollbar'
+import React, {useEffect} from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Login from "./pages/auth/Login";
@@ -18,16 +17,18 @@ import SensorDetail from "./pages/myFarm/SensorDetail"
 import ControlDetail from "./pages/myFarm/ControlDetail";
 import CommunityInfo from "./pages/community/CommunityInfo";
 import CommunityRegion from "./pages/community/CommunityRegion";
-
-// scrollbar.init(document.querySelector('#smooth-scroll'))
+import MyPage from "./pages/myPage/MyPage"
 
 function App() {
+//   useEffect(() => {
+//     const accessToken = localStorage.getItem('access_token')
+//   })
+
   return (
     <>
       <GlobalStyle />
-      {/* <Header /> */}
+      <Header />
       <Router>
-        {/* <Navbar/> */}
         <Routes>
           <Route exact path="/" element={<Login />} />
           <Route exact path="/community" element={<FarmmunityMain />}></Route>
@@ -45,6 +46,7 @@ function App() {
           <Route exact path="/myfarm" element={<MyFarm />}></Route>
           <Route exact path="/sensor/detail" element={<SensorDetail />}></Route>
           <Route exact path="/control/detail" element={<ControlDetail />}></Route>
+          <Route exact path="/mypage" element={<MyPage />}></Route>
         </Routes>
          {/* <Footer /> */}
       </Router>
