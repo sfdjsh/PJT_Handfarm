@@ -16,6 +16,9 @@ import MyFarm from "./pages/myFarm/MyFarm";
 import Mqtt from "./mqtt/Mqtt"
 import SensorDetail from "./pages/myFarm/SensorDetail"
 import ControlDetail from "./pages/myFarm/ControlDetail";
+import Mqtt from "./mqtt/Mqtt";
+import CommunityInfo from "./pages/community/CommunityInfo";
+import CommunityRegion from "./pages/community/CommunityRegion";
 
 scrollbar.init(document.querySelector('#smooth-scroll'))
 
@@ -30,7 +33,9 @@ function App() {
           <Route exact path="/" element={<Login />} />
           <Route exact path="/community" element={<FarmmunityMain />}></Route>
           <Route exact path="/community/create" element={<ArticleForm />} />
-          <Route exact path='/mqtt' element={<Mqtt/>} />
+           <Route exact path='/mqtt' element={<Mqtt/>} />
+            <Route exact path="/community/info" element={<CommunityInfo/>} />
+            <Route exact path="/community/region" element={<CommunityRegion/>} />
           <Route
             exact
             path="/myfarm/registing"
@@ -42,7 +47,7 @@ function App() {
           <Route exact path="/sensor/detail" element={<SensorDetail />}></Route>
           <Route exact path="/control/detail" element={<ControlDetail />}></Route>
         </Routes>
-        {/* <Footer /> */}
+         <Footer />
       </Router>
     </>
   );
