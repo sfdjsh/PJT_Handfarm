@@ -41,12 +41,14 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public List<ChatListViewDto> getChatList(String decodeId) { // 채팅 목록 조회
         List<ChatListViewDto> chatList = new ArrayList<>();
-
+        System.out.println("decodeId :: " + decodeId);
         UserEntity user = userRepository.findByUserId(decodeId).get();
+        System.out.println("user :: " + user);
         List<ChatInfoEntity> chatInfoList = chatInfoRepository.findByUserChatInfo(user);
 
         if (!chatInfoList.isEmpty()) {
             for (ChatInfoEntity c : chatInfoList) {
+                System.out.println("c :: " + c);
                 String roomId = String.valueOf(c.getIdx());
                 Object chatInfo = redisTemplate.opsForList().index(String.valueOf(c.getIdx()), 0);
 
@@ -54,7 +56,7 @@ public class ChatServiceImpl implements ChatService {
                 mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // timestamp 형식 안따르도록 설정
                 mapper.registerModules(new JavaTimeModule(), new Jdk8Module());
                 ChatEntity chatEntity = mapper.convertValue(chatInfo, ChatEntity.class);
-
+                System.out.println(chatEntity);
                 ChatInfoEntity chatRoomInfo = chatInfoRepository.findByIdx(Integer.valueOf(roomId));
 
                 UserEntity personA = chatRoomInfo.getPersonA();
