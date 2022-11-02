@@ -1,5 +1,10 @@
 package com.handfarm.backend.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.handfarm.backend.domain.dto.chat.ChatDetailDto;
 import com.handfarm.backend.domain.dto.chat.ChatListViewDto;
 import com.handfarm.backend.domain.entity.ChatEntity;
 import com.handfarm.backend.domain.entity.ChatInfoEntity;
@@ -40,25 +45,57 @@ public class ChatServiceImpl implements ChatService {
         UserEntity user = userRepository.findByUserId(decodeId).get();
         List<ChatInfoEntity> chatInfoList = chatInfoRepository.findByUserChatInfo(user);
 
-        if(!chatInfoList.isEmpty()){
-            for(ChatInfoEntity c : chatInfoList){
+        if (!chatInfoList.isEmpty()) {
+            for (ChatInfoEntity c : chatInfoList) {
                 String roomId = String.valueOf(c.getIdx());
-                ChatEntity chatInfo = redisTemplate.opsForList().index(roomId, 0);
+                Object chatInfo = redisTemplate.opsForList().index(String.valueOf(c.getIdx()), 0);
+
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // timestamp 형식 안따르도록 설정
+                mapper.registerModules(new JavaTimeModule(), new Jdk8Module());
+                ChatEntity chatEntity = mapper.convertValue(chatInfo, ChatEntity.class);
+
                 ChatInfoEntity chatRoomInfo = chatInfoRepository.findByIdx(Integer.valueOf(roomId));
+
                 UserEntity personA = chatRoomInfo.getPersonA();
                 UserEntity personB = chatRoomInfo.getPersonB();
-                if(personA.getUserId().equals(decodeId)){
-                    chatList.add(new ChatListViewDto(personB.getUserNickname(), personB.getUserProfile(),chatInfo.getContent(), chatInfo.getTime()));
-                }else{
-                    chatList.add(new ChatListViewDto(personA.getUserNickname(), personB.getUserProfile(),chatInfo.getContent(), chatInfo.getTime()));
+                if (personA.getUserId().equals(decodeId)) {
+                    chatList.add(new ChatListViewDto(chatEntity.getRoomId(), personB.getUserNickname(), personB.getUserProfile(), chatEntity.getContent(), chatEntity.getTime()));
+                } else {
+                    chatList.add(new ChatListViewDto(chatEntity.getRoomId(), personA.getUserNickname(), personB.getUserProfile(), chatEntity.getContent(), chatEntity.getTime()));
                 }
             }
 
             return chatList;
-        }else{ // 채팅 내용 없음.
+        } else { // 채팅 내용 없음.
             return new ArrayList<>();
         }
+    }
 
+    @Override
+    public List<ChatDetailDto> getChatDetail(String decodeId, String roomId) { // 채팅 내용 상세 조회
+        List<ChatDetailDto> result = new ArrayList<>();
+
+        List<ChatEntity> chat = redisTemplate.opsForList().range(roomId, 0, redisTemplate.opsForList().size(roomId));
+        for(ChatEntity c : chat){
+            UserEntity toUser = userRepository.findByUserId(c.getToUserId()).get();
+            ChatDetailDto chatDto = ChatDetailDto.builder().toUserNikname(toUser.getUserNickname()).content(c.getContent()).time(c.getTime()).build();
+            result.add(chatDto);
+        }
+        return result;
+    }
+
+    @Override
+    public UserEntity getToUser(String decodeId, String roomId) {
+        ChatInfoEntity chatRoomInfo = chatInfoRepository.findByIdx(Integer.valueOf(roomId));
+
+        UserEntity personA = chatRoomInfo.getPersonA();
+        UserEntity personB = chatRoomInfo.getPersonB();
+        if (personA.getUserId().equals(decodeId)) {
+            return personB;
+        } else {
+            return personA;
+        }
     }
 
 }
