@@ -46,17 +46,21 @@ export const Header = () => {
     return <></>
   } else {
     return (
-      <>
-        <Box sx={{ display: "flex", justifyContent:"end", alignItems: "center", mt:1, mr:1 }}>
-          <IconButton size='large' color='inherit'>
-            <Badge badgeContent={alarmCount} color="error">
+    <>
+      <Grid container spacing={1}>
+          <Grid item xs={6} sx={{ display : "flex", justifyContent : "start", alignItems : "center" }}>
+            &nbsp;&nbsp;&nbsp;&nbsp;<ArrowBackIosIcon onClick={() => navigator(-1)}/>
+          </Grid>
+          <Grid item xs={6} sx={{ display:"flex", justifyContent:"end", alignItems:"center" }}>
+              <IconButton size='large' color='inherit'>
+              <Badge badgeContent={alarmCount} color="error">
               < AlarmModal />
             </Badge>
           </IconButton>
-        </Box>
-      </>
-    )
+          </Grid>
+      </Grid>
+    </>
+  )
   }
 }
-
 export default Header;
