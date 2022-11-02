@@ -50,7 +50,7 @@ public class MqttConfig {
     @Bean
     public MessageProducer inbound(){
         MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter("serverIn",
-                mqttClientFactory(),TOPIC_FILTER);
+                mqttClientFactory(),"#");
         adapter.setCompletionTimeout(5000);
         adapter.setConverter(new DefaultPahoMessageConverter());
         adapter.setQos(2);
@@ -64,6 +64,7 @@ public class MqttConfig {
             @Override
             public void handleMessage(Message<?> message) throws MessagingException {
                 String topic = message.getHeaders().get(MqttHeaders.RECEIVED_TOPIC).toString();
+                System.out.println("topic :: " + topic);
                 if(topic.equals(TOPIC_FILTER)){
                     System.out.println("this is out topic");
                 }
@@ -82,7 +83,6 @@ public class MqttConfig {
         MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandler("serverOut", mqttClientFactory());
 
         messageHandler.setAsync(true);
-        messageHandler.setDefaultTopic(TOPIC_FILTER);
         return messageHandler;
     }
 
