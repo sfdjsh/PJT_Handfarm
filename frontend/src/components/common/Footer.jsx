@@ -28,7 +28,7 @@ export const Footer = () => {
 
     return (
         <>
-            <Box style={{ width : "100vw", position : "fixed", bottom : 0 }}>
+            <Box>
                 <Divider style={{ backgroundColor : "white" }}/>
                 <BottomNavigation
                     showLabels
@@ -39,10 +39,18 @@ export const Footer = () => {
                     className={classes.root}
                     style={{ backgroundColor : "#212528" }}
                 >
-                    <BottomNavigationAction style={{ color : "white" }}  label="농장" icon={<GiteOutlinedIcon />} />
-                    <BottomNavigationAction style={{ color : "white" }}  label="커뮤니티" icon={<ChatBubbleOutlineIcon />} />
-                    <BottomNavigationAction style={{ color : "white" }}  label="쪽지함"  icon={<MailOutlineOutlinedIcon />} />
-                    <BottomNavigationAction style={{ color : "white" }}  label="프로필" icon={<PermIdentityOutlinedIcon />} />
+                    <BottomNavigationAction style={{ color : "white" }} onClick={() => {
+                        navigator('/myfarm')
+                    }}  label="농장" icon={<GiteOutlinedIcon />} />
+                    <BottomNavigationAction style={{ color : "white" }} onClick={() => {
+                        navigator('/community')
+                    }}  label="커뮤니티" icon={<ChatBubbleOutlineIcon />} />
+                    <BottomNavigationAction style={{ color : "white" }} onClick={() => {
+                        navigator('')
+                    }}  label="쪽지함"  icon={<MailOutlineOutlinedIcon />} />
+                    <BottomNavigationAction style={{ color : "white" }} onClick={() => {
+                        navigator('')
+                    }}  label="프로필" icon={<PermIdentityOutlinedIcon />} />
                 </BottomNavigation>
             </Box>
         </>
