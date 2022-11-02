@@ -1,26 +1,16 @@
-// import { LOCAL_URL } from "../../config";
-// import axios from 'axios'
+import { BASE_URL } from "../../config";
+import axios from "axios";
 
-// export async function Alarm() {
-//   const URL = `${LOCAL_URL}/notice/count`
-//   const accessToken = localStorage.getItem('access_token')
+export async function Alarm() {
+  const accessToken = localStorage.getItem("access_token");
+  const alarmAxios = await axios({
+    method: "GET",
+    url: `${BASE_URL}/alarm`,
+    headers: {
+      accessToken: accessToken,
+    }
+  })
+  return alarmAxios.data.noticeList
+};
 
-//   const test = await axios(URL, {
-//     method: "GET",
-//     headers: {
-//       Authorization: accessToken
-//     }
-//   }
-//     .then(response => {
-//       console.log('여기 들어옴???')
-      
-//     }))
-
-//   return (
-//     <div>
-//       <h1>알람 들어옴??</h1>
-//     </div>
-//   )
-// }
-
-// export default Alarm
+export default Alarm;
