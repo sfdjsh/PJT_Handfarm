@@ -4,22 +4,22 @@ import { BASE_URL } from "../../config";
 import axios from 'axios'
 
 const AlarmDelete = ({alarmId}) => {
-  const accessToken = localStorage.getItem('access_token')
+  console.log(alarmId)
   if (alarmId !== 0) {
     axios({
       method: 'DELETE',
       url: `${BASE_URL}/alarm/${alarmId}`,
       headers : {
-        accessToken: accessToken
+        accessToken: localStorage.getItem('access_token')
       }
-      .then(alert('정말 삭제하시겠습니까?'))
     })
+      .then(response => {
+        if (alert('정말 삭제하시겠습니까?')) {
+          console.log(response.data)
+          window.location.reload()
+        }
+      })
   }
-  
-  return (
-    <>
-    </>
-  )
 }
   
 

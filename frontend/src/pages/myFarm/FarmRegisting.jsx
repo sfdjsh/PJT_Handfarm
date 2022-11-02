@@ -48,7 +48,6 @@ const FarmRegisting = () => {
           </Box>
         </Box>
       </Container>
-      <Footer />
     </>
   )
 }
