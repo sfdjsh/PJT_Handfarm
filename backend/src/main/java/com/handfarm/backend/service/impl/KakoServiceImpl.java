@@ -319,7 +319,7 @@ public class KakoServiceImpl implements KakaoService {
     @Override
     public Boolean KakaoUnlink(String accessToken) throws IOException {
         String reqURL = "https://kapi.kakao.com/v1/user/unlink";
-
+//
         try {
             URL url = new URL(reqURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -355,6 +355,5 @@ public class KakoServiceImpl implements KakaoService {
             return false;
         }
         return true;
-////
     }
 }
