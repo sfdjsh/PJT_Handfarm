@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 
 import javax.websocket.server.ServerEndpoint;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -76,15 +78,29 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public List<ChatDetailDto> getChatDetail(String decodeId, String roomId) { // 채팅 내용 상세 조회
-        List<ChatDetailDto> result = new ArrayList<>();
+        List<ChatDetailDto> chatList = new ArrayList<>();
 
         List<ChatEntity> chat = redisTemplate.opsForList().range(roomId, 0, redisTemplate.opsForList().size(roomId));
-        for(ChatEntity c : chat){
-            UserEntity toUser = userRepository.findByUserId(c.getToUserId()).get();
-            ChatDetailDto chatDto = ChatDetailDto.builder().toUserNikname(toUser.getUserNickname()).content(c.getContent()).time(c.getTime()).build();
-            result.add(chatDto);
+
+        for(int i=0; i<chat.size(); i++){
+            Object chatObject = chat.get(i);
+
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // timestamp 형식 안따르도록 설정
+            mapper.registerModules(new JavaTimeModule(), new Jdk8Module());
+            ChatEntity chatEntity = mapper.convertValue(chatObject, ChatEntity.class);
+
+            UserEntity toUser = userRepository.findByUserId(chatEntity.getToUserId()).get();
+            ChatDetailDto chatDetailDto = ChatDetailDto.builder()
+                    .toUserNickname(toUser.getUserNickname())
+                    .content(chatEntity.getContent())
+                    .time(chatEntity.getTime())
+                    .build();
+
+            chatList.add(chatDetailDto);
         }
-        return result;
+
+        return chatList;
     }
 
     @Override

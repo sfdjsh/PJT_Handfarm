@@ -58,15 +58,15 @@ public class ChatController {
     }
 
     @GetMapping("/chatList/{roomId}") // 채팅 상세 조회
-    public ResponseEntity<?> viewChatDetail(HttpServletRequest request, @PathVariable("roomId") String roomId){
+    public ResponseEntity<?> viewChatDetail(HttpServletRequest request, @PathVariable("roomId") Integer roomId){
         Map<String, Object> resultMap = new HashMap<>();
         String decodeId = checkToken(request, resultMap);
 
         try{
             if(decodeId != null){
-                List<ChatDetailDto> chatList = chatService.getChatDetail(decodeId, roomId);
+                List<ChatDetailDto> chatList = chatService.getChatDetail(decodeId, String.valueOf(roomId));
                 resultMap.put("chatDetail", chatList);
-                UserEntity toUser = chatService.getToUser(decodeId, roomId);
+                UserEntity toUser = chatService.getToUser(decodeId, String.valueOf(roomId));
                 resultMap.put("toUserNickname", toUser.getUserNickname());
                 resultMap.put("toUserProfileImg", toUser.getUserProfile());
                 resultMap.put("message",success);
