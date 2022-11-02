@@ -1,6 +1,5 @@
 import "./App.css";
-import React from "react";
-// import scrollbar from 'smooth-scrollbar'
+import React, {useEffect} from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Login from "./pages/auth/Login";

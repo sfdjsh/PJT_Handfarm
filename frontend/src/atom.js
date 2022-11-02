@@ -6,6 +6,7 @@ const { persistAtom } = recoilPersist()
 export const userInfo = atom({
     key : "userInfo",
     default : [{
+        refreshToken: '',
         isRegisted: false,
         userNickname: '',
         deviceId: '',
@@ -17,4 +18,10 @@ export const userInfo = atom({
 export const userFarm = atom({
     key : "userFarm",
     default : []
+})
+
+export const alarmState = atom({
+    key: 'alarmState',
+    default: [],
+    effects_UNSTABLE: [persistAtom],
 })
