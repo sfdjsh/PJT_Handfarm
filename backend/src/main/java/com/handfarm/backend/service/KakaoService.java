@@ -11,9 +11,13 @@ public interface KakaoService {
     Map<String,Object> createKakaoUser(String access_token);
     String decodeToken(String accessToken);
 
-    JsonElement CheckAccessToken(String accessToken) throws IOException;
+    Boolean CheckAccessToken(String accessToken) throws IOException;
+
+    JsonElement GetUserInfo(String accessToken) throws IOException;
 
     String CheckRefreshToken(String refreshToken);
 
     String KakaoLogout(String accessToken) throws IOException;
+
+    Boolean KakaoUnlink(String accessToken) throws IOException;
 }
