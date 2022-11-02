@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class ChatDetailDto {
-    private String toUserNikname;
+    private String toUserNickname;
     private String content;
     private LocalDateTime time;
 }
