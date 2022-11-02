@@ -37,7 +37,6 @@ const MyFarm = () => {
 
   return (
     <>
-      <Header />
       <Container sx={{ mt: 1, width: "90%" }}>
         {/* 농장 이름 */}
         <Grid
