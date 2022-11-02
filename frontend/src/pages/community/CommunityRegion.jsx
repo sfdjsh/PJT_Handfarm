@@ -26,10 +26,10 @@ const CommunityInfo = () => {
                 />
             </Box>
             <Grid container spacing={1}>
-                <Grid item xs={6}>
-                    <Box sx={{ fontSize : "25px", m : 1 }}>광주</Box>
+                <Grid item xs={7}>
+                    <Box sx={{ fontSize : "25px", m : 1, textAlign : "right" }}>광주</Box>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={5}>
                     <Box sx={{ display : "flex" ,fontSize : "20px" ,m : 1.5, alignItems : "center", justifyContent : "center" }}><span style={{ fontSize : "15px", margin : "5px" }}>123</span><PermIdentityIcon/></Box>
                 </Grid>
             </Grid>
