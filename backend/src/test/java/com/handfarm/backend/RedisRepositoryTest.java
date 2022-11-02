@@ -11,6 +11,7 @@ import com.handfarm.backend.domain.entity.UserEntity;
 import com.handfarm.backend.repository.ChatInfoRepository;
 import com.handfarm.backend.repository.ChatRedisRepository;
 import com.handfarm.backend.repository.UserRepository;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,7 +27,7 @@ import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
-//@Disabled
+@Disabled
 public class RedisRepositoryTest {
 
     private final ChatInfoRepository chatInfoRepository;
@@ -45,9 +46,9 @@ public class RedisRepositoryTest {
 
     @Test
     void 채팅보내기(){
-        String decodeId = "tkdltprp0212@naver.com";
-        String toUserNickname = "강현";
-        String content = "ㅎㅇ...";
+        String decodeId = "aa981204@daum.net";
+        String toUserNickname = "석호";
+        String content = "앙뇽";
 
         UserEntity personA = userRepository.findByUserId(decodeId).get();
         UserEntity personB = userRepository.findByUserNickname(toUserNickname).get();
