@@ -16,4 +16,6 @@ public interface ChatInfoRepository extends JpaRepository<ChatInfoEntity, Intege
 
     @Query(value = "select ci from ChatInfoEntity as ci where (ci.personA =:user or ci.personB = :user)")
     List<ChatInfoEntity> findByUserChatInfo(UserEntity user);
+
+    ChatInfoEntity findByIdx(Integer valueOf);
 }
