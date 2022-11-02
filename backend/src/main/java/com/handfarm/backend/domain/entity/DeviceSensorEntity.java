@@ -27,4 +27,7 @@ public class DeviceSensorEntity {
     @ManyToOne
     @JoinColumn(name = "sensor_idx")
     private SensorEntity seosor;
+
+    @Column(name= "device_sensor_value")
+    private String value;
 }
