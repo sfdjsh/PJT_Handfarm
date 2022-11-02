@@ -9,7 +9,6 @@ export const Kakao = () => {
 
   let params = new URL(document.URL).searchParams
   let code = params.get("code")
-  console.log(code)
 
   const [user, setUser] = useRecoilState(userInfo)
 
@@ -29,16 +28,26 @@ export const Kakao = () => {
           })
         }
       })
+        .then(() => {
+          console.log('카카오')
+          console.log(localStorage.getItem('access_token'))
+          const renderFarm = user.deviceId
+          if (renderFarm) {
+            navigate('/myfarm')
+          } else {
+            navigate('/myfarm/registing')
+          }
+        })
   }, [])
 
-  useEffect(() => {
-    const renderFarm = user.deviceId
-    if (renderFarm) {
-      navigate('/myfarm')
-    } else {
-      navigate('/myfarm/registing')
-    }
-  }, [])
+  // useEffect(() => {
+  //   const renderFarm = user.deviceId
+  //   if (renderFarm) {
+  //     navigate('/myfarm')
+  //   } else {
+  //     navigate('/myfarm/registing')
+  //   }
+  // })
 
   return (
     <div>

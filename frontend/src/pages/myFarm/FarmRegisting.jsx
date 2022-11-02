@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container, Fab, Box } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
@@ -12,12 +12,16 @@ const FarmRegisting = () => {
   const navigate = useNavigate();
 
   // 디바이스 장치가 등록되어 있으면 myFarm로 이동 
-  // 임시로 반대로 해놓음 
   useEffect(() => {
     if (isFarm.deviceId) {
       navigate('/myfarm')
     }
-  })
+    if(!localStorage.getItem("reload")){
+      localStorage.setItem("reload", true)
+      window.location.reload()
+    }
+  }, [])
+
 
   const goFarmCreate = () => {
     navigate('/myfarm/create')
