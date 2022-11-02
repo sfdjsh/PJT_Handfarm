@@ -53,7 +53,7 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public String userRegistDevice(HttpServletRequest request, DeviceRegistDto deviceRegistDto) throws IOException {
         try{
-            JsonElement element = kakaoService.CheckAccessToken(request.getHeader("accessToken"));
+            JsonElement element = kakaoService.GetUserInfo(request.getHeader("accessToken"));
             String email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
             System.out.println(email);
             System.out.println(deviceRegistDto);
