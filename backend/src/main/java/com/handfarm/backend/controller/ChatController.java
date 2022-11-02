@@ -39,6 +39,8 @@ public class ChatController {
     public ResponseEntity<?> viewChatList(HttpServletRequest request){
         Map<String, Object> resultMap = new HashMap<>();
         String decodeId = checkToken(request, resultMap);
+        System.out.println("decodeId :: " + decodeId);
+//        System.out.println("채팅 방 번호 : " + roomId);
 
         try{
             if(decodeId != null){
