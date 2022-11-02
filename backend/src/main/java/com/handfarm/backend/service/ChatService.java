@@ -13,4 +13,6 @@ public interface ChatService {
     List<ChatDetailDto> getChatDetail(String decodeId, String roomId);
 
     UserEntity getToUser(String decodeId, String roomId);
+
+    String createChatRoom(String decodeId, Integer userIdx);
 }
