@@ -18,12 +18,9 @@ import ControlDetail from "./pages/myFarm/ControlDetail";
 import CommunityInfo from "./pages/community/CommunityInfo";
 import CommunityRegion from "./pages/community/CommunityRegion";
 import { useLocation } from 'react-router-dom';
-import {useEffect} from "react";
 import FarmmunityInfoDetail from "./pages/community/FarmmunityInfoDetail";
 import Box from "@mui/material/Box";
 import CommentForm from "./components/common/CommentForm";
-
-// scrollbar.init(document.querySelector('#smooth-scroll'))
 import MyPage from "./pages/myPage/MyPage"
 
 function App() {
