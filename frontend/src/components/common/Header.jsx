@@ -18,7 +18,7 @@ export const Header = () => {
       headers: {
         accessToken: token
       }
-    })
+    }, [])
       .then(response => {
         console.log(response.data.noticeCount)
         setAlarmCount(response.data.noticeCount)

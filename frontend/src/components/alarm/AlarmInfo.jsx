@@ -14,12 +14,6 @@ const CardContentNoPadding = styled(CardContent)(`
 `);
 
 const AlarmInfo = () => {
-
-  const [alarms, setAlarms] = useState([{}]);
-  const [alarmType, setAlarmType] = useState("");
-  const [alarmId, setAlarmId] = useState(0)
-  const [readAlarmId, setReadAlarmId] = useState(0)
-
   useEffect(() => {
     async function AlarmList() {
       const data = await Alarm();
@@ -27,6 +21,10 @@ const AlarmInfo = () => {
     }
     AlarmList();
   }, []);
+
+  const [alarms, setAlarms] = useState([{}]);
+  const [alarmId, setAlarmId] = useState(0)
+  const [readAlarmId, setReadAlarmId] = useState(0)
 
   const changeWord = (type) => {
     if (type === "comment") {
