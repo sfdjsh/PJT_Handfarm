@@ -38,12 +38,11 @@ export const Kakao = () => {
     } else {
       navigate('/myfarm/registing')
     }
-  })
+  }, [])
 
   return (
     <div>
-      <h1>여기서 디바이스 장치 유무에 따라 다르게 렌더링 시킬꺼임</h1>
-      {/* {renderFarm()} */}
+      <h1>잠시만 기다려주세요</h1>
     </div>
   );
 };

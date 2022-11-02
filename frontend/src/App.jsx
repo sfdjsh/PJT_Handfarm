@@ -20,9 +20,6 @@ import CommunityRegion from "./pages/community/CommunityRegion";
 import MyPage from "./pages/myPage/MyPage"
 
 function App() {
-//   useEffect(() => {
-//     const accessToken = localStorage.getItem('access_token')
-//   })
 
   return (
     <>
