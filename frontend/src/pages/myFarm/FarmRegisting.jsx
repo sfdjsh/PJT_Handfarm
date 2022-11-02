@@ -15,9 +15,7 @@ const FarmRegisting = () => {
   // 임시로 반대로 해놓음 
   useEffect(() => {
     if (isFarm.deviceId) {
-      navigate('/myFarm/registing')
-    } else {
-      navigate('/myFarm')
+      navigate('/myfarm')
     }
   })
 
@@ -27,12 +25,11 @@ const FarmRegisting = () => {
 
   return (
     <>
-      <Header />
       <Container>
         <Box sx={{
           backgroundColor: "black",
-          width: 300,
-          height: 400,
+          width: 350,
+          height: 500,
           mt: 10
         }}>
           <div>
