@@ -20,8 +20,8 @@ export const userFarm = atom({
     default : []
 })
 
-export const userAlarm = atom({
-    key : "userAlarm",
-    default: '',
+export const alarmState = atom({
+    key: 'alarmState',
+    default: [],
     effects_UNSTABLE: [persistAtom],
 })
