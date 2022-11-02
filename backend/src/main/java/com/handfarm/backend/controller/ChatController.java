@@ -1,12 +1,15 @@
 package com.handfarm.backend.controller;
 
+import com.handfarm.backend.domain.dto.chat.ChatDetailDto;
 import com.handfarm.backend.domain.dto.chat.ChatListViewDto;
+import com.handfarm.backend.domain.entity.UserEntity;
 import com.handfarm.backend.service.ChatService;
 import com.handfarm.backend.service.KakaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,6 +43,32 @@ public class ChatController {
         try{
             if(decodeId != null){
                 List<ChatListViewDto> chatList = chatService.getChatList(decodeId);
+                resultMap.put("chatList", chatList);
+                resultMap.put("message",success);
+                status = HttpStatus.OK;
+            }
+        }catch (Exception e){
+            resultMap.put("message", fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        return new ResponseEntity<>(resultMap,status);
+    }
+
+    @GetMapping("/chatList/{roomId}") // 채팅 상세 조회
+    public ResponseEntity<?> viewChatDetail(HttpServletRequest request, @PathVariable("roomId") String roomId){
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request, resultMap);
+
+        try{
+            if(decodeId != null){
+                List<ChatDetailDto> chatList = chatService.getChatDetail(decodeId, roomId);
+                resultMap.put("chatDetail", chatList);
+                UserEntity toUser = chatService.getToUser(decodeId, roomId);
+                resultMap.put("toUserNickname", toUser.getUserNickname());
+                resultMap.put("toUserProfileImg", toUser.getUserProfile());
+                resultMap.put("message",success);
+                status = HttpStatus.OK;
             }
         }catch (Exception e){
             resultMap.put("message", fail);
