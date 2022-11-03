@@ -25,3 +25,15 @@ export const alarmState = atom({
     default: false,
     effects_UNSTABLE: [persistAtom],
 })
+
+export const nowCrop = atom({
+    key : "crop",
+    default : "",
+    effects_UNSTABLE : [persistAtom],
+})
+
+export const nowRegion = atom({
+    key : "region",
+    default : "",
+    effects_UNSTABLE : [persistAtom],
+})

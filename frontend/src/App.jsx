@@ -22,14 +22,15 @@ import FarmmunityInfoDetail from "./pages/community/FarmmunityInfoDetail";
 import Box from "@mui/material/Box";
 import CommentForm from "./components/common/CommentForm";
 import MyPage from "./pages/myPage/MyPage"
+import {CreateReadChat} from "./pages/chat/CreateReadChat";
+
+// scrollbar.init(document.querySelector('#smooth-scroll'))
 
 function App() {
   const location = useLocation();
 
   useEffect(() => {
     console.log(location);
-    console.log(location.pathname.split('/'))
-    console.log(typeof parseInt(location.pathname.split('/')[3]))
   }, [ location ])
 
   return (
@@ -52,6 +53,7 @@ function App() {
             path="/myfarm/registing"
             element={<FarmRegisting />}
           ></Route>
+            <Route exact path="/chat" element={<CreateReadChat/>}></Route>
           <Route exact path="/myfarm/create" element={<FarmCreate />}></Route>
           <Route exact path="/kakao" element={<Kakao />}></Route>
           <Route exact path="/myfarm" element={<MyFarm />}></Route>
@@ -60,7 +62,7 @@ function App() {
           <Route exact path="/mypage" element={<MyPage />}></Route>
         </Routes>
        </Box>
-        { location.pathname === '/' || (location.pathname.split('/')[2] === 'info' && parseInt(location.pathname.split('/')[3]) >= 1 )? (<CommentForm/>) : (<Footer />) }
+        { location.pathname === '/' || (location.pathname.split('/')[2] === 'info' && parseInt(location.pathname.split('/')[3]) >= 1 ) || location.pathname === '/chat'? (<CommentForm/>) : (<Footer />) }
       </Box>
     </>
   );
