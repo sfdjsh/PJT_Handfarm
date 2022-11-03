@@ -46,9 +46,14 @@ public class RedisRepositoryTest {
 
     @Test
     void 채팅보내기(){
-        String decodeId = "aa981204@daum.net";
-        String toUserNickname = "석호";
-        String content = "앙뇽";
+        String decodeId = "aa981204@daum.net"; // header에 있어.
+        String toUserNickname = "석호"; // 내가 클릭 하면 알 수 있어
+//        String roomId = "21"; // 클릭하면 알고 있어
+
+        String content = "앙뇽"; // 보내야될 메시지 -> webSocket으로 통신
+
+        String msg = "";
+        //
 
         UserEntity personA = userRepository.findByUserId(decodeId).get();
         UserEntity personB = userRepository.findByUserNickname(toUserNickname).get();
