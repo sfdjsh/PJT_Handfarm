@@ -7,22 +7,41 @@ import {Grid} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 
 export const Header = () => {
-    const navigator = useNavigate()
+  const location = window.location.pathname
+  const [alarmCount, setAlarmCount] = useState(0)
 
-  return (
-    <>
-      <Grid container spacing={1}>
-          <Grid item xs={6} sx={{ display : "flex", justifyContent : "start", alignItems : "center" }}>
-            &nbsp;&nbsp;&nbsp;&nbsp;<ArrowBackIosIcon onClick={() => navigator(-1)}/>
-          </Grid>
-          <Grid item xs={6} sx={{ display:"flex", justifyContent:"end", alignItems:"center" }}>
-              <IconButton size='large' color='inherit'>
-                  <NotificationsIcon sx={{ fontSize : "30px" }} />
-              </IconButton>
-          </Grid>
-      </Grid>
-    </>
-  )
+  // 알람 갯수 로직
+  useEffect(() => {
+    if(location !== '/'){
+        axios({
+          method: "GET",
+          url: `${BASE_URL}/alarm/count`,
+          headers: {
+            accessToken: localStorage.getItem('access_token')
+          }
+        })
+          .then(response => {
+            setAlarmCount(response.data.noticeCount)
+            location.reload()
+          })
+    }
+  }, [])
+
+  if (location === '/' || location === '/kakao') {
+    return <></>
+  } else {
+    return (
+      <>
+        <Box sx={{ display: "flex", justifyContent:"end", alignItems: "center", mt:1, mr:1 }}>
+          <IconButton size='large' color='inherit'>
+            <Badge badgeContent={alarmCount} color="error">
+              <AlarmModal />
+            </Badge>
+          </IconButton>
+        </Box>
+      </>
+    )
+  }
 }
 
 export default Header;
