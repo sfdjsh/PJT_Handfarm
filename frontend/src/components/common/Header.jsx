@@ -26,9 +26,6 @@ export const Header = () => {
     }
   }, [])
 
-  // 알람 정보 state에 저장
-  // useEffect
-
   if (location === '/' || location === '/kakao') {
     return <></>
   } else {
