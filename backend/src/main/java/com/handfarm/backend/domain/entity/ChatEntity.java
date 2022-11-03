@@ -19,14 +19,14 @@ public class ChatEntity {
 
     private String sendUserId;
     private String toUserId;
-    private String content;
+    private String msg;
     private LocalDateTime time;
 
-    public ChatEntity(String roomId, String sendUserId, String toUserId, String content, LocalDateTime time) {
+    public ChatEntity(String roomId, String sendUserId, String toUserId, String msg, LocalDateTime time) {
         this.roomId = roomId;
         this.sendUserId = sendUserId;
         this.toUserId = toUserId;
-        this.content = content;
+        this.msg = msg;
         this.time = time;
     }
 }

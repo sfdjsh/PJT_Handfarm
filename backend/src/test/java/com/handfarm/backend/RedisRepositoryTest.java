@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
-@Disabled
+//@Disabled
 public class RedisRepositoryTest {
 
     private final ChatInfoRepository chatInfoRepository;
@@ -46,11 +46,11 @@ public class RedisRepositoryTest {
 
     @Test
     void 채팅보내기(){
-        String decodeId = "aa981204@daum.net"; // header에 있어.
-        String toUserNickname = "석호"; // 내가 클릭 하면 알 수 있어
+        String decodeId = "kiki249@naver.com"; // header에 있어.
+        String toUserNickname = "혜진"; // 내가 클릭 하면 알 수 있어
 //        String roomId = "21"; // 클릭하면 알고 있어
 
-        String content = "앙뇽"; // 보내야될 메시지 -> webSocket으로 통신
+        String content = "집에가자!!"; // 보내야될 메시지 -> webSocket으로 통신
 
         String msg = "";
         //
@@ -99,9 +99,9 @@ public class RedisRepositoryTest {
                 UserEntity personA = chatRoomInfo.getPersonA();
                 UserEntity personB = chatRoomInfo.getPersonB();
                 if(personA.getUserId().equals(decodeId)){
-                    chatList.add(new ChatListViewDto(chatEntity.getRoomId(), personB.getUserNickname(), personB.getUserProfile(),chatEntity.getContent(), chatEntity.getTime()));
+                    chatList.add(new ChatListViewDto(chatEntity.getRoomId(), personB.getUserNickname(), personB.getUserProfile(),chatEntity.getMsg(), chatEntity.getTime()));
                 }else{
-                    chatList.add(new ChatListViewDto(chatEntity.getRoomId(), personA.getUserNickname(), personB.getUserProfile(),chatEntity.getContent(), chatEntity.getTime()));
+                    chatList.add(new ChatListViewDto(chatEntity.getRoomId(), personA.getUserNickname(), personB.getUserProfile(),chatEntity.getMsg(), chatEntity.getTime()));
                 }
             }
 
