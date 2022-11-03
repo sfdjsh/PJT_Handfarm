@@ -13,10 +13,10 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 @EnableWebSocketMessageBroker // STOMP 사용 설정
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer  {
 
-    @Bean
-    public ServerEndpointExporter serverEndpointExporter() {
-        return new ServerEndpointExporter();
-    }
+//    @Bean
+//    public ServerEndpointExporter serverEndpointExporter() {
+//        return new ServerEndpointExporter();
+//    }
 
     @Override // 엔드포인트 등록
     public void registerStompEndpoints(StompEndpointRegistry registry){

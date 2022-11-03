@@ -63,11 +63,11 @@ public class ChatServiceImpl implements ChatService {
                     UserEntity personB = chatRoomInfo.getPersonB();
                     if (personA.getUserId().equals(decodeId)) {
                         ChatListViewDto chatListViewDto = ChatListViewDto.builder().roomId(chatEntity.getRoomId()).anotherUserNickname(personB.getUserNickname())
-                                .content(chatEntity.getContent()).time(chatEntity.getTime()).anotherUserProfileImg(personB.getUserProfile()).build();
+                                .content(chatEntity.getMsg()).time(chatEntity.getTime()).anotherUserProfileImg(personB.getUserProfile()).build();
                         chatList.add(chatListViewDto);
                     } else {
                         ChatListViewDto chatListViewDto = ChatListViewDto.builder().roomId(chatEntity.getRoomId()).anotherUserNickname(personA.getUserNickname())
-                                .content(chatEntity.getContent()).time(chatEntity.getTime()).anotherUserProfileImg(personA.getUserProfile()).build();
+                                .content(chatEntity.getMsg()).time(chatEntity.getTime()).anotherUserProfileImg(personA.getUserProfile()).build();
                         chatList.add(chatListViewDto);
                     }
                 }else{
@@ -103,7 +103,7 @@ public class ChatServiceImpl implements ChatService {
                 ChatDetailDto chatDetailDto = ChatDetailDto.builder()
                         .sendUserNickname(sendUser.getUserNickname())
                         .toUserNickname(toUser.getUserNickname())
-                        .msg(chatEntity.getContent())
+                        .msg(chatEntity.getMsg())
                         .time(chatEntity.getTime())
                         .build();
 
