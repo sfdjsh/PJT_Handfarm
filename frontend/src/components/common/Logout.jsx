@@ -22,6 +22,7 @@ const Logout = () => {
     })
       .then(() => {
         localStorage.setItem('access_token', '')
+        localStorage.removeItem('reload')
         navigate('/')
       })
   }
