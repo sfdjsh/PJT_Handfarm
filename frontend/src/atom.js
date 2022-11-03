@@ -22,7 +22,7 @@ export const userFarm = atom({
 
 export const alarmState = atom({
     key: 'alarmState',
-    default: [],
+    default: false,
     effects_UNSTABLE: [persistAtom],
 })
 
