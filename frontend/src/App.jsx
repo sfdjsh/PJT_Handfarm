@@ -21,6 +21,7 @@ import { useLocation } from 'react-router-dom';
 import FarmmunityInfoDetail from "./pages/community/FarmmunityInfoDetail";
 import Box from "@mui/material/Box";
 import CommentForm from "./components/common/CommentForm";
+import MyPage from "./pages/myPage/MyPage"
 import {CreateReadChat} from "./pages/chat/CreateReadChat";
 
 // scrollbar.init(document.querySelector('#smooth-scroll'))
@@ -58,6 +59,7 @@ function App() {
           <Route exact path="/myfarm" element={<MyFarm />}></Route>
           <Route exact path="/sensor/detail" element={<SensorDetail />}></Route>
           <Route exact path="/control/detail" element={<ControlDetail />}></Route>
+          <Route exact path="/mypage" element={<MyPage />}></Route>
         </Routes>
        </Box>
         { location.pathname === '/' || (location.pathname.split('/')[2] === 'info' && parseInt(location.pathname.split('/')[3]) >= 1 ) || location.pathname === '/chat'? (<CommentForm/>) : (<Footer />) }
