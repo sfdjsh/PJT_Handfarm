@@ -14,7 +14,8 @@ spring:
   redis:
     host: handfarm.co.kr
     port: 6379
-    prefix:
+    password: handfarm
+
 
 
 logging:
