@@ -1,6 +1,7 @@
 package com.handfarm.backend.service;
 
 import com.handfarm.backend.domain.dto.chat.ChatDetailDto;
+import com.handfarm.backend.domain.dto.chat.ChatDto;
 import com.handfarm.backend.domain.dto.chat.ChatListViewDto;
 import com.handfarm.backend.domain.entity.UserEntity;
 
@@ -15,4 +16,6 @@ public interface ChatService {
     UserEntity getToUser(String decodeId, String roomId);
 
     String createChatRoom(String decodeId, Integer userIdx);
+
+    void saveMessageRedis(ChatDto chatDto);
 }

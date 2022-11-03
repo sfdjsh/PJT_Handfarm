@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.handfarm.backend.domain.dto.chat.ChatDetailDto;
+import com.handfarm.backend.domain.dto.chat.ChatDto;
 import com.handfarm.backend.domain.dto.chat.ChatListViewDto;
 import com.handfarm.backend.domain.entity.ChatEntity;
 import com.handfarm.backend.domain.entity.ChatInfoEntity;
@@ -18,6 +19,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.websocket.server.ServerEndpoint;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -49,24 +51,27 @@ public class ChatServiceImpl implements ChatService {
             for (ChatInfoEntity c : chatInfoList) {
                 String roomId = String.valueOf(c.getIdx());
                 Object chatInfo = redisTemplate.opsForList().index(String.valueOf(c.getIdx()), 0);
-
-                ObjectMapper mapper = new ObjectMapper();
-                mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // timestamp 형식 안따르도록 설정
-                mapper.registerModules(new JavaTimeModule(), new Jdk8Module());
-                ChatEntity chatEntity = mapper.convertValue(chatInfo, ChatEntity.class);
+                if(chatInfo != null) {
+                    ObjectMapper mapper = new ObjectMapper();
+                    mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // timestamp 형식 안따르도록 설정
+                    mapper.registerModules(new JavaTimeModule(), new Jdk8Module());
+                    ChatEntity chatEntity = mapper.convertValue(chatInfo, ChatEntity.class);
 //                System.out.println(chatEntity);
-                ChatInfoEntity chatRoomInfo = chatInfoRepository.findByIdx(Integer.valueOf(roomId));
+                    ChatInfoEntity chatRoomInfo = chatInfoRepository.findByIdx(Integer.valueOf(roomId));
 
-                UserEntity personA = chatRoomInfo.getPersonA();
-                UserEntity personB = chatRoomInfo.getPersonB();
-                if (personA.getUserId().equals(decodeId)) {
-                    ChatListViewDto chatListViewDto = ChatListViewDto.builder().roomId(chatEntity.getRoomId()).anotherUserNickname(personB.getUserNickname())
-                                    .content(chatEntity.getContent()).time(chatEntity.getTime()).anotherUserProfileImg(personB.getUserProfile()).build();
-                    chatList.add(chatListViewDto);
-                } else {
-                    ChatListViewDto chatListViewDto = ChatListViewDto.builder().roomId(chatEntity.getRoomId()).anotherUserNickname(personA.getUserNickname())
-                            .content(chatEntity.getContent()).time(chatEntity.getTime()).anotherUserProfileImg(personA.getUserProfile()).build();
-                    chatList.add(chatListViewDto);
+                    UserEntity personA = chatRoomInfo.getPersonA();
+                    UserEntity personB = chatRoomInfo.getPersonB();
+                    if (personA.getUserId().equals(decodeId)) {
+                        ChatListViewDto chatListViewDto = ChatListViewDto.builder().roomId(chatEntity.getRoomId()).anotherUserNickname(personB.getUserNickname())
+                                .content(chatEntity.getContent()).time(chatEntity.getTime()).anotherUserProfileImg(personB.getUserProfile()).build();
+                        chatList.add(chatListViewDto);
+                    } else {
+                        ChatListViewDto chatListViewDto = ChatListViewDto.builder().roomId(chatEntity.getRoomId()).anotherUserNickname(personA.getUserNickname())
+                                .content(chatEntity.getContent()).time(chatEntity.getTime()).anotherUserProfileImg(personA.getUserProfile()).build();
+                        chatList.add(chatListViewDto);
+                    }
+                }else{
+                    continue;
                 }
             }
 
@@ -125,7 +130,8 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public String createChatRoom(String decodeId, Integer userIdx) {
         UserEntity loginUser = userRepository.findByUserId(decodeId).get();
-        UserEntity toUser = userRepository.findById(userIdx).get();
+        System.out.println(loginUser);
+        UserEntity toUser = userRepository.findByIdx(userIdx).get();
 
         String roomId;
         Optional<ChatInfoEntity> chatInfoEntity = chatInfoRepository.findByPersonAOrPersonB(loginUser, toUser);
@@ -137,6 +143,20 @@ public class ChatServiceImpl implements ChatService {
             roomId = String.valueOf(chatInfo.getIdx());
         }
         return roomId;
+    }
+
+    @Override
+    public void saveMessageRedis(ChatDto chatDto) {
+        String loginUserNickname = chatDto.getLoginUserNickname();
+        String toUserNickname = chatDto.getToUserNickname();
+        String msg = chatDto.getMsg();
+        Integer roomId = chatDto.getRoomId();
+
+        UserEntity personA = userRepository.findByUserNickname(loginUserNickname).get();
+        UserEntity personB = userRepository.findByUserNickname(toUserNickname).get();
+
+        ChatEntity chat = new ChatEntity(String.valueOf(roomId), personB.getUserId(), msg, LocalDateTime.now());
+        redisTemplate.opsForList().leftPush(String.valueOf(roomId),chat);
     }
 
 }
