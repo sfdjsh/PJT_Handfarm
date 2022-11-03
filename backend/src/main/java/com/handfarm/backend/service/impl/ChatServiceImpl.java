@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@ServerEndpoint(value="/chat") // WebSocket의 연결점을 알려주는 어노테이션
 public class ChatServiceImpl implements ChatService {
 
     private final ChatRedisRepository chatRedisRepository;
@@ -41,11 +40,12 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public List<ChatListViewDto> getChatList(String decodeId) { // 채팅 목록 조회
-        List<ChatListViewDto> chatList = new ArrayList<>();
+
         UserEntity user = userRepository.findByUserId(decodeId).get();
         List<ChatInfoEntity> chatInfoList = chatInfoRepository.findByUserChatInfo(user);
 
         if (!chatInfoList.isEmpty()) {
+            List<ChatListViewDto> chatList = new ArrayList<>();
             for (ChatInfoEntity c : chatInfoList) {
                 String roomId = String.valueOf(c.getIdx());
                 Object chatInfo = redisTemplate.opsForList().index(String.valueOf(c.getIdx()), 0);
@@ -54,22 +54,26 @@ public class ChatServiceImpl implements ChatService {
                 mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // timestamp 형식 안따르도록 설정
                 mapper.registerModules(new JavaTimeModule(), new Jdk8Module());
                 ChatEntity chatEntity = mapper.convertValue(chatInfo, ChatEntity.class);
-                System.out.println(chatEntity);
+//                System.out.println(chatEntity);
                 ChatInfoEntity chatRoomInfo = chatInfoRepository.findByIdx(Integer.valueOf(roomId));
 
                 UserEntity personA = chatRoomInfo.getPersonA();
                 UserEntity personB = chatRoomInfo.getPersonB();
                 if (personA.getUserId().equals(decodeId)) {
-                    chatList.add(new ChatListViewDto(chatEntity.getRoomId(), personB.getUserNickname(), personB.getUserProfile(), chatEntity.getContent(), chatEntity.getTime()));
+                    ChatListViewDto chatListViewDto = ChatListViewDto.builder().roomId(chatEntity.getRoomId()).anotherUserNickname(personB.getUserNickname())
+                                    .content(chatEntity.getContent()).time(chatEntity.getTime()).anotherUserProfileImg(personB.getUserProfile()).build();
+                    chatList.add(chatListViewDto);
                 } else {
-                    chatList.add(new ChatListViewDto(chatEntity.getRoomId(), personA.getUserNickname(), personB.getUserProfile(), chatEntity.getContent(), chatEntity.getTime()));
+                    ChatListViewDto chatListViewDto = ChatListViewDto.builder().roomId(chatEntity.getRoomId()).anotherUserNickname(personA.getUserNickname())
+                            .content(chatEntity.getContent()).time(chatEntity.getTime()).anotherUserProfileImg(personA.getUserProfile()).build();
+                    chatList.add(chatListViewDto);
                 }
             }
 
             return chatList;
-        } else { // 채팅 내용 없음.
-            return new ArrayList<>();
         }
+
+        return new ArrayList<>();
     }
 
     @Override
