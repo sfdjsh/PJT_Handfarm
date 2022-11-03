@@ -1,10 +1,9 @@
-import React, {useEffect} from 'react';
-import { AppBar, IconButton, Divider, Box } from '@mui/material'
-import NotificationsIcon from '@mui/icons-material/NotificationsNone';
-import { display } from '@mui/system';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import {Grid} from "@mui/material";
-import {useNavigate} from "react-router-dom";
+import React, { useEffect } from 'react';
+import { IconButton, Box, Badge } from '@mui/material'
+import axios from 'axios';
+import { BASE_URL } from '../../config';
+import { useState } from 'react';
+import AlarmModal from '../alarm/AlarmModal'
 
 export const Header = () => {
   const location = window.location.pathname
