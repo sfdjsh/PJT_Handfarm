@@ -46,11 +46,11 @@ public class RedisRepositoryTest {
 
     @Test
     void 채팅보내기(){
-        String decodeId = "aa981204@daum.net"; // header에 있어.
-        String toUserNickname = "석호"; // 내가 클릭 하면 알 수 있어
+        String decodeId = "kiki249@naver.com"; // header에 있어.
+        String toUserNickname = "혜진"; // 내가 클릭 하면 알 수 있어
 //        String roomId = "21"; // 클릭하면 알고 있어
 
-        String content = "앙뇽"; // 보내야될 메시지 -> webSocket으로 통신
+        String content = "집에가자!!"; // 보내야될 메시지 -> webSocket으로 통신
 
         String msg = "";
         //
@@ -69,7 +69,7 @@ public class RedisRepositoryTest {
             System.out.println("채팅 방 번호 : " + roomId);
         }
 
-        ChatEntity chat = new ChatEntity(String.valueOf(roomId), personB.getUserId(), content, LocalDateTime.now());
+        ChatEntity chat = new ChatEntity(String.valueOf(roomId), personA.getUserId(), personB.getUserId(), content, LocalDateTime.now());
         redisTemplate.opsForList().leftPush(String.valueOf(roomId),chat);
 //        redisTemplate.expireAt(String.valueOf(roomId), Date.from(ZonedDateTime.now().plusMinutes(5).toInstant())); // 유효기간 TTL 30일
     }
@@ -99,9 +99,9 @@ public class RedisRepositoryTest {
                 UserEntity personA = chatRoomInfo.getPersonA();
                 UserEntity personB = chatRoomInfo.getPersonB();
                 if(personA.getUserId().equals(decodeId)){
-                    chatList.add(new ChatListViewDto(chatEntity.getRoomId(), personB.getUserNickname(), personB.getUserProfile(),chatEntity.getContent(), chatEntity.getTime()));
+                    chatList.add(new ChatListViewDto(chatEntity.getRoomId(), personB.getUserNickname(), personB.getUserProfile(),chatEntity.getMsg(), chatEntity.getTime()));
                 }else{
-                    chatList.add(new ChatListViewDto(chatEntity.getRoomId(), personA.getUserNickname(), personB.getUserProfile(),chatEntity.getContent(), chatEntity.getTime()));
+                    chatList.add(new ChatListViewDto(chatEntity.getRoomId(), personA.getUserNickname(), personB.getUserProfile(),chatEntity.getMsg(), chatEntity.getTime()));
                 }
             }
 
