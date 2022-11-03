@@ -9,7 +9,7 @@ export const FarmCreate = () => {
                 <Divider style={{ backgroundColor: "white" }} />
 
                 <Container>
-                    <Box>
+                    <Box sx={{mt:3}}>
                         <h3>기기</h3>
                         <TextField variant="outlined" label="기기 등록" fullWidth
                         sx={{
@@ -19,17 +19,17 @@ export const FarmCreate = () => {
                                 backgroundColor : "white"
                             }}} />
                     </Box>
-                    <Box>
+                    <Box sx={{mt:3}}>
                         <h3>농장 이름</h3>
                         <TextField variant="outlined" label="농장 이름을 등록해주세요." fullWidth
                         sx={{
                             ' .MuiOutlinedInput-root': {
                                 color: 'black',
                                 border : '1px solid white',
-                                backgroundColor : "white"
+                                backgroundColor : "white",
                             }}} />
                     </Box>
-                    <Box>
+                    <Box sx={{mt:3}}>
                         <h3>작물</h3>
                         <TextField variant="outlined" label="작물을 등록해주세요." fullWidth
                         sx={{
@@ -42,7 +42,7 @@ export const FarmCreate = () => {
                 </Container>
 
                 <Box style={
-                    { display: 'flex', justifyContent: 'center', marginTop: '40px' }}>
+                    { display: 'flex', justifyContent: 'center', marginTop: '60px' }}>
                     <Button variant="contained" sx={{ width: 80, height: 60, mr:4, background:'#424B5A'}}
                     ><h3>등록</h3>
                     </Button>

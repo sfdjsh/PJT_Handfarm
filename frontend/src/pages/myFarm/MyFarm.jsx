@@ -1,9 +1,6 @@
-import axios from "axios";
 import React, { useEffect } from "react";
-import Alarm from "../api/Alarm";
 import { LOCAL_URL } from "../../config";
-import Header from "../../components/common/Header";
-import Footer from "../../components/common/Footer";
+import axios from "axios";
 import {
   Container,
   Box,
@@ -113,7 +110,6 @@ const MyFarm = () => {
           </Button>
         </Grid>
       </Container>
-      <Footer />
     </>
   );
 };

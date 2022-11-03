@@ -24,11 +24,10 @@ import CommentForm from "./components/common/CommentForm";
 import MyPage from "./pages/myPage/MyPage"
 import {CreateReadChat} from "./pages/chat/CreateReadChat";
 
-// scrollbar.init(document.querySelector('#smooth-scroll'))
 
 function App() {
   const location = useLocation();
-
+  
   useEffect(() => {
     console.log(location);
   }, [ location ])
@@ -39,7 +38,6 @@ function App() {
       <Box sx={{ display : "flex", flexDirection : "column", height : "100vh" }}>
        <Box sx={{ flex : 1 }}>
         <Header />
-        {/* <Navbar/> */}
         <Routes>
           <Route exact path="/" element={<Login />} />
           <Route exact path="/community" element={<FarmmunityMain />}></Route>
@@ -59,7 +57,7 @@ function App() {
           <Route exact path="/myfarm" element={<MyFarm />}></Route>
           <Route exact path="/sensor/detail" element={<SensorDetail />}></Route>
           <Route exact path="/control/detail" element={<ControlDetail />}></Route>
-          <Route exact path="/mypage" element={<MyPage />}></Route>
+          <Route exact path='/mypage/:nickname' element={<MyPage />}></Route>
         </Routes>
        </Box>
         { location.pathname === '/' || (location.pathname.split('/')[2] === 'info' && parseInt(location.pathname.split('/')[3]) >= 1 ) || location.pathname === '/chat'? (<CommentForm/>) : (<Footer />) }
