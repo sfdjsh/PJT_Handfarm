@@ -15,7 +15,7 @@ export function CreateReadChat() {
     const [chatList, setChatList] = useState([]);
     const [chat, setChat] = useState('');
     const [nowUser, setNowUser] = useRecoilState(userInfo)
-    const  apply_id  = 1
+    const  apply_id  = 28
     const client = useRef({});
     console.log(chatList)
     console.log(chat)
@@ -38,7 +38,7 @@ export function CreateReadChat() {
             body: JSON.stringify({
                 roomId: apply_id,
                 msg : chat,
-                toUserNickname : "혜진",
+                toUserNickname : "승우",
                 sendUserNickname : nowUser.userNickname
             }),
         });
