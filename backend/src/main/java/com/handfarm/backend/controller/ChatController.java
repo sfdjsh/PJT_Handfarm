@@ -64,6 +64,7 @@ public class ChatController {
                 status = HttpStatus.OK;
             }
         }catch (Exception e){
+            e.printStackTrace();
             resultMap.put("message", fail);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
