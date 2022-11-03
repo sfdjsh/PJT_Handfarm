@@ -63,11 +63,11 @@ public class ChatServiceImpl implements ChatService {
                     UserEntity personB = chatRoomInfo.getPersonB();
                     if (personA.getUserId().equals(decodeId)) {
                         ChatListViewDto chatListViewDto = ChatListViewDto.builder().roomId(chatEntity.getRoomId()).anotherUserNickname(personB.getUserNickname())
-                                .content(chatEntity.getContent()).time(chatEntity.getTime()).anotherUserProfileImg(personB.getUserProfile()).build();
+                                .content(chatEntity.getMsg()).time(chatEntity.getTime()).anotherUserProfileImg(personB.getUserProfile()).build();
                         chatList.add(chatListViewDto);
                     } else {
                         ChatListViewDto chatListViewDto = ChatListViewDto.builder().roomId(chatEntity.getRoomId()).anotherUserNickname(personA.getUserNickname())
-                                .content(chatEntity.getContent()).time(chatEntity.getTime()).anotherUserProfileImg(personA.getUserProfile()).build();
+                                .content(chatEntity.getMsg()).time(chatEntity.getTime()).anotherUserProfileImg(personA.getUserProfile()).build();
                         chatList.add(chatListViewDto);
                     }
                 }else{
@@ -84,7 +84,6 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public List<ChatDetailDto> getChatDetail(String decodeId, String roomId) { // 채팅 내용 상세 조회
         List<ChatDetailDto> chatList = new ArrayList<>();
-
         List<ChatEntity> chat = redisTemplate.opsForList().range(roomId, 0, redisTemplate.opsForList().size(roomId));
 
         if(chat.isEmpty()){
@@ -99,10 +98,12 @@ public class ChatServiceImpl implements ChatService {
                 mapper.registerModules(new JavaTimeModule(), new Jdk8Module());
                 ChatEntity chatEntity = mapper.convertValue(chatObject, ChatEntity.class);
 
+                UserEntity sendUser = userRepository.findByUserId(chatEntity.getSendUserId()).get();
                 UserEntity toUser = userRepository.findByUserId(chatEntity.getToUserId()).get();
                 ChatDetailDto chatDetailDto = ChatDetailDto.builder()
+                        .sendUserNickname(sendUser.getUserNickname())
                         .toUserNickname(toUser.getUserNickname())
-                        .content(chatEntity.getContent())
+                        .msg(chatEntity.getMsg())
                         .time(chatEntity.getTime())
                         .build();
 
@@ -147,15 +148,15 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public void saveMessageRedis(ChatDto chatDto) {
-        String loginUserNickname = chatDto.getLoginUserNickname();
+        String sendUserNickname = chatDto.getSendUserNickname();
         String toUserNickname = chatDto.getToUserNickname();
         String msg = chatDto.getMsg();
         Integer roomId = chatDto.getRoomId();
 
-        UserEntity personA = userRepository.findByUserNickname(loginUserNickname).get();
-        UserEntity personB = userRepository.findByUserNickname(toUserNickname).get();
+        UserEntity sendUser = userRepository.findByUserNickname(sendUserNickname).get();
+        UserEntity toUser = userRepository.findByUserNickname(toUserNickname).get();
 
-        ChatEntity chat = new ChatEntity(String.valueOf(roomId), personB.getUserId(), msg, LocalDateTime.now());
+        ChatEntity chat = new ChatEntity(String.valueOf(roomId), sendUser.getUserId(), toUser.getUserId(), msg, LocalDateTime.now());
         redisTemplate.opsForList().leftPush(String.valueOf(roomId),chat);
     }
 
