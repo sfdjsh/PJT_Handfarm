@@ -17,12 +17,14 @@ public class ChatEntity {
     @Id
     private String roomId;
 
+    private String sendUserId;
     private String toUserId;
     private String content;
     private LocalDateTime time;
 
-    public ChatEntity(String roomId, String toUserId, String content, LocalDateTime time) {
+    public ChatEntity(String roomId, String sendUserId, String toUserId, String content, LocalDateTime time) {
         this.roomId = roomId;
+        this.sendUserId = sendUserId;
         this.toUserId = toUserId;
         this.content = content;
         this.time = time;
