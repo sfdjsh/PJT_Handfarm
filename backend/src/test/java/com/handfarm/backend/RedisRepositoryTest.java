@@ -69,7 +69,7 @@ public class RedisRepositoryTest {
             System.out.println("채팅 방 번호 : " + roomId);
         }
 
-        ChatEntity chat = new ChatEntity(String.valueOf(roomId), personB.getUserId(), content, LocalDateTime.now());
+        ChatEntity chat = new ChatEntity(String.valueOf(roomId), personA.getUserId(), personB.getUserId(), content, LocalDateTime.now());
         redisTemplate.opsForList().leftPush(String.valueOf(roomId),chat);
 //        redisTemplate.expireAt(String.valueOf(roomId), Date.from(ZonedDateTime.now().plusMinutes(5).toInstant())); // 유효기간 TTL 30일
     }
