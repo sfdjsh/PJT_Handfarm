@@ -18,10 +18,10 @@ import ControlDetail from "./pages/myFarm/ControlDetail";
 import CommunityInfo from "./pages/community/CommunityInfo";
 import CommunityRegion from "./pages/community/CommunityRegion";
 import { useLocation } from 'react-router-dom';
-import {useEffect} from "react";
 import FarmmunityInfoDetail from "./pages/community/FarmmunityInfoDetail";
 import Box from "@mui/material/Box";
 import CommentForm from "./components/common/CommentForm";
+import {CreateReadChat} from "./pages/chat/CreateReadChat";
 
 // scrollbar.init(document.querySelector('#smooth-scroll'))
 
@@ -30,8 +30,6 @@ function App() {
 
   useEffect(() => {
     console.log(location);
-    console.log(location.pathname.split('/'))
-    console.log(typeof parseInt(location.pathname.split('/')[3]))
   }, [ location ])
 
   return (
@@ -54,6 +52,7 @@ function App() {
             path="/myfarm/registing"
             element={<FarmRegisting />}
           ></Route>
+            <Route exact path="/chat" element={<CreateReadChat/>}></Route>
           <Route exact path="/myfarm/create" element={<FarmCreate />}></Route>
           <Route exact path="/kakao" element={<Kakao />}></Route>
           <Route exact path="/myfarm" element={<MyFarm />}></Route>
@@ -61,7 +60,7 @@ function App() {
           <Route exact path="/control/detail" element={<ControlDetail />}></Route>
         </Routes>
        </Box>
-        { location.pathname === '/' || (location.pathname.split('/')[2] === 'info' && parseInt(location.pathname.split('/')[3]) >= 1 )? (<CommentForm/>) : (<Footer />) }
+        { location.pathname === '/' || (location.pathname.split('/')[2] === 'info' && parseInt(location.pathname.split('/')[3]) >= 1 ) || location.pathname === '/chat'? (<CommentForm/>) : (<Footer />) }
       </Box>
     </>
   );
