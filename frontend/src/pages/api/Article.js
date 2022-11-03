@@ -16,6 +16,6 @@ export async function articleCreate (userInput) {
             articleImg : userInput.articleImg
         }),
     })
-
+    return response
 
 }
