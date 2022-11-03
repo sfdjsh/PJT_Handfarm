@@ -1,7 +1,10 @@
 import React from "react";
 import AlarmInfo from "./AlarmInfo";
-import { Box, Modal, Button } from "@mui/material";
+import ModalState from "./AlarmInfo";
+import { Box, Modal } from "@mui/material";
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import { useRecoilState } from 'recoil';
+import {alarmState} from "../../atom"
 
 const style = {
   position: "absolute",
@@ -16,7 +19,7 @@ const style = {
 };
 
 const AlarmModal = () => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useRecoilState(alarmState);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -34,6 +37,7 @@ const AlarmModal = () => {
       >
         <Box sx={style}>
           <AlarmInfo />
+          <ModalState open={open} />
         </Box>
       </Modal>
     </>
