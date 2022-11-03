@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Box from "@mui/material/Box";
 import SelectForm from "../../components/common/SelectForm";
 import Avatar from '@mui/material/Avatar';
@@ -10,13 +10,28 @@ import Divider from "@mui/material/Divider";
 import ArticleFilter from "../../components/common/ArticleFilter";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import BasicCard from "../../components/common/Card";
+import SelectFormRegion from "../../components/common/SelectFormRegion";
+import {useEffect} from "react";
+import {fetchRegionArticle} from "../api/Farmmunity";
+import {nowRegion} from "../../atom";
+import {useRecoilState} from "recoil";
 
 const CommunityInfo = () => {
+    const [regionArticle, setRegionArticle] = useState([])
+    const [region, setRegion] = useRecoilState(nowRegion)
+
+    useEffect(() => {
+        const getArticle = fetchRegionArticle(region)
+            .then((res) => res.json().then((res) => {
+                console.log(res)
+                setRegionArticle(res)
+            }))
+    })
 
     return (
         <Box>
             <Box sx={{ display : "flex", justifyContent : "start" }}>
-                <SelectForm/>
+                <SelectFormRegion/>
             </Box>
             <Box sx={{ display : "flex", justifyContent : "center", alignItems : "center" }}>
                 <Avatar
@@ -43,6 +58,9 @@ const CommunityInfo = () => {
                 <ArticleFilter/>
             </Box>
             <Box>
+                {/*{ regionArticle.map((article,index) => {*/}
+                {/*    <BasicCard article={article}/>*/}
+                {/*} )}*/}
                 <BasicCard/>
             </Box>
         </Box>

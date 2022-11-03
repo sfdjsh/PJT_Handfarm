@@ -21,9 +21,9 @@ const FarmmunityMain = () => {
     return (
         <Box>
             <Typography sx={{ fontWeight : "bold", mt : 5, textAlign : "center" }} variant="h4" component="h3">🍒Farmmunity🍓</Typography>
-            {/*<img style={{ width : "300px", height : "400px" }} alt="logo" src={handFarmLogo}  />*/}
             {/*<Box sx={{ backgroundImage : url(${handFarmLogo}) }}></Box>*/}
             <Box sx={{ display : "flex", justifyContent: "center", alignItems : "center" }}>
+                {/*<img style={{ width : "300px", height : "400px" }} alt="logo" src="handFarmNew.png"  />*/}
                 <LogoDiv/>
             </Box>
             <Box sx={{ display : "flex", justifyContent : "center", alignItems : "center", flexDirection : "column" }}>

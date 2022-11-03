@@ -10,8 +10,25 @@ import Divider from "@mui/material/Divider";
 import ArticleFilter from "../../components/common/ArticleFilter";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import DialButton from "../../components/common/DialButton";
+import {fetchInfoArticle} from "../api/Farmmunity";
+import {useEffect, useState} from "react";
+import {nowCrop} from "../../atom";
+import {useRecoilState} from "recoil";
+import {useNavigate} from "react-router-dom";
 
-const CommunityInfo = () => {
+
+export const CommunityInfo = () => {
+    const navigator = useNavigate()
+    const [infoArticle, setInfoArticle] = useState([])
+    const [crop, setCrop] = useRecoilState(nowCrop)
+
+    useEffect(() => {
+        const getArticle = fetchInfoArticle(crop)
+            .then((res) => res.json().then((res) => {
+                console.log(res)
+                setInfoArticle(res)
+            }))
+    })
 
     return (
         <Box>
@@ -43,7 +60,27 @@ const CommunityInfo = () => {
                 <ArticleFilter/>
             </Box>
             <Box>
-                <Grid container spacing={1}>
+                {/*{ infoArticle.map((article, index) => {*/}
+                {/*    <Grid container spacing={1}>*/}
+                {/*        <Grid item xs={4}>*/}
+                {/*            <Avatar*/}
+                {/*                alt="Remy Sharp"*/}
+                {/*                src="https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/201502/04/htm_20150204185442c010c011.jpg"*/}
+                {/*                sx={{ m : 2, width: 100, height: 100, boxShadow: '1px 2px 9px #F4AAB9' }}*/}
+                {/*            />*/}
+                {/*        </Grid>*/}
+                {/*        <Grid item xs={8}>*/}
+                {/*            <p style={{ textAlign : "left", lineHeight : "25px", color : "white", margin : "0px" , marginTop : "45px", textOverflow : "ellipsis", overflow : "hidden", whiteSpace : "nowrap" }}>*/}
+                {/*                딸기 키우는 개꿀팁 방출!*/}
+                {/*            </p>*/}
+                {/*            <Box sx={{mt : 2, display : "flex" ,fontSize : "20px", alignItems : "center", justifyContent : "start", color : "#B3B3B3" }}><span style={{ fontSize : "15px", margin : "5px" }}>123</span><PermIdentityIcon/><span style={{ fontSize : "15px", margin : "5px" }}>1234</span><FavoriteBorderIcon/></Box>*/}
+                {/*        </Grid>*/}
+                {/*    </Grid>*/}
+                {/*    <Divider sx={{ backgroundColor : "#757575", marginLeft: '5%', marginRight: '5%' }}/>*/}
+                {/*}) }*/}
+                <Grid container spacing={1} onClick={() => {
+                    navigator('/community/info/1')
+                }}>
                     <Grid item xs={4}>
                         <Avatar
                             alt="Remy Sharp"

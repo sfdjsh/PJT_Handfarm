@@ -5,16 +5,16 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import {useState} from "react";
-import {nowCrop} from "../../atom";
+import {nowRegion} from "../../atom";
 import {useRecoilState} from "recoil";
 
 
-export default function SelectForm() {
-    const [crop, setCrop] = useRecoilState(nowCrop);
-    console.log(crop)
+export default function SelectFormRegion() {
+    const [region, setRegion] = useRecoilState(nowRegion);
+    console.log(region)
 
     const handleChange = (event) => {
-        setCrop(event.target.value);
+        setRegion(event.target.value);
     };
 
     return (
@@ -24,17 +24,19 @@ export default function SelectForm() {
                 backgroundColor : "white"
             }, }}>
             <Select
-                value={crop}
+                value={region}
                 onChange={handleChange}
                 displayEmpty
                 inputProps={{ 'aria-label': 'Without label' }}
                 sx={{ fontFamily : "ScoreDream", m : 1 }}
             >
                 <MenuItem value="">
-                    딸기
+                    광주
                 </MenuItem>
-                <MenuItem value={10}>방울 토마토</MenuItem>
-                <MenuItem value={20}>파프리카</MenuItem>
+                <MenuItem value={10}>서울</MenuItem>
+                <MenuItem value={20}>대전</MenuItem>
+                <MenuItem value={30}>부산</MenuItem>
+                <MenuItem value={40}>구미</MenuItem>
             </Select>
             {/*<FormHelperText>Without label</FormHelperText>*/}
         </FormControl>

@@ -4,17 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4b81b8fd-fc66-4b80-83f5-fee977677905" name="Changes" comment="farmmunity Info, region">
-      <change afterPath="$PROJECT_DIR$/src/components/common/CommentForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/common/DialButton.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/community/FarmmunityInfoDetail.jsx" afterDir="false" />
+    <list default="true" id="4b81b8fd-fc66-4b80-83f5-fee977677905" name="Changes" comment="farmmunity pages">
+      <change afterPath="$PROJECT_DIR$/src/components/common/SelectFormRegion.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/api/Farmmunity.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/common/Footer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/Footer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/common/Header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/Header.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/atom.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/atom.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/SelectForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/SelectForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/api/Article.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/Article.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/auth/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/auth/Login.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/community/CommunityInfo.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/community/CommunityInfo.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/community/CommunityRegion.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/community/CommunityRegion.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/community/FarmmunityInfoDetail.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/community/FarmmunityInfoDetail.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/community/FarmmunityMain.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/community/FarmmunityMain.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -41,6 +43,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Git.Branch.Popup.ShowAllRemotes&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
@@ -65,7 +68,10 @@
       <workItem from="1666828729060" duration="2831000" />
       <workItem from="1666848317351" duration="2084000" />
       <workItem from="1666850550646" duration="5339000" />
-      <workItem from="1667259695171" duration="22223000" />
+      <workItem from="1667175507576" duration="20288000" />
+      <workItem from="1667291799890" duration="625000" />
+      <workItem from="1667346182810" duration="14037000" />
+      <workItem from="1667369829719" duration="5277000" />
     </task>
     <servers />
   </component>
