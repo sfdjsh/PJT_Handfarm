@@ -11,6 +11,7 @@ import com.handfarm.backend.domain.entity.UserEntity;
 import com.handfarm.backend.repository.ChatInfoRepository;
 import com.handfarm.backend.repository.ChatRedisRepository;
 import com.handfarm.backend.repository.UserRepository;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,7 +27,7 @@ import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
-//@Disabled
+@Disabled
 public class RedisRepositoryTest {
 
     private final ChatInfoRepository chatInfoRepository;
@@ -45,9 +46,14 @@ public class RedisRepositoryTest {
 
     @Test
     void 채팅보내기(){
-        String decodeId = "tkdltprp0212@naver.com";
-        String toUserNickname = "강현";
-        String content = "ㅎㅇ...";
+        String decodeId = "kiki249@naver.com"; // header에 있어.
+        String toUserNickname = "혜진"; // 내가 클릭 하면 알 수 있어
+//        String roomId = "21"; // 클릭하면 알고 있어
+
+        String content = "집에가자!!"; // 보내야될 메시지 -> webSocket으로 통신
+
+        String msg = "";
+        //
 
         UserEntity personA = userRepository.findByUserId(decodeId).get();
         UserEntity personB = userRepository.findByUserNickname(toUserNickname).get();
@@ -63,7 +69,7 @@ public class RedisRepositoryTest {
             System.out.println("채팅 방 번호 : " + roomId);
         }
 
-        ChatEntity chat = new ChatEntity(String.valueOf(roomId), personB.getUserId(), content, LocalDateTime.now());
+        ChatEntity chat = new ChatEntity(String.valueOf(roomId), personA.getUserId(), personB.getUserId(), content, LocalDateTime.now());
         redisTemplate.opsForList().leftPush(String.valueOf(roomId),chat);
 //        redisTemplate.expireAt(String.valueOf(roomId), Date.from(ZonedDateTime.now().plusMinutes(5).toInstant())); // 유효기간 TTL 30일
     }
@@ -93,9 +99,9 @@ public class RedisRepositoryTest {
                 UserEntity personA = chatRoomInfo.getPersonA();
                 UserEntity personB = chatRoomInfo.getPersonB();
                 if(personA.getUserId().equals(decodeId)){
-                    chatList.add(new ChatListViewDto(chatEntity.getRoomId(), personB.getUserNickname(), personB.getUserProfile(),chatEntity.getContent(), chatEntity.getTime()));
+                    chatList.add(new ChatListViewDto(chatEntity.getRoomId(), personB.getUserNickname(), personB.getUserProfile(),chatEntity.getMsg(), chatEntity.getTime()));
                 }else{
-                    chatList.add(new ChatListViewDto(chatEntity.getRoomId(), personA.getUserNickname(), personB.getUserProfile(),chatEntity.getContent(), chatEntity.getTime()));
+                    chatList.add(new ChatListViewDto(chatEntity.getRoomId(), personA.getUserNickname(), personB.getUserProfile(),chatEntity.getMsg(), chatEntity.getTime()));
                 }
             }
 
