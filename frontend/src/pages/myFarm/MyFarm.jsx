@@ -113,7 +113,7 @@ const MyFarm = () => {
           </Button>
         </Grid>
       </Container>
-      <Footer />
+      {/*<Footer />*/}
     </>
   );
 };
