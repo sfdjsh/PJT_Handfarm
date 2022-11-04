@@ -1,5 +1,6 @@
 package com.handfarm.backend.domain.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,4 +31,10 @@ public class UserLikeArticlesEntity {
     private ArticleEntity article;
 
     private LocalDateTime time;
+
+    @Builder
+    public UserLikeArticlesEntity(UserEntity user, ArticleEntity article) {
+        this.user = user;
+        this.article = article;
+    }
 }
