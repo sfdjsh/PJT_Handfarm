@@ -129,10 +129,10 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public String createChatRoom(String decodeId, Integer userIdx) {
+    public String createChatRoom(String decodeId, String userNickname) {
         UserEntity loginUser = userRepository.findByUserId(decodeId).get();
         System.out.println(loginUser);
-        UserEntity toUser = userRepository.findByIdx(userIdx).get();
+        UserEntity toUser = userRepository.findByUserNickname(userNickname).get();
 
         String roomId;
         Optional<ChatInfoEntity> chatInfoEntity = chatInfoRepository.findByPersonAOrPersonB(loginUser, toUser);
