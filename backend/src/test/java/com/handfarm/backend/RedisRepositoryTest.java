@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
-//@Disabled
+@Disabled
 public class RedisRepositoryTest {
 
     private final ChatInfoRepository chatInfoRepository;
