@@ -10,18 +10,26 @@ import TextField from "@mui/material/TextField";
 import './chatting.css'
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import Avatar from '@mui/material/Avatar';
+import { fetchMyChatDetail } from '../api/Chatting';
 
 export function CreateReadChat() {
     const [chatList, setChatList] = useState([]);
     const [chat, setChat] = useState('');
     const [nowUser, setNowUser] = useRecoilState(userInfo)
-    const  apply_id  = 28
+    const  apply_id  = 29
     const client = useRef({});
     console.log(chatList)
     console.log(chat)
+    useEffect(() => {
+        fetchMyChatDetail(apply_id)
+            .then((res) => res.json().then((res) => {
+                console.log(res)
+                setChatList(res.chatDetail)
+            }))
+    }, [])
     const connect = () => {
         client.current = new StompJs.Client({
-            brokerURL: 'ws://localhost:8081/ws',
+            brokerURL: 'ws://handfarm.co.kr:8081/ws',
             onConnect: () => {
                 console.log('success');
                 subscribe();
@@ -38,7 +46,7 @@ export function CreateReadChat() {
             body: JSON.stringify({
                 roomId: apply_id,
                 msg : chat,
-                toUserNickname : "승우",
+                toUserNickname : "강현",
                 sendUserNickname : nowUser.userNickname
             }),
         });
