@@ -1,6 +1,7 @@
 package com.handfarm.backend.controller;
 
 import com.handfarm.backend.domain.dto.article.ArticleRegistDto;
+import com.handfarm.backend.domain.dto.article.ArticleViewDto;
 import com.handfarm.backend.service.FarmmunityService;
 import com.handfarm.backend.service.KakaoService;
 import com.handfarm.backend.service.UserService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -53,7 +55,7 @@ public class FarmmunityController {
     }
 
     @GetMapping("/{domain}/{category}") // 게시글 조회
-    public ResponseEntity<?> getArticleList(HttpServletRequest request, @RequestBody ArticleRegistDto articleRegistDto, @PathVariable("domain") String domain, @PathVariable("category") String category){
+    public ResponseEntity<?> getArticleList(HttpServletRequest request, @PathVariable("domain") String domain, @PathVariable("category") String category){
         Map<String, Object> resultMap = new HashMap<>();
         try{
             if (!kakaoService.CheckAccessToken(request.getHeader("accessToken"))) {
@@ -61,7 +63,8 @@ public class FarmmunityController {
                 status = HttpStatus.UNAUTHORIZED;
             }else{
                 String decodeId = checkToken(request, resultMap);
-                farmmunityService.getArticleList(decodeId, domain, category);
+                List<ArticleViewDto> articleList = farmmunityService.getArticleList(decodeId, domain, category);
+                resultMap.put("articleList", articleList);
                 resultMap.put("message", success);
                 status = HttpStatus.OK;
             }
@@ -73,6 +76,27 @@ public class FarmmunityController {
         return new ResponseEntity<>(resultMap, status);
     }
 
+    @GetMapping("/like/{article_idx}") // 좋아요,좋아요취소
+    public ResponseEntity<?> likeArticle(HttpServletRequest request, @PathVariable("article_idx") Integer articleIdx){
+        Map<String, Object> resultMap = new HashMap<>();
+        try{
+            if (!kakaoService.CheckAccessToken(request.getHeader("accessToken"))) {
+                resultMap.put("message", timeOut);
+                status = HttpStatus.UNAUTHORIZED;
+            }else{
+                String decodeId = checkToken(request, resultMap);
+                Boolean isLikeClick = farmmunityService.likeArticle(decodeId, articleIdx);
+                resultMap.put("isLikeClick", isLikeClick);
+                resultMap.put("message", success);
+                status = HttpStatus.OK;
+            }
+        }catch (Exception e){
+            resultMap.put("message", fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        return new ResponseEntity<>(resultMap, status);
+    }
     public String checkToken(HttpServletRequest request, Map<String, Object> resultMap){
         String accessToken = request.getHeader("accessToken"); // access-token 정보
         String decodeId = kakaoService.decodeToken(accessToken);

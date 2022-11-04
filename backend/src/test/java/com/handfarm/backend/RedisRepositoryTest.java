@@ -21,13 +21,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @SpringBootTest
-//@Disabled
+@Disabled
 public class RedisRepositoryTest {
 
     private final ChatInfoRepository chatInfoRepository;
@@ -44,6 +41,18 @@ public class RedisRepositoryTest {
         this.userRepository = userRepository;
     }
 
+    @Test
+    void 타이머_테스트(){
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("------ㅎㅇㅎㅇ-------");
+
+            }
+        };
+
+        new Timer().scheduleAtFixedRate(task, 0l, 3000);
+    }
     @Test
     void 채팅보내기(){
         String decodeId = "da9065@naver.com"; // header에 있어.
