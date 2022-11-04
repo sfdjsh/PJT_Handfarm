@@ -23,6 +23,7 @@ import Box from "@mui/material/Box";
 import CommentForm from "./components/common/CommentForm";
 import MyPage from "./pages/myPage/MyPage"
 import {CreateReadChat} from "./pages/chat/CreateReadChat";
+import {ChatList} from "./pages/chat/ChatList";
 
 
 function App() {
@@ -52,6 +53,7 @@ function App() {
             element={<FarmRegisting />}
           ></Route>
             <Route exact path="/chat" element={<CreateReadChat/>}></Route>
+            <Route exact path="/chatList" element={<ChatList/>}></Route>
           <Route exact path="/myfarm/create" element={<FarmCreate />}></Route>
           <Route exact path="/kakao" element={<Kakao />}></Route>
           <Route exact path="/myfarm" element={<MyFarm />}></Route>

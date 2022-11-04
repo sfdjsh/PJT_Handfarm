@@ -49,8 +49,8 @@ export const Footer = () => {
                         navigator('/community')
                     }}  label="커뮤니티" icon={<ChatBubbleOutlineIcon />} />
                     <BottomNavigationAction style={{ color : "white" }} onClick={() => {
-                        navigator('')
-                    }}  label="쪽지함"  icon={<MailOutlineOutlinedIcon />} />
+                        navigator('/chatList')
+                    }}  label="톡톡"  icon={<MailOutlineOutlinedIcon />} />
                     <BottomNavigationAction style={{ color : "white" }} onClick={() => {
                         navigator(`/mypage/${user.userNickname}`)
                     }}  label="프로필" icon={<PermIdentityOutlinedIcon />} />

@@ -52,7 +52,7 @@ export async function commentCreate(articleId) {
     const response = await fetch(URL, {
         method : "POST",
         headers : {
-            Authorization : "",
+            accessToken : "",
             "Content-Type" : "application/json",
         }
     })
@@ -64,7 +64,7 @@ export async function commentUpdate(id) {
     const response = await fetch(URL, {
         method : "PUT",
         headers : {
-            Authorization : "",
+            accessToken : "",
             "Content-Type" : "application/json",
         }
     })
