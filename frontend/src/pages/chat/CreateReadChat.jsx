@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import * as StompJs from '@stomp/stompjs';
+import {useLocation} from "react-router-dom";
 // import instance from '../../utils/axiosConfig';
 import Box from "@mui/material/Box";
 import {userInfo} from "../../atom";
@@ -11,20 +12,36 @@ import './chatting.css'
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import Avatar from '@mui/material/Avatar';
 import { fetchMyChatDetail } from '../api/Chatting';
+import {useCallback} from "react";
 
 export function CreateReadChat() {
-    const [chatList, setChatList] = useState([]);
+    const location = useLocation()
     const [chat, setChat] = useState('');
     const [nowUser, setNowUser] = useRecoilState(userInfo)
-    const  apply_id  = 29
+    const  apply_id  = useParams()
     const client = useRef({});
-    console.log(chatList)
-    console.log(chat)
+    const { toUserNickname } = location.state
+    const scrollRef = useRef();
+    const [chatList, setChatList] = useState([])
+    // const editDone = false
+    //
+    // const scrollToBottom = useCallback(() => {
+    //     if (editDone) {
+    //         // 스크롤 내리기
+    //         scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+    //     }
+    // }, [editDone]);
+    console.log(scrollRef.current)
     useEffect(() => {
-        fetchMyChatDetail(apply_id)
+        console.log("여기옴")
+        window.scrollTo(0,document.body.scrollHeight)
+    },[chatList])
+
+    useEffect(() => {
+        fetchMyChatDetail(parseInt(apply_id.id))
             .then((res) => res.json().then((res) => {
                 console.log(res)
-                setChatList(res.chatDetail)
+                setChatList(res.chatDetail.reverse())
             }))
     }, [])
     const connect = () => {
@@ -44,9 +61,9 @@ export function CreateReadChat() {
         client.current.publish({
             destination: '/pub/chat',
             body: JSON.stringify({
-                roomId: apply_id,
+                roomId: parseInt(apply_id.id),
                 msg : chat,
-                toUserNickname : "강현",
+                toUserNickname : toUserNickname,
                 sendUserNickname : nowUser.userNickname
             }),
         });
@@ -55,7 +72,7 @@ export function CreateReadChat() {
     };
 
     const subscribe = () => {
-        client.current.subscribe('/sub/chat/' + apply_id, (body) => {
+        client.current.subscribe('/sub/chat/' + apply_id.id, (body) => {
             const json_body = JSON.parse(body.body);
             setChatList((_chat_list) => [
                 ..._chat_list, json_body
@@ -86,7 +103,7 @@ export function CreateReadChat() {
     return (
         <div>
             {/*<div className={'chat-list'}>{chatList}</div>*/}
-            <Box className="wrap">
+            <Box className="wrap" ref={scrollRef}>
                 { chatList.map((chatting, index) => (
                      chatting.sendUserNickname === nowUser.userNickname ? (
                          <Box className="chat ch2">
