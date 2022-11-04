@@ -5,6 +5,7 @@ import handFarmLogo from '../../pictures/handFarmLogo.png'
 import styled from "styled-components";
 import {Button} from "@mui/material";
 import { useNavigate } from 'react-router-dom';
+import Divider from "@mui/material/Divider";
 
 const LogoDiv = styled.div`
   background-image: url(${handFarmLogo});
@@ -20,8 +21,9 @@ const FarmmunityMain = () => {
 
     return (
         <Box>
-            <Typography sx={{ fontWeight : "bold", mt : 5, textAlign : "center" }} variant="h4" component="h3">🍒Farmmunity🍓</Typography>
+            <Typography sx={{ fontWeight : "bold", mt : 2, textAlign : "center" }} variant="h4" component="h3">🍒Farmmunity🍓</Typography>
             {/*<Box sx={{ backgroundImage : url(${handFarmLogo}) }}></Box>*/}
+            <Divider sx={{ m : 1, backgroundColor : "#757575" }}/>
             <Box sx={{ display : "flex", justifyContent: "center", alignItems : "center" }}>
                 {/*<img style={{ width : "300px", height : "400px" }} alt="logo" src="handFarmNew.png"  />*/}
                 <LogoDiv/>
