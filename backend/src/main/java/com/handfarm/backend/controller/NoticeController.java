@@ -73,11 +73,17 @@ public class NoticeController {
     @PostMapping("/alarm/{notice_idx}")
     public ResponseEntity<?> readNotice(HttpServletRequest request, @PathVariable("notice_idx") Integer idx){
         Map<String, Object> resultMap = new HashMap<>();
-        String decodeId = checkToken(request, resultMap);
+
         try{
-            if(decodeId != null && noticeService.readNotice(decodeId, idx)){
-                resultMap.put("message",success);
-                status = HttpStatus.OK;
+            if (!kakaoService.CheckAccessToken(request.getHeader("accessToken"))) {
+                resultMap.put("message", timeOut);
+                status = HttpStatus.UNAUTHORIZED;
+            }else {
+                String decodeId = checkToken(request, resultMap);
+                if (noticeService.readNotice(decodeId, idx)) {
+                    resultMap.put("message", success);
+                    status = HttpStatus.OK;
+                }
             }
         }catch (Exception e){
             resultMap.put("message", fail);
@@ -90,11 +96,16 @@ public class NoticeController {
     @DeleteMapping("/alarm/{notice_idx}")
     public ResponseEntity<?> deleteNotice(HttpServletRequest request, @PathVariable("notice_idx") Integer idx){
         Map<String, Object> resultMap = new HashMap<>();
-        String decodeId = checkToken(request, resultMap);
         try{
-            if(decodeId != null && noticeService.deleteNotice(decodeId, idx)){
-                resultMap.put("message",success);
-                status = HttpStatus.OK;
+            if (!kakaoService.CheckAccessToken(request.getHeader("accessToken"))) {
+                resultMap.put("message", timeOut);
+                status = HttpStatus.UNAUTHORIZED;
+            }else {
+                String decodeId = checkToken(request, resultMap);
+                if (noticeService.deleteNotice(decodeId, idx)) {
+                    resultMap.put("message", success);
+                    status = HttpStatus.OK;
+                }
             }
         }catch (Exception e){
             resultMap.put("message", fail);

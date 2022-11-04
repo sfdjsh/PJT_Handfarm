@@ -7,10 +7,7 @@ import com.handfarm.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -34,17 +31,18 @@ public class FarmmunityController {
         this.userService = userService;
     }
 
-    @PostMapping("/{domain}/{category}")
-    public ResponseEntity<?> registArticle(HttpServletRequest request, ArticleRegistDto articleRegistDto){
+    @PostMapping("/{domain}/{category}") // 게시글 작성
+    public ResponseEntity<?> registArticle(HttpServletRequest request, @RequestBody ArticleRegistDto articleRegistDto, @PathVariable("domain") String domain, @PathVariable("category") String category){
         Map<String, Object> resultMap = new HashMap<>();
-        String decodeId = checkToken(request, resultMap);
-
         try{
-            if(decodeId != null){
-                farmmunityService.registArticle(articleRegistDto);
+            if (!kakaoService.CheckAccessToken(request.getHeader("accessToken"))) {
+                resultMap.put("message", timeOut);
+                status = HttpStatus.UNAUTHORIZED;
             }else{
-                resultMap.put("message", fail);
-                status = HttpStatus.INTERNAL_SERVER_ERROR;
+                String decodeId = checkToken(request, resultMap);
+                farmmunityService.registArticle(decodeId, articleRegistDto, domain, category);
+                resultMap.put("message", success);
+                status = HttpStatus.OK;
             }
         }catch (Exception e){
             resultMap.put("message", fail);
@@ -54,25 +52,26 @@ public class FarmmunityController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-//    @GetMapping("/test")
-//    public ResponseEntity<?> testDecodeId(HttpServletRequest request){
-//        Map<String, Object> resultMap = new HashMap<>();
-//        String decodeId = checkToken(request, resultMap);
-//
-//        try{
-//            if(decodeId != null){
-//                String nickname = userService.findByUserId(decodeId);
-//                resultMap.put("userNickname", nickname);
-//                resultMap.put("message", success);
-//                status = HttpStatus.OK;
-//            }
-//        }catch (Exception e){
-//            resultMap.put("message", fail);
-//            status = HttpStatus.INTERNAL_SERVER_ERROR;
-//        }
-//
-//        return new ResponseEntity<>(resultMap, status);
-//    }
+    @GetMapping("/{domain}/{category}") // 게시글 조회
+    public ResponseEntity<?> getArticleList(HttpServletRequest request, @RequestBody ArticleRegistDto articleRegistDto, @PathVariable("domain") String domain, @PathVariable("category") String category){
+        Map<String, Object> resultMap = new HashMap<>();
+        try{
+            if (!kakaoService.CheckAccessToken(request.getHeader("accessToken"))) {
+                resultMap.put("message", timeOut);
+                status = HttpStatus.UNAUTHORIZED;
+            }else{
+                String decodeId = checkToken(request, resultMap);
+                farmmunityService.getArticleList(decodeId, domain, category);
+                resultMap.put("message", success);
+                status = HttpStatus.OK;
+            }
+        }catch (Exception e){
+            resultMap.put("message", fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        return new ResponseEntity<>(resultMap, status);
+    }
 
     public String checkToken(HttpServletRequest request, Map<String, Object> resultMap){
         String accessToken = request.getHeader("accessToken"); // access-token 정보
