@@ -19,9 +19,18 @@ public class DeviceControlEntity {
 
     @ManyToOne
     @JoinColumn(name = "device_idx")
-    private DeviceEntity device;
+    private DeviceEntity deviceIdx;
 
     @ManyToOne
     @JoinColumn(name= "control_idx")
-    private ControlEntity control;
+    private ControlEntity controlIdx;
+
+    @Column(name = "device_control_auto")
+    private Integer autoControl;
+
+    @Column(name = "device_control_autoval")
+    private String autoControlval;
+
+    @Column(name = "device_control_manual")
+    private Integer manualControl;
 }
