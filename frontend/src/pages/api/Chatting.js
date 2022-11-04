@@ -14,7 +14,7 @@ export async function fetchMyChattingRooms(){
 }
 
 export async function fetchMyChatDetail(roomId){
-    const URL = `${BASE_URL}/chatList/${roomId}`
+    const URL = `${LOCAL_URL}/chatList/${roomId}`
     const response = await fetch(URL, {
         method : "GET",
         headers : {
