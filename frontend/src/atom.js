@@ -37,3 +37,9 @@ export const nowRegion = atom({
     default : "",
     effects_UNSTABLE : [persistAtom],
 })
+
+export const chatAnother = atom({
+    key : "chatAnother",
+    default : "",
+    effects_UNSTABLE : [persistAtom]
+})
