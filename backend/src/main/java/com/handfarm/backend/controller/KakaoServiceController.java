@@ -35,26 +35,16 @@ public class KakaoServiceController {
         Map<String, Object> resultMap = new HashMap<>();
 
         try{
-            String[] res = kakaoService.getKakaoAccessToken(code);
-
             Map<String, Object> userInfo = new HashMap<>();
-
-            userInfo.put("accessToken", res[0]);
-            userInfo.put("refreshToken", res[1]);
-            Map<String, Object> user = kakaoService.createKakaoUser(res[0]);
-            userInfo.put("userNickname", user.get("userNickname"));
-            userInfo.put("deviceNo", user.get("deviceNo"));
-
+            userInfo.putAll(kakaoService.getKakaoAccessToken(code));
+            userInfo.putAll(kakaoService.createKakaoUser((String) userInfo.get("accessToken")));
             resultMap.put("message", success);
-            resultMap.put("isRegisted", user.get("isRegisted"));
             resultMap.put("userInfo", userInfo);
-
             status = HttpStatus.OK;
         } catch (IOException e) {
             resultMap.put("message", fail);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
-
         return new ResponseEntity<>(resultMap, status);
     }
 
