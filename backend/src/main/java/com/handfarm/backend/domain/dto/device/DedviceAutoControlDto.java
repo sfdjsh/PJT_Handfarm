@@ -1,4 +1,4 @@
-package com.handfarm.backend.domain.dto;
+package com.handfarm.backend.domain.dto.device;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserDto {
-    private String userNickname;
-    private String userProfileImg;
+public class DedviceAutoControlDto {
+    private String controlName;
+    private Integer controlValue;
 }
