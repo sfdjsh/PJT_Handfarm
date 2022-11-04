@@ -2,7 +2,11 @@ package com.handfarm.backend.service.impl;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.handfarm.backend.domain.entity.DeviceEntity;
+import com.handfarm.backend.domain.entity.UserDeviceEntity;
 import com.handfarm.backend.domain.entity.UserEntity;
+import com.handfarm.backend.repository.DeviceRepository;
+import com.handfarm.backend.repository.UserDeviceRepository;
 import com.handfarm.backend.repository.UserRepository;
 import com.handfarm.backend.service.KakaoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,21 +16,28 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 @Service
 public class KakoServiceImpl implements KakaoService {
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final UserDeviceRepository userDeviceRepository;
 
-    private String cliend_id = "115759604dfe8a9071598cf92c78fc6d";
+    private final DeviceRepository deviceRepository;
+
+    private final String cliend_id = "115759604dfe8a9071598cf92c78fc6d";
 
     @Autowired
-    KakoServiceImpl(UserRepository userRepository){
+    KakoServiceImpl(UserRepository userRepository, UserDeviceRepository userDeviceRepository, DeviceRepository deviceRepository){
         this.userRepository = userRepository;
+        this.userDeviceRepository = userDeviceRepository;
+        this.deviceRepository = deviceRepository;
     }
 
-    public String[] getKakaoAccessToken (String code ) throws IOException{                // 로그인 시도 서비스
+    public Map<String, Object> getKakaoAccessToken (String code ) throws IOException{                // 로그인 시도 서비스
+        Map<String, Object> resultMap = new HashMap<>();
         String[] res = new String[2];
         String access_Token = "";
         String refresh_Token = "";
@@ -70,11 +81,8 @@ public class KakoServiceImpl implements KakaoService {
 
             access_Token = element.getAsJsonObject().get("access_token").getAsString();
             refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
-
-            res[0] = access_Token;
-            res[1] = refresh_Token;
-            System.out.println("access_token : " + access_Token);
-            System.out.println("refresh_token : " + refresh_Token);
+            resultMap.put("accessToken", access_Token);
+            resultMap.put("refreshToken", refresh_Token);
 
             br.close();
             bw.close();
@@ -82,7 +90,7 @@ public class KakoServiceImpl implements KakaoService {
             e.printStackTrace();
         }
 
-        return res;
+        return resultMap;
     }
 
     public Map<String,Object> createKakaoUser(String accessToken) {                 // 회원가입 및 값 리턴
@@ -91,7 +99,7 @@ public class KakoServiceImpl implements KakaoService {
         //access_token을 이용하여 사용자 정보 조회
 
         try{
-            JsonElement element = (JsonElement)GetUserInfo(accessToken);
+            JsonElement element = GetUserInfo(accessToken);
             String id = element.getAsJsonObject().get("id").getAsString();
             boolean hasEmail = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("has_email").getAsBoolean();
             String email = "";
@@ -100,11 +108,10 @@ public class KakoServiceImpl implements KakaoService {
             }
 
             nickname += id; // DB에 저장할 임시 닉네임
-            String deviceNo = null;
 
             // DB조회해서 기존 회원인지 찾기
             Optional<UserEntity> userEntityOptional = userRepository.findByUserId(email);
-            System.out.println("userEntity : " + userEntityOptional);
+            resultMap.put("deviceInfo", null);
             // 존재하지 않으면 -> 회원가입
             if(!userEntityOptional.isPresent()){
                 UserEntity userEntity = UserEntity.builder()
@@ -117,12 +124,27 @@ public class KakoServiceImpl implements KakaoService {
                 resultMap.put("isRegisted", true);
                 nickname = userEntityOptional.get().getUserNickname();
                 if(userEntityOptional.get().getDevice() != null){
-                    deviceNo = userEntityOptional.get().getDevice().getDeviceNo();
+                    Map<String, Object> deviceList = new HashMap<>();
+                    List<UserDeviceEntity> userDeviceEntityList = userDeviceRepository.findByUserIdx(userRepository.findByUserId(email).get());
+                    if(!userDeviceEntityList.isEmpty()) {
+                        for (UserDeviceEntity userDeviceEntity : userDeviceEntityList) {
+                            Optional<DeviceEntity> device = deviceRepository.findById(userDeviceEntity.getDeviceIdx().getIdx());
+                            String Crop = device.get().getCrop().getCropName();
+                            Map<String, Object> deviceMap = new HashMap<>();
+                            deviceMap.put("deviceNo", device.get().getDeviceNo());
+                            deviceMap.put("deviceName", device.get().getDeviceName());
+                            deviceMap.put("cropName", Crop);
+                            deviceMap.put("deviceLatitude", device.get().getDeviceLatitude());
+                            deviceMap.put("deviceLong", device.get().getDeviceLong());
+                            deviceList.putAll(deviceMap);
+                        }
+                        resultMap.put("deviceInfo", deviceList);
+                    }
                 }
             }
             resultMap.put("userId", email);
             resultMap.put("userNickname", nickname);
-            resultMap.put("deviceNo", deviceNo);
+
         }catch (IOException e){
             e.printStackTrace();
             resultMap.put("error" , "timeOut");
