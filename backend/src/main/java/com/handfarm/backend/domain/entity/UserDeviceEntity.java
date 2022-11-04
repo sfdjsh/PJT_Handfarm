@@ -14,20 +14,17 @@ import javax.persistence.*;
 @DynamicUpdate
 @DynamicInsert
 @NoArgsConstructor
-@Table(name="devices_sensors")
-public class DeviceSensorEntity {
+@Table(name="users_devices")
+public class UserDeviceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idx;
 
     @ManyToOne
-    @JoinColumn(name = "device_idx")
-    private DeviceEntity deviceIdx;
+    @JoinColumn(name = "user_idx")
+    private UserEntity userIdx;
 
     @ManyToOne
-    @JoinColumn(name = "sensor_idx")
-    private SensorEntity sensorIdx;
-
-    @Column(name= "device_sensor_value")
-    private Float value;
+    @JoinColumn(name = "device_idx")
+    private DeviceEntity deviceIdx;
 }
