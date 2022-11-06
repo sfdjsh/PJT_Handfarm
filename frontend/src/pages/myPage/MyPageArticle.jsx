@@ -1,14 +1,12 @@
 import React from 'react'
 import { Card, CardContent, Typography, CardActions, Box } from '@mui/material'
-import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
-import { fontWeight } from '@mui/system';
 
 const MyPageArticle = () => {
   return (
     <>
-      <Card sx={{ mt: 1, height: 150, backgroundColor: "#696969" }}>
+      <Card sx={{ mt: 2, height: 150, backgroundColor: "#696969" }}>
         <CardContent>
           <Typography sx={{fontWeight:'bold'}} variant="h6" color="white">게시글 제목</Typography>
           <Typography sx={{ display: 'flex', justifyContent: 'center', mt: 2, fontWeight:'bold'}} variant="h6" color="white">게시글 내용</Typography>

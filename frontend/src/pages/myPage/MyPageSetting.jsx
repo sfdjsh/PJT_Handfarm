@@ -1,5 +1,6 @@
 import React from 'react'
-import { Modal, Box, IconButton, List, ListItem, ListItemText, Button, FormControlLabel, ButtonGroup, TextField } from '@mui/material'
+import { Modal, Box, IconButton, Button, ButtonGroup, TextField, Container } from '@mui/material'
+import Logout from '../auth/Logout';
 import SettingsIcon from '@mui/icons-material/Settings';
 
 const style = {
@@ -15,7 +16,7 @@ const style = {
   p: 1
 };
 
-const MyPageSetting = () => {
+const MyPageSetting = ({nickName}) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -32,29 +33,35 @@ const MyPageSetting = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <List sx={{mt:2}}>
-            <ListItem>
-              <ListItemText>
-                <span style={{ fontSize: '20px' }}>공개/비공개 설정</span>
-              </ListItemText>
-              <ButtonGroup>
+          <Container>
+            <Box sx={{mt:5}}>
+              <h2>공개/비공개설정</h2>
+              <hr />
+              <ButtonGroup sx={{mt:1}}>
                 <Button >공개</Button>
                 <Button sx={{ background: 'white' }}>비공개</Button>
               </ButtonGroup>
-            </ListItem>
-            <hr />
-            <ListItem sx={{mt:2}}>
-              <p style={{ fontSize: '20px' }}>닉네임 변경</p>
-              <Button>변경</Button>
-            </ListItem>
-            <ListItem>
-              <TextField fullWidth variant="outlined" />
-            </ListItem>
-            <hr />
-            <ListItem sx={{mt:2}}>
-            <p style={{ fontSize: '20px' }}>로그아웃</p>
-            </ListItem>
-          </List>
+            </Box>
+
+            <Box sx={{mt:5}}>
+              <h2>닉네임 변경</h2>
+              <hr />
+              <Box display="flex" sx={{mt:1}}>
+                <TextField sx={{
+                        ' .MuiOutlinedInput-root': {
+                            color: 'black',
+                            border : '1px solid white',
+                            backgroundColor : "white"
+                        }
+                    }} fullWidth variant="outlined" defaultValue={nickName}
+                    />
+                <Button>변경</Button>
+              </Box>
+            </Box>
+          
+            <Logout />
+            
+          </Container>
         </Box>
       </Modal>
     </>
