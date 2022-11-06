@@ -52,7 +52,7 @@ function App() {
             path="/myfarm/registing"
             element={<FarmRegisting />}
           ></Route>
-            <Route exact path="/chat" element={<CreateReadChat/>}></Route>
+            <Route exact path="/chat/:id" element={<CreateReadChat/>}></Route>
             <Route exact path="/chatList" element={<ChatList/>}></Route>
           <Route exact path="/myfarm/create" element={<FarmCreate />}></Route>
           <Route exact path="/kakao" element={<Kakao />}></Route>
@@ -62,7 +62,7 @@ function App() {
           <Route exact path='/mypage/:nickname' element={<MyPage />}></Route>
         </Routes>
        </Box>
-        { location.pathname === '/' || (location.pathname.split('/')[2] === 'info' && parseInt(location.pathname.split('/')[3]) >= 1 ) || location.pathname === '/chat'? (<CommentForm/>) : (<Footer />) }
+        { location.pathname === '/' || (location.pathname.split('/')[2] === 'info' && parseInt(location.pathname.split('/')[3]) >= 1 ) || location.pathname.split('/')[2] >= 1 ? (<CommentForm/>) : (<Footer />) }
       </Box>
     </>
   );
