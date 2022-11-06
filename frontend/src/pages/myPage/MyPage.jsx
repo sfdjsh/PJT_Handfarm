@@ -1,12 +1,11 @@
 import React, {useState} from 'react';
 import './MyPage.css'
-import Logout from '../../components/common/Logout';
 import MyPageFarm from './MyPageFarm';
 import MyPageArticle from './MyPageArticle';
 import MyPageSetting from './MyPageSetting';
 import { useRecoilState } from 'recoil';
 import { userInfo } from '../../atom';
-import { Avatar, Typography, Container, Box, IconButton, Switch, Button, Divider } from '@mui/material';
+import { Avatar, Typography, Container, Box, Switch } from '@mui/material';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 
 const MyPage = () => {
@@ -31,7 +30,7 @@ const MyPage = () => {
                             </Box>
                         </Box>
                         <Switch color="warning"></Switch>
-                        <MyPageSetting />
+                        <MyPageSetting nickName={nickName.userNickname}/>
                     </Box>
                 </Box>
                 <Box sx={{mt:10}} display="flex" justifyContent="space-around">
@@ -44,7 +43,6 @@ const MyPage = () => {
                 </Box>
                 {myPageLook==='Farm'? (<MyPageFarm />) : (<MyPageArticle />)}
             </Container>
-            <Logout />
         </>
     );
 };

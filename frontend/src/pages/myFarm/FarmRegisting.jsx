@@ -48,7 +48,6 @@ const FarmRegisting = () => {
             <Typography variant="h6" sx={{textAlign:'center', mt:1}}>내 농장 등록하기</Typography>
           </Box>
         </Box>
-      {/* </Container> */}
     </>
   )
 }
