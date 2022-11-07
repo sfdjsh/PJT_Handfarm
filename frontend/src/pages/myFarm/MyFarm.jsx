@@ -1,42 +1,44 @@
 import React, { useEffect } from "react";
-import { LOCAL_URL } from "../../config";
+import { BASE_URL } from "../../config";
 import axios from "axios";
-import {
-  Container,
-  Box,
-  Grid,
-  IconButton,
-  Card,
-  CardContent,
-  Typography,
-  CardActions,
-  Button,
-} from "@mui/material";
-import { textAlign } from "@mui/system";
+import { Container, Box, Grid, IconButton, Card, CardContent, Typography, CardActions, Button } from "@mui/material";
 import SettingsRemoteIcon from "@mui/icons-material/SettingsRemote";
 import SettingsIcon from "@mui/icons-material/Settings";
 import DeviceThermostatOutlinedIcon from "@mui/icons-material/DeviceThermostatOutlined";
 import CircleIcon from "@mui/icons-material/Circle";
+import { useRecoilState } from "recoil";
+import { userInfo, userFarm } from "../../atom"
+import MyFarmList from "../../components/myFarm/MyFarmList";
 
 const MyFarm = () => {
-  const URL = `${LOCAL_URL}/notice/count`;
-  const accessToken = localStorage.getItem("access_token");
-
-  // useEffect(() => {
-  //   axios(URL, {
-  //     method: "GET",
-  //     headers : {
-  //       'Authorization' : accessToken
-  //     }
-  //   })
-  //     .then(response => {console.log(response)})
-  // }, [])
+  const [deviceID, setDeviceID] = useRecoilState(userInfo)
+  const [myFarm, setMyFarm] = useRecoilState(userFarm)
+  const devices = deviceID.deviceId
+  const lengthzzz = 2
+  useEffect(() => {
+    devices.map((device) => {
+      const deviceNo = device.deviceNo
+      axios({
+        url: `${BASE_URL}/farm/${deviceNo}`,
+        method: "GET",
+        headers : {
+          accessToken : localStorage.getItem("access_token")
+        }
+      })
+      .then(response => {
+        setMyFarm(response.data)
+      })
+    })
+  }, [])
 
   return (
     <>
       <Container sx={{ mt: 1, width: "90%" }}>
-        {/* 농장 이름 */}
-        <Grid
+        {lengthzzz.map((idx) => (
+          <p>{idx}</p>
+        ))}
+        <MyFarmList devices={devices}/>        
+        {/* <Grid
           container
           style={{
             backgroundColor: "#757575",
@@ -63,7 +65,6 @@ const MyFarm = () => {
           </Box>
         </Grid>
 
-        {/* 센서 정보 */}
         <Grid container spacing={1} sx={{ mt: 1 }}>
           <Grid item xs={6}>
             <Card sx={{ background: "#F7B634" }}>
@@ -93,14 +94,12 @@ const MyFarm = () => {
           </Grid>
         </Grid>
 
-        {/* GPS */}
         <Grid item xs={12} sx={{ mt: 1 }}>
           <Card sx={{ height: 100 }}>
             <p>GPS 영역</p>
           </Card>
         </Grid>
 
-        {/* Camera */}
         <Grid item xs={12} sx={{ mt: 1 }}>
           <Card sx={{ height: 150 }}>
             <p>카메라 영역</p>
@@ -108,7 +107,7 @@ const MyFarm = () => {
           <Button sx={{ background: "#222222", p: 1.5 }} variant="contained">
             <CircleIcon sx={{ mr: 1, color: "#D80000" }} /> 대표 사진 등록
           </Button>
-        </Grid>
+        </Grid> */}
       </Container>
     </>
   );
