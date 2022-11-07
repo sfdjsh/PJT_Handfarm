@@ -1,5 +1,6 @@
 package com.handfarm.backend.domain.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,18 +25,25 @@ public class CommentEntity {
     @Column(name="up_idx")
     private Integer upIdx;
 
-    @Column(name="comment_img")
-    private String commentImg;
+    @Column(name="comment_content")
+    private String commentContent;
 
     @Column(name="comment_time")
     private LocalDateTime commentTime;
 
     @ManyToOne
     @JoinColumn(name="article_idx")
-    private ArticleEntity article;
+    private ArticleEntity articleIdx;
 
     @ManyToOne
     @JoinColumn(name="user_idx")
-    private UserEntity user;
+    private UserEntity userIdx;
 
+    @Builder
+    public CommentEntity(Integer upIdx, String commentContent, ArticleEntity articleIdx, UserEntity userIdx  ){
+        this.upIdx = upIdx;
+        this.commentContent = commentContent;
+        this.articleIdx = articleIdx;
+        this.userIdx = userIdx;
+    }
 }

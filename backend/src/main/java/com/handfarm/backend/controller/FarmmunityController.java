@@ -1,6 +1,7 @@
 package com.handfarm.backend.controller;
 
 import com.handfarm.backend.domain.dto.article.ArticleRegistDto;
+import com.handfarm.backend.domain.dto.article.CommentRegistDto;
 import com.handfarm.backend.service.FarmmunityService;
 import com.handfarm.backend.service.KakaoService;
 import com.handfarm.backend.service.UserService;
@@ -31,7 +32,7 @@ public class FarmmunityController {
         this.userService = userService;
     }
 
-    @PostMapping("/{domain}/{category}") // 게시글 작성
+    @PostMapping("/community/{domain}/{category}") // 게시글 작성
     public ResponseEntity<?> registArticle(HttpServletRequest request, @RequestBody ArticleRegistDto articleRegistDto, @PathVariable("domain") String domain, @PathVariable("category") String category){
         Map<String, Object> resultMap = new HashMap<>();
         try{
@@ -45,6 +46,7 @@ public class FarmmunityController {
                 status = HttpStatus.OK;
             }
         }catch (Exception e){
+            e.printStackTrace();
             resultMap.put("message", fail);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
@@ -52,7 +54,28 @@ public class FarmmunityController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @GetMapping("/{domain}/{category}") // 게시글 조회
+    @PostMapping("/community/{articleIdx}/comment")
+    public ResponseEntity<?> registComment(HttpServletRequest request, @RequestBody CommentRegistDto commentRegistDto, @PathVariable("articleIdx") Integer articleIdx){
+        Map<String, Object> resultMap = new HashMap<>();
+        try {
+            if(!kakaoService.CheckAccessToken(request.getHeader("accessToken"))){
+                resultMap.put("message", timeOut);
+                status = HttpStatus.UNAUTHORIZED;
+            }else{
+                String decodeId = checkToken(request, resultMap);
+                farmmunityService.registComment(decodeId, articleIdx, commentRegistDto);
+                resultMap.put("message", success);
+                status = HttpStatus.OK;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            resultMap.put("message", fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<>(resultMap, status);
+    }
+
+    @GetMapping("/community/{domain}/{category}") // 게시글 조회
     public ResponseEntity<?> getArticleList(HttpServletRequest request, @RequestBody ArticleRegistDto articleRegistDto, @PathVariable("domain") String domain, @PathVariable("category") String category){
         Map<String, Object> resultMap = new HashMap<>();
         try{
@@ -73,6 +96,26 @@ public class FarmmunityController {
         return new ResponseEntity<>(resultMap, status);
     }
 
+    @GetMapping("/community/{article_idx}")
+    public ResponseEntity<?> getArticleDetail(@PathVariable("article_idx") Integer articleIdx){
+        Map<String, Object> resultMap = new HashMap<>();
+        try {
+            Map<String, Object> articleDto = farmmunityService.getArticleDetail(articleIdx);
+            resultMap.put("articleDto", articleDto.get("articleDetail"));
+            resultMap.put("commentList", articleDto.get("commentList"));
+            resultMap.put("message", success);
+            status = HttpStatus.OK;
+        }catch (Exception e){
+            e.printStackTrace();
+            resultMap.put("message", fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        return new ResponseEntity<>(resultMap, status);
+    }
+
+
+
     public String checkToken(HttpServletRequest request, Map<String, Object> resultMap){
         String accessToken = request.getHeader("accessToken"); // access-token 정보
         String decodeId = kakaoService.decodeToken(accessToken);
@@ -84,4 +127,5 @@ public class FarmmunityController {
             return null;
         }
     }
+
 }
