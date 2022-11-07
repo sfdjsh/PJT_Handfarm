@@ -55,25 +55,30 @@ public class DeviceServiceImpl implements DeviceService {
 
     @Override
     public boolean userRegistDevice(HttpServletRequest request, DeviceRegistDto deviceRegistDto) {
-        String email = kakaoService.decodeToken(request.getHeader("accessToken"));
+        try {
+            String email = kakaoService.decodeToken(request.getHeader("accessToken"));
 //            String email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
-        System.out.println(email);
-        System.out.println(deviceRegistDto);
-        System.out.println(deviceRegistDto.getDeviceNo());
+            System.out.println(email);
+            System.out.println(deviceRegistDto);
+            System.out.println(deviceRegistDto.getDeviceNo());
 
-        Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceRegistDto.getDeviceNo());
-        deviceEntity.get().setDeviceName(deviceRegistDto.getDeviceName());
-        deviceEntity.get().setCrop(cropRepository.findByCropName(deviceRegistDto.getDeviceCrops()));
-        deviceRepository.save(deviceEntity.get());
+            Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceRegistDto.getDeviceNo());
+            deviceEntity.get().setDeviceName(deviceRegistDto.getDeviceName());
+            deviceEntity.get().setCrop(cropRepository.findByCropName(deviceRegistDto.getDeviceCrops()));
+            deviceRepository.save(deviceEntity.get());
 
-        Optional<UserEntity> userEntity = userRepository.findByUserId(email);
-        userEntity.get().setDevice(deviceEntity.get());
-        UserDeviceEntity userDeviceEntity = new UserDeviceEntity();
-        userDeviceEntity.setDeviceIdx(deviceEntity.get());
-        userDeviceEntity.setUserIdx(userEntity.get());
-        userDeviceRepository.save(userDeviceEntity);
-        userRepository.save(userEntity.get());
-        return true;
+            Optional<UserEntity> userEntity = userRepository.findByUserId(email);
+            userEntity.get().setDevice(deviceEntity.get());
+            UserDeviceEntity userDeviceEntity = new UserDeviceEntity();
+            userDeviceEntity.setDeviceIdx(deviceEntity.get());
+            userDeviceEntity.setUserIdx(userEntity.get());
+            userDeviceRepository.save(userDeviceEntity);
+            userRepository.save(userEntity.get());
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
