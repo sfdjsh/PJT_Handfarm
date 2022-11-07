@@ -60,7 +60,8 @@ RX9Simple RX9(Base_line, meti, mein, cr1, cr2, cr3, cr4);
 
 void setup() {
   // put your setup code here, to run once:
-  Serial.begin(115200);
+  Serial.begin(9600);
+ 
 }
 
 void loop() {
@@ -87,11 +88,10 @@ void loop() {
     
     status_sensor = RX9.status_co2();//read status_sensor, status_sensor = 0 means warming up, = 1 means stable
     co2_ppm_value = RX9.cal_co2(EMF,THER); //calculation carbon dioxide gas concentration. 
-    Serial.println(RX9.ppm_co2_value());
+    Serial.println(co2_ppm_value);
     co2_step = RX9.step_co2(); //read steps of carbon dioixde gas concentration. you can edit the step range with cr1~cr4 above.
-
+    
     Serial.print("# "); //Starting letter
-
     if(status_sensor){
       // you can edit below code to change color of LED or text message by co2_step
       if(co2_step == 0){
@@ -122,6 +122,6 @@ void loop() {
       //while warming up. data is not correct. 
     }   
     Serial.println(""); //CR LF
-  }
-    
+  }  
+
 }
