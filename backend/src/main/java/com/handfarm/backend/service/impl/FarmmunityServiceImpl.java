@@ -6,17 +6,13 @@ import com.handfarm.backend.domain.dto.article.ArticleViewDto;
 import com.handfarm.backend.domain.entity.*;
 import com.handfarm.backend.domain.dto.article.CommentRegistDto;
 import com.handfarm.backend.domain.dto.article.CommentViewDto;
-import com.handfarm.backend.domain.entity.*;
 import com.handfarm.backend.repository.*;
 import com.handfarm.backend.service.FarmmunityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class FarmmunityServiceImpl implements FarmmunityService {
@@ -30,11 +26,12 @@ public class FarmmunityServiceImpl implements FarmmunityService {
     private final NoticeRepository noticeRepository;
 
     @Autowired
-    FarmmunityServiceImpl(ArticleRepository articleRepository, UserRepository userRepository, CropRepository cropRepository, DeviceRepository deviceRepository, UserLikeArticlesRepository userLikeArticlesRepository, NoticeRepository noticeRepository){
+    FarmmunityServiceImpl(ArticleRepository articleRepository, UserRepository userRepository, CropRepository cropRepository, DeviceRepository deviceRepository, CommentRepository commentRepository, UserLikeArticlesRepository userLikeArticlesRepository, NoticeRepository noticeRepository){
         this.articleRepository = articleRepository;
         this.userRepository = userRepository;
         this.cropRepository = cropRepository;
         this.deviceRepository = deviceRepository;
+        this.commentRepository = commentRepository;
         this.userLikeArticlesRepository = userLikeArticlesRepository;
         this.noticeRepository = noticeRepository;
     }
