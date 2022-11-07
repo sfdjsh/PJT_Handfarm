@@ -9,4 +9,6 @@ import java.util.Optional;
 
 public interface UserLikeArticlesRepository extends JpaRepository<UserLikeArticlesEntity, Integer> {
     Optional<UserLikeArticlesEntity> findByUserAndArticle(UserEntity user, ArticleEntity article);
+
+    Integer countByArticleIdx(Integer idx);
 }

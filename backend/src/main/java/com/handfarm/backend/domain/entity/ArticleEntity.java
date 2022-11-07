@@ -44,7 +44,8 @@ public class ArticleEntity {
     private CropEntity cropIdx;
 
     @Builder
-    public ArticleEntity(String articleCategory, String articleArea, String articleTitle, String articleImg, String articleContent, LocalDateTime articleTime, UserEntity userIdx, CropEntity cropIdx) {
+    public ArticleEntity(Integer idx, String articleCategory, String articleArea, String articleTitle, String articleImg, String articleContent, LocalDateTime articleTime, UserEntity userIdx, CropEntity cropIdx, LocalDateTime articleUpdate) {
+        this.idx = idx;
         this.articleCategory = articleCategory;
         this.articleTitle = articleTitle;
         this.articleImg = articleImg;
@@ -53,6 +54,7 @@ public class ArticleEntity {
         this.userIdx = userIdx;
         this.cropIdx = cropIdx;
         this.articleArea = articleArea;
+        this.articleUpdate = articleUpdate;
     }
 
 }
