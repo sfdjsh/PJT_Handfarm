@@ -19,4 +19,7 @@ public interface FarmmunityService {
 
     void registComment(String decodeId, Integer articleIdx, CommentRegistDto commentRegistDto);
 
+    void deleteArticle(String decodeId, Integer articleIdx);
+
+    void deleteComment(String decodeId, Integer articleIdx, Integer commentIdx);
 }

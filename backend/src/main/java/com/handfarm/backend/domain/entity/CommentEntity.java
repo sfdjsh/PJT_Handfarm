@@ -30,7 +30,6 @@ public class CommentEntity {
 
     @Column(name="comment_time")
     private LocalDateTime commentTime;
-
     @ManyToOne
     @JoinColumn(name="article_idx")
     private ArticleEntity articleIdx;
