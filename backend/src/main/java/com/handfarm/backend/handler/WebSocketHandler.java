@@ -1,11 +1,9 @@
 package com.handfarm.backend.handler;
 
-import com.handfarm.backend.domain.dto.UserDto;
+import com.handfarm.backend.domain.dto.User.UserDto;
 import com.handfarm.backend.domain.entity.UserEntity;
 import com.handfarm.backend.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
