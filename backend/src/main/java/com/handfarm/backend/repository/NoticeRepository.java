@@ -14,4 +14,6 @@ public interface NoticeRepository extends JpaRepository<NoticeEntity, Integer> {
     Long countByToUserAndIsRead(UserEntity userEntity, boolean b);
 
     Optional<NoticeEntity> findByToUserAndIdx(UserEntity userEntity, Integer noticeIdx);
+
+    Optional<NoticeEntity> findByFromUserAndArticleIdxAndNoticeType(UserEntity user, Integer articleIdx, String like);
 }
