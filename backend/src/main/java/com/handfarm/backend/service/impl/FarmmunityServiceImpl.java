@@ -1,14 +1,11 @@
 package com.handfarm.backend.service.impl;
 
+import com.handfarm.backend.domain.dto.article.ArticleDetailDto;
 import com.handfarm.backend.domain.dto.article.ArticleRegistDto;
-import com.handfarm.backend.domain.entity.ArticleEntity;
-import com.handfarm.backend.domain.entity.CropEntity;
-import com.handfarm.backend.domain.entity.DeviceEntity;
-import com.handfarm.backend.domain.entity.UserEntity;
-import com.handfarm.backend.repository.ArticleRepository;
-import com.handfarm.backend.repository.CropRepository;
-import com.handfarm.backend.repository.DeviceRepository;
-import com.handfarm.backend.repository.UserRepository;
+import com.handfarm.backend.domain.dto.article.CommentRegistDto;
+import com.handfarm.backend.domain.dto.article.CommentViewDto;
+import com.handfarm.backend.domain.entity.*;
+import com.handfarm.backend.repository.*;
 import com.handfarm.backend.service.FarmmunityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
