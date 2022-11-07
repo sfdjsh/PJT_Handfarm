@@ -1,19 +1,19 @@
 package com.handfarm.backend.service.impl;
 
+import com.handfarm.backend.domain.dto.article.ArticleDetailDto;
 import com.handfarm.backend.domain.dto.article.ArticleRegistDto;
-import com.handfarm.backend.domain.dto.article.ArticleViewDto;
-import com.handfarm.backend.domain.entity.ArticleEntity;
-import com.handfarm.backend.domain.entity.CropEntity;
-import com.handfarm.backend.domain.entity.UserEntity;
-import com.handfarm.backend.domain.entity.UserLikeArticlesEntity;
+import com.handfarm.backend.domain.dto.article.CommentRegistDto;
+import com.handfarm.backend.domain.dto.article.CommentViewDto;
+import com.handfarm.backend.domain.entity.*;
 import com.handfarm.backend.repository.*;
 import com.handfarm.backend.service.FarmmunityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @Service
 public class FarmmunityServiceImpl implements FarmmunityService {
@@ -22,15 +22,15 @@ public class FarmmunityServiceImpl implements FarmmunityService {
     private final UserRepository userRepository;
     private final CropRepository cropRepository;
     private final DeviceRepository deviceRepository;
-    private final UserLikeArticlesRepository userLikeArticlesRepository;
+    private final CommentRepository commentRepository;
 
     @Autowired
-    FarmmunityServiceImpl(ArticleRepository articleRepository, UserRepository userRepository, CropRepository cropRepository, DeviceRepository deviceRepository, UserLikeArticlesRepository userLikeArticlesRepository){
+    FarmmunityServiceImpl(ArticleRepository articleRepository, UserRepository userRepository, CropRepository cropRepository, DeviceRepository deviceRepository, CommentRepository commentRepository){
         this.articleRepository = articleRepository;
         this.userRepository = userRepository;
         this.cropRepository = cropRepository;
         this.deviceRepository = deviceRepository;
-        this.userLikeArticlesRepository = userLikeArticlesRepository;
+        this.commentRepository = commentRepository;
     }
 
     @Override
@@ -60,67 +60,62 @@ public class FarmmunityServiceImpl implements FarmmunityService {
             articleRepository.save(article);
         }
     }
+    public void registComment(String decodeId, Integer articleIdx, CommentRegistDto commentRegistDto){
+        String commentContent = commentRegistDto.getCommentContent();
+        Integer upIdx = commentRegistDto.getUpIdx();
 
-    @Override
-    public List<ArticleViewDto> getArticleList(String decodeId, String domain, String category) {
-        List<ArticleViewDto> result = new ArrayList<>();
-
-        if(domain.equals("정보")){ // 딸기 , 방울 토마투
-            CropEntity crop = cropRepository.findByCropName(category);
-            List<ArticleEntity> articleInfoList = articleRepository.findByArticleCategoryAndCropIdx(domain, crop);
-            if(!articleInfoList.isEmpty()){
-                for(ArticleEntity a : articleInfoList){
-                    ArticleViewDto article = ArticleViewDto.builder()
-                            .idx(a.getIdx())
-                            .articleTitle(a.getArticleTitle())
-                            .articleImg(a.getArticleImg())
-                            .likeCount(1)
-                            .commentCount(1)
-                            .build();
-
-                    result.add(article);
-                }
-            }else{
-                result = new ArrayList<>();
-            }
-        }else{ // 지역
-            List<ArticleEntity> articleRegionList = articleRepository.findByArticleCategoryAndArticleArea(domain, category);
-            if(!articleRegionList.isEmpty()){
-                for(ArticleEntity a : articleRegionList){
-                    ArticleViewDto article = ArticleViewDto.builder()
-                            .idx(a.getIdx())
-                            .articleTitle(a.getArticleTitle())
-                            .articleImg(null)
-                            .likeCount(1)
-                            .commentCount(1)
-                            .build();
-
-                    result.add(article);
-                }
-            }else{
-                result = new ArrayList<>();
-            }
-        }
-        return result;
+        UserEntity user = userRepository.findByUserId(decodeId).get();
+        ArticleEntity article = articleRepository.findById(articleIdx).get();
+        CommentEntity comment = CommentEntity.builder()
+                .upIdx(upIdx)
+                .commentContent(commentContent)
+                .articleIdx(article)
+                .userIdx(user).build();
+        commentRepository.save(comment);
     }
 
     @Override
-    public Boolean likeArticle(String decodeId, Integer articleIdx) {
-        UserEntity user = userRepository.findByUserId(decodeId).get();
-        ArticleEntity article = articleRepository.findById(articleIdx).get();
+    public void getArticleList(String decodeId, String domain, String category) {
 
-        Optional<UserLikeArticlesEntity> userLikeArticlesEntity = userLikeArticlesRepository.findByUserAndArticle(user, article);
-        if(userLikeArticlesEntity.isPresent()){ // 좋아요 눌렀음 -> 취소
+    }
+
+    @Override
+    public Map<String, Object> getArticleDetail(Integer articleIdx){
+        Map<String, Object> data = new HashMap<>();
+        ArticleEntity article = articleRepository.findByIdx(articleIdx).get();
+        List<CommentEntity> comment = commentRepository.findByArticleIdx(article);
+//       System.out.println(articleIdx);
 
 
+        if(comment.isEmpty()){
+            data.put("commentList", new ArrayList<>());
         }else{
-
-            UserLikeArticlesEntity userLikeArticles = UserLikeArticlesEntity.builder()
-                    .user(user).article(article).build();
-
-            userLikeArticlesRepository.save(userLikeArticles);
+            List<CommentViewDto> commentView = new ArrayList<>();
+            for(CommentEntity c: comment){
+                CommentViewDto dto = CommentViewDto.builder()
+                        .userNickName(c.getUserIdx().getUserNickname())
+                        .commentContent(c.getCommentContent())
+                        .idx(c.getIdx())
+                        .commentTime(c.getCommentTime())
+                        .build();
+                commentView.add(dto);
+            }
+            data.put("commentList", commentView);
         }
-        return null;
+
+
+        ArticleDetailDto articleDetailDto = ArticleDetailDto.builder()
+                .articleTitle(article.getArticleTitle())
+                .articleImg(article.getArticleImg())
+                .articleContent(article.getArticleContent())
+                .articleTime(article.getArticleTime())
+                .build();
+
+
+        data.put("articleDetail", articleDetailDto);
+
+        return data;
+
     }
 
 }
