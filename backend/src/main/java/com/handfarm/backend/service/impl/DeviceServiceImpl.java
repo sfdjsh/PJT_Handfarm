@@ -31,6 +31,7 @@ public class DeviceServiceImpl implements DeviceService {
     private DeviceSensorRepository deviceSensorRepository;
     private DeviceControlRepository deviceControlRepository;
     private ControlRepository controlRepository;
+
     @Autowired
     DeviceServiceImpl(DeviceRepository deviceRepository, UserService userService, KakaoService kakaoService, UserRepository userRepository, CropRepository cropRepository, UserDeviceRepository userDeviceRepository, DeviceSensorRepository deviceSensorRepository, DeviceControlRepository deviceControlRepository, ControlRepository controlRepository){
         this.deviceRepository= deviceRepository;
@@ -53,29 +54,26 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public String userRegistDevice(HttpServletRequest request, DeviceRegistDto deviceRegistDto) throws IOException {
-        try{
-            JsonElement element = kakaoService.GetUserInfo(request.getHeader("accessToken"));
-            String email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
-            System.out.println(email);
-            System.out.println(deviceRegistDto);
-            System.out.println(deviceRegistDto.getDeviceNo());
+    public boolean userRegistDevice(HttpServletRequest request, DeviceRegistDto deviceRegistDto) {
+        String email = kakaoService.decodeToken(request.getHeader("accessToken"));
+//            String email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
+        System.out.println(email);
+        System.out.println(deviceRegistDto);
+        System.out.println(deviceRegistDto.getDeviceNo());
 
-            Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceRegistDto.getDeviceNo());
-            deviceEntity.get().setDeviceName(deviceRegistDto.getDeviceName());
-            deviceEntity.get().setCrop(cropRepository.findByCropName(deviceRegistDto.getDeviceCrops()));
-            deviceRepository.save(deviceEntity.get());
+        Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceRegistDto.getDeviceNo());
+        deviceEntity.get().setDeviceName(deviceRegistDto.getDeviceName());
+        deviceEntity.get().setCrop(cropRepository.findByCropName(deviceRegistDto.getDeviceCrops()));
+        deviceRepository.save(deviceEntity.get());
 
-            Optional<UserEntity> userEntity = userRepository.findByUserId(email);
-            userEntity.get().setDevice(deviceEntity.get());
-
-            userRepository.save(userEntity.get());
-
-        }catch (IOException e){
-            e.printStackTrace();
-            return "timeOut";
-        }
-        return "sucess";
+        Optional<UserEntity> userEntity = userRepository.findByUserId(email);
+        userEntity.get().setDevice(deviceEntity.get());
+        UserDeviceEntity userDeviceEntity = new UserDeviceEntity();
+        userDeviceEntity.setDeviceIdx(deviceEntity.get());
+        userDeviceEntity.setUserIdx(userEntity.get());
+        userDeviceRepository.save(userDeviceEntity);
+        userRepository.save(userEntity.get());
+        return true;
     }
 
     @Override
