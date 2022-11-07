@@ -36,7 +36,7 @@ public class MyFarmController {
     @PostMapping("/farm")
     public ResponseEntity<?> userDeviceRegister(HttpServletRequest request, @RequestBody DeviceRegistDto deviceRegistDto) throws IOException {
         Map<String, Object> returnMap = new HashMap<>();
-        if("sucess".equals(deviceService.userRegistDevice(request, deviceRegistDto))) {
+        if(deviceService.userRegistDevice(request, deviceRegistDto)) {
             returnMap.put("message", success);
             status = HttpStatus.OK;
         }else{
