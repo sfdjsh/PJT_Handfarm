@@ -56,27 +56,6 @@ public class FarmmunityController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @PostMapping("/community/{articleIdx}/comment")
-    public ResponseEntity<?> registComment(HttpServletRequest request, @RequestBody CommentRegistDto commentRegistDto, @PathVariable("articleIdx") Integer articleIdx){
-        Map<String, Object> resultMap = new HashMap<>();
-        try {
-            if(!kakaoService.CheckAccessToken(request.getHeader("accessToken"))){
-                resultMap.put("message", timeOut);
-                status = HttpStatus.UNAUTHORIZED;
-            }else{
-                String decodeId = checkToken(request, resultMap);
-                farmmunityService.registComment(decodeId, articleIdx, commentRegistDto);
-                resultMap.put("message", success);
-                status = HttpStatus.OK;
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            resultMap.put("message", fail);
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-        }
-        return new ResponseEntity<>(resultMap, status);
-    }
-
     @GetMapping("/community/{domain}/{category}") // 게시글 조회
     public ResponseEntity<?> getArticleList(HttpServletRequest request, @RequestBody ArticleRegistDto articleRegistDto, @PathVariable("domain") String domain, @PathVariable("category") String category){
         Map<String, Object> resultMap = new HashMap<>();
@@ -91,6 +70,23 @@ public class FarmmunityController {
                 resultMap.put("message", success);
                 status = HttpStatus.OK;
             }
+        }catch (Exception e){
+            resultMap.put("message", fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        return new ResponseEntity<>(resultMap, status);
+    }
+
+    @GetMapping("/community/{article_idx}")
+    public ResponseEntity<?> getArticleDetail(@PathVariable("article_idx") Integer articleIdx){
+        Map<String, Object> resultMap = new HashMap<>();
+        try {
+            Map<String, Object> articleDto = farmmunityService.getArticleDetail(articleIdx);
+            resultMap.put("articleDto", articleDto.get("articleDetail"));
+            resultMap.put("commentList", articleDto.get("commentList"));
+            resultMap.put("message", success);
+            status = HttpStatus.OK;
         }catch (Exception e){
             resultMap.put("message", fail);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -120,6 +116,69 @@ public class FarmmunityController {
         return new ResponseEntity<>(resultMap, status);
     }
 
+    @DeleteMapping("community/{article_idx}") // 게시글 삭제
+    public ResponseEntity<?> deleteArticle(HttpServletRequest request, @PathVariable("article_idx") Integer articleIdx){
+        Map<String, Object> resultMap = new HashMap<>();
+        try{
+            if (!kakaoService.CheckAccessToken(request.getHeader("accessToken"))) {
+                resultMap.put("message", timeOut);
+                status = HttpStatus.UNAUTHORIZED;
+            }else{
+                String decodeId = checkToken(request, resultMap);
+                farmmunityService.deleteArticle(decodeId, articleIdx);
+                resultMap.put("message", success);
+                status = HttpStatus.OK;
+            }
+        }catch (Exception e){
+            resultMap.put("message", fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        return new ResponseEntity<>(resultMap, status);
+    }
+
+    @PostMapping("/community/{articleIdx}/comment")
+    public ResponseEntity<?> registComment(HttpServletRequest request, @RequestBody CommentRegistDto commentRegistDto, @PathVariable("articleIdx") Integer articleIdx){
+        Map<String, Object> resultMap = new HashMap<>();
+        try {
+            if(!kakaoService.CheckAccessToken(request.getHeader("accessToken"))){
+                resultMap.put("message", timeOut);
+                status = HttpStatus.UNAUTHORIZED;
+            }else{
+                String decodeId = checkToken(request, resultMap);
+                farmmunityService.registComment(decodeId, articleIdx, commentRegistDto);
+                resultMap.put("message", success);
+                status = HttpStatus.OK;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            resultMap.put("message", fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<>(resultMap, status);
+    }
+
+    @DeleteMapping("community/{article_idx}/comment/{comment_idx}") // 댓글 삭제
+    public ResponseEntity<?> registComment(HttpServletRequest request, @PathVariable("article_idx") Integer articleIdx, @PathVariable("comment_idx") Integer commentIdx){
+        Map<String, Object> resultMap = new HashMap<>();
+        try {
+            if(!kakaoService.CheckAccessToken(request.getHeader("accessToken"))){
+                resultMap.put("message", timeOut);
+                status = HttpStatus.UNAUTHORIZED;
+            }else{
+                String decodeId = checkToken(request, resultMap);
+                farmmunityService.deleteComment(decodeId, articleIdx, commentIdx);
+                resultMap.put("message", success);
+                status = HttpStatus.OK;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            resultMap.put("message", fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<>(resultMap, status);
+    }
+
     @GetMapping("community/{article_idx}/like") // 좋아요,좋아요취소
     public ResponseEntity<?> likeArticle(HttpServletRequest request, @PathVariable("article_idx") Integer articleIdx){
         Map<String, Object> resultMap = new HashMap<>();
@@ -134,23 +193,6 @@ public class FarmmunityController {
                 resultMap.put("message", success);
                 status = HttpStatus.OK;
             }
-        }catch (Exception e){
-            resultMap.put("message", fail);
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-        }
-
-        return new ResponseEntity<>(resultMap, status);
-    }
-
-    @GetMapping("/community/{article_idx}")
-    public ResponseEntity<?> getArticleDetail(@PathVariable("article_idx") Integer articleIdx){
-        Map<String, Object> resultMap = new HashMap<>();
-        try {
-            Map<String, Object> articleDto = farmmunityService.getArticleDetail(articleIdx);
-            resultMap.put("articleDto", articleDto.get("articleDetail"));
-            resultMap.put("commentList", articleDto.get("commentList"));
-            resultMap.put("message", success);
-            status = HttpStatus.OK;
         }catch (Exception e){
             resultMap.put("message", fail);
             status = HttpStatus.INTERNAL_SERVER_ERROR;

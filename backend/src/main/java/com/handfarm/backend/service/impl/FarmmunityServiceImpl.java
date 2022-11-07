@@ -77,6 +77,51 @@ public class FarmmunityServiceImpl implements FarmmunityService {
                 .articleIdx(article)
                 .userIdx(user).build();
         commentRepository.save(comment);
+
+        // 댓글 등록 시 알림 가게 - 자기가 등록한게 아니면
+        if(!article.getUserIdx().getUserId().equals(comment.getUserIdx().getUserId())){
+            NoticeEntity notice = NoticeEntity.builder()
+                    .noticeType("comment")
+                    .noticeTime(comment.getCommentTime())
+                    .articleIdx(articleIdx)
+                    .fromUser(user)
+                    .comment(comment)
+                    .toUser(article.getUserIdx()).build();
+            noticeRepository.save(notice);
+        }
+    }
+
+    @Override
+    public void deleteArticle(String decodeId, Integer articleIdx) {
+        UserEntity user = userRepository.findByUserId(decodeId).get();
+        ArticleEntity article = articleRepository.findById(articleIdx).get();
+
+        if(user.getUserId().equals(article.getUserIdx().getUserNickname())){
+            articleRepository.delete(article);
+
+            // 게시글 삭제 시 관련 알림 다 삭제
+            List<NoticeEntity> noticeList = noticeRepository.findByArticleIdx(articleIdx);
+            if(!noticeList.isEmpty()){
+                noticeRepository.deleteAllInBatch(noticeList);
+            }
+        }
+    }
+
+    @Override
+    public void deleteComment(String decodeId, Integer articleIdx, Integer commentIdx) {
+        UserEntity user = userRepository.findByUserId(decodeId).get();
+        CommentEntity comment = commentRepository.findById(commentIdx).get();
+
+        if(user.getUserId().equals(comment.getUserIdx().getUserId())){
+            commentRepository.delete(comment);
+
+            // 알림이 있다면 관련 알림도 삭제
+            Optional<NoticeEntity> noticeEntityOptional = noticeRepository.findByFromUserAndNoticeTypeAndArticleIdxAndComment(user, "comment",articleIdx, comment);
+
+            if(noticeEntityOptional.isPresent()){
+                noticeRepository.delete(noticeEntityOptional.get());
+            }
+        }
     }
 
 
@@ -129,7 +174,7 @@ public class FarmmunityServiceImpl implements FarmmunityService {
                             .articleTitle(a.getArticleTitle())
                             .articleImg(a.getArticleImg())
                             .likeCount(userLikeArticlesRepository.countByArticleIdx(a.getIdx()))
-                            .commentCount(1)
+                            .commentCount(commentRepository.countByArticleIdx(a.getIdx()))
                             .build();
 
                     result.add(article);
@@ -146,7 +191,7 @@ public class FarmmunityServiceImpl implements FarmmunityService {
                             .articleTitle(a.getArticleTitle())
                             .articleImg(null)
                             .likeCount(userLikeArticlesRepository.countByArticleIdx(a.getIdx()))
-                            .commentCount(1)
+                            .commentCount(commentRepository.countByArticleIdx(a.getIdx()))
                             .build();
 
                     result.add(article);

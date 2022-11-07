@@ -1,5 +1,6 @@
 package com.handfarm.backend.repository;
 
+import com.handfarm.backend.domain.entity.CommentEntity;
 import com.handfarm.backend.domain.entity.NoticeEntity;
 import com.handfarm.backend.domain.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,4 +17,8 @@ public interface NoticeRepository extends JpaRepository<NoticeEntity, Integer> {
     Optional<NoticeEntity> findByToUserAndIdx(UserEntity userEntity, Integer noticeIdx);
 
     Optional<NoticeEntity> findByFromUserAndArticleIdxAndNoticeType(UserEntity user, Integer articleIdx, String like);
+
+    List<NoticeEntity> findByArticleIdx(Integer articleIdx);
+
+    Optional<NoticeEntity> findByFromUserAndNoticeTypeAndArticleIdxAndComment(UserEntity user, String comment, Integer articleIdx, CommentEntity comment1);
 }
