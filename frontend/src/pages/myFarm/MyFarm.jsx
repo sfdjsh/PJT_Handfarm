@@ -1,44 +1,70 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { BASE_URL } from "../../config";
 import axios from "axios";
-import { Container, Box, Grid, IconButton, Card, CardContent, Typography, CardActions, Button } from "@mui/material";
+import SensorList from "../../components/myFarm/SensorList";
+import {
+  Container,
+  Box,
+  Grid,
+  IconButton,
+  Card,
+  CardContent,
+  Typography,
+  CardActions,
+  Button,
+  Radio,
+  RadioGroup,
+} from "@mui/material";
 import SettingsRemoteIcon from "@mui/icons-material/SettingsRemote";
 import SettingsIcon from "@mui/icons-material/Settings";
 import DeviceThermostatOutlinedIcon from "@mui/icons-material/DeviceThermostatOutlined";
 import CircleIcon from "@mui/icons-material/Circle";
 import { useRecoilState } from "recoil";
-import { userInfo, userFarm } from "../../atom"
-import MyFarmList from "../../components/myFarm/MyFarmList";
+import { userInfo, userFarm } from "../../atom";
+
 
 const MyFarm = () => {
-  const [deviceID, setDeviceID] = useRecoilState(userInfo)
-  const [myFarm, setMyFarm] = useRecoilState(userFarm)
-  const devices = deviceID.deviceId
-  const lengthzzz = 2
-  useEffect(() => {
-    devices.map((device) => {
-      const deviceNo = device.deviceNo
-      axios({
-        url: `${BASE_URL}/farm/${deviceNo}`,
-        method: "GET",
-        headers : {
-          accessToken : localStorage.getItem("access_token")
-        }
-      })
-      .then(response => {
-        setMyFarm(response.data)
-      })
-    })
-  }, [])
+  const [deviceID, setDeviceID] = useRecoilState(userInfo);
+  const [myFarm, setMyFarm] = useRecoilState(userFarm);
+  const devices = deviceID.deviceId;
+  const [farmRadio, setFarmRadio] = useState(0);
+  const [deviceId, setDeviceId] = useState('')
 
+  // useEffect(() => {
+  //   devices.map((device) => {
+  //     const deviceNo = device.deviceNo;
+  //     axios({
+  //       url: `${BASE_URL}/farm/${deviceNo}`,
+  //       method: "GET",
+  //       headers: {
+  //         accessToken: localStorage.getItem("access_token"),
+  //       },
+  //     }).then((response) => {
+  //       setMyFarm(response.data);
+  //     });
+  //   });
+  // }, []);
+  // console.log(myFarm)
   return (
     <>
       <Container sx={{ mt: 1, width: "90%" }}>
-        {lengthzzz.map((idx) => (
-          <p>{idx}</p>
-        ))}
-        <MyFarmList devices={devices}/>        
-        {/* <Grid
+        <div>
+          {devices.map((d, index) => (
+            <Radio
+              key={d.deviceNo}
+              checked={farmRadio === `${index}`}
+              value={index}
+              onChange={(e) => {
+                const deviceNo = d.deviceNo
+                setFarmRadio(e.target.value)
+                setDeviceId(deviceNo)
+              }}
+              name="radio-buttons"
+              
+            />
+          ))}
+        </div>
+        <Grid
           container
           style={{
             backgroundColor: "#757575",
@@ -48,10 +74,10 @@ const MyFarm = () => {
           }}
         >
           <Box sx={{ ml: 1 }} flexGrow={1}>
-            <p style={{ color: "#FFA629" }}>작물</p>
+            <p style={{ color: "#FFA629" }}>{devices[farmRadio].cropName}</p>
           </Box>
           <Box flexGrow={1}>
-            <p>농장 이름</p>
+            <p>{devices[farmRadio].deviceName}</p>
           </Box>
           <Box>
             <IconButton size="large">
@@ -64,8 +90,8 @@ const MyFarm = () => {
             </IconButton>
           </Box>
         </Grid>
-
-        <Grid container spacing={1} sx={{ mt: 1 }}>
+        <SensorList deviceId={deviceId}/>
+        {/* <Grid container spacing={1} sx={{ mt: 1 }}>
           <Grid item xs={6}>
             <Card sx={{ background: "#F7B634" }}>
               <CardContent>
