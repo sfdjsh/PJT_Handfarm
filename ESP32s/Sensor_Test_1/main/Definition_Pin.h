@@ -8,7 +8,7 @@
 #define DHTTYPE DHT22
 
 #define CDS_pin 4 
-#define Soil_pin 13
+#define Soil_pin 2
 
 #define AirQuality_SDA_pin 21
 #define AirQuality_SCL_pin 22
