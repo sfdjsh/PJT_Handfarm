@@ -26,7 +26,6 @@ class RX9Simple
 		int status_co2();
 		int cal_co2();
 		int cal_co2(float EMF, float THER); //���ο� ppm���
-    int ppm_co2_value();
 		int step_co2();
 		int step_co2(float EMF, float THER); //���ο� ppm���
 		void auto_calib_co2();

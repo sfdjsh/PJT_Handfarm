@@ -31,6 +31,8 @@ void PM2008_I2C::begin() {
   Wire.begin();
 }
 
+
+
 /**
  * Send command data
  */
@@ -68,6 +70,8 @@ void PM2008_I2C::command() {
   Wire.write(_buffer, 7);
   Wire.endTransmission();
 }
+
+
 
 /**
  * Read PM2008 value

@@ -51,7 +51,6 @@ static float cal_B = 63.27;        //Calibrated number
 static float cal_B_offset = 1.0;   //cal_B could be changed by their structure. 
 static float _co2_ppm = 0.0;
 static float co2_ppm_output = 0.0;
-static float co2_ppm_output_pre = 0.0;
 static float DEDT = 1.0;           //Delta EMF/Delta THER, if DEDT = 1 means temperature change 1 degree in Celsius, EMF value can changed 1 mV
 
 // Damage recovery
@@ -148,18 +147,6 @@ int RX9Simple::cal_co2(float EMF, float THER)
     auto_calib_co2();
     return co2_ppm_output;
     // <--- CO2 Concentratio Calculation END   
-}
-
-//custom function
-int RX9Simple::ppm_co2_value() 
-{
-    if (_status_sensor == 1) {
-        co2_ppm_output_pre = co2_ppm_output;
-        return co2_ppm_output;
-    }
-    else {
-      return co2_ppm_output_pre;
-    }
 }
 
 int RX9Simple::step_co2() 
