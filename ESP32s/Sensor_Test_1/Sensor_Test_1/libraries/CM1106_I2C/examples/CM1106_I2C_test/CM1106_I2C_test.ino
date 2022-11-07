@@ -1,54 +1,20 @@
-#include "getSensorVal.h"
-#include "common.h"
-#include "Credential.h"
 #include <cm1106_i2c.h>
-#include "EspMQTTClient.h" 
 
-//object declaration
-PM2008_I2C pm2008_i2c;
-DHT dht(DHT22_pin,DHTTYPE);
-EspMQTTClient client(ssid, password, mqttBrokerIP, clientName, mqttPort);
 CM1106_I2C cm1106_i2c;
 
-void setup() {
-  Serial.begin(115200);
-  Wire.begin();
-  dht.begin();
-  relay_begin();
-  pm2008_i2c.command();
+// #define CM1107
 
+void setup() {
   cm1106_i2c.begin();
+  Serial.begin(9600);
   delay(1000);
   cm1106_i2c.read_serial_number();
   delay(1000);
   cm1106_i2c.check_sw_version();
-
-  client.enableDebuggingMessages();
-}
-
-void onConnectionEstablished(){
-  client.subscribe(topic_sub_auto, [] (const String &payload){
-    Serial.println(payload);
-    });
-  
-  client.subscribe(topic_sub_autoVal, [] (const String &payload){
-    Serial.println(payload);
-    });
-
-  client.subscribe(topic_sub_manual, [] (const String &payload){
-    Serial.println(payload);
-    });
+  delay(1000);
 }
 
 void loop() {
-  //dht.readTemperature() |  dht.readHumidity()
-  //getCDS()
-  //pm2008_i2c.pm2p5_grimm | pm2008_i2c.pm10_grimm
-  //digitalWrite(Relay_IN1,HIGH), digitalWrite(Relay_IN1,LOW);
-  //client.loop();
-  //Serial.println(analogRead(Soil_pin));
-
-
   uint8_t ret = cm1106_i2c.measure_result();
 
   if (ret == 0) {
@@ -132,4 +98,3 @@ void loop() {
   }
   delay(1000);
 }
-
