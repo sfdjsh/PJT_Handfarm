@@ -42,4 +42,13 @@ public class NoticeEntity {
     @Column(name="article_idx")
     private Integer articleIdx;
 
+    @Builder
+    public NoticeEntity(UserEntity toUser, UserEntity fromUser, String noticeType, LocalDateTime noticeTime, Boolean isRead, Integer articleIdx) {
+        this.toUser = toUser;
+        this.fromUser = fromUser;
+        this.noticeType = noticeType;
+        this.noticeTime = noticeTime;
+        this.isRead = isRead;
+        this.articleIdx = articleIdx;
+    }
 }

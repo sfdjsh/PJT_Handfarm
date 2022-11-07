@@ -99,7 +99,28 @@ public class FarmmunityController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @GetMapping("/like/{article_idx}") // 좋아요,좋아요취소
+    @PutMapping("community/{article_idx}") // 게시글 수정
+    public ResponseEntity<?> updateArticle(HttpServletRequest request, @PathVariable("article_idx") Integer articleIdx, @RequestBody ArticleRegistDto articleRegistDto){
+        Map<String, Object> resultMap = new HashMap<>();
+        try{
+            if (!kakaoService.CheckAccessToken(request.getHeader("accessToken"))) {
+                resultMap.put("message", timeOut);
+                status = HttpStatus.UNAUTHORIZED;
+            }else{
+                String decodeId = checkToken(request, resultMap);
+                farmmunityService.updateArticle(decodeId, articleIdx, articleRegistDto);
+                resultMap.put("message", success);
+                status = HttpStatus.OK;
+            }
+        }catch (Exception e){
+            resultMap.put("message", fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        return new ResponseEntity<>(resultMap, status);
+    }
+
+    @GetMapping("community/{article_idx}/like") // 좋아요,좋아요취소
     public ResponseEntity<?> likeArticle(HttpServletRequest request, @PathVariable("article_idx") Integer articleIdx){
         Map<String, Object> resultMap = new HashMap<>();
         try{
