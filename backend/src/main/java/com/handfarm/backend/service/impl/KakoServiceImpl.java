@@ -15,10 +15,7 @@ import org.springframework.stereotype.Service;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class KakoServiceImpl implements KakaoService {
@@ -124,8 +121,9 @@ public class KakoServiceImpl implements KakaoService {
                 resultMap.put("isRegisted", true);
                 nickname = userEntityOptional.get().getUserNickname();
                 if(userEntityOptional.get().getDevice() != null){
-                    Map<String, Object> deviceList = new HashMap<>();
+                    List<Map<String , Object>> deviceList = new ArrayList<>();
                     List<UserDeviceEntity> userDeviceEntityList = userDeviceRepository.findByUserIdx(userRepository.findByUserId(email).get());
+                    System.out.println(userDeviceEntityList);
                     if(!userDeviceEntityList.isEmpty()) {
                         for (UserDeviceEntity userDeviceEntity : userDeviceEntityList) {
                             Optional<DeviceEntity> device = deviceRepository.findById(userDeviceEntity.getDeviceIdx().getIdx());
@@ -136,7 +134,7 @@ public class KakoServiceImpl implements KakaoService {
                             deviceMap.put("cropName", Crop);
                             deviceMap.put("deviceLatitude", device.get().getDeviceLatitude());
                             deviceMap.put("deviceLong", device.get().getDeviceLong());
-                            deviceList.putAll(deviceMap);
+                            deviceList.add(deviceMap);
                         }
                         resultMap.put("deviceInfo", deviceList);
                     }

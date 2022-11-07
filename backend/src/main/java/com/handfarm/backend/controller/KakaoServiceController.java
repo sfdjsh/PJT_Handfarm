@@ -69,14 +69,19 @@ public class KakaoServiceController {
     }
 
     @GetMapping("/test")
-    public String tokencheck(HttpServletRequest request) throws IOException {
-        String accessToken = request.getHeader("accessToken");
-        if(kakaoService.CheckAccessToken(accessToken)){
-            return success;
-        }else{
-            return fail;
-        }
+    public ResponseEntity<?> tokencheck(HttpServletRequest request) throws IOException {
+        Map<String, Object> resultMap = new HashMap<>();
+
+
+            Map<String, Object> userInfo = new HashMap<>();
+            userInfo.putAll(kakaoService.createKakaoUser(request.getHeader("accessToken")));
+            resultMap.put("message", success);
+            resultMap.put("userInfo", userInfo);
+            status = HttpStatus.OK;
+            return new ResponseEntity<>(resultMap, status);
+
     }
+
     @GetMapping("/test/unlink")
     public String servicenulink(HttpServletRequest request) throws IOException {
         String accessToken = request.getHeader("accessToken");
