@@ -44,7 +44,6 @@ export default function DialButton() {
                 {/*        icon={action.icon}*/}
                 {/*        tooltipTitle={action.name}*/}
                 {/*    />*/}
-                ))}
             </SpeedDial>
         </Box>
     );

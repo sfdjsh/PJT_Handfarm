@@ -24,7 +24,8 @@ export const Kakao = () => {
             isLoggedIn: true,
             isRegisted: response.data.isRegisted,
             userNickname: response.data.userInfo.userNickname,
-            deviceId: response.data.userInfo.deviceId
+            deviceId: response.data.userInfo.deviceInfo,
+            userEmail: response.data.userId
           })
         }
       })

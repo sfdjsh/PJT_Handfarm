@@ -24,7 +24,7 @@ import CommentForm from "./components/common/CommentForm";
 import MyPage from "./pages/myPage/MyPage"
 import {CreateReadChat} from "./pages/chat/CreateReadChat";
 import {ChatList} from "./pages/chat/ChatList";
-
+import MyFarmTest from "./pages/myFarm/MyFarmTest";
 
 function App() {
   const location = useLocation();
@@ -60,6 +60,7 @@ function App() {
           <Route exact path="/sensor/detail" element={<SensorDetail />}></Route>
           <Route exact path="/control/detail" element={<ControlDetail />}></Route>
           <Route exact path='/mypage/:nickname' element={<MyPage />}></Route>
+          <Route exact path='/myfarm/test' element={<MyFarmTest />}></Route>
         </Routes>
        </Box>
         { location.pathname === '/' || (location.pathname.split('/')[2] === 'info' && parseInt(location.pathname.split('/')[3]) >= 1 ) || location.pathname.split('/')[2] >= 1 ? (<CommentForm/>) : (<Footer />) }
