@@ -24,8 +24,6 @@ public class ArticleEntity {
 
     @Column(name="article_category")
     private String articleCategory;
-    @Column(name="article_area")
-    private String articleArea;
     @Column(name="article_title")
     private String articleTitle;
     @Column(name="article_img")
@@ -43,18 +41,21 @@ public class ArticleEntity {
     @JoinColumn(name="crop_idx")
     private CropEntity cropIdx;
 
+    @ManyToOne
+    @JoinColumn(name="region_idx")
+    private RegionEntity regionIdx;
+
     @Builder
-    public ArticleEntity(Integer idx, String articleCategory, String articleArea, String articleTitle, String articleImg, String articleContent, LocalDateTime articleTime, UserEntity userIdx, CropEntity cropIdx, LocalDateTime articleUpdate) {
+    public ArticleEntity(Integer idx, String articleCategory, String articleTitle, String articleImg, String articleContent, LocalDateTime articleTime, LocalDateTime articleUpdate, UserEntity userIdx, CropEntity cropIdx, RegionEntity regionIdx) {
         this.idx = idx;
         this.articleCategory = articleCategory;
         this.articleTitle = articleTitle;
         this.articleImg = articleImg;
         this.articleContent = articleContent;
         this.articleTime = articleTime;
+        this.articleUpdate = articleUpdate;
         this.userIdx = userIdx;
         this.cropIdx = cropIdx;
-        this.articleArea = articleArea;
-        this.articleUpdate = articleUpdate;
+        this.regionIdx = regionIdx;
     }
-
 }

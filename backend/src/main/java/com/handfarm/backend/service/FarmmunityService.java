@@ -15,7 +15,7 @@ public interface FarmmunityService {
 
     Boolean likeArticle(String decodeId, Integer articleIdx);
     void updateArticle(String decodeId, Integer articleIdx, ArticleRegistDto articleRegistDto);
-    Map<String, Object> getArticleDetail(Integer articleIdx);
+    Map<String, Object> getArticleDetail(String decodeId, Integer articleIdx);
 
     void registComment(String decodeId, Integer articleIdx, CommentRegistDto commentRegistDto);
 
