@@ -27,21 +27,13 @@ const MyFarm = () => {
   const [user, setUser] = useRecoilState(userInfo);
   const [myFarm, setMyFarm] = useRecoilState(userFarm);
   const [sensor, setSensor] = useRecoilState(deviceSensor)
-
-  const [farmRadio, setFarmRadio] = useState(0);
-  const [deviceId, setDeviceId] = useState('')
   
   const devices = user.deviceId
+  const [farmRadio, setFarmRadio] = useState('0');
+  const [deviceId, setDeviceId] = useState(devices[0].deviceNo)
+  
   const email = user.userEmail
-
-  useEffect(() => {
-    const sse = new EventSourcePolyfill(`${BASE_URL}/connect/${email}`)
-    sse.addEventListener('connect', (e) => {
-      const {data: receivedConnectData} = e;
-      setSensor(JSON.parse(receivedConnectData))
-    })
-  });
-
+  
   return (
     <>
       <Container sx={{ mt: 1, width: "90%" }}>
@@ -86,7 +78,7 @@ const MyFarm = () => {
             </IconButton>
           </Box>
         </Grid>
-        <SensorList deviceId={deviceId} />
+        <SensorList deviceId={deviceId} email={email} />
         {/* <Grid container spacing={1} sx={{ mt: 1 }}>
           <Grid item xs={6}>
             <Card sx={{ background: "#F7B634" }}>
