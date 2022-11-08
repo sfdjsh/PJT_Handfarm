@@ -16,7 +16,8 @@ import Box from "@mui/material/Box";
 import {articleCreate} from "../api/Article";
 import {ThemeProvider} from "@mui/styles";
 import {MuiTheme} from "../../style/MuiTheme";
-
+import {useLocation} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 export const ArticleForm = () => {
     const [userInput, setUserInput] = useState({
@@ -31,6 +32,8 @@ export const ArticleForm = () => {
     });
     const [progress, setProgress] = useState(0)
     let inputRef;
+    const location = useLocation()
+    const navigator = useNavigate()
 
     useEffect(()=> {
         // 컴포넌트가 언마운트되면 createObjectURL()을 통해 생성한 기존 URL을 폐기
@@ -74,9 +77,9 @@ export const ArticleForm = () => {
     // }
     const submitArticle = async () => {
         if(!image.image_file){
-            articleCreate(userInput)
+            articleCreate(userInput, location.pathname.split('/')[3])
                 .then((res) => res.json().then(res => {
-                    console.log(res)
+                    navigator(-1)
                 }))
         }
         const storageRef = storage.ref("images/test/")
@@ -97,7 +100,7 @@ export const ArticleForm = () => {
                 upLoadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
                     console.log("File available at", downloadURL);
                     setImageUrl(downloadURL);
-                    const res = articleCreate({...userInput, articleImg : downloadURL})
+                    const res = articleCreate({...userInput, articleImg : downloadURL},location.pathname.split('/')[3])
                         .then((res) => {
                             console.log(res)
                             // if (res.ok) {
@@ -106,6 +109,7 @@ export const ArticleForm = () => {
                             // } else {
                             //     alert('오류 발생')
                             // }
+                            navigator(-1)
                         })
                     // CreateAdminNotice({...article, pstImg : downloadURL})
                     // alert("서버에 등록이 완료되었습니다!");
