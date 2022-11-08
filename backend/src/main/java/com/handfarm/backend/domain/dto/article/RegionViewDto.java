@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CropViewDto {
-    private String cropName;
-    private String cropImg;
-    private String cropDescription;
-    private Integer cropUserCount;
+public class RegionViewDto {
+    private String regionName;
+    private String regionImg;
+    private String regionDescription;
 }
