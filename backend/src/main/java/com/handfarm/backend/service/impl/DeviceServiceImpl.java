@@ -126,7 +126,7 @@ public class DeviceServiceImpl implements DeviceService {
         deviceControlEntity.get().setAutoControlval(value);
 
         deviceControlRepository.save(deviceControlEntity.get());
-        deviceControlRepository.save(deviceControlEntity.get());
+        control = controlEntity.get().getControlArea();
         JsonObject object = new JsonObject();
         object.addProperty(control, value);
         Map<String, Object> map = new HashMap<>();
