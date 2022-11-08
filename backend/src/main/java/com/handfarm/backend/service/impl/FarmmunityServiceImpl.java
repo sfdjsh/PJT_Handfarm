@@ -20,9 +20,10 @@ public class FarmmunityServiceImpl implements FarmmunityService {
     private final CommentRepository commentRepository;
     private final UserLikeArticlesRepository userLikeArticlesRepository;
     private final NoticeRepository noticeRepository;
+    private final RegionRepository regionRepository;
 
     @Autowired
-    FarmmunityServiceImpl(ArticleRepository articleRepository, UserRepository userRepository, CropRepository cropRepository, DeviceRepository deviceRepository, CommentRepository commentRepository, UserLikeArticlesRepository userLikeArticlesRepository, NoticeRepository noticeRepository){
+    FarmmunityServiceImpl(ArticleRepository articleRepository, UserRepository userRepository, CropRepository cropRepository, DeviceRepository deviceRepository, CommentRepository commentRepository, UserLikeArticlesRepository userLikeArticlesRepository, NoticeRepository noticeRepository, RegionRepository regionRepository){
         this.articleRepository = articleRepository;
         this.userRepository = userRepository;
         this.cropRepository = cropRepository;
@@ -30,6 +31,7 @@ public class FarmmunityServiceImpl implements FarmmunityService {
         this.commentRepository = commentRepository;
         this.userLikeArticlesRepository = userLikeArticlesRepository;
         this.noticeRepository = noticeRepository;
+        this.regionRepository = regionRepository;
     }
 
     @Override
@@ -50,12 +52,13 @@ public class FarmmunityServiceImpl implements FarmmunityService {
                     .cropIdx(crop).build();
             articleRepository.save(article);
         }else{ // 지역
+            RegionEntity region = regionRepository.findByRegionName(category);
             ArticleEntity article = ArticleEntity.builder()
                     .articleCategory("지역")
                     .articleTitle(articleTitle)
                     .articleContent(articleContent)
                     .userIdx(user)
-                    .articleArea(category).build();
+                    .regionIdx(region).build();
             articleRepository.save(article);
         }
     }
@@ -121,12 +124,14 @@ public class FarmmunityServiceImpl implements FarmmunityService {
     }
 
     @Override
-    public Map<String, Object> getArticleDetail(Integer articleIdx) {
+    public Map<String, Object> getArticleDetail(String decodeId, Integer articleIdx) {
         Map<String, Object> data = new HashMap<>();
         ArticleEntity article = articleRepository.findByIdx(articleIdx).get();
         List<CommentEntity> comment = commentRepository.findByArticleIdx(article);
 
         ArticleDetailDto articleDetailDto = ArticleDetailDto.builder()
+                .articleUserProfile(article.getUserIdx().getUserProfile())
+                .articleUserNickname(article.getUserIdx().getUserNickname())
                 .articleTitle(article.getArticleTitle())
                 .articleImg(article.getArticleImg())
                 .articleContent(article.getArticleContent())
@@ -151,6 +156,14 @@ public class FarmmunityServiceImpl implements FarmmunityService {
             data.put("commentList", commentView);
         }
 
+        if(!decodeId.equals("isLogin")){
+            UserEntity user = userRepository.findByUserId(decodeId).get();
+            // 좋아요 했는지 안했는지 여부
+            Optional<UserLikeArticlesEntity> ula = userLikeArticlesRepository.findByUserAndArticle(user, article);
+            if(ula.isPresent()) data.put("isLikeClicked", true);
+            else data.put("isLikeClicked", false);
+        }
+
         return data;
     }
 
@@ -161,7 +174,8 @@ public class FarmmunityServiceImpl implements FarmmunityService {
 
         if(domain.equals("정보")){ // 딸기 , 방울 토마투
             CropEntity crop = cropRepository.findByCropName(category);
-            CropViewDto cropViewDto = CropViewDto.builder().cropName(crop.getCropName()).cropImg(crop.getCropImg()).cropDescription(crop.getCropDescription()).build();
+            CropViewDto cropViewDto = CropViewDto.builder().cropName(crop.getCropName()).cropImg(crop.getCropImg()).
+                    cropDescription(crop.getCropDescription()).cropUserCount(deviceRepository.countByCrop(crop)).build();
             List<ArticleEntity> articleInfoList = articleRepository.findByArticleCategoryAndCropIdx(domain, crop);
             if(!articleInfoList.isEmpty()){
                 for(ArticleEntity a : articleInfoList){
@@ -178,14 +192,17 @@ public class FarmmunityServiceImpl implements FarmmunityService {
             }else{
                 result = new ArrayList<>();
             }
-            res.put("cropInfo",cropViewDto);
+            res.put("articleInfo",cropViewDto);
         }else{ // 지역
-            List<ArticleEntity> articleRegionList = articleRepository.findByArticleCategoryAndArticleArea(domain, category);
+            RegionEntity region = regionRepository.findByRegionName(category);
+            RegionViewDto regionViewDto = RegionViewDto.builder().regionName(region.getRegionName()).regionImg(region.getRegionImg()).regionDescription(region.getRegionDescription()).build();
+            List<ArticleEntity> articleRegionList = articleRepository.findByArticleCategoryAndRegionIdx(domain, region);
             if(!articleRegionList.isEmpty()){
                 for(ArticleEntity a : articleRegionList){
                     ArticleViewDto article = ArticleViewDto.builder()
                             .idx(a.getIdx())
                             .articleTitle(a.getArticleTitle())
+                            .articleContent(a.getArticleContent())
                             .articleImg(null)
                             .likeCount(userLikeArticlesRepository.countByArticleIdx(a.getIdx()))
                             .commentCount(commentRepository.countByArticleIdx(a))
@@ -196,6 +213,7 @@ public class FarmmunityServiceImpl implements FarmmunityService {
             }else{
                 result = new ArrayList<>();
             }
+            res.put("articleInfo", regionViewDto);
         }
 
         res.put("articleList",result);
@@ -251,9 +269,11 @@ public class FarmmunityServiceImpl implements FarmmunityService {
 
         if(user.getUserId().equals(article.getUserIdx().getUserId())){
             if(article.getArticleCategory().equals("지역")){ // 이미지 없음
+                RegionEntity region = regionRepository.findByRegionName(article.getRegionIdx().getRegionName());
                 ArticleEntity updateArticle = ArticleEntity.builder()
                         .idx(articleIdx).articleCategory(article.getArticleCategory())
-                        .articleArea(article.getArticleArea()).articleTitle(articleRegistDto.getArticleTitle())
+                        .regionIdx(region).articleTitle(articleRegistDto.getArticleTitle())
+                        .cropIdx(article.getCropIdx())
                         .articleContent(articleRegistDto.getArticleContent()).userIdx(user)
                         .articleTime(article.getArticleTime()).articleUpdate(LocalDateTime.now()).build();
 
@@ -262,7 +282,7 @@ public class FarmmunityServiceImpl implements FarmmunityService {
                 CropEntity crop = cropRepository.findByCropName(article.getCropIdx().getCropName());
                 ArticleEntity updateArticle = ArticleEntity.builder()
                         .idx(articleIdx).articleCategory(article.getArticleCategory())
-                        .articleArea(article.getArticleArea()).articleTitle(articleRegistDto.getArticleTitle())
+                        .regionIdx(article.getRegionIdx()).articleTitle(articleRegistDto.getArticleTitle())
                         .articleContent(articleRegistDto.getArticleContent()).userIdx(user)
                         .articleImg(articleRegistDto.getArticleImg()).cropIdx(crop)
                         .articleTime(article.getArticleTime()).articleUpdate(LocalDateTime.now()).build();

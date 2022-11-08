@@ -13,6 +13,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class ArticleDetailDto {
+
+    private String articleUserNickname;
+    private String articleUserProfile;
     private String articleTitle;
     private String articleImg;
     private String articleContent;
