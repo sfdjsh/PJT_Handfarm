@@ -17,7 +17,8 @@ export const userInfo = atom({
 
 export const userFarm = atom({
     key : "userFarm",
-    default : []
+    default : [],
+    effects_UNSTABLE: [persistAtom],
 })
 
 export const alarmState = atom({

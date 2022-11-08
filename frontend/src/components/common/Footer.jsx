@@ -13,6 +13,8 @@ import styled from 'styled-components';
 import Divider from "@mui/material/Divider";
 import { makeStyles } from '@mui/styles';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import {userInfo} from '../../atom'
 
 const useStyles = makeStyles({
     root: {
@@ -25,6 +27,7 @@ export const Footer = () => {
     const classes = useStyles();
     const [value, setValue] = useState(0)
     const navigator = useNavigate();
+    const [user, setUser] = useRecoilState(userInfo)
 
     return (
         <>
@@ -49,7 +52,7 @@ export const Footer = () => {
                         navigator('/chatList')
                     }}  label="톡톡"  icon={<MailOutlineOutlinedIcon />} />
                     <BottomNavigationAction style={{ color : "white" }} onClick={() => {
-                        navigator('')
+                        navigator(`/mypage/${user.userNickname}`)
                     }}  label="프로필" icon={<PermIdentityOutlinedIcon />} />
                 </BottomNavigation>
             </Box>
