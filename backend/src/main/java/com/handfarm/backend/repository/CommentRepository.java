@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface CommentRepository extends JpaRepository<CommentEntity, Integer> {
 
     List<CommentEntity> findByArticleIdx(ArticleEntity article);
+
+    Integer countByArticleIdx(Integer idx);
 }
