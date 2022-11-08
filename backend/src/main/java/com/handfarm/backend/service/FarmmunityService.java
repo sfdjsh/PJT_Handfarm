@@ -11,7 +11,7 @@ import java.util.List;
 public interface FarmmunityService {
     void registArticle(String decodeId, ArticleRegistDto articleRegistDto, String domain, String category);
 
-    List<ArticleViewDto> getArticleList(String decodeId, String domain, String category);
+    Map<String, Object> getArticleList(String domain, String category);
 
     Boolean likeArticle(String decodeId, Integer articleIdx);
     void updateArticle(String decodeId, Integer articleIdx, ArticleRegistDto articleRegistDto);
@@ -22,4 +22,6 @@ public interface FarmmunityService {
     void deleteArticle(String decodeId, Integer articleIdx);
 
     void deleteComment(String decodeId, Integer articleIdx, Integer commentIdx);
+
+    void updateComment(String decodeId, Integer articleIdx, Integer commentIdx, CommentRegistDto commentRegistDto);
 }

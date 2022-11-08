@@ -1,11 +1,7 @@
 package com.handfarm.backend.service.impl;
 
-import com.handfarm.backend.domain.dto.article.ArticleDetailDto;
-import com.handfarm.backend.domain.dto.article.ArticleRegistDto;
-import com.handfarm.backend.domain.dto.article.ArticleViewDto;
+import com.handfarm.backend.domain.dto.article.*;
 import com.handfarm.backend.domain.entity.*;
-import com.handfarm.backend.domain.dto.article.CommentRegistDto;
-import com.handfarm.backend.domain.dto.article.CommentViewDto;
 import com.handfarm.backend.repository.*;
 import com.handfarm.backend.service.FarmmunityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,7 +92,7 @@ public class FarmmunityServiceImpl implements FarmmunityService {
         UserEntity user = userRepository.findByUserId(decodeId).get();
         ArticleEntity article = articleRepository.findById(articleIdx).get();
 
-        if(user.getUserId().equals(article.getUserIdx().getUserNickname())){
+        if(user.getUserId().equals(article.getUserIdx().getUserId())){
             articleRepository.delete(article);
 
             // 게시글 삭제 시 관련 알림 다 삭제
@@ -124,16 +120,24 @@ public class FarmmunityServiceImpl implements FarmmunityService {
         }
     }
 
-
     @Override
     public Map<String, Object> getArticleDetail(Integer articleIdx) {
         Map<String, Object> data = new HashMap<>();
         ArticleEntity article = articleRepository.findByIdx(articleIdx).get();
         List<CommentEntity> comment = commentRepository.findByArticleIdx(article);
-//       System.out.println(articleIdx);
+
+        ArticleDetailDto articleDetailDto = ArticleDetailDto.builder()
+                .articleTitle(article.getArticleTitle())
+                .articleImg(article.getArticleImg())
+                .articleContent(article.getArticleContent())
+                .articleTime(article.getArticleTime())
+                .build();
+
+        data.put("articleDetail", articleDetailDto);
 
         if (comment.isEmpty()) {
             data.put("commentList", new ArrayList<>());
+        }else{
             List<CommentViewDto> commentView = new ArrayList<>();
             for (CommentEntity c : comment) {
                 CommentViewDto dto = CommentViewDto.builder()
@@ -147,25 +151,17 @@ public class FarmmunityServiceImpl implements FarmmunityService {
             data.put("commentList", commentView);
         }
 
-
-        ArticleDetailDto articleDetailDto = ArticleDetailDto.builder()
-                .articleTitle(article.getArticleTitle())
-                .articleImg(article.getArticleImg())
-                .articleContent(article.getArticleContent())
-                .articleTime(article.getArticleTime())
-                .build();
-
-        data.put("articleDetail", articleDetailDto);
-
         return data;
     }
 
     @Override
-    public List<ArticleViewDto> getArticleList(String decodeId, String domain, String category) {
+    public Map<String, Object> getArticleList(String domain, String category) {
+        Map<String, Object> res = new HashMap<>();
         List<ArticleViewDto> result = new ArrayList<>();
 
         if(domain.equals("정보")){ // 딸기 , 방울 토마투
             CropEntity crop = cropRepository.findByCropName(category);
+            CropViewDto cropViewDto = CropViewDto.builder().cropName(crop.getCropName()).cropImg(crop.getCropImg()).cropDescription(crop.getCropDescription()).build();
             List<ArticleEntity> articleInfoList = articleRepository.findByArticleCategoryAndCropIdx(domain, crop);
             if(!articleInfoList.isEmpty()){
                 for(ArticleEntity a : articleInfoList){
@@ -174,7 +170,7 @@ public class FarmmunityServiceImpl implements FarmmunityService {
                             .articleTitle(a.getArticleTitle())
                             .articleImg(a.getArticleImg())
                             .likeCount(userLikeArticlesRepository.countByArticleIdx(a.getIdx()))
-                            .commentCount(commentRepository.countByArticleIdx(a.getIdx()))
+                            .commentCount(commentRepository.countByArticleIdx(a))
                             .build();
 
                     result.add(article);
@@ -182,6 +178,7 @@ public class FarmmunityServiceImpl implements FarmmunityService {
             }else{
                 result = new ArrayList<>();
             }
+            res.put("cropInfo",cropViewDto);
         }else{ // 지역
             List<ArticleEntity> articleRegionList = articleRepository.findByArticleCategoryAndArticleArea(domain, category);
             if(!articleRegionList.isEmpty()){
@@ -191,7 +188,7 @@ public class FarmmunityServiceImpl implements FarmmunityService {
                             .articleTitle(a.getArticleTitle())
                             .articleImg(null)
                             .likeCount(userLikeArticlesRepository.countByArticleIdx(a.getIdx()))
-                            .commentCount(commentRepository.countByArticleIdx(a.getIdx()))
+                            .commentCount(commentRepository.countByArticleIdx(a))
                             .build();
 
                     result.add(article);
@@ -200,7 +197,10 @@ public class FarmmunityServiceImpl implements FarmmunityService {
                 result = new ArrayList<>();
             }
         }
-        return result;
+
+        res.put("articleList",result);
+
+        return res;
     }
 
     @Override
@@ -269,6 +269,27 @@ public class FarmmunityServiceImpl implements FarmmunityService {
 
                 articleRepository.save(updateArticle);
             }
+        }
+    }
+
+    @Override
+    public void updateComment(String decodeId, Integer articleIdx, Integer commentIdx, CommentRegistDto commentRegistDto) {
+        UserEntity user = userRepository.findByUserId(decodeId).get();
+        ArticleEntity article = articleRepository.findById(articleIdx).get();
+        CommentEntity comment = commentRepository.findById(commentIdx).get();
+
+        if(user.getUserId().equals(comment.getUserIdx().getUserId())){
+            CommentEntity commentEntity = CommentEntity.builder()
+                    .idx(comment.getIdx())
+                    .commentContent(commentRegistDto.getCommentContent())
+                    .upIdx(commentRegistDto.getUpIdx())
+                    .commentTime(comment.getCommentTime())
+                    .updateTime(LocalDateTime.now())
+                    .articleIdx(article)
+                    .userIdx(user)
+                    .build();
+
+            commentRepository.save(commentEntity);
         }
     }
 }

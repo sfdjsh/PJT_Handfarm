@@ -56,20 +56,17 @@ public class FarmmunityController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @GetMapping("/community/{domain}/{category}") // 게시글 조회
-    public ResponseEntity<?> getArticleList(HttpServletRequest request, @RequestBody ArticleRegistDto articleRegistDto, @PathVariable("domain") String domain, @PathVariable("category") String category){
+    @GetMapping("/community/{domain}/{category}") // 게시글 카테고리 별 조회
+    public ResponseEntity<?> getArticleList(@PathVariable("domain") String domain, @PathVariable("category") String category){
         Map<String, Object> resultMap = new HashMap<>();
         try{
-            if (!kakaoService.CheckAccessToken(request.getHeader("accessToken"))) {
-                resultMap.put("message", timeOut);
-                status = HttpStatus.UNAUTHORIZED;
-            }else{
-                String decodeId = checkToken(request, resultMap);
-                List<ArticleViewDto> articleList = farmmunityService.getArticleList(decodeId, domain, category);
-                resultMap.put("articleList", articleList);
-                resultMap.put("message", success);
-                status = HttpStatus.OK;
+            Map<String, Object> res = farmmunityService.getArticleList(domain, category);
+            resultMap.put("articleList", res.get("articleList"));
+            if(res.get("cropInfo") != null){
+                resultMap.put("cropInfo", res.get("cropInfo"));
             }
+            resultMap.put("message", success);
+            status = HttpStatus.OK;
         }catch (Exception e){
             resultMap.put("message", fail);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -78,7 +75,7 @@ public class FarmmunityController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @GetMapping("/community/{article_idx}")
+    @GetMapping("/community/{article_idx}") // 게시글 상세조회
     public ResponseEntity<?> getArticleDetail(@PathVariable("article_idx") Integer articleIdx){
         Map<String, Object> resultMap = new HashMap<>();
         try {
@@ -137,7 +134,7 @@ public class FarmmunityController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @PostMapping("/community/{articleIdx}/comment")
+    @PostMapping("/community/{articleIdx}/comment") // 댓글 등록
     public ResponseEntity<?> registComment(HttpServletRequest request, @RequestBody CommentRegistDto commentRegistDto, @PathVariable("articleIdx") Integer articleIdx){
         Map<String, Object> resultMap = new HashMap<>();
         try {
@@ -158,8 +155,29 @@ public class FarmmunityController {
         return new ResponseEntity<>(resultMap, status);
     }
 
+    @PutMapping("community/{article_idx}/comment/{comment_idx}") // 댓글 수정
+    public ResponseEntity<?> updateComment(HttpServletRequest request, @RequestBody CommentRegistDto commentRegistDto, @PathVariable("article_idx") Integer articleIdx, @PathVariable("comment_idx") Integer commentIdx){
+        Map<String, Object> resultMap = new HashMap<>();
+        try {
+            if(!kakaoService.CheckAccessToken(request.getHeader("accessToken"))){
+                resultMap.put("message", timeOut);
+                status = HttpStatus.UNAUTHORIZED;
+            }else{
+                String decodeId = checkToken(request, resultMap);
+                farmmunityService.updateComment(decodeId, articleIdx, commentIdx, commentRegistDto);
+                resultMap.put("message", success);
+                status = HttpStatus.OK;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            resultMap.put("message", fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<>(resultMap, status);
+    }
+
     @DeleteMapping("community/{article_idx}/comment/{comment_idx}") // 댓글 삭제
-    public ResponseEntity<?> registComment(HttpServletRequest request, @PathVariable("article_idx") Integer articleIdx, @PathVariable("comment_idx") Integer commentIdx){
+    public ResponseEntity<?> deleteComment(HttpServletRequest request, @PathVariable("article_idx") Integer articleIdx, @PathVariable("comment_idx") Integer commentIdx){
         Map<String, Object> resultMap = new HashMap<>();
         try {
             if(!kakaoService.CheckAccessToken(request.getHeader("accessToken"))){
