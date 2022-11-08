@@ -41,7 +41,8 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = getUserEntity(request);
         resultMap.put("userNickName", userEntity.getUserNickname());
         resultMap.put("userProfile", userEntity.getUserProfile());
-        resultMap.put("userOpen", userEntity.getUserOpen());     // 게시글 탑3 가져와야함
+        resultMap.put("userOpen", userEntity.getUserOpen());
+        // 게시글 가져오기
         return resultMap;
     }
 

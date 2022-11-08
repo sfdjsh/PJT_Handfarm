@@ -15,4 +15,5 @@ public class ArticleViewDto {
     private String articleImg;
     private Integer likeCount;
     private Integer commentCount;
+    private String articleContent;
 }
