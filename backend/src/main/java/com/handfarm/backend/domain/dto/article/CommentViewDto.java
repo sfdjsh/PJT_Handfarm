@@ -16,4 +16,5 @@ public class CommentViewDto {
     private Integer idx;
     private LocalDateTime commentTime;
     private String userNickName;
+    private String userProfileImg;
 }
