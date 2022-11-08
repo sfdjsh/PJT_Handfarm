@@ -9,7 +9,6 @@ export async function fetchInfoArticle(nowCrop) {
     }else if(nowCrop === 20){
         nowCrop = "파프리카"
     }
-    console.log(nowCrop)
 
     const URL = `${LOCAL_URL}/community/info/${nowCrop}`
     const response = await fetch(URL, {
