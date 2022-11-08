@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class DedviceAutoControlDto {
     private String controlName;
-    private Integer controlValue;
+    private Object controlValue;
 }

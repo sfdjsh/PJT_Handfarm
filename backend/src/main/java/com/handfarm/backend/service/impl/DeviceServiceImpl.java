@@ -93,7 +93,7 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public JsonObject deviceAutoControl(String deviceNo, DedviceAutoControlDto dto) {
         String control = dto.getControlName();
-        Integer value = dto.getControlValue();
+        Integer value = (Integer) dto.getControlValue();
         Optional<ControlEntity> controlEntity = controlRepository.findByControlName(control);
         Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceNo);
         Optional<DeviceControlEntity> deviceControlEntity = deviceControlRepository.findByDeviceIdxAndControlIdx(deviceEntity.get(), controlEntity.get());
@@ -133,7 +133,7 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public JsonObject deviceManual(String deviceNo, DedviceAutoControlDto dto) {
         String control = dto.getControlName();
-        Integer value = dto.getControlValue();
+        Integer value = (Integer) dto.getControlValue();
         Optional<ControlEntity> controlEntity = controlRepository.findByControlName(control);
         Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceNo);
         Optional<DeviceControlEntity> deviceControlEntity = deviceControlRepository.findByDeviceIdxAndControlIdx(deviceEntity.get(), controlEntity.get());
