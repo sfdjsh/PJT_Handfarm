@@ -15,18 +15,25 @@ import {useEffect} from "react";
 import {fetchRegionArticle} from "../api/Farmmunity";
 import {nowRegion} from "../../atom";
 import {useRecoilState} from "recoil";
+import DialButton from "../../components/common/DialButton";
+import {useNavigate} from "react-router-dom";
 
 const CommunityInfo = () => {
     const [regionArticle, setRegionArticle] = useState([])
     const [region, setRegion] = useRecoilState(nowRegion)
+    const navigator = useNavigate()
+    const [regionInfo, setRegionInfo] = useState([])
+    console.log(regionArticle)
+    console.log(regionInfo)
 
     useEffect(() => {
         const getArticle = fetchRegionArticle(region)
             .then((res) => res.json().then((res) => {
                 console.log(res)
-                setRegionArticle(res)
+                setRegionArticle(res.articleList)
+                setRegionInfo(res.articleInfo)
             }))
-    })
+    },[region])
 
     return (
         <Box>
@@ -36,13 +43,13 @@ const CommunityInfo = () => {
             <Box sx={{ display : "flex", justifyContent : "center", alignItems : "center" }}>
                 <Avatar
                     alt="Remy Sharp"
-                    src="https://mblogthumb-phinf.pstatic.net/20160430_289/passtheway_1462025191089kdmeN_PNG/%BD%C9%BA%BC%B8%B6%C5%A9%C5%F5%B8%ED.png?type=w2"
+                    src={ regionInfo.regionImg }
                     sx={{ width: 100, height: 100, boxShadow: '1px 2px 9px #F4AAB9' }}
                 />
             </Box>
             <Grid container spacing={1}>
                 <Grid item xs={7}>
-                    <Box sx={{ fontSize : "25px", m : 1, textAlign : "right" }}>광주</Box>
+                    <Box sx={{ fontSize : "25px", m : 1, textAlign : "right" }}>{ regionInfo.regionName }</Box>
                 </Grid>
                 <Grid item xs={5}>
                     <Box sx={{ display : "flex" ,fontSize : "20px" ,m : 1.5, alignItems : "center", justifyContent : "center" }}><span style={{ fontSize : "15px", margin : "5px" }}>123</span><PermIdentityIcon/></Box>
@@ -50,7 +57,7 @@ const CommunityInfo = () => {
             </Grid>
             <Box sx={{ display : "flex", justifyContent : "center", px : "25px" }}>
                 <p style={{ lineHeight : "30px", color : "#B3B3B3" }}>
-                    광주에 대한 정보글을 확인해보세요!
+                    { regionInfo.regionName }에 대한 정보글을 확인해보세요!
                 </p>
             </Box>
             <Divider style={{ backgroundColor : "#757575" }}/>
@@ -58,11 +65,12 @@ const CommunityInfo = () => {
                 <ArticleFilter/>
             </Box>
             <Box>
-                {/*{ regionArticle.map((article,index) => {*/}
-                {/*    <BasicCard article={article}/>*/}
-                {/*} )}*/}
-                <BasicCard/>
+                { regionArticle.map((article, index) => (
+                    <BasicCard key={index} title={article.articleTitle} idx={article.idx} content={article.articleContent}/>
+                )) }
+                {/*<BasicCard/>*/}
             </Box>
+            <DialButton now="지역"/>
         </Box>
     );
 };

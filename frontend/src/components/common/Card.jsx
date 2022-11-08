@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import Divider from "@mui/material/Divider";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import {useNavigate} from "react-router-dom";
 
 const bull = (
     <Box
@@ -18,12 +19,17 @@ const bull = (
     </Box>
 );
 
-export default function BasicCard() {
+export default function BasicCard({ title, idx, content }) {
+    const navigator = useNavigate()
+
     return (
-        <Card sx={{ minWidth: 275, backgroundColor : "#696969", mx : 2, height : "150px" }}>
+        <Card sx={{ minWidth: 275, backgroundColor : "#696969", mt : 2,  mx : 2, height : "150px" }}
+              onClick={() => {
+                  navigator(`/community/${idx}`)}}
+        >
             <CardContent sx={{ mb : 0 }}>
                 <Typography sx={{ fontSize: 15, color : "white", fontWeight : "bold", textAlign : "left", fontFamily : "ScoreDream" }} color="text.secondary" gutterBottom>
-                    광주 장덕동 같이 노실분~
+                    { title }
                 </Typography>
                 {/*<Typography variant="h5" component="div" sx={{ textAlign : "left" }}>*/}
                 {/*    be{bull}nev{bull}o{bull}lent*/}
@@ -32,7 +38,7 @@ export default function BasicCard() {
                 {/*    adjective*/}
                 {/*</Typography>*/}
                 <Typography sx={{  fontFamily : "ScoreDream", color : "white", mb : 2  }} variant="body2">
-                    광주 커뮤니티 내용 뭐키울래요 스마트팜 최고 딸기? 파프리카? ..
+                    { content }
                     {/*<br />*/}
                     {/*{'"a benevolent smile"'}*/}
                 </Typography>
