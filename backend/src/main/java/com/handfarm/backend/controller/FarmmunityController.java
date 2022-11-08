@@ -62,9 +62,7 @@ public class FarmmunityController {
         try{
             Map<String, Object> res = farmmunityService.getArticleList(domain, category);
             resultMap.put("articleList", res.get("articleList"));
-            if(res.get("cropInfo") != null){
-                resultMap.put("cropInfo", res.get("cropInfo"));
-            }
+            resultMap.put("articleInfo", res.get("articleInfo"));
             resultMap.put("message", success);
             status = HttpStatus.OK;
         }catch (Exception e){
@@ -76,14 +74,27 @@ public class FarmmunityController {
     }
 
     @GetMapping("/community/{article_idx}") // 게시글 상세조회
-    public ResponseEntity<?> getArticleDetail(@PathVariable("article_idx") Integer articleIdx){
+    public ResponseEntity<?> getArticleDetail(HttpServletRequest request, @PathVariable("article_idx") Integer articleIdx){
         Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = "isLogin";
+
         try {
-            Map<String, Object> articleDto = farmmunityService.getArticleDetail(articleIdx);
-            resultMap.put("articleDto", articleDto.get("articleDetail"));
-            resultMap.put("commentList", articleDto.get("commentList"));
-            resultMap.put("message", success);
-            status = HttpStatus.OK;
+            if(request != null && request.getHeader("accessToken") != null ) {
+                if(!kakaoService.CheckAccessToken(request.getHeader("accessToken"))){
+                    resultMap.put("message", timeOut);
+                    status = HttpStatus.UNAUTHORIZED;
+                    return new ResponseEntity<>(resultMap, status);
+                }
+                decodeId = checkToken(request, resultMap); // 아이디가 들어가겠지?????
+            }
+
+                Map<String, Object> articleDto = farmmunityService.getArticleDetail(decodeId, articleIdx);
+                resultMap.put("articleDto", articleDto.get("articleDetail"));
+                resultMap.put("commentList", articleDto.get("commentList"));
+                if(articleDto.get("isLikeClicked") != null) resultMap.put("isLikeClicked", articleDto.get("isLikeClicked"));
+                resultMap.put("message", success);
+                status = HttpStatus.OK;
+
         }catch (Exception e){
             resultMap.put("message", fail);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
