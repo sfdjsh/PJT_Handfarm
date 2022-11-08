@@ -23,6 +23,8 @@ export function CreateReadChat() {
     const { toUserNickname } = location.state
     const scrollRef = useRef();
     const [chatList, setChatList] = useState([])
+    const [anotherProfile, setAnotherProfile] = useState("")
+    console.log(anotherProfile)
     // const editDone = false
     //
     // const scrollToBottom = useCallback(() => {
@@ -41,6 +43,7 @@ export function CreateReadChat() {
         fetchMyChatDetail(parseInt(apply_id.id))
             .then((res) => res.json().then((res) => {
                 console.log(res)
+                setAnotherProfile(res.toUserProfileImg)
                 setChatList(res.chatDetail.reverse())
             }))
     }, [])
@@ -57,6 +60,8 @@ export function CreateReadChat() {
 
     const publish = (chat) => {
         if (!client.current.connected) return;
+        if(chat === "") return;
+
 
         client.current.publish({
             destination: '/pub/chat',
@@ -111,7 +116,7 @@ export function CreateReadChat() {
                          </Box>
                      )  : (
                          <Box className="chat ch1" key={index} sx={{ display : "flex",justifyContent : "left",  color : "black"}}>
-                             <Avatar alt="https://img1.daumcdn.net/thumb/R300x0/?fname=https://k.kakaocdn.net/dn/c3vWTf/btqUuNfnDsf/VQMbJlQW4ywjeI8cUE91OK/img.jpg" src="https://s3.orbi.kr/data/file/united/8b2a7bd120d1f7c738bb5cfc47156e90.jpeg" />
+                             <Avatar alt="https://img1.daumcdn.net/thumb/R300x0/?fname=https://k.kakaocdn.net/dn/c3vWTf/btqUuNfnDsf/VQMbJlQW4ywjeI8cUE91OK/img.jpg" src={anotherProfile} />
                                  {/*<Box style={{ color : "white" }}>강현</Box>*/}
                                  <Box className="textbox">
                                      { chatting.msg }

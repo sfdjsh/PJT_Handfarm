@@ -6,15 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="4b81b8fd-fc66-4b80-83f5-fee977677905" name="Changes" comment="#8 feat : chatting">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/atom.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/atom.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/common/Header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/Header.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/Chatting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/Chatting.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/Card.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/Card.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/DialButton.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/DialButton.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/api/Article.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/Article.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/api/Farmmunity.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/Farmmunity.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/auth/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/auth/Login.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/chat/CreateReadChat.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/chat/CreateReadChat.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/chat/chatList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/chat/ChatList.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/community/FarmmunityMain.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/community/FarmmunityMain.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/myFarm/MyFarm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/myFarm/MyFarm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/community/ArticleForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/community/ArticleForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/community/CommunityInfo.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/community/CommunityInfo.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/community/CommunityRegion.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/community/CommunityRegion.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/community/FarmmunityInfoDetail.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/community/FarmmunityInfoDetail.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,6 +74,8 @@
       <workItem from="1667369829719" duration="5277000" />
       <workItem from="1667456824830" duration="688000" />
       <workItem from="1667519330918" duration="14999000" />
+      <workItem from="1667778236446" duration="6060000" />
+      <workItem from="1667865334345" duration="21699000" />
     </task>
     <servers />
   </component>

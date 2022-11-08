@@ -29,9 +29,9 @@ import MyFarmTest from "./pages/myFarm/MyFarmTest";
 function App() {
   const location = useLocation();
   
-  useEffect(() => {
-    console.log(location);
-  }, [ location ])
+  // useEffect(() => {
+  //   console.log(location);
+  // }, [ location ])
 
   return (
     <>
@@ -42,11 +42,11 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Login />} />
           <Route exact path="/community" element={<FarmmunityMain />}></Route>
-          <Route exact path="/community/create" element={<ArticleForm />} />
+          <Route exact path="/community/create/:where" element={<ArticleForm />} />
            {/* <Route exact path='/mqtt' element={<Mqtt/>} /> */}
             <Route exact path="/community/info" element={<CommunityInfo/>} />
             <Route exact path="/community/region" element={<CommunityRegion/>} />
-          <Route exact path="/community/info/:id"  element={<FarmmunityInfoDetail/>} />
+          <Route exact path="/community/:id"  element={<FarmmunityInfoDetail/>} />
           <Route
             exact
             path="/myfarm/registing"

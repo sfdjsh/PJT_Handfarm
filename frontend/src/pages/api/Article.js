@@ -1,13 +1,14 @@
 import {LOCAL_URL} from "../../config";
 
-export async function articleCreate (userInput) {
-    const URL = `${LOCAL_URL}/info/딸기`
+export async function articleCreate (userInput, category) {
+    const URL = `${LOCAL_URL}/community/정보/${category}`
     console.log(userInput)
+    console.log(category)
 
     const response = await fetch(URL, {
         method : "POST",
         headers : {
-            Authorization : "7dFkm_FUblZS_rZSt5OPf_tmkT1aI6yxg5BhuTziCilwngAAAYQOHw0H",
+            accessToken : localStorage.getItem("access_token"),
             "Content-Type": `application/json`,
         },
         body: JSON.stringify({
