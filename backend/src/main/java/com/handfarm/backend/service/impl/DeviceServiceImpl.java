@@ -176,18 +176,22 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public Map<String, Object> getDeviceSensor(String deviceNo) {
-        Integer deviceIdx = deviceRepository.findByDeviceNo(deviceNo).get().getIdx();
-        Map<String, Object> map = new HashMap<>();
-        DeviceEntity device = deviceRepository.findById(deviceIdx).get();
-        List<DeviceSensorEntity> deviceSensorEntityList = deviceSensorRepository.findByDeviceIdx(device);
-        map.put("deviceNo", device.getDeviceNo());
-        for(DeviceSensorEntity deviceSensorEntity : deviceSensorEntityList){
-            String sensorName = deviceSensorEntity.getSensorIdx().getSensorArea();
-            Float sensorValue = deviceSensorEntity.getValue();
-            map.put(sensorName, sensorValue);
+    public Map<String, Object> getDeviceSensor(String userEmail) {
+        Map<String, Object> resultMap = new HashMap<>();
+        UserEntity userEntity = userRepository.findByUserId(userEmail).get();
+        List<UserDeviceEntity> userDeviceEntityList = userDeviceRepository.findByUserIdx(userEntity);
+        ArrayList<DeviceEntity> deviceEntityArrayList = new ArrayList<>();
+        for(UserDeviceEntity userDeviceEntity : userDeviceRepository.findByUserIdx(userEntity)){
+            List<DeviceSensorEntity> deviceSensorEntityList = deviceSensorRepository.findByDeviceIdx(userDeviceEntity.getDeviceIdx());
+            Map<String, Object> map = new HashMap<>();
+            for(DeviceSensorEntity deviceSensorEntity : deviceSensorEntityList){
+                String sensorName = deviceSensorEntity.getSensorIdx().getSensorArea();
+                Float sensorValue = deviceSensorEntity.getValue();
+                map.put(sensorName, sensorValue);
+            }
+            resultMap.put(userDeviceEntity.getDeviceIdx().getDeviceNo(), map);
         }
-        return map;
+        return resultMap;
     }
 
 
