@@ -1,9 +1,7 @@
+import React, { useState, useEffect } from "react";
+import { BASE_URL } from "../../config";
 import axios from "axios";
-import React, { useEffect } from "react";
-import Alarm from "../api/Alarm";
-import { LOCAL_URL } from "../../config";
-import Header from "../../components/common/Header";
-import Footer from "../../components/common/Footer";
+import SensorList from "../../components/myFarm/SensorList";
 import {
   Container,
   Box,
@@ -14,31 +12,58 @@ import {
   Typography,
   CardActions,
   Button,
+  Radio,
+  RadioGroup,
 } from "@mui/material";
-import { textAlign } from "@mui/system";
 import SettingsRemoteIcon from "@mui/icons-material/SettingsRemote";
 import SettingsIcon from "@mui/icons-material/Settings";
 import DeviceThermostatOutlinedIcon from "@mui/icons-material/DeviceThermostatOutlined";
 import CircleIcon from "@mui/icons-material/Circle";
+import { useRecoilState } from "recoil";
+import { userInfo, userFarm } from "../../atom";
+
 
 const MyFarm = () => {
-  const URL = `${LOCAL_URL}/notice/count`;
-  const accessToken = localStorage.getItem("access_token");
+  const [deviceID, setDeviceID] = useRecoilState(userInfo);
+  const [myFarm, setMyFarm] = useRecoilState(userFarm);
+  const devices = deviceID.deviceId;
+  const [farmRadio, setFarmRadio] = useState(0);
+  const [deviceId, setDeviceId] = useState('')
 
   // useEffect(() => {
-  //   axios(URL, {
-  //     method: "GET",
-  //     headers : {
-  //       'Authorization' : accessToken
-  //     }
-  //   })
-  //     .then(response => {console.log(response)})
-  // }, [])
-
+  //   devices.map((device) => {
+  //     const deviceNo = device.deviceNo;
+  //     axios({
+  //       url: `${BASE_URL}/farm/${deviceNo}`,
+  //       method: "GET",
+  //       headers: {
+  //         accessToken: localStorage.getItem("access_token"),
+  //       },
+  //     }).then((response) => {
+  //       setMyFarm(response.data);
+  //     });
+  //   });
+  // }, []);
+  // console.log(myFarm)
   return (
     <>
       <Container sx={{ mt: 1, width: "90%" }}>
-        {/* 농장 이름 */}
+        <div>
+          {devices.map((d, index) => (
+            <Radio
+              key={d.deviceNo}
+              checked={farmRadio === `${index}`}
+              value={index}
+              onChange={(e) => {
+                const deviceNo = d.deviceNo
+                setFarmRadio(e.target.value)
+                setDeviceId(deviceNo)
+              }}
+              name="radio-buttons"
+              
+            />
+          ))}
+        </div>
         <Grid
           container
           style={{
@@ -49,10 +74,10 @@ const MyFarm = () => {
           }}
         >
           <Box sx={{ ml: 1 }} flexGrow={1}>
-            <p style={{ color: "#FFA629" }}>작물</p>
+            <p style={{ color: "#FFA629" }}>{devices[farmRadio].cropName}</p>
           </Box>
           <Box flexGrow={1}>
-            <p>농장 이름</p>
+            <p>{devices[farmRadio].deviceName}</p>
           </Box>
           <Box>
             <IconButton size="large">
@@ -65,9 +90,8 @@ const MyFarm = () => {
             </IconButton>
           </Box>
         </Grid>
-
-        {/* 센서 정보 */}
-        <Grid container spacing={1} sx={{ mt: 1 }}>
+        <SensorList deviceId={deviceId}/>
+        {/* <Grid container spacing={1} sx={{ mt: 1 }}>
           <Grid item xs={6}>
             <Card sx={{ background: "#F7B634" }}>
               <CardContent>
@@ -96,14 +120,12 @@ const MyFarm = () => {
           </Grid>
         </Grid>
 
-        {/* GPS */}
         <Grid item xs={12} sx={{ mt: 1 }}>
           <Card sx={{ height: 100 }}>
             <p>GPS 영역</p>
           </Card>
         </Grid>
 
-        {/* Camera */}
         <Grid item xs={12} sx={{ mt: 1 }}>
           <Card sx={{ height: 150 }}>
             <p>카메라 영역</p>
@@ -111,9 +133,8 @@ const MyFarm = () => {
           <Button sx={{ background: "#222222", p: 1.5 }} variant="contained">
             <CircleIcon sx={{ mr: 1, color: "#D80000" }} /> 대표 사진 등록
           </Button>
-        </Grid>
+        </Grid> */}
       </Container>
-      {/*<Footer />*/}
     </>
   );
 };

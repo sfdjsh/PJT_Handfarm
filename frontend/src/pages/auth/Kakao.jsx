@@ -24,13 +24,12 @@ export const Kakao = () => {
             isLoggedIn: true,
             isRegisted: response.data.isRegisted,
             userNickname: response.data.userInfo.userNickname,
-            deviceId: response.data.userInfo.deviceId
+            deviceId: response.data.userInfo.deviceInfo,
+            userEmail: response.data.userId
           })
         }
       })
         .then(() => {
-          console.log('카카오')
-          console.log(localStorage.getItem('access_token'))
           const renderFarm = user.deviceId
           if (renderFarm) {
             navigate('/myfarm')
@@ -39,15 +38,6 @@ export const Kakao = () => {
           }
         })
   }, [])
-
-  // useEffect(() => {
-  //   const renderFarm = user.deviceId
-  //   if (renderFarm) {
-  //     navigate('/myfarm')
-  //   } else {
-  //     navigate('/myfarm/registing')
-  //   }
-  // })
 
   return (
     <div>
