@@ -181,6 +181,7 @@ public class DeviceServiceImpl implements DeviceService {
         Map<String, Object> map = new HashMap<>();
         DeviceEntity device = deviceRepository.findById(deviceIdx).get();
         List<DeviceSensorEntity> deviceSensorEntityList = deviceSensorRepository.findByDeviceIdx(device);
+        map.put("deviceNo", device.getDeviceNo());
         for(DeviceSensorEntity deviceSensorEntity : deviceSensorEntityList){
             String sensorName = deviceSensorEntity.getSensorIdx().getSensorArea();
             Float sensorValue = deviceSensorEntity.getValue();
