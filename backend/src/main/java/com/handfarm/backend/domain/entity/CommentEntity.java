@@ -30,6 +30,10 @@ public class CommentEntity {
 
     @Column(name="comment_time")
     private LocalDateTime commentTime;
+
+    @Column(name="update_time")
+    private LocalDateTime updateTime;
+
     @ManyToOne
     @JoinColumn(name="article_idx")
     private ArticleEntity articleIdx;
@@ -39,9 +43,13 @@ public class CommentEntity {
     private UserEntity userIdx;
 
     @Builder
-    public CommentEntity(Integer upIdx, String commentContent, ArticleEntity articleIdx, UserEntity userIdx  ){
+
+    public CommentEntity(Integer idx, Integer upIdx, String commentContent, LocalDateTime commentTime, LocalDateTime updateTime, ArticleEntity articleIdx, UserEntity userIdx) {
+        this.idx = idx;
         this.upIdx = upIdx;
         this.commentContent = commentContent;
+        this.commentTime = commentTime;
+        this.updateTime = updateTime;
         this.articleIdx = articleIdx;
         this.userIdx = userIdx;
     }
