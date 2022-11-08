@@ -20,5 +20,6 @@ public class ArticleDetailDto {
     private String articleImg;
     private String articleContent;
     private LocalDateTime articleTime;
+    private Integer articleLikeCount;
 }
 

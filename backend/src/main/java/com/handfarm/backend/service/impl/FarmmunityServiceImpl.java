@@ -136,6 +136,7 @@ public class FarmmunityServiceImpl implements FarmmunityService {
                 .articleImg(article.getArticleImg())
                 .articleContent(article.getArticleContent())
                 .articleTime(article.getArticleTime())
+                .articleLikeCount(userLikeArticlesRepository.countByArticleIdx(articleIdx))
                 .build();
 
         data.put("articleDetail", articleDetailDto);
@@ -147,6 +148,7 @@ public class FarmmunityServiceImpl implements FarmmunityService {
             for (CommentEntity c : comment) {
                 CommentViewDto dto = CommentViewDto.builder()
                         .userNickName(c.getUserIdx().getUserNickname())
+                        .userProfileImg(c.getUserIdx().getUserProfile())
                         .commentContent(c.getCommentContent())
                         .idx(c.getIdx())
                         .commentTime(c.getCommentTime())
