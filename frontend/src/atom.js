@@ -51,3 +51,9 @@ export const deviceSensor = atom({
     default: [],
     effects_UNSTABLE : [persistAtom],
 })
+
+export const sensorState = atom({
+    key: 'sensorState',
+    default: false,
+    effects_UNSTABLE: [persistAtom],
+})
