@@ -1,4 +1,4 @@
-package com.handfarm.backend.domain.dto;
+package com.handfarm.backend.domain.dto.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class UserDto {
     private String userNickname;
     private String userProfileImg;
+    private Boolean userOpen;
 }
