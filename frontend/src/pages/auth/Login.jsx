@@ -34,7 +34,7 @@ export const Login = () => {
 
       <Button display="flex" justifyContent="center">
         <a href={KAKAO_AUTH_URL}>
-          <img src="KakaoButton.png" alt="로그인" />
+          <img src="kakaoButton.png" alt="로그인" />
         </a>
       </Button>
     </>

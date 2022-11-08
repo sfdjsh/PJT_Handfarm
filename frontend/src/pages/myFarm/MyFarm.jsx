@@ -20,31 +20,28 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import DeviceThermostatOutlinedIcon from "@mui/icons-material/DeviceThermostatOutlined";
 import CircleIcon from "@mui/icons-material/Circle";
 import { useRecoilState } from "recoil";
-import { userInfo, userFarm } from "../../atom";
-
+import { userInfo, userFarm, deviceSensor } from "../../atom";
+import { EventSourcePolyfill, NativeEventSource } from 'event-source-polyfill'
 
 const MyFarm = () => {
-  const [deviceID, setDeviceID] = useRecoilState(userInfo);
+  const [user, setUser] = useRecoilState(userInfo);
   const [myFarm, setMyFarm] = useRecoilState(userFarm);
-  const devices = deviceID.deviceId;
+  const [sensor, setSensor] = useRecoilState(deviceSensor)
+
   const [farmRadio, setFarmRadio] = useState(0);
   const [deviceId, setDeviceId] = useState('')
+  
+  const devices = user.deviceId
+  const email = user.userEmail
 
-  // useEffect(() => {
-  //   devices.map((device) => {
-  //     const deviceNo = device.deviceNo;
-  //     axios({
-  //       url: `${BASE_URL}/farm/${deviceNo}`,
-  //       method: "GET",
-  //       headers: {
-  //         accessToken: localStorage.getItem("access_token"),
-  //       },
-  //     }).then((response) => {
-  //       setMyFarm(response.data);
-  //     });
-  //   });
-  // }, []);
-  // console.log(myFarm)
+  useEffect(() => {
+    const sse = new EventSourcePolyfill(`${BASE_URL}/connect/${email}`)
+    sse.addEventListener('connect', (e) => {
+      const {data: receivedConnectData} = e;
+      setSensor(JSON.parse(receivedConnectData))
+    })
+  });
+
   return (
     <>
       <Container sx={{ mt: 1, width: "90%" }}>
@@ -60,7 +57,6 @@ const MyFarm = () => {
                 setDeviceId(deviceNo)
               }}
               name="radio-buttons"
-              
             />
           ))}
         </div>
@@ -90,7 +86,7 @@ const MyFarm = () => {
             </IconButton>
           </Box>
         </Grid>
-        <SensorList deviceId={deviceId}/>
+        <SensorList deviceId={deviceId} />
         {/* <Grid container spacing={1} sx={{ mt: 1 }}>
           <Grid item xs={6}>
             <Card sx={{ background: "#F7B634" }}>

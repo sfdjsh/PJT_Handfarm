@@ -10,7 +10,8 @@ export const userInfo = atom({
         isRegisted: false,
         userNickname: '',
         deviceId: '',
-        isLogged: false
+        isLogged: false,
+        userEmail: ''
     }],
     effects_UNSTABLE: [persistAtom],
 })
@@ -43,4 +44,10 @@ export const chatAnother = atom({
     key : "chatAnother",
     default : "",
     effects_UNSTABLE : [persistAtom]
+})
+
+export const deviceSensor = atom({
+    key: "deviceSensor",
+    default: [],
+    effects_UNSTABLE : [persistAtom],
 })
