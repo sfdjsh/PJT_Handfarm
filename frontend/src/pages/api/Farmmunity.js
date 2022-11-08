@@ -10,7 +10,7 @@ export async function fetchInfoArticle(nowCrop) {
         nowCrop = "파프리카"
     }
 
-    const URL = `${LOCAL_URL}/community/info/${nowCrop}`
+    const URL = `${LOCAL_URL}/community/정보/${nowCrop}`
     const response = await fetch(URL, {
         method : "GET"
     })
@@ -30,12 +30,36 @@ export async function fetchRegionArticle(nowRegion){
         nowRegion = "구미"
     }
 
-    const URL = `${LOCAL_URL}/community/region/${nowRegion}`
+    const URL = `${LOCAL_URL}/community/지역/${nowRegion}`
     const response = await fetch(URL, {
         method : "GET"
     })
     return response
+}
 
+export async function updateArticle(articleId){
+
+    const URL = `${LOCAL_URL}/community/${articleId}`
+    const response = await fetch(URL,{
+        method : "PUT",
+        headers : {
+            accessToken : localStorage.getItem("access_token"),
+            "Content-Type" : "application/json",
+        }
+    })
+    return response
+}
+
+export async function deleteArticle(articleId){
+    const URL = `${LOCAL_URL}/community/${articleId}`
+    const response = await fetch(URL,{
+        method : "DELETE",
+        headers : {
+            accessToken : localStorage.getItem("access_token"),
+            "Content-Type" : "application/json",
+        }
+    })
+    return response
 }
 
 export async function fetchArticleDetail(id) {
@@ -46,36 +70,55 @@ export async function fetchArticleDetail(id) {
     return response
 }
 
-export async function commentCreate(articleId) {
+export async function commentCreate(articleId, commentInput) {
+    console.log(commentInput,articleId)
+
     const URL = `${LOCAL_URL}/community/${articleId}/comment`
     const response = await fetch(URL, {
         method : "POST",
         headers : {
-            accessToken : "",
+            accessToken : localStorage.getItem("access_token"),
             "Content-Type" : "application/json",
-        }
+        },
+        body : JSON.stringify({
+            commentContent : commentInput,
+            upIdx : 0
+        })
     })
     return response
 }
 
-export async function commentUpdate(id) {
-    const URL = `${LOCAL_URL}/community/${id}/comment`
+export async function commentUpdate(articleId, commentId) {
+    const URL = `${LOCAL_URL}/community/${articleId}/comment/${commentId}`
     const response = await fetch(URL, {
         method : "PUT",
         headers : {
-            accessToken : "",
+            accessToken : localStorage.getItem("access_token"),
             "Content-Type" : "application/json",
         }
     })
     return response
 }
 
-export async function commentDelete(id) {
-    const URL = `${LOCAL_URL}/community/${id}/comment`
+export async function commentDelete(articleId, commentId) {
+    const URL = `${LOCAL_URL}/community/${articleId}/comment/${commentId}`
     const response = await fetch(URL, {
         method : "DELETE",
         headers : {
-            Authorization : "",
+            Authorization : localStorage.getItem("access_token"),
+            "Content-Type" : "application/json",
+        }
+    })
+    return response
+}
+
+export async function articleLike(articleId) {
+
+    const URL = `${LOCAL_URL}/community/${articleId}/like`
+    const response = await fetch(URL, {
+        method : "POST",
+        headers : {
+            Authorization : localStorage.getItem("access_token"),
             "Content-Type" : "application/json",
         }
     })

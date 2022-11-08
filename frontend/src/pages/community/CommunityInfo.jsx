@@ -21,14 +21,19 @@ export const CommunityInfo = () => {
     const navigator = useNavigate()
     const [infoArticle, setInfoArticle] = useState([])
     const [crop, setCrop] = useRecoilState(nowCrop)
+    const [cropInfo, setCropInfo] = useState([])
 
     useEffect(() => {
         const getArticle = fetchInfoArticle(crop)
             .then((res) => res.json().then((res) => {
                 console.log(res)
-                setInfoArticle(res)
+                setInfoArticle(res.articleList)
+                setCropInfo(res.articleInfo)
             }))
-    })
+    },[crop])
+
+    console.log(cropInfo)
+    console.log(infoArticle)
 
     return (
         <Box>
@@ -38,13 +43,13 @@ export const CommunityInfo = () => {
             <Box sx={{ display : "flex", justifyContent : "center", alignItems : "center" }}>
                 <Avatar
                     alt="Remy Sharp"
-                    src="https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/201502/04/htm_20150204185442c010c011.jpg"
+                    src={cropInfo.cropImg}
                     sx={{ width: 100, height: 100, boxShadow: '1px 2px 9px #F4AAB9' }}
                 />
             </Box>
             <Grid container spacing={1}>
                 <Grid item xs={7}>
-                    <Box sx={{ fontSize : "25px", m : 1, textAlign : "right" }}>딸기</Box>
+                    <Box sx={{ fontSize : "25px", m : 1, textAlign : "right" }}>{ cropInfo.cropName }</Box>
                 </Grid>
                 <Grid item xs={5}>
                     <Box sx={{ display : "flex" ,fontSize : "20px" ,m : 1.5, alignItems : "center", justifyContent : "center" }}><span style={{ fontSize : "15px", margin : "5px" }}>123</span><PermIdentityIcon/></Box>
@@ -60,43 +65,29 @@ export const CommunityInfo = () => {
                 <ArticleFilter/>
             </Box>
             <Box>
-                {/*{ infoArticle.map((article, index) => {*/}
-                {/*    <Grid container spacing={1}>*/}
-                {/*        <Grid item xs={4}>*/}
-                {/*            <Avatar*/}
-                {/*                alt="Remy Sharp"*/}
-                {/*                src="https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/201502/04/htm_20150204185442c010c011.jpg"*/}
-                {/*                sx={{ m : 2, width: 100, height: 100, boxShadow: '1px 2px 9px #F4AAB9' }}*/}
-                {/*            />*/}
-                {/*        </Grid>*/}
-                {/*        <Grid item xs={8}>*/}
-                {/*            <p style={{ textAlign : "left", lineHeight : "25px", color : "white", margin : "0px" , marginTop : "45px", textOverflow : "ellipsis", overflow : "hidden", whiteSpace : "nowrap" }}>*/}
-                {/*                딸기 키우는 개꿀팁 방출!*/}
-                {/*            </p>*/}
-                {/*            <Box sx={{mt : 2, display : "flex" ,fontSize : "20px", alignItems : "center", justifyContent : "start", color : "#B3B3B3" }}><span style={{ fontSize : "15px", margin : "5px" }}>123</span><PermIdentityIcon/><span style={{ fontSize : "15px", margin : "5px" }}>1234</span><FavoriteBorderIcon/></Box>*/}
-                {/*        </Grid>*/}
-                {/*    </Grid>*/}
-                {/*    <Divider sx={{ backgroundColor : "#757575", marginLeft: '5%', marginRight: '5%' }}/>*/}
-                {/*}) }*/}
-                <Grid container spacing={1} onClick={() => {
-                    navigator('/community/info/1')
-                }}>
-                    <Grid item xs={4}>
-                        <Avatar
-                            alt="Remy Sharp"
-                            src="https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/201502/04/htm_20150204185442c010c011.jpg"
-                            sx={{ m : 2, width: 100, height: 100, boxShadow: '1px 2px 9px #F4AAB9' }}
-                        />
+                { infoArticle.map((article, index) => (
+                    <>
+                    <Grid key={index} container spacing={1} onClick={() => {
+                        navigator(`/community/${article.idx}`)
+                    }}>
+                        <Grid item xs={4}>
+                            <Avatar
+                                alt="Remy Sharp"
+                                src={article.articleImg}
+                                sx={{ m : 2, width: 100, height: 100, boxShadow: '1px 2px 9px #F4AAB9' }}
+                            />
+                        </Grid>
+                        <Grid item xs={8}>
+                            <p style={{ textAlign : "left", lineHeight : "25px", color : "white", margin : "0px" , marginTop : "45px", textOverflow : "ellipsis", overflow : "hidden", whiteSpace : "nowrap" }}>
+                                {article.articleTitle}
+                            </p>
+                            <Box sx={{mt : 2, display : "flex" ,fontSize : "20px", alignItems : "center", justifyContent : "start", color : "#B3B3B3" }}><span style={{ fontSize : "15px", margin : "5px" }}>{article.commentCount}</span><PermIdentityIcon/><span style={{ fontSize : "15px", margin : "5px" }}>{article.likeCount}</span><FavoriteBorderIcon/></Box>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={8}>
-                        <p style={{ textAlign : "left", lineHeight : "25px", color : "white", margin : "0px" , marginTop : "45px", textOverflow : "ellipsis", overflow : "hidden", whiteSpace : "nowrap" }}>
-                            딸기 키우는 개꿀팁 방출!
-                        </p>
-                        <Box sx={{mt : 2, display : "flex" ,fontSize : "20px", alignItems : "center", justifyContent : "start", color : "#B3B3B3" }}><span style={{ fontSize : "15px", margin : "5px" }}>123</span><PermIdentityIcon/><span style={{ fontSize : "15px", margin : "5px" }}>1234</span><FavoriteBorderIcon/></Box>
-                    </Grid>
-                </Grid>
-                <Divider sx={{ backgroundColor : "#757575", marginLeft: '5%', marginRight: '5%' }}/>
-                <DialButton/>
+                    <Divider sx={{ backgroundColor : "#757575", marginLeft: '5%', marginRight: '5%' }}/>
+                    </>
+                    )) }
+                <DialButton now="정보"/>
             </Box>
         </Box>
     );
