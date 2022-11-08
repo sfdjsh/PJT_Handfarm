@@ -57,10 +57,6 @@ public class DeviceServiceImpl implements DeviceService {
     public boolean userRegistDevice(HttpServletRequest request, DeviceRegistDto deviceRegistDto) {
         try {
             String email = kakaoService.decodeToken(request.getHeader("accessToken"));
-//            String email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
-            System.out.println(email);
-            System.out.println(deviceRegistDto);
-            System.out.println(deviceRegistDto.getDeviceNo());
 
             Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceRegistDto.getDeviceNo());
             deviceEntity.get().setDeviceName(deviceRegistDto.getDeviceName());
@@ -106,7 +102,6 @@ public class DeviceServiceImpl implements DeviceService {
         deviceControlEntity.get().setAutoControl(value);
 
         deviceControlRepository.save(deviceControlEntity.get());
-        deviceControlRepository.save(deviceControlEntity.get());
         JsonObject object = new JsonObject();
         object.addProperty(control, value);
         Map<String, Object> map = new HashMap<>();
@@ -145,7 +140,6 @@ public class DeviceServiceImpl implements DeviceService {
 
         deviceControlEntity.get().setManualControl(value);
 
-        deviceControlRepository.save(deviceControlEntity.get());
         deviceControlRepository.save(deviceControlEntity.get());
         JsonObject object = new JsonObject();
         object.addProperty(control, value);
