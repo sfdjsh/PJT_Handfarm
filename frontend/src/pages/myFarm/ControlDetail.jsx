@@ -1,18 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
+import axios from 'axios'
+import { BASE_URL } from '../../config';
 import DeviceThermostatOutlinedIcon from "@mui/icons-material/DeviceThermostatOutlined";
 import {
   Button, Typography, Modal, Box, Card, Slider, TextField, ButtonGroup, Switch, Container,
   CardContent, CardActions, ToggleButtonGroup, ToggleButton, Avatar
 } from '@mui/material'
 import './ControlDetail'
+import { useRecoilState } from "recoil";
+import { motorModal, motorControl } from "../../atom";
+import ControlTemp from '../../components/control/ControlTemp';
 
 const style = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 250,
-  height: 550,
+  width: 350,
+  height: 700,
   bgcolor: '#212528',
   border: '2px solid #000',
   boxShadow: 24,
@@ -20,34 +25,17 @@ const style = {
 };
 
 const ControlDetail = () => {
+  const [onControl, setOnControl] = useRecoilState(motorModal)
+  const [motorState, setMotorState] = useRecoilState(motorControl)  
+  const handleClose = () => setOnControl(false);
 
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  let controlTemp = motorState.temp
+  // console.log(controlTemp)
 
-  // 버튼 상태 관리
-  const [isButton, setIsButton] = useState([true, false])
-  // const handleChange = (event, newIsButton) => {
-  //   setIsButton(newIsButton)
-  // }
-  
-  // useEffect(() => {
-  //   window.addEventListener('scroll', handleScroll, { capture: true }); // 스크롤 이벤트 등록
-  //   return () => {
-  //     window.removeEventListener('scroll', handleScroll); 		// 스크롤 이벤트 제거
-  //   };
-  // }, []);
-
-  // function handleScroll (){
-  //   const scrollTop = document.getElementById('app')?.scrollTop;
-  //   window.ScrollY(scrollTop);		// 스크롤 이벤트가 시작되면 요값이 변경된다
-  // }
-  
   return (
     <>
-      <Button onClick={handleOpen}>Open modal</Button>
       <Modal
-        open={open}
+        open={onControl}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -67,7 +55,16 @@ const ControlDetail = () => {
             <Typography sx={{fontSize:12}}>일단 대기: 30%</Typography>
           </Box>
 
-          <Card sx={{ mt: 1, height: 100, backgroundColor: "#1E1E1E" }}>
+          <ControlTemp controlTemp={controlTemp} />
+
+          {/* <div>
+            {lstMotor && lstMotor.map((control) => (
+             <div key={control}>
+              <p>{control.buzzer.auto}</p>
+             </div> 
+            ))}
+          </div> */}
+          {/* <Card sx={{ mt: 1, height: 100, backgroundColor: "#1E1E1E" }}>
             <CardContent>
               <Typography variant="h7" color="white">온풍기</Typography>
               <Box display="flex">
@@ -149,28 +146,8 @@ const ControlDetail = () => {
               </Box>
               <Typography sx={{ mt: 1 }} fontSize={1} color="#FFA629">* 빛의 세기를 조절할 수 있습니다.</Typography>
             </CardContent>
-          </Card>
+          </Card> */}
 
-          <Card sx={{ mt: 1, height: 100, backgroundColor: "#1E1E1E" }}>
-            <CardContent>
-              <Typography variant="h7" color="white">LED</Typography>
-              <Box display="flex">
-                <Box flexGrow={1} alignItems="center">
-                  <Switch defaultChecked color="warning" /><span style={{ color: 'white', fontSize:'12px' }}>수동</span>
-                </Box>
-                <Box >
-                  <ButtonGroup
-                    variant="outlined"
-                    aria-label="Disabled elevation buttons"
-                  >
-                    <Button>On</Button>
-                    <Button>OFF</Button>
-                  </ButtonGroup>
-                </Box>
-              </Box>
-              <Typography sx={{ mt: 1 }} fontSize={1} color="#FFA629">* 빛의 세기를 조절할 수 있습니다.</Typography>
-            </CardContent>
-          </Card>
         </Box>
       </Modal>
     </>

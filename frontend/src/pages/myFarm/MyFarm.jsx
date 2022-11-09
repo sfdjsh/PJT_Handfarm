@@ -2,37 +2,51 @@ import React, { useState, useEffect } from "react";
 import { BASE_URL } from "../../config";
 import axios from "axios";
 import SensorList from "../../components/myFarm/SensorList";
-import {
-  Container,
-  Box,
-  Grid,
-  IconButton,
-  Card,
-  CardContent,
-  Typography,
-  CardActions,
-  Button,
-  Radio,
-  RadioGroup,
-} from "@mui/material";
+import { Container, Box, Grid, IconButton, Radio } from "@mui/material";
 import SettingsRemoteIcon from "@mui/icons-material/SettingsRemote";
 import SettingsIcon from "@mui/icons-material/Settings";
-import DeviceThermostatOutlinedIcon from "@mui/icons-material/DeviceThermostatOutlined";
-import CircleIcon from "@mui/icons-material/Circle";
 import { useRecoilState } from "recoil";
-import { userInfo, userFarm, deviceSensor } from "../../atom";
-import { EventSourcePolyfill, NativeEventSource } from 'event-source-polyfill'
+import { userInfo, userFarm, motorModal, motorControl } from "../../atom";
+import ControlDetail from "./ControlDetail"
 
 const MyFarm = () => {
   const [user, setUser] = useRecoilState(userInfo);
   const [myFarm, setMyFarm] = useRecoilState(userFarm);
-  const [sensor, setSensor] = useRecoilState(deviceSensor)
-  
-  const devices = user.deviceId
+  const [onControl, setOnControl] = useRecoilState(motorModal)
+  const [motorState, setMotorState] = useRecoilState(motorControl) 
+
+  const devices = myFarm.deviceInfo
   const [farmRadio, setFarmRadio] = useState('0');
   const [deviceId, setDeviceId] = useState(devices[0].deviceNo)
   const email = user.userEmail
-  
+
+
+  // 내 농장 정보 axios
+  useEffect(() => {
+    const URL = `${BASE_URL}/farm`
+    axios.get(URL, {
+      headers: {
+        accessToken : localStorage.getItem('access_token')
+      }
+    })
+      .then(response => {
+        setMyFarm(response.data)
+      })
+  }, [])
+
+  useEffect(() => {
+    console.log(deviceId)
+    const URL = `${BASE_URL}/farm/${deviceId}/manual`
+    axios.get(URL, {
+      headers: {
+        accessToken : localStorage.getItem('access_token')
+      }
+    })
+      .then(response => {
+        setMotorState(response.data)
+      })
+  }, [deviceId])
+
   return (
     <>
       <Container sx={{ mt: 1, width: "90%" }}>
@@ -67,7 +81,9 @@ const MyFarm = () => {
             <p>{devices[farmRadio].deviceName}</p>
           </Box>
           <Box>
-            <IconButton size="large">
+            <IconButton size="large"
+            onClick={() => {setOnControl(true)}}
+            >
               <SettingsRemoteIcon />
             </IconButton>
           </Box>
@@ -77,22 +93,12 @@ const MyFarm = () => {
             </IconButton>
           </Box>
         </Grid>
+        {/* 센서 리스트 */}
         <SensorList deviceId={deviceId} email={email} />
-        {/* 
-        <Grid item xs={12} sx={{ mt: 1 }}>
-          <Card sx={{ height: 100 }}>
-            <p>GPS 영역</p>
-          </Card>
-        </Grid>
 
-        <Grid item xs={12} sx={{ mt: 1 }}>
-          <Card sx={{ height: 150 }}>
-            <p>카메라 영역</p>
-          </Card>
-          <Button sx={{ background: "#222222", p: 1.5 }} variant="contained">
-            <CircleIcon sx={{ mr: 1, color: "#D80000" }} /> 대표 사진 등록
-          </Button>
-        </Grid> */}
+        {/* 제어 모달창 */}
+        {/* <ControlDetail deviceId={deviceId} /> */}
+        <ControlDetail />
       </Container>
     </>
   );
