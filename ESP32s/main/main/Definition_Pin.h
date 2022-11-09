@@ -10,8 +10,14 @@
 #define NeoPixel_pin 12
 
 #define LED_pin 14                 //Moter Driver 1 - PWM B
+#define LED_pwm 0
 #define Fan_R_pin 33               //Moter Driver 2 - PWM B
+#define Fan_R_pwm 1
 #define Fan_L_pin 32               //Moter Driver 2 - PWM A
+#define Fan_L_pwm 2
+const int freq = 5000;
+const int resolutino = 8;
+
 
 #define CDS_pin 4 
 #define Motion_pin 0
