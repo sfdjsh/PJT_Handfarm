@@ -59,7 +59,7 @@ public class DeviceServiceImpl implements DeviceService {
             Optional<UserEntity> userEntity = userRepository.findByUserId(email);
             Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceRegistDto.getDeviceNo());
 
-            if(userDeviceRepository.findByDeviceIdxUserIdx(deviceEntity.get(), userEntity.get()) == null){
+            if(userDeviceRepository.findByDeviceIdxAndUserIdx(deviceEntity.get(), userEntity.get()) == null){
                 return false;
             }
 

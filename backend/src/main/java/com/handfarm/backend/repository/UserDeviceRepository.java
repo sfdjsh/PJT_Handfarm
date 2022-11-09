@@ -10,5 +10,5 @@ import java.util.List;
 public interface UserDeviceRepository extends JpaRepository<UserDeviceEntity, Integer> {
     List<UserDeviceEntity> findByUserIdx(UserEntity userEntity);
 
-    UserDeviceEntity findByDeviceIdxUserIdx(DeviceEntity device, UserEntity user);
+    UserDeviceEntity findByDeviceIdxAndUserIdx(DeviceEntity device, UserEntity user);
 }
