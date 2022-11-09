@@ -79,3 +79,17 @@ export const soilHumidModal = atom({
     default: false,
     effects_UNSTABLE: [persistAtom],
 })
+
+// 제어 모달창
+export const motorModal = atom({
+    key: 'motorModal',
+    default: false,
+    effects_UNSTABLE: [persistAtom],
+})
+
+// 제어 자동/수동 정보
+export const motorControl = atom({
+    key: 'motorControl',
+    default: [],
+    effects_UNSTABLE: [persistAtom],
+})

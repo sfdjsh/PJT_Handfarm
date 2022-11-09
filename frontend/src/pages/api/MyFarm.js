@@ -32,7 +32,6 @@ export async function sensorManual({ deviceId, highTemp, lowTemp }) {
     controlName: 'temp',
     controlValue: [highTemp, lowTemp]
   }
-  console.log(data.controlValue)
   axios.put(URL, JSON.stringify(data), {
     headers: {
       "Content-Type": `application/json`,
@@ -42,5 +41,4 @@ export async function sensorManual({ deviceId, highTemp, lowTemp }) {
     .then(response => {
       console.log(response.data)
     })
-
 }
