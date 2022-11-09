@@ -24,7 +24,7 @@ public class UserDeviceEntity {
     @JoinColumn(name = "user_idx")
     private UserEntity userIdx;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "device_idx")
     private DeviceEntity deviceIdx;
 }
