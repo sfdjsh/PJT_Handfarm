@@ -1,4 +1,5 @@
-package com.handfarm.backend.domain.dto.device;
+package com.handfarm.backend.domain.dto.article;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DedviceAutoControlDto {
-    private String controlName;
-    private Object controlValue;
+public class CommentRegistDto {
+    private String commentContent;
+    private Integer upIdx;
 }

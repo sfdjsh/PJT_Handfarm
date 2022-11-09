@@ -1,6 +1,5 @@
 package com.handfarm.backend.service.impl;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.handfarm.backend.domain.dto.device.DedviceAutoControlDto;
 import com.handfarm.backend.domain.dto.device.DeviceRegistDto;
@@ -31,6 +30,7 @@ public class DeviceServiceImpl implements DeviceService {
     private DeviceSensorRepository deviceSensorRepository;
     private DeviceControlRepository deviceControlRepository;
     private ControlRepository controlRepository;
+
     @Autowired
     DeviceServiceImpl(DeviceRepository deviceRepository, UserService userService, KakaoService kakaoService, UserRepository userRepository, CropRepository cropRepository, UserDeviceRepository userDeviceRepository, DeviceSensorRepository deviceSensorRepository, DeviceControlRepository deviceControlRepository, ControlRepository controlRepository){
         this.deviceRepository= deviceRepository;
@@ -53,29 +53,31 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public String userRegistDevice(HttpServletRequest request, DeviceRegistDto deviceRegistDto) throws IOException {
-        try{
-            JsonElement element = kakaoService.GetUserInfo(request.getHeader("accessToken"));
-            String email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
-            System.out.println(email);
-            System.out.println(deviceRegistDto);
-            System.out.println(deviceRegistDto.getDeviceNo());
-
+    public boolean userRegistDevice(HttpServletRequest request, DeviceRegistDto deviceRegistDto) {
+        try {
+            String email = kakaoService.decodeToken(request.getHeader("accessToken"));
+            Optional<UserEntity> userEntity = userRepository.findByUserId(email);
             Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceRegistDto.getDeviceNo());
+
+            if(userDeviceRepository.findByDeviceIdxAndUserIdx(deviceEntity.get(), userEntity.get()) != null){
+                throw new Exception();
+            }
+
             deviceEntity.get().setDeviceName(deviceRegistDto.getDeviceName());
             deviceEntity.get().setCrop(cropRepository.findByCropName(deviceRegistDto.getDeviceCrops()));
             deviceRepository.save(deviceEntity.get());
 
-            Optional<UserEntity> userEntity = userRepository.findByUserId(email);
             userEntity.get().setDevice(deviceEntity.get());
-
+            UserDeviceEntity userDeviceEntity = new UserDeviceEntity();
+            userDeviceEntity.setDeviceIdx(deviceEntity.get());
+            userDeviceEntity.setUserIdx(userEntity.get());
+            userDeviceRepository.save(userDeviceEntity);
             userRepository.save(userEntity.get());
-
-        }catch (IOException e){
+            return true;
+        }catch (Exception e){
             e.printStackTrace();
-            return "timeOut";
+            return false;
         }
-        return "sucess";
     }
 
     @Override
@@ -95,14 +97,13 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public JsonObject deviceAutoControl(String deviceNo, DedviceAutoControlDto dto) {
         String control = dto.getControlName();
-        Integer value = dto.getControlValue();
+        Integer value = (Integer) dto.getControlValue();
         Optional<ControlEntity> controlEntity = controlRepository.findByControlName(control);
         Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceNo);
         Optional<DeviceControlEntity> deviceControlEntity = deviceControlRepository.findByDeviceIdxAndControlIdx(deviceEntity.get(), controlEntity.get());
 
         deviceControlEntity.get().setAutoControl(value);
 
-        deviceControlRepository.save(deviceControlEntity.get());
         deviceControlRepository.save(deviceControlEntity.get());
         JsonObject object = new JsonObject();
         object.addProperty(control, value);
@@ -123,7 +124,7 @@ public class DeviceServiceImpl implements DeviceService {
         deviceControlEntity.get().setAutoControlval(value);
 
         deviceControlRepository.save(deviceControlEntity.get());
-        deviceControlRepository.save(deviceControlEntity.get());
+        control = controlEntity.get().getControlArea();
         JsonObject object = new JsonObject();
         object.addProperty(control, value);
         Map<String, Object> map = new HashMap<>();
@@ -135,14 +136,13 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public JsonObject deviceManual(String deviceNo, DedviceAutoControlDto dto) {
         String control = dto.getControlName();
-        Integer value = dto.getControlValue();
+        Integer value = (Integer) dto.getControlValue();
         Optional<ControlEntity> controlEntity = controlRepository.findByControlName(control);
         Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceNo);
         Optional<DeviceControlEntity> deviceControlEntity = deviceControlRepository.findByDeviceIdxAndControlIdx(deviceEntity.get(), controlEntity.get());
 
         deviceControlEntity.get().setManualControl(value);
 
-        deviceControlRepository.save(deviceControlEntity.get());
         deviceControlRepository.save(deviceControlEntity.get());
         JsonObject object = new JsonObject();
         object.addProperty(control, value);
@@ -152,38 +152,46 @@ public class DeviceServiceImpl implements DeviceService {
         return object;
     }
 
+    @Override
     public Map<String, Object> getUserDeviceAll(String accessToken) throws IOException {
-        Map<String, Object> returnMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
 
-        JsonElement element = kakaoService.GetUserInfo(accessToken);
-        String email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").toString();
-        Optional<UserEntity> userEntity =  userRepository.findByUserId(email);
+        String userId = kakaoService.decodeToken(accessToken);
+        Optional<UserEntity> userEntity = userRepository.findByUserId(userId);
+        List<Map<String , Object>> deviceList = new ArrayList<>();
         List<UserDeviceEntity> userDeviceEntityList = userDeviceRepository.findByUserIdx(userEntity.get());
         for(UserDeviceEntity userDeviceEntity : userDeviceEntityList){
-            DeviceEntity deviceEntity = userDeviceEntity.getDeviceIdx();
-            Map<String, Object> inMap = new HashMap<>();
-            inMap.put("latitude" , deviceEntity.getDeviceLatitude());
-            inMap.put("longitude" , deviceEntity.getDeviceLong());
-            List<DeviceSensorEntity> deviceSensorEntityList = deviceSensorRepository.findByDeviceIdx(deviceEntity);
-            for(DeviceSensorEntity deviceSensorEntity : deviceSensorEntityList){
-            }
+            Map<String, Object> deviceMap = new HashMap<>();
+            deviceMap.put("deviceNo", userDeviceEntity.getDeviceIdx().getDeviceNo());
+            deviceMap.put("deviceName", userDeviceEntity.getDeviceIdx().getDeviceName());
+            deviceMap.put("cropName", userDeviceEntity.getDeviceIdx().getCrop().getCropName());
+            deviceMap.put("deviceLatitude", userDeviceEntity.getDeviceIdx().getDeviceLatitude());
+            deviceMap.put("deviceLong", userDeviceEntity.getDeviceIdx().getDeviceLong());
+            deviceMap.put("deviceCamera", userDeviceEntity.getDeviceIdx().getDeviceCamera());
+            deviceList.add(deviceMap);
         }
+        resultMap.put("deviceInfo", deviceList);
 
-        return returnMap;
+        return resultMap;
     }
 
     @Override
-    public Map<String, Object> getDeviceSensor(String deviceNo) {
-        Integer deviceIdx = deviceRepository.findByDeviceNo(deviceNo).get().getIdx();
-        Map<String, Object> map = new HashMap<>();
-        DeviceEntity device = deviceRepository.findById(deviceIdx).get();
-        List<DeviceSensorEntity> deviceSensorEntityList = deviceSensorRepository.findByDeviceIdx(device);
-        for(DeviceSensorEntity deviceSensorEntity : deviceSensorEntityList){
-            String sensorName = deviceSensorEntity.getSensorIdx().getSensorArea();
-            Float sensorValue = deviceSensorEntity.getValue();
-            map.put(sensorName, sensorValue);
+    public Map<String, Object> getDeviceSensor(String userEmail) {
+        Map<String, Object> resultMap = new HashMap<>();
+        UserEntity userEntity = userRepository.findByUserId(userEmail).get();
+        List<UserDeviceEntity> userDeviceEntityList = userDeviceRepository.findByUserIdx(userEntity);
+        ArrayList<DeviceEntity> deviceEntityArrayList = new ArrayList<>();
+        for(UserDeviceEntity userDeviceEntity : userDeviceRepository.findByUserIdx(userEntity)){
+            List<DeviceSensorEntity> deviceSensorEntityList = deviceSensorRepository.findByDeviceIdx(userDeviceEntity.getDeviceIdx());
+            Map<String, Object> map = new HashMap<>();
+            for(DeviceSensorEntity deviceSensorEntity : deviceSensorEntityList){
+                String sensorName = deviceSensorEntity.getSensorIdx().getSensorArea();
+                Float sensorValue = deviceSensorEntity.getValue();
+                map.put(sensorName, sensorValue);
+            }
+            resultMap.put(userDeviceEntity.getDeviceIdx().getDeviceNo(), map);
         }
-        return map;
+        return resultMap;
     }
 
 

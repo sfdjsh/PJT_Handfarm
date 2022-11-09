@@ -9,9 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ArticleRegistDto {
-
+public class ArticleViewDto {
+    private Integer idx;
     private String articleTitle;
     private String articleImg;
+    private Integer likeCount;
+    private Integer commentCount;
     private String articleContent;
 }

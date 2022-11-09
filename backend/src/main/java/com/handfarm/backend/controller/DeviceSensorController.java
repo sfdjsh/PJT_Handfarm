@@ -98,7 +98,7 @@ public class DeviceSensorController {
         }
     }
 
-    @PutMapping("/farm/{deviceNo}/manual")
+        @PutMapping("/farm/{deviceNo}/manual")
     public ResponseEntity<?> deviceManual(HttpServletRequest request, @RequestBody DedviceAutoControlDto dto, @PathVariable String deviceNo){
         Map<String, Object> returnMap = new HashMap<>();
         String topic = "ssafy/" + deviceNo + "/manualControl";

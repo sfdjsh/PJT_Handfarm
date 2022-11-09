@@ -1,7 +1,27 @@
 package com.handfarm.backend.service;
 
 import com.handfarm.backend.domain.dto.article.ArticleRegistDto;
+import com.handfarm.backend.domain.dto.article.CommentRegistDto;
+
+import java.util.Map;
+import com.handfarm.backend.domain.dto.article.ArticleViewDto;
+
+import java.util.List;
 
 public interface FarmmunityService {
-    void registArticle(ArticleRegistDto articleRegistDto);
+    void registArticle(String decodeId, ArticleRegistDto articleRegistDto, String domain, String category);
+
+    Map<String, Object> getArticleList(String domain, String category);
+
+    Boolean likeArticle(String decodeId, Integer articleIdx);
+    void updateArticle(String decodeId, Integer articleIdx, ArticleRegistDto articleRegistDto);
+    Map<String, Object> getArticleDetail(String decodeId, Integer articleIdx);
+
+    void registComment(String decodeId, Integer articleIdx, CommentRegistDto commentRegistDto);
+
+    void deleteArticle(String decodeId, Integer articleIdx);
+
+    void deleteComment(String decodeId, Integer articleIdx, Integer commentIdx);
+
+    void updateComment(String decodeId, Integer articleIdx, Integer commentIdx, CommentRegistDto commentRegistDto);
 }

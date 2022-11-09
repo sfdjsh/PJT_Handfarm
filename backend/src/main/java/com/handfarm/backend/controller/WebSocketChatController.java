@@ -22,7 +22,7 @@ public class WebSocketChatController {
         this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
-    // 메시지의 destination이 /hello 였다면 해당 sendMessage() method가 불리도록
+    // 메시지의 destination이 /chat 였다면 해당 sendMessage() method가 불리도록
     @MessageMapping("/chat")
     public void sendMessage(ChatDto chatDto, SimpMessageHeaderAccessor accessor){
         simpMessagingTemplate.convertAndSend("/sub/chat/" + chatDto.getRoomId(), chatDto);
