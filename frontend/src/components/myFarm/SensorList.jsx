@@ -17,6 +17,7 @@ const SensorList = ({ deviceId, email }) => {
     const sse = new EventSourcePolyfill(`${BASE_URL}/connect/${email}`)
     sse.addEventListener('connect', (e) => {
       const {data: receivedConnectData} = e;
+      console.log(receivedConnectData)
       setSensor(JSON.parse(receivedConnectData))
     })
   };
@@ -25,17 +26,23 @@ const SensorList = ({ deviceId, email }) => {
     test();
   }, [])
 
-  const temp = sensor[deviceId].temp
-  const co2 = sensor[deviceId].CO2
-  const humid = sensor[deviceId].humid
-  const soilHumid = sensor[deviceId].soilHumid
+  const temp = sensor[deviceId]? sensor[deviceId].temp : ''
+  const co2 = sensor[deviceId]? sensor[deviceId].temp : ''
+  const humid = sensor[deviceId]? sensor[deviceId].humid : ''
+  const soilHumid = sensor[deviceId]? sensor[deviceId].soilHumid : ''
+
   return (
     <>
       <Grid container spacing={1} sx={{ mt: 1 }}>
-          <TempCard temp={temp} />
-          <HumidCard humid={humid} />
-          <Co2Card co2={co2} />
-          <SoilHumidCard soilHumid={soilHumid}/>
+        {
+          sensor?      
+          <>
+            <TempCard temp={temp} deviceId={deviceId} />
+            <HumidCard humid={humid} deviceId={deviceId} />
+            <Co2Card co2={co2} deviceId={deviceId} />
+            <SoilHumidCard soilHumid={soilHumid} deviceId={deviceId} /> 
+          </> : <></>
+        }
       </Grid>
     </>
   )

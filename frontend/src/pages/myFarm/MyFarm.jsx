@@ -31,7 +31,6 @@ const MyFarm = () => {
   const devices = user.deviceId
   const [farmRadio, setFarmRadio] = useState('0');
   const [deviceId, setDeviceId] = useState(devices[0].deviceNo)
-  
   const email = user.userEmail
   
   return (
@@ -79,35 +78,7 @@ const MyFarm = () => {
           </Box>
         </Grid>
         <SensorList deviceId={deviceId} email={email} />
-        {/* <Grid container spacing={1} sx={{ mt: 1 }}>
-          <Grid item xs={6}>
-            <Card sx={{ background: "#F7B634" }}>
-              <CardContent>
-                <DeviceThermostatOutlinedIcon />
-                <Typography textAlign="center" variant="h5" sx={{ mt: 1 }}>
-                  <span style={{ fontWeight: "bold" }}>24.8C</span>
-                </Typography>
-              </CardContent>
-              <CardActions sx={{ ml: 1 }}>
-                <span style={{ fontWeight: "bold" }}>Temp</span>
-              </CardActions>
-            </Card>
-          </Grid>
-          <Grid item xs={6}>
-            <Card sx={{ background: "#9747FF" }}>
-              <CardContent>
-                <DeviceThermostatOutlinedIcon />
-                <Typography textAlign="center" variant="h5" sx={{ mt: 1 }}>
-                  <span style={{ fontWeight: "bold" }}>24.8C</span>
-                </Typography>
-              </CardContent>
-              <CardActions sx={{ ml: 1 }}>
-                <span style={{ fontWeight: "bold" }}>Temp</span>
-              </CardActions>
-            </Card>
-          </Grid>
-        </Grid>
-
+        {/* 
         <Grid item xs={12} sx={{ mt: 1 }}>
           <Card sx={{ height: 100 }}>
             <p>GPS 영역</p>

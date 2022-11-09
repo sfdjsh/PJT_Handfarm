@@ -14,6 +14,7 @@ const FarmRegisting = () => {
     if (user.deviceId) {
       navigate('/myfarm')
     }
+    
     if(!localStorage.getItem("reload")){
       localStorage.setItem("reload", true)
       window.location.reload()

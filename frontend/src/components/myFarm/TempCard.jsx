@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import SensorDetail from "./SensorDetail";
+import TempDetail from "./TempDetail";
 import {
   Card,
   CardContent,
@@ -9,11 +9,12 @@ import {
 } from "@mui/material";
 import DeviceThermostatOutlinedIcon from "@mui/icons-material/DeviceThermostatOutlined";
 import { useRecoilState } from "recoil";
-import { sensorState } from '../../atom'
+import { tempModal } from '../../atom'
 
-const TempCard = ({ temp }) => {
-  const [open, setOpen] = useRecoilState(sensorState)
-  const handleOpen = () => setOpen(true)
+const TempCard = ({ temp, deviceId }) => {
+  const [onTemp, setOnTemp] = useRecoilState(tempModal)
+
+  const handleOpen = () => setOnTemp(true)
 
   return (
     <>
@@ -33,12 +34,11 @@ const TempCard = ({ temp }) => {
               <span style={{ fontWeight: "bold" }}>Temp</span>
             </CardActions>
           </Card>
-          {/* 센서 디테일 모달창 */}
         </Grid>
       ) : (
         <></>
       )}
-
+      <TempDetail temp={temp} deviceId={deviceId} />
     </>
   );
 };
