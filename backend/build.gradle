@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.7.4'
 	id 'io.spring.dependency-management' version '1.0.14.RELEASE'
 	id 'java'
+	id "org.sonarqube" version "3.0"
 }
 
 group = 'com.handfarm'
@@ -17,6 +18,7 @@ configurations {
 repositories {
 	mavenCentral()
 }
+
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -45,4 +47,11 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+sonarqube{
+	properties {
+		property "sonar.host.url", "http://localhost:9000"
+		property "sonar.login", "sqp_5a50e0e20f45d2af5ef4d2503e45fd2bf39e6f1b"
+		property "sonar.projectKey", "handfarm"
+	}
 }

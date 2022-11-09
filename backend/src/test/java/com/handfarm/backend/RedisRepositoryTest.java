@@ -21,10 +21,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @SpringBootTest
 @Disabled
@@ -45,12 +42,24 @@ public class RedisRepositoryTest {
     }
 
     @Test
+    void 타이머_테스트(){
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("------ㅎㅇㅎㅇ-------");
+
+            }
+        };
+
+        new Timer().scheduleAtFixedRate(task, 0l, 3000);
+    }
+    @Test
     void 채팅보내기(){
-        String decodeId = "kiki249@naver.com"; // header에 있어.
+        String decodeId = "da9065@naver.com"; // header에 있어.
         String toUserNickname = "혜진"; // 내가 클릭 하면 알 수 있어
 //        String roomId = "21"; // 클릭하면 알고 있어
 
-        String content = "집에가자!!"; // 보내야될 메시지 -> webSocket으로 통신
+        String content = "동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리 나라만세 남산 위에 저 소나무 철갑을 두르듯 몰ㄹ마왈어ㅏ러알아ㅏ아아아앙릉 ㅓ우"; // 보내야될 메시지 -> webSocket으로 통신
 
         String msg = "";
         //

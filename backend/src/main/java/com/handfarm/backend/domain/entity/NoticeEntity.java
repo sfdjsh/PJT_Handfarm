@@ -30,6 +30,10 @@ public class NoticeEntity {
     @JoinColumn(name="from_user_idx")
     private UserEntity fromUser;
 
+    @ManyToOne
+    @JoinColumn(name="comment_idx")
+    private CommentEntity comment;
+
     @Column(name="notice_type")
     private String noticeType;
 
@@ -42,4 +46,14 @@ public class NoticeEntity {
     @Column(name="article_idx")
     private Integer articleIdx;
 
+    @Builder
+    public NoticeEntity(UserEntity toUser, UserEntity fromUser, String noticeType, LocalDateTime noticeTime, Boolean isRead, Integer articleIdx, CommentEntity comment) {
+        this.toUser = toUser;
+        this.fromUser = fromUser;
+        this.noticeType = noticeType;
+        this.noticeTime = noticeTime;
+        this.isRead = isRead;
+        this.articleIdx = articleIdx;
+        this.comment = comment;
+    }
 }

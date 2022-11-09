@@ -15,7 +15,7 @@ public interface ChatService {
 
     UserEntity getToUser(String decodeId, String roomId);
 
-    String createChatRoom(String decodeId, Integer userIdx);
+    String createChatRoom(String decodeId, String userNickname);
 
     void saveMessageRedis(ChatDto chatDto);
 }

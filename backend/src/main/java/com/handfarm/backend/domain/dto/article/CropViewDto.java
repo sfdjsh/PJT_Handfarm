@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ArticleRegistDto {
-
-    private String articleTitle;
-    private String articleImg;
-    private String articleContent;
+public class CropViewDto {
+    private String cropName;
+    private String cropImg;
+    private String cropDescription;
+    private Integer cropUserCount;
 }

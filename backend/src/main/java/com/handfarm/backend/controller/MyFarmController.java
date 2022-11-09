@@ -36,7 +36,7 @@ public class MyFarmController {
     @PostMapping("/farm")
     public ResponseEntity<?> userDeviceRegister(HttpServletRequest request, @RequestBody DeviceRegistDto deviceRegistDto) throws IOException {
         Map<String, Object> returnMap = new HashMap<>();
-        if("sucess".equals(deviceService.userRegistDevice(request, deviceRegistDto))) {
+        if(deviceService.userRegistDevice(request, deviceRegistDto)) {
             returnMap.put("message", success);
             status = HttpStatus.OK;
         }else{
@@ -59,10 +59,13 @@ public class MyFarmController {
         return new ResponseEntity<>(returnMap, status);
     }
     @GetMapping("/farm")
-    public ResponseEntity<?> userDeviceGet(HttpServletRequest request, @RequestBody DeviceRegistDto deviceRegistDto) throws IOException {
-        Map<String, Object> returnMap = new HashMap<>();
+    public ResponseEntity<?> userDeviceGet(HttpServletRequest request) throws IOException {
 
-        return new ResponseEntity<>(returnMap, status);
+        Map<String, Object> resultMap = new HashMap<>(deviceService.getUserDeviceAll(request.getHeader("accessToken")));
+
+
+        status = HttpStatus.OK;
+        return new ResponseEntity<>(resultMap, status);
     }
 
     @PostMapping("/device")

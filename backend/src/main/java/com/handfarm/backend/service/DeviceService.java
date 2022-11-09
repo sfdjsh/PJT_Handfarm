@@ -11,7 +11,7 @@ import java.util.Map;
 public interface DeviceService {
     void registDevice(DeviceRegistDto deviceRegistDto) throws IOException;
 
-    Object userRegistDevice(HttpServletRequest request, DeviceRegistDto deviceRegistDto) throws IOException;
+    boolean userRegistDevice(HttpServletRequest request, DeviceRegistDto deviceRegistDto) throws IOException;
 
     Boolean deviceUpdate(HttpServletRequest request, DeviceRegistDto deviceRegistDto);
 
@@ -20,6 +20,8 @@ public interface DeviceService {
     JsonObject deviceAutoControlValue(String deviceNo, DedviceAutoControlDto dto);
 
     JsonObject deviceManual(String deviceNo, DedviceAutoControlDto dto);
+
+    Map<String, Object> getUserDeviceAll(String accessToken) throws IOException;
 
     Map<String, Object> getDeviceSensor(String deviceNo);
 }
