@@ -134,6 +134,7 @@ public class KakoServiceImpl implements KakaoService {
                             deviceMap.put("cropName", Crop);
                             deviceMap.put("deviceLatitude", device.get().getDeviceLatitude());
                             deviceMap.put("deviceLong", device.get().getDeviceLong());
+                            deviceMap.put("deviceCamera", device.get().getDeviceCamera());
                             deviceList.add(deviceMap);
                         }
                         resultMap.put("deviceInfo", deviceList);
