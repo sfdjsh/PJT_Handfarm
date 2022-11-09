@@ -33,6 +33,10 @@ public class DeviceEntity {
 
     @Column(name="device_name")
     private String deviceName;
+
+    @Column(name="device_camera")
+    private String deviceCamera;
+
     @ManyToOne
     @JoinColumn(name="crop_idx")
     private CropEntity crop;
