@@ -59,8 +59,8 @@ public class DeviceServiceImpl implements DeviceService {
             Optional<UserEntity> userEntity = userRepository.findByUserId(email);
             Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceRegistDto.getDeviceNo());
 
-            if(userDeviceRepository.findByDeviceIdxAndUserIdx(deviceEntity.get(), userEntity.get()) == null){
-                return false;
+            if(userDeviceRepository.findByDeviceIdxAndUserIdx(deviceEntity.get(), userEntity.get()) != null){
+                throw new Exception();
             }
 
             deviceEntity.get().setDeviceName(deviceRegistDto.getDeviceName());
