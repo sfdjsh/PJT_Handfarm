@@ -2,9 +2,9 @@
 #include "common.h"
 
 void relay_begin() {
-  pinMode(Relay_IN1, OUTPUT);
-  pinMode(Relay_IN2, OUTPUT);
-  pinMode(Relay_IN3, OUTPUT);
+  pinMode(Pump_pin, OUTPUT);
+  pinMode(Heater_pin, OUTPUT);
+  pinMode(Cooler_pin, OUTPUT);
 }
 
 int getCDS() {  //return average (cnt)
