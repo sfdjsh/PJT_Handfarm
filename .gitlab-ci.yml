@@ -11,3 +11,4 @@ sonarqube-check:
   allow_failure: true
   only:
     - backend # or the name of your main branch
+ 
