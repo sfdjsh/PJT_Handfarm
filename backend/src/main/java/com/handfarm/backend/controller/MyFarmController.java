@@ -60,9 +60,12 @@ public class MyFarmController {
     }
     @GetMapping("/farm")
     public ResponseEntity<?> userDeviceGet(HttpServletRequest request, @RequestBody DeviceRegistDto deviceRegistDto) throws IOException {
-        Map<String, Object> returnMap = new HashMap<>();
 
-        return new ResponseEntity<>(returnMap, status);
+        Map<String, Object> resultMap = new HashMap<>(deviceService.getUserDeviceAll(request.getHeader("accessToken")));
+
+
+        status = HttpStatus.OK;
+        return new ResponseEntity<>(resultMap, status);
     }
 
     @PostMapping("/device")

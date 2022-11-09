@@ -1,6 +1,5 @@
 package com.handfarm.backend.service.impl;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.handfarm.backend.domain.dto.device.DedviceAutoControlDto;
 import com.handfarm.backend.domain.dto.device.DeviceRegistDto;
@@ -57,13 +56,17 @@ public class DeviceServiceImpl implements DeviceService {
     public boolean userRegistDevice(HttpServletRequest request, DeviceRegistDto deviceRegistDto) {
         try {
             String email = kakaoService.decodeToken(request.getHeader("accessToken"));
-
+            Optional<UserEntity> userEntity = userRepository.findByUserId(email);
             Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceRegistDto.getDeviceNo());
+
+            if(userDeviceRepository.findByDeviceIdxUserIdx(deviceEntity.get(), userEntity.get()) == null){
+                return false;
+            }
+
             deviceEntity.get().setDeviceName(deviceRegistDto.getDeviceName());
             deviceEntity.get().setCrop(cropRepository.findByCropName(deviceRegistDto.getDeviceCrops()));
             deviceRepository.save(deviceEntity.get());
 
-            Optional<UserEntity> userEntity = userRepository.findByUserId(email);
             userEntity.get().setDevice(deviceEntity.get());
             UserDeviceEntity userDeviceEntity = new UserDeviceEntity();
             userDeviceEntity.setDeviceIdx(deviceEntity.get());
@@ -149,24 +152,27 @@ public class DeviceServiceImpl implements DeviceService {
         return object;
     }
 
+    @Override
     public Map<String, Object> getUserDeviceAll(String accessToken) throws IOException {
-        Map<String, Object> returnMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
 
-        JsonElement element = kakaoService.GetUserInfo(accessToken);
-        String email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").toString();
-        Optional<UserEntity> userEntity =  userRepository.findByUserId(email);
+        String userId = kakaoService.decodeToken(accessToken);
+        Optional<UserEntity> userEntity = userRepository.findByUserId(userId);
+        List<Map<String , Object>> deviceList = new ArrayList<>();
         List<UserDeviceEntity> userDeviceEntityList = userDeviceRepository.findByUserIdx(userEntity.get());
         for(UserDeviceEntity userDeviceEntity : userDeviceEntityList){
-            DeviceEntity deviceEntity = userDeviceEntity.getDeviceIdx();
-            Map<String, Object> inMap = new HashMap<>();
-            inMap.put("latitude" , deviceEntity.getDeviceLatitude());
-            inMap.put("longitude" , deviceEntity.getDeviceLong());
-            List<DeviceSensorEntity> deviceSensorEntityList = deviceSensorRepository.findByDeviceIdx(deviceEntity);
-            for(DeviceSensorEntity deviceSensorEntity : deviceSensorEntityList){
-            }
+            Map<String, Object> deviceMap = new HashMap<>();
+            deviceMap.put("deviceNo", userDeviceEntity.getDeviceIdx().getDeviceNo());
+            deviceMap.put("deviceName", userDeviceEntity.getDeviceIdx().getDeviceName());
+            deviceMap.put("cropName", userDeviceEntity.getDeviceIdx().getCrop().getCropName());
+            deviceMap.put("deviceLatitude", userDeviceEntity.getDeviceIdx().getDeviceLatitude());
+            deviceMap.put("deviceLong", userDeviceEntity.getDeviceIdx().getDeviceLong());
+            deviceMap.put("deviceCamera", userDeviceEntity.getDeviceIdx().getDeviceCamera());
+            deviceList.add(deviceMap);
         }
+        resultMap.put("deviceInfo", deviceList);
 
-        return returnMap;
+        return resultMap;
     }
 
     @Override
