@@ -116,5 +116,11 @@ public class DeviceSensorController {
             return new ResponseEntity<>(returnMap, status);
         }
     }
+    @GetMapping("/farm/{deviceNo}/manual")
+    public ResponseEntity<Map<String, Object>> getDeviceManual(HttpServletRequest request, @PathVariable String deviceNo){
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.putAll(deviceService.getDeviceManual(request,deviceNo));
+        return new ResponseEntity<>(resultMap, status);
+    }
 
 }

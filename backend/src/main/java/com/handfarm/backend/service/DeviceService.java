@@ -23,5 +23,7 @@ public interface DeviceService {
 
     Map<String, Object> getUserDeviceAll(String accessToken) throws IOException;
 
+    Map<String, Object> getDeviceManual(HttpServletRequest request, String deviceNo);
+
     Map<String, Object> getDeviceSensor(String deviceNo);
 }
