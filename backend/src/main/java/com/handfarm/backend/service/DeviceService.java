@@ -21,5 +21,7 @@ public interface DeviceService {
 
     JsonObject deviceManual(String deviceNo, DedviceAutoControlDto dto);
 
+    Map<String, Object> getUserDeviceAll(String accessToken) throws IOException;
+
     Map<String, Object> getDeviceSensor(String deviceNo);
 }
