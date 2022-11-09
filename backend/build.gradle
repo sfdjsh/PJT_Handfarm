@@ -1,6 +1,7 @@
 plugins {
 	id 'org.springframework.boot' version '2.7.4'
 	id 'io.spring.dependency-management' version '1.0.14.RELEASE'
+	id "org.sonarqube" version "3.4.0.2513"
 	id 'java'
 }
 
@@ -17,6 +18,7 @@ configurations {
 repositories {
 	mavenCentral()
 }
+
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -41,6 +43,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-integration'
 	implementation 'org.springframework.integration:spring-integration-mqtt'
 	implementation 'org.springframework.integration:spring-integration-stream'
+}
+sonarqube {
+	properties {
+		property "sonar.projectKey", "handfarm"
+		property "sonar.qualitygate.wait", true
+	}
 }
 
 tasks.named('test') {
