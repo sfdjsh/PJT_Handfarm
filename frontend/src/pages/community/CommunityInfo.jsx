@@ -15,6 +15,7 @@ import {useEffect, useState} from "react";
 import {nowCrop} from "../../atom";
 import {useRecoilState} from "recoil";
 import {useNavigate} from "react-router-dom";
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 
 
 export const CommunityInfo = () => {
@@ -48,11 +49,8 @@ export const CommunityInfo = () => {
                 />
             </Box>
             <Grid container spacing={1}>
-                <Grid item xs={7}>
-                    <Box sx={{ fontSize : "25px", m : 1, textAlign : "right" }}>{ cropInfo.cropName }</Box>
-                </Grid>
-                <Grid item xs={5}>
-                    <Box sx={{ display : "flex" ,fontSize : "20px" ,m : 1.5, alignItems : "center", justifyContent : "center" }}><span style={{ fontSize : "15px", margin : "5px" }}>123</span><PermIdentityIcon/></Box>
+                <Grid item xs={12}>
+                    <Box sx={{ fontSize : "25px", m : 1, display : "flex", justifyContent : "center", alignItems : "center" }}>{ cropInfo.cropName }</Box>
                 </Grid>
             </Grid>
             <Box sx={{ display : "flex", justifyContent : "center", px : "25px" }}>
@@ -81,7 +79,7 @@ export const CommunityInfo = () => {
                             <p style={{ textAlign : "left", lineHeight : "25px", color : "white", margin : "0px" , marginTop : "45px", textOverflow : "ellipsis", overflow : "hidden", whiteSpace : "nowrap" }}>
                                 {article.articleTitle}
                             </p>
-                            <Box sx={{mt : 2, display : "flex" ,fontSize : "20px", alignItems : "center", justifyContent : "start", color : "#B3B3B3" }}><span style={{ fontSize : "15px", margin : "5px" }}>{article.commentCount}</span><PermIdentityIcon/><span style={{ fontSize : "15px", margin : "5px" }}>{article.likeCount}</span><FavoriteBorderIcon/></Box>
+                            <Box sx={{mt : 2, display : "flex" ,fontSize : "20px", alignItems : "center", justifyContent : "start", color : "#B3B3B3" }}><ChatBubbleOutlineIcon/><span style={{ fontSize : "15px", margin : "5px" }}>{article.commentCount}</span><FavoriteBorderIcon/><span style={{ fontSize : "15px", margin : "5px" }}>{article.likeCount}</span></Box>
                         </Grid>
                     </Grid>
                     <Divider sx={{ backgroundColor : "#757575", marginLeft: '5%', marginRight: '5%' }}/>

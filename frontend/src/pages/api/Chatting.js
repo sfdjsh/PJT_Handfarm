@@ -24,3 +24,17 @@ export async function fetchMyChatDetail(roomId){
     })
     return response
 }
+
+export async function createChatRoom(userName){
+
+    const URL = `${LOCAL_URL}/chat/${userName}`
+    const response = await fetch(URL,{
+        method : "GET",
+        headers : {
+            accessToken : localStorage.getItem("access_token"),
+            "Content-Type" : "application/json",
+        }
+        })
+    return response
+
+}
