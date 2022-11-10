@@ -27,8 +27,6 @@ public class WebSocketChatController {
     public void sendMessage(ChatDto chatDto, SimpMessageHeaderAccessor accessor){
         simpMessagingTemplate.convertAndSend("/sub/chat/" + chatDto.getRoomId(), chatDto);
 
-        System.out.println("message :: " + chatDto.getMsg());
         chatService.saveMessageRedis(chatDto); // 레디스에 정보 저장
     }
-
 }

@@ -1,5 +1,6 @@
 package com.handfarm.backend.domain.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -21,12 +22,15 @@ public class ChatEntity {
     private String toUserId;
     private String msg;
     private LocalDateTime time;
+    private Boolean isRead; // 읽음처리
 
-    public ChatEntity(String roomId, String sendUserId, String toUserId, String msg, LocalDateTime time) {
+    @Builder
+    public ChatEntity(String roomId, String sendUserId, String toUserId, String msg, LocalDateTime time, Boolean isRead) {
         this.roomId = roomId;
         this.sendUserId = sendUserId;
         this.toUserId = toUserId;
         this.msg = msg;
         this.time = time;
+        this.isRead = isRead;
     }
 }
