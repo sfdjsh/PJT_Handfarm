@@ -4,19 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4b81b8fd-fc66-4b80-83f5-fee977677905" name="Changes" comment="#8 feat : chatting">
+    <list default="true" id="4b81b8fd-fc66-4b80-83f5-fee977677905" name="Changes" comment="#9 feat : API connect">
+      <change afterPath="$PROJECT_DIR$/src/pages/api/MyPage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/common/Card.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/Card.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/common/DialButton.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/DialButton.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/api/Article.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/Article.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/api/Chatting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/Chatting.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/api/Farmmunity.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/Farmmunity.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/auth/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/auth/Login.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/chat/CreateReadChat.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/chat/CreateReadChat.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/community/ArticleForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/community/ArticleForm.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/community/CommunityInfo.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/community/CommunityInfo.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/community/CommunityRegion.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/community/CommunityRegion.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/community/FarmmunityInfoDetail.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/community/FarmmunityInfoDetail.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/myPage/MyPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/myPage/MyPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/myPage/MyPageArticle.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/myPage/MyPageArticle.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/myPage/MyPageFarm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/myPage/MyPageFarm.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,6 +77,9 @@
       <workItem from="1667519330918" duration="14999000" />
       <workItem from="1667778236446" duration="6060000" />
       <workItem from="1667865334345" duration="21699000" />
+      <workItem from="1667952019253" duration="76000" />
+      <workItem from="1667952137408" duration="20579000" />
+      <workItem from="1668039120362" duration="8096000" />
     </task>
     <servers />
   </component>
@@ -96,6 +100,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="article, Navbar, mqtt, farmmunityMain" />
     <MESSAGE value="#8 feat : chatting" />
-    <option name="LAST_COMMIT_MESSAGE" value="#8 feat : chatting" />
+    <MESSAGE value="#9 feat : API connect" />
+    <option name="LAST_COMMIT_MESSAGE" value="#9 feat : API connect" />
   </component>
 </project>
