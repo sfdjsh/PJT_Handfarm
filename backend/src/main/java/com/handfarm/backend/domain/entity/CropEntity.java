@@ -31,4 +31,13 @@ public class CropEntity {
     @Column(name="crop_description")
     private String cropDescription;
 
+    @Column(name = "crop_temp")
+    private String cropTemp;
+
+    @Column(name = "crop_soilhumidity")
+    private String cropSoilHumidity;
+
+    @Column(name = "crop_co2")
+    private String cropCo2;
+
 }
