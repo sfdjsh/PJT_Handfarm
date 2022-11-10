@@ -61,8 +61,7 @@ public class RedisRepositoryTest {
 
         String content = "동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리 나라만세 남산 위에 저 소나무 철갑을 두르듯 몰ㄹ마왈어ㅏ러알아ㅏ아아아앙릉 ㅓ우"; // 보내야될 메시지 -> webSocket으로 통신
 
-        String msg = "";
-        //
+
 
         UserEntity personA = userRepository.findByUserId(decodeId).get();
         UserEntity personB = userRepository.findByUserNickname(toUserNickname).get();
@@ -78,9 +77,9 @@ public class RedisRepositoryTest {
             System.out.println("채팅 방 번호 : " + roomId);
         }
 
-        ChatEntity chat = new ChatEntity(String.valueOf(roomId), personA.getUserId(), personB.getUserId(), content, LocalDateTime.now());
+        ChatEntity chat = new ChatEntity(String.valueOf(roomId), personA.getUserId(), personB.getUserId(), content, LocalDateTime.now(), false);
         redisTemplate.opsForList().leftPush(String.valueOf(roomId),chat);
-//        redisTemplate.expireAt(String.valueOf(roomId), Date.from(ZonedDateTime.now().plusMinutes(5).toInstant())); // 유효기간 TTL 30일
+
     }
 
     @Test
