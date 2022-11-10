@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 
 import javax.websocket.server.ServerEndpoint;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -56,7 +58,6 @@ public class ChatServiceImpl implements ChatService {
                     mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // timestamp 형식 안따르도록 설정
                     mapper.registerModules(new JavaTimeModule(), new Jdk8Module());
                     ChatEntity chatEntity = mapper.convertValue(chatInfo, ChatEntity.class);
-//                System.out.println(chatEntity);
                     ChatInfoEntity chatRoomInfo = chatInfoRepository.findByIdx(Integer.valueOf(roomId));
 
                     UserEntity personA = chatRoomInfo.getPersonA();
@@ -105,6 +106,7 @@ public class ChatServiceImpl implements ChatService {
                         .toUserNickname(toUser.getUserNickname())
                         .msg(chatEntity.getMsg())
                         .time(chatEntity.getTime())
+                        .isRead(chatEntity.getIsRead())
                         .build();
 
                 chatList.add(chatDetailDto);
@@ -121,17 +123,13 @@ public class ChatServiceImpl implements ChatService {
 
         UserEntity personA = chatRoomInfo.getPersonA();
         UserEntity personB = chatRoomInfo.getPersonB();
-        if (personA.getUserId().equals(decodeId)) {
-            return personB;
-        } else {
-            return personA;
-        }
+        if (personA.getUserId().equals(decodeId)) return personB;
+        else return personA;
     }
 
     @Override
     public String createChatRoom(String decodeId, String userNickname) {
         UserEntity loginUser = userRepository.findByUserId(decodeId).get();
-        System.out.println(loginUser);
         UserEntity toUser = userRepository.findByUserNickname(userNickname).get();
 
         String roomId;
@@ -152,12 +150,11 @@ public class ChatServiceImpl implements ChatService {
         String toUserNickname = chatDto.getToUserNickname();
         String msg = chatDto.getMsg();
         Integer roomId = chatDto.getRoomId();
-
-        UserEntity sendUser = userRepository.findByUserNickname(sendUserNickname).get();
-        UserEntity toUser = userRepository.findByUserNickname(toUserNickname).get();
-
-        ChatEntity chat = new ChatEntity(String.valueOf(roomId), sendUser.getUserId(), toUser.getUserId(), msg, LocalDateTime.now());
+        Boolean isRead = false;
+        ChatEntity chat = ChatEntity.builder()
+                .roomId(String.valueOf(roomId)).msg(msg).sendUserId(sendUserNickname).
+                toUserId(toUserNickname).isRead(isRead).time(LocalDateTime.now(ZoneId.of("Asia/Seoul"))).build();
         redisTemplate.opsForList().leftPush(String.valueOf(roomId),chat);
+        System.out.println(chat.getToUserId() + ", " +  chat.getMsg() + ", " + chat.getIsRead());
     }
-
 }
