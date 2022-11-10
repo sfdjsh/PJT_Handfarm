@@ -18,12 +18,10 @@ const MyFarm = () => {
 
   const devices = myFarm.deviceInfo
   const [farmRadio, setFarmRadio] = useState('0');
-  console.log(myFarm)
-  console.log(devices)
   const [deviceId, setDeviceId] = useState(devices[0].deviceNo || '')
   const email = user.userEmail
 
-  const AonControl = async () => {
+  const motorInfo = async () => {
     const URL = `${BASE_URL}/farm/${deviceId}/manual`
     const result = await axios.get(URL, {
       headers: {
@@ -35,7 +33,7 @@ const MyFarm = () => {
 
   
   useEffect(() => {
-    AonControl()
+    motorInfo()
   }, [deviceId])
 
   return (
@@ -88,7 +86,6 @@ const MyFarm = () => {
         <SensorList deviceId={deviceId} email={email} />
 
         {/* 제어 모달창 */}
-        {/* <ControlDetail deviceId={deviceId} /> */}
         <ControlDetail />
       </Container>
     </>
