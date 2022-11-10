@@ -23,23 +23,22 @@ export const Login = () => {
           alt="핸드팜"
           style={{ width: "40vh", height: "50vh", paddingTop: "100px" }}
         />
-      </Box>
-      {/*<div className="Main-word">*/}
-      {/*  <h3 style={{ color: "#F24822" }}>원격으로 농장 관리와,</h3>*/}
-      {/*  <h3 style={{ color: "#0D99FF" }}>커뮤니티 기능으로,</h3>*/}
-      {/*  <h3 style={{ color: "#9747FF" }}>*/}
-      {/*    나의 농장*/}
-      {/*    <span style={{ color: "white" }}>을 관리해보세요!</span>*/}
-      {/*  </h3>*/}
-      {/*</div>*/}
-        <Box sx={{ display : "flex", justifyContent : "center", alignItems : 'center' }}>
-          <Button display="flex" justifyContent="center">
-            <a href={KAKAO_AUTH_URL}>
-              <img src="KakaoButton.png" alt="로그인" />
-            </a>
-          </Button>
-        </Box>
-    </Box>
+      </div>
+      <div className="Main-word">
+        <h3 style={{ color: "#F24822" }}>원격으로 농장 관리와,</h3>
+        <h3 style={{ color: "#0D99FF" }}>커뮤니티 기능으로,</h3>
+        <h3 style={{ color: "#9747FF" }}>
+          나의 농장
+          <span style={{ color: "white" }}>을 관리해보세요!</span>
+        </h3>
+      </div>
+
+      <Button display="flex" justifyContent="center">
+        <a href={KAKAO_AUTH_URL}>
+          <img src="kakaoButton.png" alt="로그인" />
+        </a>
+      </Button>
+    </>
   );
 };
 
