@@ -37,18 +37,18 @@ export async function fetchRegionArticle(nowRegion){
     return response
 }
 
-export async function updateArticle(articleId){
-
-    const URL = `${LOCAL_URL}/community/${articleId}`
-    const response = await fetch(URL,{
-        method : "PUT",
-        headers : {
-            accessToken : localStorage.getItem("access_token"),
-            "Content-Type" : "application/json",
-        }
-    })
-    return response
-}
+// export async function updateArticle(articleId){
+//
+//     const URL = `${LOCAL_URL}/community/${articleId}`
+//     const response = await fetch(URL,{
+//         method : "PUT",
+//         headers : {
+//             accessToken : localStorage.getItem("access_token"),
+//             "Content-Type" : "application/json",
+//         }
+//     })
+//     return response
+// }
 
 export async function deleteArticle(articleId){
     const URL = `${LOCAL_URL}/community/${articleId}`
@@ -65,7 +65,10 @@ export async function deleteArticle(articleId){
 export async function fetchArticleDetail(id) {
     const URL = `${LOCAL_URL}/community/${id}`
     const response = await fetch(URL, {
-        method : "GET"
+        method : "GET",
+        headers : {
+            accessToken : localStorage.getItem("access_token")
+        }
     })
     return response
 }
@@ -105,7 +108,7 @@ export async function commentDelete(articleId, commentId) {
     const response = await fetch(URL, {
         method : "DELETE",
         headers : {
-            Authorization : localStorage.getItem("access_token"),
+            accessToken : localStorage.getItem("access_token"),
             "Content-Type" : "application/json",
         }
     })
@@ -116,11 +119,42 @@ export async function articleLike(articleId) {
 
     const URL = `${LOCAL_URL}/community/${articleId}/like`
     const response = await fetch(URL, {
-        method : "POST",
+        method : "GET",
         headers : {
-            Authorization : localStorage.getItem("access_token"),
+            accessToken : localStorage.getItem("access_token"),
             "Content-Type" : "application/json",
         }
     })
     return response
+}
+
+export async function articleUpdate(userInput, articleId){
+
+    const URL = `${LOCAL_URL}/community/${articleId}`
+    const response = await fetch(URL, {
+        method : "PUT",
+        headers : {
+            accessToken : localStorage.getItem("access_token"),
+            "Content-Type": `application/json`,
+        },
+        body: JSON.stringify({
+            articleTitle : userInput.title,
+            articleContent : userInput.content,
+            articleImg : userInput.articleImg
+        }),
+    })
+    return response
+}
+
+export async function articleDelete(articleId){
+
+    const URL = `${LOCAL_URL}/community/${articleId}`
+    const responser = await fetch(URL, {
+        method : "DELETE",
+        headers : {
+            accessToken : localStorage.getItem("access_token"),
+            "Content-Type" : "application/json"
+        }
+    })
+
 }
