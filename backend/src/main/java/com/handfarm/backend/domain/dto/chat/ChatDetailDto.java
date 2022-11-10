@@ -16,4 +16,5 @@ public class ChatDetailDto {
     private String toUserNickname;
     private String msg;
     private LocalDateTime time;
+    private Boolean isRead;
 }
