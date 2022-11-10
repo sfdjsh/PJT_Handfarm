@@ -19,7 +19,9 @@ export const userInfo = atom({
 
 export const userFarm = atom({
     key : "userFarm",
-    default : [],
+    default : {
+        deviceInfo : []
+    },
     effects_UNSTABLE: [persistAtom],
 })
 

@@ -17,34 +17,24 @@ const MyFarm = () => {
 
   const devices = myFarm.deviceInfo
   const [farmRadio, setFarmRadio] = useState('0');
-  const [deviceId, setDeviceId] = useState(devices[0].deviceNo)
+  console.log(myFarm)
+  console.log(devices)
+  const [deviceId, setDeviceId] = useState(devices[0].deviceNo || '')
   const email = user.userEmail
 
-
-  // 내 농장 정보 axios
-  useEffect(() => {
-    const URL = `${BASE_URL}/farm`
-    axios.get(URL, {
-      headers: {
-        accessToken : localStorage.getItem('access_token')
-      }
-    })
-      .then(response => {
-        setMyFarm(response.data)
-      })
-  }, [])
-
-  useEffect(() => {
-    console.log(deviceId)
+  const AonControl = async () => {
     const URL = `${BASE_URL}/farm/${deviceId}/manual`
-    axios.get(URL, {
+    const result = await axios.get(URL, {
       headers: {
         accessToken : localStorage.getItem('access_token')
       }
     })
-      .then(response => {
-        setMotorState(response.data)
-      })
+    setMotorState(result.data)
+  }
+
+  
+  useEffect(() => {
+    AonControl()
   }, [deviceId])
 
   return (
