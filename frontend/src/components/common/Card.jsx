@@ -9,6 +9,7 @@ import Divider from "@mui/material/Divider";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import {useNavigate} from "react-router-dom";
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 
 const bull = (
     <Box
@@ -19,11 +20,11 @@ const bull = (
     </Box>
 );
 
-export default function BasicCard({ title, idx, content }) {
+export default function BasicCard({ title, idx, content, likeCount, commentCount }) {
     const navigator = useNavigate()
 
     return (
-        <Card sx={{ minWidth: 275, backgroundColor : "#696969", mt : 2,  mx : 2, height : "150px" }}
+        <Card sx={{ boxShadow: "2px 2px 6px #9E9E9E" , minWidth: 275, backgroundColor : "#696969", mt : 2,  mx : 2, height : "150px" }}
               onClick={() => {
                   navigator(`/community/${idx}`)}}
         >
@@ -31,27 +32,15 @@ export default function BasicCard({ title, idx, content }) {
                 <Typography sx={{ fontSize: 15, color : "white", fontWeight : "bold", textAlign : "left", fontFamily : "ScoreDream" }} color="text.secondary" gutterBottom>
                     { title }
                 </Typography>
-                {/*<Typography variant="h5" component="div" sx={{ textAlign : "left" }}>*/}
-                {/*    be{bull}nev{bull}o{bull}lent*/}
-                {/*</Typography>*/}
-                {/*<Typography sx={{ mb: 1.5 }} color="text.secondary">*/}
-                {/*    adjective*/}
-                {/*</Typography>*/}
-                <Typography sx={{  fontFamily : "ScoreDream", color : "white", mb : 2  }} variant="body2">
-                    { content }
-                    {/*<br />*/}
-                    {/*{'"a benevolent smile"'}*/}
+                <Typography dangerouslySetInnerHTML={{ __html: content }} sx={{ width : "300px",  fontFamily : "ScoreDream", color : "white", mb : 2, overflow : "hidden", textOverflow : "ellipsis", whiteSpace : "nowrap"  }} variant="body2">
                 </Typography>
                 <Divider sx={{ backgroundColor : "white" }}/>
             </CardContent>
-            {/*<CardActions>*/}
-            {/*    <Button size="small">Learn More</Button>*/}
-            {/*</CardActions>*/}
             <Box sx={{ ml : 1 ,display : "flex" ,fontSize : "20px", alignItems : "center", justifyContent : "start", color : "white" }}>
-                <PermIdentityIcon/>
-                <span style={{ fontSize : "15px", margin : "5px" }}>123</span>
+                <ChatBubbleOutlineIcon/>
+                <span style={{ fontSize : "15px", margin : "5px" }}>{ commentCount }</span>
                 <FavoriteBorderIcon/>
-                <span style={{ fontSize : "15px", margin : "5px" }}>1234</span>
+                <span style={{ fontSize : "15px", margin : "5px" }}>{ likeCount }</span>
             </Box>
         </Card>
     );
