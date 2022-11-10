@@ -113,6 +113,17 @@ public class DeviceSensorController {
         }
     }
 
+
+    @GetMapping("/farm/{userNickname}/auto")
+    public ResponseEntity<Map<String ,Object>> getAutoValue(HttpServletRequest request, @PathVariable String userNickname) throws IOException {
+
+        Map<String, Object> resultMap = new HashMap<>(deviceService.getAutoValue(request, userNickname));
+
+        status = HttpStatus.OK;
+
+        return new ResponseEntity<>(resultMap, status);
+    }
+
         @PutMapping("/farm/{deviceNo}/manual")
     public ResponseEntity<?> deviceManual(HttpServletRequest request, @RequestBody DedviceAutoControlDto dto, @PathVariable String deviceNo){
         Map<String, Object> returnMap = new HashMap<>();
