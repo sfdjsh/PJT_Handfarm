@@ -71,7 +71,6 @@ public class MyFarmController {
     @PostMapping("/device")
     public void deviceRegister(@RequestBody DeviceRegistDto deviceRegistDto) throws IOException {
         deviceService.registDevice(deviceRegistDto);
-
     }
 
 }

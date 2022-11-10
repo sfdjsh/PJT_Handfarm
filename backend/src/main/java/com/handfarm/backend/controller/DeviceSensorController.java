@@ -51,10 +51,24 @@ public class DeviceSensorController {
         return new ResponseEntity<>(returnMap, status);
     }
 
-//    @PutMapping("/farm/{deviceIdx}/auto")
-//    public ResponseEntity<?> deviceAutoControlval(HttpServletRequest request, @PathVariable String deviceNo, @RequestBody ){
-//
-//    }
+    @PutMapping("/farm/{deviceNo}")
+    public ResponseEntity<Map<String, Object>> resetAutoValue(HttpServletRequest request, @PathVariable String deviceNo){
+        Map<String, Object> resultMap = new HashMap<>();
+//        if(!kakaoService.CheckAccessToken(request.getHeader("accessToken"))){   // 엑세스 토큰 만료 확인
+//            returnMap.put("message", timeOut);
+//            status = HttpStatus.INTERNAL_SERVER_ERROR;
+//            return new ResponseEntity<>(returnMap, status);
+//        }
+        if(deviceService.resetAutoValue(deviceNo)){
+            status = HttpStatus.OK;
+            resultMap.put("message", success);
+            return new ResponseEntity<>(resultMap, status);
+        }else{
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+            resultMap.put("message", fail);
+            return new ResponseEntity<>(resultMap, status);
+        }
+    }
 
     @PostMapping("/farm/{deviceNo}")
     public ResponseEntity<?> publisher(HttpServletRequest request, @RequestBody DedviceAutoControlDto dto, @PathVariable("deviceNo") String deviceNo) {
@@ -78,6 +92,7 @@ public class DeviceSensorController {
             return new ResponseEntity<>(returnMap, status);
         }
     }
+
 
     @PutMapping("/farm/{deviceNo}/auto")
     public ResponseEntity<?> deviceAutoValue(HttpServletRequest request, @RequestBody DedviceAutoControlDto dto, @PathVariable String deviceNo){
