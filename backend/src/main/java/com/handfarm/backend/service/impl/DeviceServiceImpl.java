@@ -21,15 +21,15 @@ public class DeviceServiceImpl implements DeviceService {
 
 
 
-    private DeviceRepository deviceRepository;
-    private UserService userService;
-    private KakaoService kakaoService;
-    private UserRepository userRepository;
-    private CropRepository cropRepository;
-    private UserDeviceRepository userDeviceRepository;
-    private DeviceSensorRepository deviceSensorRepository;
-    private DeviceControlRepository deviceControlRepository;
-    private ControlRepository controlRepository;
+    private final DeviceRepository deviceRepository;
+    private final UserService userService;
+    private final KakaoService kakaoService;
+    private final UserRepository userRepository;
+    private final CropRepository cropRepository;
+    private final UserDeviceRepository userDeviceRepository;
+    private final DeviceSensorRepository deviceSensorRepository;
+    private final DeviceControlRepository deviceControlRepository;
+    private final ControlRepository controlRepository;
 
     @Autowired
     DeviceServiceImpl(DeviceRepository deviceRepository, UserService userService, KakaoService kakaoService, UserRepository userRepository, CropRepository cropRepository, UserDeviceRepository userDeviceRepository, DeviceSensorRepository deviceSensorRepository, DeviceControlRepository deviceControlRepository, ControlRepository controlRepository){
@@ -211,5 +211,37 @@ public class DeviceServiceImpl implements DeviceService {
         return resultMap;
     }
 
+    @Override
+    public Boolean resetAutoValue(String deviceNo){
+        Map<String , Object> resultMap = new HashMap<>();
+
+        Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceNo);
+
+        String temp = deviceEntity.get().getCrop().getCropTemp();
+        String co2 = deviceEntity.get().getCrop().getCropCo2();
+        String soilHumidity = deviceEntity.get().getCrop().getCropSoilHumidity();
+
+        if(temp == null || co2==null || soilHumidity == null){
+            return false;
+        }
+
+        Optional<ControlEntity> tempControl = controlRepository.findByControlName("temp");
+        Optional<ControlEntity> co2Control = controlRepository.findByControlName("fan");
+        Optional<ControlEntity> soilHumidityControl = controlRepository.findByControlName("pump");
+
+        Optional<DeviceControlEntity> tempControlEntity = deviceControlRepository.findByDeviceIdxAndControlIdx(deviceEntity.get(), tempControl.get());
+        Optional<DeviceControlEntity> co2ControlEntity = deviceControlRepository.findByDeviceIdxAndControlIdx(deviceEntity.get(), co2Control.get());
+        Optional<DeviceControlEntity> soilHumidityControlEntity = deviceControlRepository.findByDeviceIdxAndControlIdx(deviceEntity.get(), soilHumidityControl.get());
+
+        tempControlEntity.get().setAutoControlval(temp);
+        co2ControlEntity.get().setAutoControlval(co2);
+        soilHumidityControlEntity.get().setAutoControlval(soilHumidity);
+
+        deviceControlRepository.save(tempControlEntity.get());
+        deviceControlRepository.save(co2ControlEntity.get());
+        deviceControlRepository.save(soilHumidityControlEntity.get());
+
+        return true;
+    }
 
 }
