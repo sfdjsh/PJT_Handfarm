@@ -12,31 +12,25 @@ export const Kakao = () => {
 
   const [user, setUser] = useRecoilState(userInfo)
 
-  useEffect(() => {
-    axios.get(`https://handfarm.co.kr/api/kakao?code=${code}`)
-      .then(response => {
-        console.log(response.data)
-        const accessToken = response.data.userInfo.accessToken
-        if (accessToken) {
-          localStorage.setItem('access_token', accessToken)
-          setUser({
-            refreshToken: response.data.userInfo.refreshToken,
-            isLoggedIn: true,
-            isRegisted: response.data.isRegisted,
-            userNickname: response.data.userInfo.userNickname,
-            deviceId: response.data.userInfo.deviceInfo,
-            userEmail: response.data.userInfo.userId
-          })
-        }
+  const kakakoLogin = async () => {
+    const result = await axios.get(`https://handfarm.co.kr/api/kakao?code=${code}`)
+    const accessToken = result.data.userInfo.accessToken
+    if (accessToken) {
+      localStorage.setItem('access_token', accessToken)
+      setUser({
+        refreshToken: result.data.userInfo.refreshToken,
+        isLoggedIn: true,
+        isRegisted: result.data.isRegisted,
+        userNickname: result.data.userInfo.userNickname,
+        deviceId: result.data.userInfo.deviceInfo,
+        userEmail: result.data.userInfo.userId
       })
-        .then(() => {
-          const renderFarm = user.deviceId
-          if (renderFarm) {
-            navigate('/myfarm')
-          } else {
-            navigate('/myfarm/registing')
-          }
-        })
+      navigate('/myfarm/registing')
+    }
+  }
+
+  useEffect(() => {
+    kakakoLogin()
   }, [])
 
   return (

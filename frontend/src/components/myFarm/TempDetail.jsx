@@ -65,7 +65,7 @@ const TempDetail = ({ temp, deviceId }) => {
 
           <Card sx={{ height: 140, mt: 1 }}>
             <p>그래프 영역</p>
-          </Card>
+          </Card> 
 
           <Box display="flex" alignItems="center" sx={{ mt: 4 }}>
             <Typography variant="h6" flexGrow={1} fontWeight='bold' >센서설정</Typography>

@@ -29,7 +29,7 @@ const ControlDetail = () => {
   const [motorState, setMotorState] = useRecoilState(motorControl)  
   const handleClose = () => setOnControl(false);
 
-  let controlTemp = motorState.temp
+  // let controlTemp = motorState.temp
   // console.log(controlTemp)
 
   return (
@@ -55,7 +55,7 @@ const ControlDetail = () => {
             <Typography sx={{fontSize:12}}>일단 대기: 30%</Typography>
           </Box>
 
-          <ControlTemp controlTemp={controlTemp} />
+          {/* <ControlTemp controlTemp={controlTemp} /> */}
 
           {/* <div>
             {lstMotor && lstMotor.map((control) => (
