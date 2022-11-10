@@ -8,8 +8,6 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import { useRecoilState } from "recoil";
 import { userInfo, userFarm, motorModal, motorControl } from "../../atom";
 import ControlDetail from "./ControlDetail"
-import { useRecoilState } from "recoil";
-import { userInfo, userFarm } from "../../atom";
 
 
 const MyFarm = () => {

@@ -23,7 +23,7 @@ export const Login = () => {
           alt="핸드팜"
           style={{ width: "40vh", height: "50vh", paddingTop: "100px" }}
         />
-      </div>
+      </Box>
       <div className="Main-word">
         <h3 style={{ color: "#F24822" }}>원격으로 농장 관리와,</h3>
         <h3 style={{ color: "#0D99FF" }}>커뮤니티 기능으로,</h3>
@@ -38,7 +38,7 @@ export const Login = () => {
           <img src="kakaoButton.png" alt="로그인" />
         </a>
       </Button>
-    </>
+    </Box>
   );
 };
 
