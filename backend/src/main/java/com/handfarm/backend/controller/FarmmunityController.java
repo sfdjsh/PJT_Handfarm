@@ -59,6 +59,8 @@ public class FarmmunityController {
     @GetMapping("/community/{domain}/{category}") // 게시글 카테고리 별 조회
     public ResponseEntity<?> getArticleList(@PathVariable("domain") String domain, @PathVariable("category") String category){
         Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = "isLogin";
+
         try{
             Map<String, Object> res = farmmunityService.getArticleList(domain, category);
             resultMap.put("articleList", res.get("articleList"));

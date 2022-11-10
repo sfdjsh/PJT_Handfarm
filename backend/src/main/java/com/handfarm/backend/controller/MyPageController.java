@@ -41,6 +41,7 @@ public class MyPageController {
         status = HttpStatus.OK;
         return new ResponseEntity<>(resultMap, status);
     }
+
     @PutMapping("/mypage")
     public ResponseEntity<?> editUserInfo(HttpServletRequest request, @RequestBody UserDto userDto){
         Map<String , Object> resultMap = new HashMap<>();
