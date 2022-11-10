@@ -16,6 +16,16 @@ import {useLocation} from "react-router-dom";
 import {useRef} from "react";
 import {useMemo} from "react";
 import {commentCreate} from "../api/Farmmunity";
+import {articleLike} from "../api/Farmmunity";
+import {userInfo} from "../../atom";
+import {useRecoilState} from "recoil";
+import {useNavigate} from "react-router-dom";
+import {nowCrop} from "../../atom";
+import {nowRegion} from "../../atom";
+import {articleDelete} from "../api/Farmmunity";
+import {commentDelete} from "../api/Farmmunity";
+import {createChatRoom} from "../api/Chatting";
+import {chatAnother} from "../../atom";
 
 
 export const FarmmunityInfoDetail = () => {
@@ -28,8 +38,12 @@ export const FarmmunityInfoDetail = () => {
     const [commentList, setCommentList] = useState([])
     const [commentInput, setCommentInput] = useState("")
     const [onPost, setOnPost] = useState(true)
-    console.log(article)
-    console.log(commentList)
+    const [isClicked, setIsClicked] = useState(false)
+    const [value, setValue] = useState(0)
+    const [nowUser, setNowUser] = useRecoilState(userInfo)
+    const navigator = useNavigate()
+    const [anotherUser, setAnotherUser] = useRecoilState(chatAnother)
+
 
     const commenter = (text) => { 		// 조건에 따라 게시글을 보여주는 함수
         const shortReview =
@@ -53,12 +67,24 @@ export const FarmmunityInfoDetail = () => {
                 console.log(res)
                 setArticle(res.articleDto)
                 setCommentList(res.commentList)
+                if(res.isLikeClicked !== undefined){
+                    setIsClicked(res.isLikeClicked)
+                }
             }))
-    },[onPost])
+    },[onPost, value])
 
     const handleCommentchange = (e) => {
         setCommentInput(e.target.value)
         console.log(commentInput)
+    }
+
+    const registLike = () => {
+        articleLike(articleNum)
+            .then((res) => res.json().then((res)=> {
+                console.log(res)
+                setValue(value => ++value)
+                // window.location.reload()
+            }))
     }
 
     const handleClick = () => {
@@ -75,6 +101,17 @@ export const FarmmunityInfoDetail = () => {
             }))
     }
 
+    const goChatting = (userName) => {
+        createChatRoom(userName)
+            .then((res) => res.json().then((res) => {
+                setAnotherUser(userName)
+                navigator(`/chat/${res.roomId}`,  { state : {
+                    toUserNickname : userName
+                }})
+            }))
+    }
+
+
     return (
         <Box>
             <Grid container spacing={1}>
@@ -89,7 +126,14 @@ export const FarmmunityInfoDetail = () => {
                     <p style={{ textAlign : "left", lineHeight : "25px", color : "white", margin : "0px" ,  textOverflow : "ellipsis", overflow : "hidden", whiteSpace : "nowrap", marginTop : "5px" }}>
                         { article.articleUserNickname }
                     </p>
-                    <Box sx={{ display : "flex" ,fontSize : "15px", alignItems : "center", justifyContent : "start", color : "#B3B3B3" }}><MailOutlineIcon/> &nbsp;채팅보내기</Box>
+                    { nowUser.userNickname !== article.articleUserNickname ? (
+                        <Box sx={{ display : "flex" ,fontSize : "15px", alignItems : "center", justifyContent : "start", color : "#B3B3B3" }}><MailOutlineIcon onClick={() => {
+                            goChatting(article.articleUserNickname)
+                        }}/> &nbsp;채팅보내기</Box>
+                    ) : (
+                        <></>
+                    )  }
+
                 </Grid>
             </Grid>
             <Typography variant="h5" component="h5" sx={{ fontFamily : "ScoreDream" ,mt : 2, mx : 3 }}>{ article.articleTitle }</Typography>
@@ -97,9 +141,35 @@ export const FarmmunityInfoDetail = () => {
                 <Grid item xs={12} sx={{ display : "flex", justifyContent : "center",alignItems : "left",flexDirection : "column", mx : 3, mt : 2 }} dangerouslySetInnerHTML={{ __html: article.articleContent }}>
                 </Grid>
             </Grid>
-        <Box sx={{ mt : 1, mx : 3 }}>
-            <FavoriteIcon sx={{ color : "red", fontSize : "18px" }}/>&nbsp;999
-        </Box>
+            <Grid container sx={{ mt : 1 }}>
+                <Grid item xs={9}>
+                    <Box sx={{ mt : 1, mx : 3 }}>
+                        { isClicked ? (<FavoriteIcon onClick={() => {
+                            registLike()
+                        }} sx={{ color : "red", fontSize : "18px" }}/>) : (<FavoriteBorderIcon
+                            onClick={() => {
+                            registLike()
+                        }} sx={{fontSize : "18px" }}/>) }&nbsp;{ article.articleLikeCount }
+                    </Box>
+                </Grid>
+                <Grid item xs={3} sx={{ display : "flex", justifyContent : "right" }}>
+                    { nowUser.userNickname === article.articleUserNickname ? (
+                        <>
+                            <Button onClick={() => {
+                                navigator(`/community/create/${articleNum}`, {state : {
+                                    article : article
+                                }})
+                            }} sx={{ color : "blue", fontFamily : "ScoreDream" }}>수정</Button><span style={{ color : "#B3B3B3", lineHeight : "40px" }}>|</span>
+                        <Button onClick={() => {
+                            articleDelete(articleNum)
+                                .then((res) => navigator(-1))
+                        }} sx={{ color : "red", fontFamily : "ScoreDream" }}>삭제</Button>
+                        </>
+                    ) : (
+                        <></>
+                        ) }
+                </Grid>
+            </Grid>
             <Divider sx={{ mt : 2 , backgroundColor : "#757575" }}/>
             <Typography sx={{ mx : 3, mt : 2 }}>
                 댓글 <span style={{ color : "red" }}>{ commentList.length }</span>
@@ -124,6 +194,21 @@ export const FarmmunityInfoDetail = () => {
                             <Box sx={{ color : "#B3B3B3" }} onClick={() => setIsShowMore(!isShowMore)}>
                                 {(comment.commentContent.length > textLimit.current) && (isShowMore ? '[닫기]' : '...더보기')}
                             </Box>
+                                { nowUser.userNickname === comment.userNickName ? (
+                                    <Box sx={{ display : "flex", justifyContent : "right" }}>
+                                        {/*<Button onClick={() => {*/}
+                                        {/*    navigator(`/community/create/${articleNum}`, {state : {*/}
+                                        {/*            article : article*/}
+                                        {/*        }})*/}
+                                        {/*}} sx={{ color : "blue", fontFamily : "ScoreDream" }}>수정</Button><span style={{ color : "#B3B3B3", lineHeight : "40px" }}>|</span>*/}
+                                        <Button onClick={() => {
+                                            commentDelete(articleNum,comment.idx)
+                                                .then((res) => setValue(value => ++value))
+                                        }} sx={{ color : "red", fontFamily : "ScoreDream" }}>삭제</Button>
+                                    </Box>
+                                ) : (
+                                    <></>
+                                ) }
                             {/*<p style={{ marginTop : "10px", color : "blueviolet" }}>답글 2</p>*/}
                         </Grid>
                     </Grid>
