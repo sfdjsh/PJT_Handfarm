@@ -179,8 +179,10 @@ public class FarmmunityServiceImpl implements FarmmunityService {
             CropViewDto cropViewDto = CropViewDto.builder().cropName(crop.getCropName()).cropImg(crop.getCropImg()).
                     cropDescription(crop.getCropDescription()).cropUserCount(deviceRepository.countByCrop(crop)).build();
             List<ArticleEntity> articleInfoList = articleRepository.findByArticleCategoryAndCropIdx(domain, crop);
+
             if(!articleInfoList.isEmpty()){
                 for(ArticleEntity a : articleInfoList){
+
                     ArticleViewDto article = ArticleViewDto.builder()
                             .idx(a.getIdx())
                             .articleTitle(a.getArticleTitle())
@@ -191,6 +193,7 @@ public class FarmmunityServiceImpl implements FarmmunityService {
 
                     result.add(article);
                 }
+
             }else{
                 result = new ArrayList<>();
             }
@@ -200,6 +203,7 @@ public class FarmmunityServiceImpl implements FarmmunityService {
             RegionViewDto regionViewDto = RegionViewDto.builder().regionName(region.getRegionName()).regionImg(region.getRegionImg()).regionDescription(region.getRegionDescription()).build();
             List<ArticleEntity> articleRegionList = articleRepository.findByArticleCategoryAndRegionIdx(domain, region);
             if(!articleRegionList.isEmpty()){
+
                 for(ArticleEntity a : articleRegionList){
                     ArticleViewDto article = ArticleViewDto.builder()
                             .idx(a.getIdx())
