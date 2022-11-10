@@ -28,4 +28,6 @@ public interface DeviceService {
     Map<String, Object> getDeviceSensor(String deviceNo);
 
     Boolean resetAutoValue(String deviceNo);
+
+    Map<String,Object> getAutoValue(HttpServletRequest request, String userNickname) throws IOException;
 }

@@ -8,6 +8,7 @@ import com.handfarm.backend.repository.*;
 import com.handfarm.backend.service.DeviceService;
 import com.handfarm.backend.service.KakaoService;
 import com.handfarm.backend.service.UserService;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -242,6 +243,28 @@ public class DeviceServiceImpl implements DeviceService {
         deviceControlRepository.save(soilHumidityControlEntity.get());
 
         return true;
+    }
+    @Override
+    public Map<String,Object> getAutoValue(HttpServletRequest request, String userNickname) throws IOException {
+        Map<String, Object> resultMap = new HashMap<>();
+
+        String userId = kakaoService.decodeToken(request.getHeader("accessToken"));
+
+        Optional<UserEntity> myUserEntity = userRepository.findByUserId(userId);
+
+        Optional<UserEntity> getUserEntity = userRepository.findByUserNickname(userNickname);
+
+        if(!myUserEntity.equals(getUserEntity) && !getUserEntity.get().getUserOpen()) {
+            resultMap.put("message", "conceal");
+        }else {
+            List<Optional<DeviceControlEntity>> deviceControlEntitylist = deviceControlRepository.findByDeviceIdx(getUserEntity.get().getDevice());
+            for (Optional<DeviceControlEntity> deviceControlEntity : deviceControlEntitylist) {
+                String controlName = deviceControlEntity.get().getControlIdx().getControlName();
+                String controlAutoValue = deviceControlEntity.get().getAutoControlval();
+                resultMap.put(controlName, controlAutoValue);
+            }
+        }
+        return resultMap;
     }
 
 }
