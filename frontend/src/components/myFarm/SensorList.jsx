@@ -1,60 +1,49 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { BASE_URL } from "../../config";
 import { useRecoilState } from "recoil";
-import { userFarm } from "../../atom";
-import { EventSourcePolyfill } from 'event-source-polyfill'
+import { deviceSensor } from "../../atom";
+import { BASE_URL } from "../../config";
+import { EventSourcePolyfill, NativeEventSource } from 'event-source-polyfill'
+import { Grid } from '@mui/material' 
 
-const SensorList = ({ deviceId }) => {
-  const [myFarm, setMyFarm] = useRecoilState(userFarm)
-  const [count, setCount] = useState(null)
+import TempCard from "./TempCard";
+import Co2Card from "./Co2Card"
+import HumidCard from "./HumidCard"
+import SoilHumidCard from "./SoilHumidCard"
 
-  const handleConnect = () => {
-    console.log(deviceId)
-    const sse = new EventSourcePolyfill(`${BASE_URL}/connect/${deviceId}`)
+const SensorList = ({ deviceId, email }) => {
+  const [sensor, setSensor] = useRecoilState(deviceSensor)
+
+  const test = () => {
+    const sse = new EventSourcePolyfill(`${BASE_URL}/connect/${email}`)
     sse.addEventListener('connect', (e) => {
       const {data: receivedConnectData} = e;
-      console.log('connent event data:', receivedConnectData)
+      setSensor(JSON.parse(receivedConnectData))
     })
-    sse.CLOSED();
-    sse.addEventListener('count', e => {
-      const {data: receivedCount } = e;
-      console.log("count event data", receivedCount);
-      setCount(receivedCount)
-    })
-  }
-  // const sse = new EventSourcePolyfill(`${BASE_URL}/connect/${deviceId}`)
-  // sse.addEventListener('connect', (e) => {
-  //   const { data: receivedConnectData } = e;
-  //   setCount(receivedConnectData)
-  // })
+  };
 
-  // console.log(myFarm)
-  // axios({
-  //   url: `${BASE_URL}/farm/${deviceId}`,
-  //   method: "GET",
-  //   headers: {
-  //     accessToken: localStorage.getItem("access_token"),
-  //   },
-  // }).then((response) => {
-  //   console.log(response.data)
-  //   setMyFarm(response.data);
-  // }, []);
-  console.log(count)
+  useEffect(() => {
+    test();
+  }, [])
 
-  // 데이터는 받는데.. 화면단에 보이는게 안됨...
+  const temp = sensor[deviceId]? sensor[deviceId].temp : ''
+  const co2 = sensor[deviceId]? sensor[deviceId].temp : ''
+  const humid = sensor[deviceId]? sensor[deviceId].humid : ''
+  const soilHumid = sensor[deviceId]? sensor[deviceId].soilHumid : ''
+
   return (
-    <div>
-      <button onClick={handleConnect}>connect 요청</button>
-      {/* <button onClick={handleCountClick}>count 요청</button> */}
-      {count}
-      {/* <div>
-        {count.humid}
-      </div>
-      <div>
-        {count.soilHumid}
-      </div> */}
-    </div>
+    <>
+      <Grid container spacing={1} sx={{ mt: 1 }}>
+        {
+          sensor?      
+          <>
+            <TempCard temp={temp} deviceId={deviceId} />
+            <HumidCard humid={humid} deviceId={deviceId} />
+            <Co2Card co2={co2} deviceId={deviceId} />
+            <SoilHumidCard soilHumid={soilHumid} deviceId={deviceId} /> 
+          </> : <></>
+        }
+      </Grid>
+    </>
   )
 };
 

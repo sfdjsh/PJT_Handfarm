@@ -2,49 +2,44 @@ import React, { useState, useEffect } from "react";
 import { BASE_URL } from "../../config";
 import axios from "axios";
 import SensorList from "../../components/myFarm/SensorList";
-import {
-  Container,
-  Box,
-  Grid,
-  IconButton,
-  Card,
-  CardContent,
-  Typography,
-  CardActions,
-  Button,
-  Radio,
-  RadioGroup,
-} from "@mui/material";
+import { Container, Box, Grid, IconButton, Radio } from "@mui/material";
 import SettingsRemoteIcon from "@mui/icons-material/SettingsRemote";
 import SettingsIcon from "@mui/icons-material/Settings";
-import DeviceThermostatOutlinedIcon from "@mui/icons-material/DeviceThermostatOutlined";
-import CircleIcon from "@mui/icons-material/Circle";
+import { useRecoilState } from "recoil";
+import { userInfo, userFarm, motorModal, motorControl } from "../../atom";
+import ControlDetail from "./ControlDetail"
 import { useRecoilState } from "recoil";
 import { userInfo, userFarm } from "../../atom";
 
 
 const MyFarm = () => {
-  const [deviceID, setDeviceID] = useRecoilState(userInfo);
+  const [user, setUser] = useRecoilState(userInfo);
   const [myFarm, setMyFarm] = useRecoilState(userFarm);
-  const devices = deviceID.deviceId;
-  const [farmRadio, setFarmRadio] = useState(0);
-  const [deviceId, setDeviceId] = useState('')
+  const [onControl, setOnControl] = useRecoilState(motorModal)
+  const [motorState, setMotorState] = useRecoilState(motorControl) 
 
-  // useEffect(() => {
-  //   devices.map((device) => {
-  //     const deviceNo = device.deviceNo;
-  //     axios({
-  //       url: `${BASE_URL}/farm/${deviceNo}`,
-  //       method: "GET",
-  //       headers: {
-  //         accessToken: localStorage.getItem("access_token"),
-  //       },
-  //     }).then((response) => {
-  //       setMyFarm(response.data);
-  //     });
-  //   });
-  // }, []);
-  // console.log(myFarm)
+  const devices = myFarm.deviceInfo
+  const [farmRadio, setFarmRadio] = useState('0');
+  console.log(myFarm)
+  console.log(devices)
+  const [deviceId, setDeviceId] = useState(devices[0].deviceNo || '')
+  const email = user.userEmail
+
+  const AonControl = async () => {
+    const URL = `${BASE_URL}/farm/${deviceId}/manual`
+    const result = await axios.get(URL, {
+      headers: {
+        accessToken : localStorage.getItem('access_token')
+      }
+    })
+    setMotorState(result.data)
+  }
+
+  
+  useEffect(() => {
+    AonControl()
+  }, [deviceId])
+
   return (
     <>
       <Container sx={{ mt: 1, width: "90%" }}>
@@ -60,7 +55,6 @@ const MyFarm = () => {
                 setDeviceId(deviceNo)
               }}
               name="radio-buttons"
-              
             />
           ))}
         </div>
@@ -80,7 +74,9 @@ const MyFarm = () => {
             <p>{devices[farmRadio].deviceName}</p>
           </Box>
           <Box>
-            <IconButton size="large">
+            <IconButton size="large"
+            onClick={() => {setOnControl(true)}}
+            >
               <SettingsRemoteIcon />
             </IconButton>
           </Box>
@@ -90,50 +86,12 @@ const MyFarm = () => {
             </IconButton>
           </Box>
         </Grid>
-        <SensorList deviceId={deviceId}/>
-        {/* <Grid container spacing={1} sx={{ mt: 1 }}>
-          <Grid item xs={6}>
-            <Card sx={{ background: "#F7B634" }}>
-              <CardContent>
-                <DeviceThermostatOutlinedIcon />
-                <Typography textAlign="center" variant="h5" sx={{ mt: 1 }}>
-                  <span style={{ fontWeight: "bold" }}>24.8C</span>
-                </Typography>
-              </CardContent>
-              <CardActions sx={{ ml: 1 }}>
-                <span style={{ fontWeight: "bold" }}>Temp</span>
-              </CardActions>
-            </Card>
-          </Grid>
-          <Grid item xs={6}>
-            <Card sx={{ background: "#9747FF" }}>
-              <CardContent>
-                <DeviceThermostatOutlinedIcon />
-                <Typography textAlign="center" variant="h5" sx={{ mt: 1 }}>
-                  <span style={{ fontWeight: "bold" }}>24.8C</span>
-                </Typography>
-              </CardContent>
-              <CardActions sx={{ ml: 1 }}>
-                <span style={{ fontWeight: "bold" }}>Temp</span>
-              </CardActions>
-            </Card>
-          </Grid>
-        </Grid>
+        {/* 센서 리스트 */}
+        <SensorList deviceId={deviceId} email={email} />
 
-        <Grid item xs={12} sx={{ mt: 1 }}>
-          <Card sx={{ height: 100 }}>
-            <p>GPS 영역</p>
-          </Card>
-        </Grid>
-
-        <Grid item xs={12} sx={{ mt: 1 }}>
-          <Card sx={{ height: 150 }}>
-            <p>카메라 영역</p>
-          </Card>
-          <Button sx={{ background: "#222222", p: 1.5 }} variant="contained">
-            <CircleIcon sx={{ mr: 1, color: "#D80000" }} /> 대표 사진 등록
-          </Button>
-        </Grid> */}
+        {/* 제어 모달창 */}
+        {/* <ControlDetail deviceId={deviceId} /> */}
+        <ControlDetail />
       </Container>
     </>
   );
