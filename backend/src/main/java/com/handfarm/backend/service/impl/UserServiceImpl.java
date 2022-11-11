@@ -50,15 +50,20 @@ public class UserServiceImpl implements UserService {
         UserEntity myUserEntity = getUserEntity(request);
         Optional<UserEntity> getUserEntity = userRepository.findByUserNickname(toUserNickname);
 
-        if(myUserEntity.equals(getUserEntity.get()) || getUserEntity.get().getUserOpen()) {
-            List<Optional<DeviceControlEntity>> deviceControlEntitylist = deviceControlRepository.findByDeviceIdx(getUserEntity.get().getDevice());
-            Map<String, Object> autoValueMap = new HashMap<>();
-            for (Optional<DeviceControlEntity> deviceControlEntity : deviceControlEntitylist) {
-                String controlName = deviceControlEntity.get().getControlIdx().getControlName();
-                String controlAutoValue = deviceControlEntity.get().getAutoControlval();
-                autoValueMap.put(controlName, controlAutoValue);
+        if(getUserEntity.isPresent()){
+            if(myUserEntity.equals(getUserEntity.get()) || getUserEntity.get().getUserOpen()) {
+                List<Optional<DeviceControlEntity>> deviceControlEntitylist = deviceControlRepository.findByDeviceIdx(getUserEntity.get().getDevice());
+                Map<String, Object> autoValueMap = new HashMap<>();
+                for (Optional<DeviceControlEntity> deviceControlEntity : deviceControlEntitylist) {
+                    if(deviceControlEntity.isPresent()){
+                        DeviceControlEntity deviceControl = deviceControlEntity.get();
+                        String controlName = deviceControl.getControlIdx().getControlName();
+                        String controlAutoValue = deviceControl.getAutoControlval();
+                        autoValueMap.put(controlName, controlAutoValue);
+                    }
+                }
+                resultMap.put("sensorValue", autoValueMap);
             }
-            resultMap.put("sensorValue", autoValueMap);
         }
 
         resultMap.put("userNickName", getUserEntity.get().getUserNickname());
@@ -101,7 +106,8 @@ public class UserServiceImpl implements UserService {
     public UserEntity getUserEntity(HttpServletRequest request){
         String userId = kakaoService.decodeToken(request.getHeader("accessToken"));
         Optional<UserEntity> userEntity = userRepository.findByUserId(userId);
-        return userEntity.get();
-    }
 
+       if(userEntity.isPresent())  return userEntity.get();
+       else return null;
+    }
 }

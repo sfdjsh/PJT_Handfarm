@@ -21,14 +21,10 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 public class SseController {
 
     private final SseEmitters sseEmitters;
-    private final DeviceSensorRepository deviceSensorRepository;
-    private final DeviceRepository deviceRepository;
     private final DeviceService deviceService;
 
-    public SseController(SseEmitters sseEmitters, DeviceSensorRepository deviceSensorRepository, DeviceRepository deviceRepository, DeviceService deviceService) {
+    public SseController(SseEmitters sseEmitters, DeviceService deviceService) {
         this.sseEmitters = sseEmitters;
-        this.deviceSensorRepository = deviceSensorRepository;
-        this.deviceRepository = deviceRepository;
         this.deviceService = deviceService;
     }
 
