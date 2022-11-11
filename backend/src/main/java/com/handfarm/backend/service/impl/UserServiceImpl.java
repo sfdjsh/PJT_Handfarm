@@ -50,25 +50,22 @@ public class UserServiceImpl implements UserService {
         UserEntity myUserEntity = getUserEntity(request);
         Optional<UserEntity> getUserEntity = userRepository.findByUserNickname(toUserNickname);
 
-        if(!myUserEntity.equals(getUserEntity) && !getUserEntity.get().getUserOpen()) {
-            resultMap.put("message", "conceal");
-            return resultMap;
+        if(myUserEntity.equals(getUserEntity.get()) || getUserEntity.get().getUserOpen()) {
+            List<Optional<DeviceControlEntity>> deviceControlEntitylist = deviceControlRepository.findByDeviceIdx(getUserEntity.get().getDevice());
+            Map<String, Object> autoValueMap = new HashMap<>();
+            for (Optional<DeviceControlEntity> deviceControlEntity : deviceControlEntitylist) {
+                String controlName = deviceControlEntity.get().getControlIdx().getControlName();
+                String controlAutoValue = deviceControlEntity.get().getAutoControlval();
+                autoValueMap.put(controlName, controlAutoValue);
+            }
+            resultMap.put("sensorValue", autoValueMap);
         }
 
-        List<Optional<DeviceControlEntity>> deviceControlEntitylist = deviceControlRepository.findByDeviceIdx(getUserEntity.get().getDevice());
-        Map<String, Object> autoValueMap = new HashMap<>();
-        for (Optional<DeviceControlEntity> deviceControlEntity : deviceControlEntitylist) {
-            String controlName = deviceControlEntity.get().getControlIdx().getControlName();
-            String controlAutoValue = deviceControlEntity.get().getAutoControlval();
-            autoValueMap.put(controlName, controlAutoValue);
-        }
-        resultMap.put("sensorValue", autoValueMap);
-
-        resultMap.put("userNickName", myUserEntity.getUserNickname());
-        resultMap.put("userProfile", myUserEntity.getUserProfile());
-        resultMap.put("userOpen", myUserEntity.getUserOpen());
+        resultMap.put("userNickName", getUserEntity.get().getUserNickname());
+        resultMap.put("userProfile", getUserEntity.get().getUserProfile());
+        resultMap.put("userOpen", getUserEntity.get().getUserOpen());
         // 게시글 가져오기
-        List<ArticleEntity> articleEntityList = articleRepository.findByUserIdx(myUserEntity);
+        List<ArticleEntity> articleEntityList = articleRepository.findByUserIdx(getUserEntity.get());
 
         if(!articleEntityList.isEmpty()){
             for(ArticleEntity a : articleEntityList){
@@ -80,8 +77,6 @@ public class UserServiceImpl implements UserService {
         }else{
             resultMap.put("articleList", new ArrayList<>());
         }
-
-
         return resultMap;
     }
 
