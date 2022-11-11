@@ -300,7 +300,7 @@ public class KakoServiceImpl implements KakaoService {
     public Boolean CheckAccessToken(String accessToken) throws IOException {
         String reqURL = "https://kapi.kakao.com/v1/user/access_token_info";
 
-        try {
+
             URL url = new URL(reqURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
@@ -330,10 +330,6 @@ public class KakoServiceImpl implements KakaoService {
             System.out.println(element);
 
             br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
         return true;
 
     }
