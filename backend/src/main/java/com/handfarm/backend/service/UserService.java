@@ -13,7 +13,7 @@ public interface UserService {
 
     Map<String, Object> getUserInfo(HttpServletRequest request) throws IOException;
 
-    Boolean editUserInfo(HttpServletRequest request, UserDto userDto);
+    void editUserInfo(HttpServletRequest request, UserDto userDto);
 
     Boolean onoffUserInfo(HttpServletRequest request, UserDto userDto);
 }
