@@ -11,6 +11,7 @@ import com.handfarm.backend.domain.entity.ChatEntity;
 import com.handfarm.backend.domain.entity.ChatInfoEntity;
 import com.handfarm.backend.domain.entity.UserEntity;
 import com.handfarm.backend.repository.ChatInfoRepository;
+import com.handfarm.backend.repository.ChatRedisRepository;
 import com.handfarm.backend.repository.UserRepository;
 import com.handfarm.backend.service.ChatService;
 import com.handfarm.backend.service.KakaoService;
@@ -32,13 +33,15 @@ public class ChatServiceImpl implements ChatService {
     private final ChatInfoRepository chatInfoRepository;
     private final RedisTemplate<String, ChatEntity> redisTemplate;
     private final KakaoService kakaoService;
+    private final ChatRedisRepository chatRedisRepository;
 
     @Autowired
-    ChatServiceImpl(ChatInfoRepository chatInfoRepository, UserRepository userRepository, RedisTemplate<String, ChatEntity> redisTemplate, KakaoService kakaoService){
+    ChatServiceImpl(ChatInfoRepository chatInfoRepository, UserRepository userRepository, RedisTemplate<String, ChatEntity> redisTemplate, KakaoService kakaoService, ChatRedisRepository chatRedisRepository){
         this.userRepository = userRepository;
         this.chatInfoRepository = chatInfoRepository;
         this.redisTemplate = redisTemplate;
         this.kakaoService = kakaoService;
+        this.chatRedisRepository = chatRedisRepository;
     }
 
     @Override
@@ -85,6 +88,7 @@ public class ChatServiceImpl implements ChatService {
     public List<ChatDetailDto> getChatDetail(HttpServletRequest request, String roomId) { // 채팅 내용 상세 조회
         List<ChatDetailDto> chatList = new ArrayList<>();
         List<ChatEntity> chat = redisTemplate.opsForList().range(roomId, 0, redisTemplate.opsForList().size(roomId));
+        UserEntity user = getUserEntity(request);
 
         if(chat.isEmpty()){
             // 채팅방 없음. 빈배열 생성
@@ -100,6 +104,13 @@ public class ChatServiceImpl implements ChatService {
 
                 UserEntity sendUser = userRepository.findByUserId(chatEntity.getSendUserId()).get();
                 UserEntity toUser = userRepository.findByUserId(chatEntity.getToUserId()).get();
+
+                // 상대방이 자기한테 보내 채팅은 읽었으니까 읽음처리
+                if(user.getUserId().equals(chatEntity.getToUserId())){
+                    chatEntity.setIsRead(true);
+                    chatRedisRepository.save(chatEntity);
+                }
+
                 ChatDetailDto chatDetailDto = ChatDetailDto.builder()
                         .sendUserNickname(sendUser.getUserNickname())
                         .toUserNickname(toUser.getUserNickname())
@@ -107,7 +118,6 @@ public class ChatServiceImpl implements ChatService {
                         .time(chatEntity.getTime())
                         .isRead(chatEntity.getIsRead())
                         .build();
-
                 chatList.add(chatDetailDto);
             }
         }
@@ -162,6 +172,8 @@ public class ChatServiceImpl implements ChatService {
     public UserEntity getUserEntity(HttpServletRequest request){
         String userId = kakaoService.decodeToken(request.getHeader("accessToken"));
         Optional<UserEntity> userEntity = userRepository.findByUserId(userId);
-        return userEntity.get();
+
+        if(userEntity.isPresent())  return userEntity.get();
+        else return null;
     }
 }
