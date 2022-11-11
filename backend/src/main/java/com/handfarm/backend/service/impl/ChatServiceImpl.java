@@ -98,17 +98,19 @@ public class ChatServiceImpl implements ChatService {
                 mapper.registerModules(new JavaTimeModule(), new Jdk8Module());
                 ChatEntity chatEntity = mapper.convertValue(chatObject, ChatEntity.class);
 
-                UserEntity sendUser = userRepository.findByUserId(chatEntity.getSendUserId()).get();
-                UserEntity toUser = userRepository.findByUserId(chatEntity.getToUserId()).get();
-                ChatDetailDto chatDetailDto = ChatDetailDto.builder()
-                        .sendUserNickname(sendUser.getUserNickname())
-                        .toUserNickname(toUser.getUserNickname())
-                        .msg(chatEntity.getMsg())
-                        .time(chatEntity.getTime())
-                        .isRead(chatEntity.getIsRead())
-                        .build();
+                Optional<UserEntity> sendUser = userRepository.findByUserId(chatEntity.getSendUserId());
+                Optional<UserEntity> toUser = userRepository.findByUserId(chatEntity.getToUserId());
+                if(sendUser.isPresent() && toUser.isPresent()) {
+                    ChatDetailDto chatDetailDto = ChatDetailDto.builder()
+                            .sendUserNickname(sendUser.get().getUserNickname())
+                            .toUserNickname(toUser.get().getUserNickname())
+                            .msg(chatEntity.getMsg())
+                            .time(chatEntity.getTime())
+                            .isRead(chatEntity.getIsRead())
+                            .build();
 
-                chatList.add(chatDetailDto);
+                    chatList.add(chatDetailDto);
+                }
             }
         }
 
@@ -131,31 +133,33 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public String createChatRoom(HttpServletRequest request, String userNickname) {
         UserEntity loginUser = getUserEntity(request);
-        UserEntity toUser = userRepository.findByUserNickname(userNickname).get();
+        Optional<UserEntity> toUser = userRepository.findByUserNickname(userNickname);
 
-        String roomId;
-        Optional<ChatInfoEntity> chatInfoEntity = chatInfoRepository.findByPersonAOrPersonB(loginUser, toUser);
-        if(chatInfoEntity.isPresent()){ // 이미 있는 채팅, 채팅 방 번호 전달
-            roomId = String.valueOf(chatInfoEntity.get().getIdx());
-        }else{ // DB에 방 정보 새로 생성
-            ChatInfoEntity chatInfo = new ChatInfoEntity(loginUser, toUser);
-            chatInfoRepository.save(chatInfo);
-            roomId = String.valueOf(chatInfo.getIdx());
+        String roomId = null;
+        if(toUser.isPresent()) {
+            Optional<ChatInfoEntity> chatInfoEntity = chatInfoRepository.findByPersonAOrPersonB(loginUser, toUser.get());
+            if (chatInfoEntity.isPresent()) { // 이미 있는 채팅, 채팅 방 번호 전달
+                roomId = String.valueOf(chatInfoEntity.get().getIdx());
+            } else { // DB에 방 정보 새로 생성
+                ChatInfoEntity chatInfo = new ChatInfoEntity(loginUser, toUser.get());
+                chatInfoRepository.save(chatInfo);
+                roomId = String.valueOf(chatInfo.getIdx());
+            }
         }
         return roomId;
     }
 
     @Override
     public void saveMessageRedis(ChatDto chatDto) {
-        UserEntity sendUser = userRepository.findByUserNickname(chatDto.getSendUserNickname()).get();
-        UserEntity toUser = userRepository.findByUserNickname(chatDto.getToUserNickname()).get();
+        Optional<UserEntity> sendUser = userRepository.findByUserNickname(chatDto.getSendUserNickname());
+        Optional<UserEntity> toUser = userRepository.findByUserNickname(chatDto.getToUserNickname());
+        if(sendUser.isEmpty() || toUser.isEmpty()) return;
         String msg = chatDto.getMsg();
         Integer roomId = chatDto.getRoomId();
         Boolean isRead = false;
-
         ChatEntity chat = ChatEntity.builder()
-                .roomId(String.valueOf(roomId)).msg(msg).sendUserId(sendUser.getUserId()).
-                toUserId(toUser.getUserId()).isRead(isRead).time(LocalDateTime.now(ZoneId.of("Asia/Seoul"))).build();
+                .roomId(String.valueOf(roomId)).msg(msg).sendUserId(sendUser.get().getUserId()).
+                toUserId(toUser.get().getUserId()).isRead(isRead).time(LocalDateTime.now(ZoneId.of("Asia/Seoul"))).build();
         redisTemplate.opsForList().leftPush(String.valueOf(roomId),chat);
     }
 
