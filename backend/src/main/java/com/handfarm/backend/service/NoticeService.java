@@ -6,11 +6,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface NoticeService {
-    Long getCountNotice(String decodeId);
+    Long getCountNotice(HttpServletRequest request);
 
-    List<NoticeViewDto> getNoticeList(String decodeId);
+    List<NoticeViewDto> getNoticeList(HttpServletRequest request);
 
-    boolean readNotice(String decodeId, Integer idx);
+    boolean readNotice(HttpServletRequest request, Integer idx);
 
-    boolean deleteNotice(String decodeId, Integer idx);
+    boolean deleteNotice(HttpServletRequest request, Integer idx);
 }

@@ -11,17 +11,16 @@ import com.handfarm.backend.domain.entity.ChatEntity;
 import com.handfarm.backend.domain.entity.ChatInfoEntity;
 import com.handfarm.backend.domain.entity.UserEntity;
 import com.handfarm.backend.repository.ChatInfoRepository;
-import com.handfarm.backend.repository.ChatRedisRepository;
 import com.handfarm.backend.repository.UserRepository;
 import com.handfarm.backend.service.ChatService;
+import com.handfarm.backend.service.KakaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import javax.websocket.server.ServerEndpoint;
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,23 +28,23 @@ import java.util.Optional;
 @Service
 public class ChatServiceImpl implements ChatService {
 
-    private final ChatRedisRepository chatRedisRepository;
     private final UserRepository userRepository;
     private final ChatInfoRepository chatInfoRepository;
     private final RedisTemplate<String, ChatEntity> redisTemplate;
+    private final KakaoService kakaoService;
 
     @Autowired
-    ChatServiceImpl(ChatInfoRepository chatInfoRepository, ChatRedisRepository chatRedisRepository, UserRepository userRepository, RedisTemplate<String, ChatEntity> redisTemplate){
-        this.chatRedisRepository = chatRedisRepository;
+    ChatServiceImpl(ChatInfoRepository chatInfoRepository, UserRepository userRepository, RedisTemplate<String, ChatEntity> redisTemplate, KakaoService kakaoService){
         this.userRepository = userRepository;
         this.chatInfoRepository = chatInfoRepository;
         this.redisTemplate = redisTemplate;
+        this.kakaoService = kakaoService;
     }
 
     @Override
-    public List<ChatListViewDto> getChatList(String decodeId) { // 채팅 목록 조회
-
-        UserEntity user = userRepository.findByUserId(decodeId).get();
+    public List<ChatListViewDto> getChatList(HttpServletRequest request) { // 채팅 목록 조회
+        UserEntity user = getUserEntity(request);
+        String userId = user.getUserId();
         List<ChatInfoEntity> chatInfoList = chatInfoRepository.findByUserChatInfo(user);
 
         if (!chatInfoList.isEmpty()) {
@@ -62,7 +61,7 @@ public class ChatServiceImpl implements ChatService {
 
                     UserEntity personA = chatRoomInfo.getPersonA();
                     UserEntity personB = chatRoomInfo.getPersonB();
-                    if (personA.getUserId().equals(decodeId)) {
+                    if (personA.getUserId().equals(userId)) {
                         ChatListViewDto chatListViewDto = ChatListViewDto.builder().roomId(chatEntity.getRoomId()).anotherUserNickname(personB.getUserNickname())
                                 .content(chatEntity.getMsg()).time(chatEntity.getTime()).anotherUserProfileImg(personB.getUserProfile()).build();
                         chatList.add(chatListViewDto);
@@ -83,7 +82,7 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public List<ChatDetailDto> getChatDetail(String decodeId, String roomId) { // 채팅 내용 상세 조회
+    public List<ChatDetailDto> getChatDetail(HttpServletRequest request, String roomId) { // 채팅 내용 상세 조회
         List<ChatDetailDto> chatList = new ArrayList<>();
         List<ChatEntity> chat = redisTemplate.opsForList().range(roomId, 0, redisTemplate.opsForList().size(roomId));
 
@@ -118,18 +117,20 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public UserEntity getToUser(String decodeId, String roomId) {
+    public UserEntity getToUser(HttpServletRequest request, String roomId) {
+        UserEntity user = getUserEntity(request);
+        String userId = user.getUserId();
         ChatInfoEntity chatRoomInfo = chatInfoRepository.findByIdx(Integer.valueOf(roomId));
 
         UserEntity personA = chatRoomInfo.getPersonA();
         UserEntity personB = chatRoomInfo.getPersonB();
-        if (personA.getUserId().equals(decodeId)) return personB;
+        if (personA.getUserId().equals(userId)) return personB;
         else return personA;
     }
 
     @Override
-    public String createChatRoom(String decodeId, String userNickname) {
-        UserEntity loginUser = userRepository.findByUserId(decodeId).get();
+    public String createChatRoom(HttpServletRequest request, String userNickname) {
+        UserEntity loginUser = getUserEntity(request);
         UserEntity toUser = userRepository.findByUserNickname(userNickname).get();
 
         String roomId;
@@ -146,15 +147,21 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public void saveMessageRedis(ChatDto chatDto) {
-        String sendUserNickname = chatDto.getSendUserNickname();
-        String toUserNickname = chatDto.getToUserNickname();
+        UserEntity sendUser = userRepository.findByUserNickname(chatDto.getSendUserNickname()).get();
+        UserEntity toUser = userRepository.findByUserNickname(chatDto.getToUserNickname()).get();
         String msg = chatDto.getMsg();
         Integer roomId = chatDto.getRoomId();
         Boolean isRead = false;
+
         ChatEntity chat = ChatEntity.builder()
-                .roomId(String.valueOf(roomId)).msg(msg).sendUserId(sendUserNickname).
-                toUserId(toUserNickname).isRead(isRead).time(LocalDateTime.now(ZoneId.of("Asia/Seoul"))).build();
+                .roomId(String.valueOf(roomId)).msg(msg).sendUserId(sendUser.getUserId()).
+                toUserId(toUser.getUserId()).isRead(isRead).time(LocalDateTime.now(ZoneId.of("Asia/Seoul"))).build();
         redisTemplate.opsForList().leftPush(String.valueOf(roomId),chat);
-        System.out.println(chat.getToUserId() + ", " +  chat.getMsg() + ", " + chat.getIsRead());
+    }
+
+    public UserEntity getUserEntity(HttpServletRequest request){
+        String userId = kakaoService.decodeToken(request.getHeader("accessToken"));
+        Optional<UserEntity> userEntity = userRepository.findByUserId(userId);
+        return userEntity.get();
     }
 }
