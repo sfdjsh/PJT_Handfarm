@@ -21,8 +21,13 @@ import java.util.Map;
 public class ChatController {
     private static final String SUCCESS = "success";
     private static final String FAIL = "error";
-    private static final String TIME_OUT = "access-token timeout";
-    private static HttpStatus status = HttpStatus.NOT_FOUND; // 404에러
+    private static final String TIMEOUT = "accessToken timeout";
+    private static final String MESSAGE = "message";
+    private static final HttpStatus status404 = HttpStatus.NOT_FOUND;
+    private static final HttpStatus status200 = HttpStatus.OK;
+    private static final HttpStatus status500 = HttpStatus.INTERNAL_SERVER_ERROR;
+    private static final HttpStatus status401 = HttpStatus.UNAUTHORIZED;
+    private static HttpStatus status;
 
     private final KakaoService kakaoService;
     private final ChatService chatService;
@@ -36,21 +41,16 @@ public class ChatController {
     @GetMapping("chat/{user_nickname}") // 채팅 방 생성
     public ResponseEntity<Map<String, Object>> createChatRoom(HttpServletRequest request, @PathVariable("user_nickname") String userNickname) throws IOException {
         Map<String, Object> resultMap = new HashMap<>();
-        try {
-            if (!kakaoService.CheckAccessToken(request.getHeader("accessToken"))) {
-                resultMap.put("message", TIME_OUT);
-                status = HttpStatus.UNAUTHORIZED;
-            }else{
-                String decodeId = checkToken(request, resultMap);
-                String roomId = chatService.createChatRoom(decodeId, userNickname); // 채팅 방 생성
+        if(checkToken(request, resultMap)){
+            try{
+                String roomId = chatService.createChatRoom(request, userNickname);
                 resultMap.put("roomId", roomId); // 받자마자 채팅 상세 조회로 Get 요청 해야함
-                resultMap.put("message", SUCCESS);
+                resultMap.put(MESSAGE, SUCCESS);
                 status = HttpStatus.OK;
+            }catch (Exception e){
+                resultMap.put(MESSAGE, FAIL);
+                status = status500;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            resultMap.put("message", FAIL);
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
 
         return new ResponseEntity<>(resultMap, status);
@@ -59,21 +59,16 @@ public class ChatController {
     @GetMapping("/chatList") // 전체 메시지 조회
     public ResponseEntity<Map<String, Object>> viewChatList(HttpServletRequest request) {
         Map<String, Object> resultMap = new HashMap<>();
-        try {
-            if (!kakaoService.CheckAccessToken(request.getHeader("accessToken"))) {
-                resultMap.put("message", TIME_OUT);
-                status = HttpStatus.UNAUTHORIZED;
-            }else{
-                String decodeId = checkToken(request, resultMap);
-                List<ChatListViewDto> chatList = chatService.getChatList(decodeId);
+        if(checkToken(request, resultMap)){
+            try{
+                List<ChatListViewDto> chatList = chatService.getChatList(request);
                 resultMap.put("chatList", chatList);
-                resultMap.put("message", SUCCESS);
+                resultMap.put(MESSAGE, SUCCESS);
                 status = HttpStatus.OK;
+            }catch (Exception e){
+                resultMap.put("message", FAIL);
+                status = status500;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            resultMap.put("message", FAIL);
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
 
         return new ResponseEntity<>(resultMap, status);
@@ -82,37 +77,37 @@ public class ChatController {
     @GetMapping("/chatList/{roomId}") // 채팅 상세 조회
     public ResponseEntity<Map<String, Object>> viewChatDetail(HttpServletRequest request, @PathVariable("roomId") Integer roomId) {
         Map<String, Object> resultMap = new HashMap<>();
-        try {
-            if (!kakaoService.CheckAccessToken(request.getHeader("accessToken"))) {
-                resultMap.put("message", TIME_OUT);
-                status = HttpStatus.UNAUTHORIZED;
-            }else{
-                String decodeId = checkToken(request, resultMap);
-                List<ChatDetailDto> chatList = chatService.getChatDetail(decodeId, String.valueOf(roomId));
+        if(checkToken(request, resultMap)){
+            try{
+                List<ChatDetailDto> chatList = chatService.getChatDetail(request, String.valueOf(roomId));
                 resultMap.put("chatDetail", chatList);
-                UserEntity toUser = chatService.getToUser(decodeId, String.valueOf(roomId));
+                UserEntity toUser = chatService.getToUser(request, String.valueOf(roomId));
                 resultMap.put("toUserNickname", toUser.getUserNickname());
                 resultMap.put("toUserProfileImg", toUser.getUserProfile());
-                resultMap.put("message", SUCCESS);
+                resultMap.put(MESSAGE, SUCCESS);
                 status = HttpStatus.OK;
+            }catch (Exception e){
+                resultMap.put("message", FAIL);
+                status = status500;
             }
-        } catch (Exception e) {
-            resultMap.put("message", FAIL);
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
 
         return new ResponseEntity<>(resultMap, status);
     }
 
-    public String checkToken(HttpServletRequest request, Map<String, Object> resultMap){
-        String accessToken = request.getHeader("accessToken"); // access-token 정보
-        String decodeId = kakaoService.decodeToken(accessToken);
-        if(!decodeId.equals("timeout")){
-            return decodeId;
-        }else{
-            resultMap.put("message", TIME_OUT);
-            status = HttpStatus.UNAUTHORIZED;
-            return null;
+    public Boolean checkToken(HttpServletRequest request, Map<String, Object> resultMap){
+        try{
+            kakaoService.CheckAccessToken(request.getHeader("accessToken"));
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            if(request != null && request.getHeader("accessToken") !=null){
+                resultMap.put("message", TIMEOUT);
+            }else{
+                resultMap.put("message", "acessToken is empty");
+            }
+            status = status401;
+            return false;
         }
     }
 }
