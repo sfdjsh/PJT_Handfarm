@@ -56,11 +56,13 @@ public class UserServiceImpl implements UserService {
         }
 
         List<Optional<DeviceControlEntity>> deviceControlEntitylist = deviceControlRepository.findByDeviceIdx(getUserEntity.get().getDevice());
+        Map<String, Object> autoValueMap = new HashMap<>();
         for (Optional<DeviceControlEntity> deviceControlEntity : deviceControlEntitylist) {
             String controlName = deviceControlEntity.get().getControlIdx().getControlName();
             String controlAutoValue = deviceControlEntity.get().getAutoControlval();
-            resultMap.put(controlName, controlAutoValue);
+            autoValueMap.put(controlName, controlAutoValue);
         }
+        resultMap.put("sensorValue", autoValueMap);
 
         resultMap.put("userNickName", myUserEntity.getUserNickname());
         resultMap.put("userProfile", myUserEntity.getUserProfile());
