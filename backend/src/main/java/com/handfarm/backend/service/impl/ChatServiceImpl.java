@@ -167,6 +167,8 @@ public class ChatServiceImpl implements ChatService {
     public UserEntity getUserEntity(HttpServletRequest request){
         String userId = kakaoService.decodeToken(request.getHeader("accessToken"));
         Optional<UserEntity> userEntity = userRepository.findByUserId(userId);
-        return userEntity.get();
+
+        if(userEntity.isPresent())  return userEntity.get();
+        else return null;
     }
 }
