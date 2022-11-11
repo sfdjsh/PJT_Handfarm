@@ -15,41 +15,39 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 public class KakaoServiceController {
-    private static final String success = "success";
-    private static final String fail = "error";
-    private static final String timeOut = "access-token timeout";
+    private static final String SUCCESS = "success";
+    private static final String FAIL = "error";
+    private static final String TIMEOUT = "access-token timeout";
     private static HttpStatus status = HttpStatus.NOT_FOUND; // 404에러
 
-    private UserService userService;
-    private KakaoService kakaoService;
+    private final KakaoService kakaoService;
 
     @Autowired
-    KakaoServiceController(UserService userService, KakaoService kakaoService){
-        this.userService = userService;
+    KakaoServiceController(KakaoService kakaoService){
         this.kakaoService = kakaoService;
     }
 
 
     @GetMapping("/kakao")
-    public ResponseEntity<?> kakaoCallBack(String code){
+    public ResponseEntity<Map<String, Object>> kakaoCallBack(String code){
         Map<String, Object> resultMap = new HashMap<>();
 
         try{
             Map<String, Object> userInfo = new HashMap<>();
             userInfo.putAll(kakaoService.getKakaoAccessToken(code));
             userInfo.putAll(kakaoService.createKakaoUser((String) userInfo.get("accessToken")));
-            resultMap.put("message", success);
+            resultMap.put("message", SUCCESS);
             resultMap.put("userInfo", userInfo);
             status = HttpStatus.OK;
         } catch (IOException e) {
-            resultMap.put("message", fail);
+            resultMap.put("message", FAIL);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<>(resultMap, status);
     }
 
     @GetMapping("/kakao/logout")
-    public ResponseEntity<?> kakaologout(HttpServletRequest request) throws IOException {
+    public ResponseEntity<Map<String, Object>> kakaologout(HttpServletRequest request) throws IOException {
         String accessToken = request.getHeader("accessToken");
         Map<String ,Object> map = new HashMap<>();
         map.put("message", kakaoService.KakaoLogout(accessToken));
@@ -59,7 +57,7 @@ public class KakaoServiceController {
     }
 
     @GetMapping("/kakao/token")
-    public  ResponseEntity<?> checkRefreshToken(HttpServletRequest request){
+    public  ResponseEntity<Map<String, Object>> checkRefreshToken(HttpServletRequest request){
         String refreshToken = request.getHeader("refreshToken");
         Map<String ,Object> map = new HashMap<>();
         map.put("accessToken", kakaoService.CheckRefreshToken(refreshToken));
@@ -69,13 +67,13 @@ public class KakaoServiceController {
     }
 
     @GetMapping("/test")
-    public ResponseEntity<?> tokencheck(HttpServletRequest request) throws IOException {
+    public ResponseEntity<Map<String, Object>> tokencheck(HttpServletRequest request) throws IOException {
         Map<String, Object> resultMap = new HashMap<>();
 
 
             Map<String, Object> userInfo = new HashMap<>();
             userInfo.putAll(kakaoService.createKakaoUser(request.getHeader("accessToken")));
-            resultMap.put("message", success);
+            resultMap.put("message", SUCCESS);
             resultMap.put("userInfo", userInfo);
             status = HttpStatus.OK;
             return new ResponseEntity<>(resultMap, status);
@@ -86,9 +84,9 @@ public class KakaoServiceController {
     public String servicenulink(HttpServletRequest request) throws IOException {
         String accessToken = request.getHeader("accessToken");
         if(kakaoService.KakaoUnlink(accessToken)){
-            return success;
+            return SUCCESS;
         }else{
-            return fail;
+            return FAIL;
         }
     }
 }
