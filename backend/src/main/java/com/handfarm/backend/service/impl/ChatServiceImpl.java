@@ -11,7 +11,6 @@ import com.handfarm.backend.domain.entity.ChatEntity;
 import com.handfarm.backend.domain.entity.ChatInfoEntity;
 import com.handfarm.backend.domain.entity.UserEntity;
 import com.handfarm.backend.repository.ChatInfoRepository;
-import com.handfarm.backend.repository.ChatRedisRepository;
 import com.handfarm.backend.repository.UserRepository;
 import com.handfarm.backend.service.ChatService;
 import com.handfarm.backend.service.KakaoService;
