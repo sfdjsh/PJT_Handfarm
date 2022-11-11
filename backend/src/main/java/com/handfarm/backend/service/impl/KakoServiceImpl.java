@@ -35,7 +35,6 @@ public class KakoServiceImpl implements KakaoService {
 
     public Map<String, Object> getKakaoAccessToken (String code ) throws IOException{                // 로그인 시도 서비스
         Map<String, Object> resultMap = new HashMap<>();
-        String[] res = new String[2];
         String access_Token = "";
         String refresh_Token = "";
         String reqURL = "https://kauth.kakao.com/oauth/token";
@@ -179,9 +178,6 @@ public class KakoServiceImpl implements KakaoService {
             conn.setDoOutput(true);
             conn.setRequestProperty("Authorization", "Bearer " + accessToken);
 
-            //결과 코드가 200이라면 성공
-            int responseCode = conn.getResponseCode();
-
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line = "";
             String result = "";
@@ -189,7 +185,6 @@ public class KakoServiceImpl implements KakaoService {
             while ((line = br.readLine()) != null) {
                 result += line;
             }
-
 
             //Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
             JsonParser parser = new JsonParser();
@@ -222,9 +217,6 @@ public class KakoServiceImpl implements KakaoService {
             sb.append("&refresh_token=" + refreshToken);
             bw.write(sb.toString());
             bw.flush();
-
-            //결과 코드가 200이라면 성공
-            int responseCode = conn.getResponseCode();
 
             //요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -264,9 +256,6 @@ public class KakoServiceImpl implements KakaoService {
                 conn.setDoOutput(true);
                 conn.setRequestProperty("Authorization", "Bearer " + accessToken);
 
-                //결과 코드가 200이라면 성공
-                int responseCode = conn.getResponseCode();
-
                 //요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
                 BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 String line = "";
@@ -275,11 +264,6 @@ public class KakoServiceImpl implements KakaoService {
                 while ((line = br.readLine()) != null) {
                     result += line;
                 }
-
-                //Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
-                JsonParser parser = new JsonParser();
-                JsonElement deleteelement = parser.parse(result);
-
 
                 br.close();
             } catch (IOException e) {
@@ -302,9 +286,6 @@ public class KakoServiceImpl implements KakaoService {
             conn.setDoOutput(true);
             conn.setRequestProperty("Authorization", "Bearer " + accessToken);
 
-            //결과 코드가 200이라면 성공
-            int responseCode = conn.getResponseCode();
-
             //요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line = "";
@@ -313,11 +294,6 @@ public class KakoServiceImpl implements KakaoService {
             while ((line = br.readLine()) != null) {
                 result += line;
             }
-
-            //Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
-            JsonParser parser = new JsonParser();
-            JsonElement element = parser.parse(result);
-
 
             br.close();
         return true;
@@ -336,10 +312,7 @@ public class KakoServiceImpl implements KakaoService {
             conn.setDoOutput(true);
             conn.setRequestProperty("Authorization", "Bearer " + accessToken);
 
-            //결과 코드가 200이라면 성공
-            int responseCode = conn.getResponseCode();
-
-            //요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
+             //요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line = "";
             String result = "";
@@ -347,12 +320,6 @@ public class KakoServiceImpl implements KakaoService {
             while ((line = br.readLine()) != null) {
                 result += line;
             }
-
-            //Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
-            JsonParser parser = new JsonParser();
-            JsonElement element = parser.parse(result);
-
-
             br.close();
         } catch (IOException e) {
             e.printStackTrace();

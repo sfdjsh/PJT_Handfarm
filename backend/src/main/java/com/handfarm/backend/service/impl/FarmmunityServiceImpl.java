@@ -97,10 +97,11 @@ public class FarmmunityServiceImpl implements FarmmunityService {
     @Override
     public void deleteArticle(HttpServletRequest request, Integer articleIdx) {
         UserEntity user = getUserEntity(request);
-        ArticleEntity article = articleRepository.findById(articleIdx).get();
+        Optional<ArticleEntity> article = articleRepository.findById(articleIdx);
+        if(article.isEmpty()) return;
 
-        if(user.getUserId().equals(article.getUserIdx().getUserId())){
-            articleRepository.delete(article);
+        if(user.getUserId().equals(article.get().getUserIdx().getUserId())){
+            articleRepository.delete(article.get());
 
             // 게시글 삭제 시 관련 알림 다 삭제
             List<NoticeEntity> noticeList = noticeRepository.findByArticleIdx(articleIdx);
@@ -113,13 +114,13 @@ public class FarmmunityServiceImpl implements FarmmunityService {
     @Override
     public void deleteComment(HttpServletRequest request, Integer articleIdx, Integer commentIdx) {
         UserEntity user = getUserEntity(request);
-        CommentEntity comment = commentRepository.findById(commentIdx).get();
+        Optional<CommentEntity> comment = commentRepository.findById(commentIdx);
 
-        if(user.getUserId().equals(comment.getUserIdx().getUserId())){
-            commentRepository.delete(comment);
+        if(user.getUserId().equals(comment.get().getUserIdx().getUserId())){
+            commentRepository.delete(comment.get());
 
             // 알림이 있다면 관련 알림도 삭제
-            Optional<NoticeEntity> noticeEntityOptional = noticeRepository.findByFromUserAndNoticeTypeAndArticleIdxAndComment(user, "comment",articleIdx, comment);
+            Optional<NoticeEntity> noticeEntityOptional = noticeRepository.findByFromUserAndNoticeTypeAndArticleIdxAndComment(user, "comment",articleIdx, comment.get());
 
             if(noticeEntityOptional.isPresent()){
                 noticeRepository.delete(noticeEntityOptional.get());
@@ -130,7 +131,9 @@ public class FarmmunityServiceImpl implements FarmmunityService {
     @Override
     public Map<String, Object> getArticleDetail(HttpServletRequest request, Integer articleIdx) {
         Map<String, Object> data = new HashMap<>();
-        ArticleEntity article = articleRepository.findByIdx(articleIdx).get();
+        Optional<ArticleEntity> articleOptional = articleRepository.findByIdx(articleIdx);
+        if(articleOptional.isEmpty()) throw new NoSuchElementException();
+        ArticleEntity article = articleOptional.get();
         List<CommentEntity> comment = commentRepository.findByArticleIdx(article);
 
         UserEntity user = getUserEntity(request);
@@ -224,19 +227,18 @@ public class FarmmunityServiceImpl implements FarmmunityService {
             }
             res.put("articleInfo", regionViewDto);
         }
-
         res.put("articleList",result);
-
         return res;
     }
 
     @Override
     public Boolean likeArticle(HttpServletRequest request, Integer articleIdx) {
         UserEntity user = getUserEntity(request);
-        String userId = user.getUserId();
 
         boolean result = true;
-        ArticleEntity article = articleRepository.findById(articleIdx).get();
+        Optional<ArticleEntity> articleOptional = articleRepository.findById(articleIdx);
+        if(articleOptional.isEmpty()) return false;
+        ArticleEntity article = articleOptional.get();
 
         Optional<UserLikeArticlesEntity> userLikeArticlesEntity = userLikeArticlesRepository.findByUserAndArticle(user, article);
         if(userLikeArticlesEntity.isPresent()){ // 좋아요 눌렀음 -> 취소
@@ -276,7 +278,9 @@ public class FarmmunityServiceImpl implements FarmmunityService {
     @Override
     public void updateArticle(HttpServletRequest request, Integer articleIdx, ArticleRegistDto articleRegistDto) {
         UserEntity user = getUserEntity(request);
-        ArticleEntity article = articleRepository.findById(articleIdx).get();
+        Optional<ArticleEntity> articleOptional = articleRepository.findById(articleIdx);
+        if(articleOptional.isEmpty()) return;
+        ArticleEntity article = articleOptional.get();
 
         if(user.getUserId().equals(article.getUserIdx().getUserId())){
             if(article.getArticleCategory().equals("지역")){ // 이미지 없음
@@ -306,17 +310,18 @@ public class FarmmunityServiceImpl implements FarmmunityService {
     @Override
     public void updateComment(HttpServletRequest request, Integer articleIdx, Integer commentIdx, CommentRegistDto commentRegistDto) {
         UserEntity user = getUserEntity(request);
-        ArticleEntity article = articleRepository.findById(articleIdx).get();
-        CommentEntity comment = commentRepository.findById(commentIdx).get();
+        Optional<ArticleEntity> article = articleRepository.findById(articleIdx);
+        Optional<CommentEntity> comment = commentRepository.findById(commentIdx);
+        if(article.isEmpty() || comment.isEmpty()) return;
 
-        if(user.getUserId().equals(comment.getUserIdx().getUserId())){
+        if(user.getUserId().equals(comment.get().getUserIdx().getUserId())){
             CommentEntity commentEntity = CommentEntity.builder()
-                    .idx(comment.getIdx())
+                    .idx(comment.get().getIdx())
                     .commentContent(commentRegistDto.getCommentContent())
                     .upIdx(commentRegistDto.getUpIdx())
-                    .commentTime(comment.getCommentTime())
+                    .commentTime(comment.get().getCommentTime())
                     .updateTime(LocalDateTime.now())
-                    .articleIdx(article)
+                    .articleIdx(article.get())
                     .userIdx(user)
                     .build();
 
@@ -327,6 +332,8 @@ public class FarmmunityServiceImpl implements FarmmunityService {
     public UserEntity getUserEntity(HttpServletRequest request){
         String userId = kakaoService.decodeToken(request.getHeader("accessToken"));
         Optional<UserEntity> userEntity = userRepository.findByUserId(userId);
-        return userEntity.get();
+
+        if(userEntity.isPresent())  return userEntity.get();
+        else return null;
     }
 }

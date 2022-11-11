@@ -60,29 +60,34 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     public boolean readNotice(HttpServletRequest request, Integer idx) {
         UserEntity userEntity = getUserEntity(request);
-        NoticeEntity notice = noticeRepository.findByToUserAndIdx(userEntity, idx).get();
+        Optional<NoticeEntity> noticeEntityOptional = noticeRepository.findByToUserAndIdx(userEntity, idx);
+        if(noticeEntityOptional.isPresent()) {
+            NoticeEntity notice = noticeEntityOptional.get();
+            notice.setIsRead(true);
+            noticeRepository.save(notice);
 
-        notice.setIsRead(true);
-        noticeRepository.save(notice);
-
-        if(noticeRepository.findByToUserAndIdx(userEntity, idx).get().getIsRead()) return true;
+            if (notice.getIsRead()) return true;
+        }
         return false;
     }
 
     @Override
     public boolean deleteNotice(HttpServletRequest request, Integer idx) {
         UserEntity userEntity = getUserEntity(request);
-        NoticeEntity notice = noticeRepository.findByToUserAndIdx(userEntity, idx).get();
-        if(notice != null){
-            noticeRepository.delete(notice);
+        Optional<NoticeEntity> noticeEntityOptional = noticeRepository.findByToUserAndIdx(userEntity, idx);
+        if(noticeEntityOptional.isPresent()){
+            NoticeEntity notice = noticeEntityOptional.get();
+            if(notice != null) noticeRepository.delete(notice);
+            if(!noticeRepository.findByToUserAndIdx(userEntity,idx).isPresent()) return true;
         }
-        if(!noticeRepository.findByToUserAndIdx(userEntity,idx).isPresent()) return true;
         return false;
     }
 
     public UserEntity getUserEntity(HttpServletRequest request){
         String userId = kakaoService.decodeToken(request.getHeader("accessToken"));
         Optional<UserEntity> userEntity = userRepository.findByUserId(userId);
-        return userEntity.get();
+
+        if(userEntity.isPresent())  return userEntity.get();
+        else return null;
     }
 }
