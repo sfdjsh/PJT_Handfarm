@@ -154,10 +154,10 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public Map<String, Object> getUserDeviceAll(String accessToken) throws IOException {
+    public Map<String, Object> getUserDeviceAll(HttpServletRequest request){
         Map<String, Object> resultMap = new HashMap<>();
 
-        String userId = kakaoService.decodeToken(accessToken);
+        String userId = kakaoService.decodeToken(request.getHeader("accessToken"));
         Optional<UserEntity> userEntity = userRepository.findByUserId(userId);
         List<Map<String , Object>> deviceList = new ArrayList<>();
         List<UserDeviceEntity> userDeviceEntityList = userDeviceRepository.findByUserIdx(userEntity.get());

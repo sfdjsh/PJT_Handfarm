@@ -20,7 +20,7 @@ public class FarmmunityController {
     private static final String FAIL = "error";
     private static final String TIMEOUT = "accessToken timeout";
     private static final String MESSAGE = "message";
-    private static final HttpStatus status404 = HttpStatus.NOT_FOUND;
+    private static final String ACCESSTOKEN = "accessToken";
     private static final HttpStatus status200 = HttpStatus.OK;
     private static final HttpStatus status500 = HttpStatus.INTERNAL_SERVER_ERROR;
     private static final HttpStatus status401 = HttpStatus.UNAUTHORIZED;
@@ -72,12 +72,13 @@ public class FarmmunityController {
     @GetMapping("/community/{article_idx}") // 게시글 상세조회
     public ResponseEntity<Map<String, Object>> getArticleDetail(HttpServletRequest request, @PathVariable("article_idx") Integer articleIdx){
         Map<String, Object> resultMap = new HashMap<>();
+        String ISLIKECLICKED = "isLikeClicked";
         if(checkToken(request, resultMap)){
             try{
                 Map<String, Object> articleDto = farmmunityService.getArticleDetail(request, articleIdx);
                 resultMap.put("articleDto", articleDto.get("articleDetail"));
                 resultMap.put("commentList", articleDto.get("commentList"));
-                if(articleDto.get("isLikeClicked") != null) resultMap.put("isLikeClicked", articleDto.get("isLikeClicked"));
+                if(articleDto.get(ISLIKECLICKED) != null) resultMap.put(ISLIKECLICKED, articleDto.get(ISLIKECLICKED));
                 resultMap.put(MESSAGE, SUCCESS);
                 status = status200;
             }catch (Exception e){
@@ -194,11 +195,11 @@ public class FarmmunityController {
 
     public Boolean checkToken(HttpServletRequest request, Map<String, Object> resultMap){
         try{
-            kakaoService.CheckAccessToken(request.getHeader("accessToken"));
+            kakaoService.CheckAccessToken(request.getHeader(ACCESSTOKEN));
             return true;
         }catch (Exception e){
             e.printStackTrace();
-            if(request != null && request.getHeader("accessToken") !=null){
+            if(request != null && request.getHeader(ACCESSTOKEN) !=null){
                 resultMap.put(MESSAGE, TIMEOUT);
             }else{
                 resultMap.put(MESSAGE, "acessToken is empty");

@@ -21,6 +21,7 @@ public class MyFarmController {
     private static final String FAIL = "error";
     private static final String TIMEOUT = "access-token timeout";
     private static final String MESSAGE = "message";
+    private static final String ACCESSTOKEN = "accessToken";
     private static final HttpStatus status200 = HttpStatus.OK;
     private static final HttpStatus status401 = HttpStatus.UNAUTHORIZED;
     private static final HttpStatus status500 = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -71,7 +72,7 @@ public class MyFarmController {
         Map<String, Object> resultMap = new HashMap<>();
         if(checkToken(request, resultMap)){
             try{
-                resultMap.putAll(deviceService.getUserDeviceAll(request.getHeader("accessToken")));
+                resultMap.putAll(deviceService.getUserDeviceAll(request));
                 resultMap.put(MESSAGE, SUCCESS);
                 status = status200;
             }catch (Exception e){
@@ -89,11 +90,11 @@ public class MyFarmController {
 
     public Boolean checkToken(HttpServletRequest request, Map<String , Object> resultMap){
         try{
-            kakaoService.CheckAccessToken(request.getHeader("accessToken"));
+            kakaoService.CheckAccessToken(request.getHeader(ACCESSTOKEN));
             return true;
         }catch (Exception e){
             e.printStackTrace();
-            if(request != null && request.getHeader("accessToken") !=null){
+            if(request != null && request.getHeader(ACCESSTOKEN) !=null){
                 resultMap.put(MESSAGE, TIMEOUT);
             }else{
                 resultMap.put(MESSAGE, "acessToken is empty");
