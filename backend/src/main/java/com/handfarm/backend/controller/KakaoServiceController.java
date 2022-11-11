@@ -17,7 +17,6 @@ import java.util.Map;
 public class KakaoServiceController {
     private static final String SUCCESS = "success";
     private static final String FAIL = "error";
-    private static final String TIMEOUT = "access-token timeout";
     private static final String MESSAGE = "message";
     private static final String ACCESSTOKEN = "accessToken";
     private static final HttpStatus status200 = HttpStatus.OK;

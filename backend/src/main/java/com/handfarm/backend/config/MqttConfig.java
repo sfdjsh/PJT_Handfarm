@@ -85,22 +85,22 @@ public class MqttConfig {
             @Override
             public void handleMessage(Message<?> message) throws MessagingException {
                 String topic = message.getHeaders().get(MqttHeaders.RECEIVED_TOPIC).toString();
-                Map<String, Object> map = new HashMap<>();
+
                 if(TOPIC_FILTER.equals(topic)) {
                     String deviceSensor = (String) message.getPayload();
                     deviceSensor = deviceSensor.substring(1, deviceSensor.length() - 1);   // Json {  } 제거
                     String[] deviceSensorValue = deviceSensor.split(",");          // 센서이름과 값으로 나누기
-                    System.out.println(deviceSensor);
+
 
                     for (String it : deviceSensorValue) {                                  // 센서마다 데이터 삽입
                         String[] data = it.split(":");
-                        String sensor = data[0];
-                        Float value = Float.valueOf(data[1]);
-                        SensorEntity sensorEntity = sensorRepository.findBySensorArea(data[0]).get();
-                        DeviceEntity deviceEntity = deviceRepository.findByDeviceNo(deviceId).get();
-                        Optional<DeviceSensorEntity> deviceSensorEntity = deviceSensorRepository.findByDeviceIdxAndSensorIdx(deviceEntity, sensorEntity);
-                        deviceSensorEntity.get().setValue(Float.valueOf(data[1]));
-                        deviceSensorRepository.save(deviceSensorEntity.get());
+                        Optional<SensorEntity> sensorEntity = sensorRepository.findBySensorArea(data[0]);
+                        Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceId);
+                        Optional<DeviceSensorEntity> deviceSensorEntity = deviceSensorRepository.findByDeviceIdxAndSensorIdx(deviceEntity.get(), sensorEntity.get());
+                        if(deviceSensorEntity.isPresent()){
+                            deviceSensorEntity.get().setValue(Float.valueOf(data[1]));
+                            deviceSensorRepository.save(deviceSensorEntity.get());
+                        }
                     }
                 }
             }

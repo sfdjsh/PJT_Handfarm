@@ -98,9 +98,9 @@ public class ChatController {
         try{
             kakaoService.CheckAccessToken(request.getHeader(ACCESSTOKEN));
             return true;
-        }catch (Exception e){
+        }catch (IOException e){
             e.printStackTrace();
-            if(request != null && request.getHeader(ACCESSTOKEN) !=null){
+            if(request.getHeader(ACCESSTOKEN) !=null){
                 resultMap.put(MESSAGE, TIMEOUT);
             }else{
                 resultMap.put(MESSAGE, "acessToken is empty");
