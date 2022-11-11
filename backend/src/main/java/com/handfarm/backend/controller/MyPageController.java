@@ -42,12 +42,12 @@ public class MyPageController {
         this.userService = userService;
     }
 
-    @GetMapping("/mypage")
-    public ResponseEntity<Map<String, Object>> getUserInfo(HttpServletRequest request) throws IOException {
+    @GetMapping("/mypage/{userNickname}")
+    public ResponseEntity<Map<String, Object>> getUserInfo(HttpServletRequest request, @PathVariable String userNickname) {
         Map<String ,Object> resultMap = new HashMap<>();
         if(checkToken(request, resultMap)){
             try{
-                resultMap.putAll(userService.getUserInfo(request));
+                resultMap.putAll(userService.getUserInfo(request, userNickname));
                 resultMap.put(MESSAGE, SUCCESS);
                 status = status200;
             }catch (Exception e){
