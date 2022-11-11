@@ -2,9 +2,7 @@ package com.handfarm.backend.service.impl;
 
 import com.handfarm.backend.domain.dto.User.UserDto;
 import com.handfarm.backend.domain.dto.article.ArticleViewDto;
-import com.handfarm.backend.domain.entity.ArticleEntity;
-import com.handfarm.backend.domain.entity.DeviceControlEntity;
-import com.handfarm.backend.domain.entity.UserEntity;
+import com.handfarm.backend.domain.entity.*;
 import com.handfarm.backend.repository.*;
 import com.handfarm.backend.service.KakaoService;
 import com.handfarm.backend.service.UserService;
@@ -23,15 +21,19 @@ public class UserServiceImpl implements UserService {
     private final UserLikeArticlesRepository userLikeArticlesRepository;
     private final CommentRepository commentRepository;
     private final DeviceControlRepository deviceControlRepository;
+    private final UserDeviceRepository userDeviceRepository;
+    private final DeviceRepository deviceRepository;
 
     @Autowired
-    UserServiceImpl(UserRepository userRepository, KakaoService kakaoService, ArticleRepository articleRepository, UserLikeArticlesRepository userLikeArticlesRepository, CommentRepository commentRepository, DeviceControlRepository deviceControlRepository){
+    UserServiceImpl(UserRepository userRepository, KakaoService kakaoService, ArticleRepository articleRepository, UserLikeArticlesRepository userLikeArticlesRepository, CommentRepository commentRepository, DeviceControlRepository deviceControlRepository, UserDeviceRepository userDeviceRepository, DeviceRepository deviceRepository){
         this.userRepository = userRepository;
         this.kakaoService = kakaoService;
         this.articleRepository = articleRepository;
         this.userLikeArticlesRepository = userLikeArticlesRepository;
         this.commentRepository = commentRepository;
         this.deviceControlRepository = deviceControlRepository;
+        this.userDeviceRepository = userDeviceRepository;
+        this.deviceRepository = deviceRepository;
     }
     @Override
     public String findByUserId(String decodeId) {
@@ -49,23 +51,27 @@ public class UserServiceImpl implements UserService {
         List<ArticleViewDto> articleList = new ArrayList<>();
         UserEntity myUserEntity = getUserEntity(request);
         Optional<UserEntity> getUserEntity = userRepository.findByUserNickname(toUserNickname);
+        if(getUserEntity.isEmpty()) throw new NoSuchElementException();
 
-        if(getUserEntity.isPresent()){
-            if(myUserEntity.equals(getUserEntity.get()) || getUserEntity.get().getUserOpen()) {
+        List<UserDeviceEntity> userDeviceEntityList = userDeviceRepository.findByUserIdx(getUserEntity.get());
+        List<Map<String ,Object>> devicesInfo = new ArrayList<>();
+        if(myUserEntity.equals(getUserEntity.get()) || getUserEntity.get().getUserOpen()) {
+            for (UserDeviceEntity userDeviceEntity : userDeviceEntityList) {
+                Map<String, Object> deviceInfo = new HashMap<>();
+                deviceInfo.put("deviceName", userDeviceEntity.getDeviceIdx().getDeviceName());
+                deviceInfo.put("deviceCrop", userDeviceEntity.getDeviceIdx().getCrop().getCropName());
                 List<Optional<DeviceControlEntity>> deviceControlEntitylist = deviceControlRepository.findByDeviceIdx(getUserEntity.get().getDevice());
                 Map<String, Object> autoValueMap = new HashMap<>();
                 for (Optional<DeviceControlEntity> deviceControlEntity : deviceControlEntitylist) {
-                    if(deviceControlEntity.isPresent()){
-                        DeviceControlEntity deviceControl = deviceControlEntity.get();
-                        String controlName = deviceControl.getControlIdx().getControlName();
-                        String controlAutoValue = deviceControl.getAutoControlval();
-                        autoValueMap.put(controlName, controlAutoValue);
-                    }
+                    String controlName = deviceControlEntity.get().getControlIdx().getControlName();
+                    String controlAutoValue = deviceControlEntity.get().getAutoControlval();
+                    autoValueMap.put(controlName, controlAutoValue);
                 }
-                resultMap.put("sensorValue", autoValueMap);
+                deviceInfo.put("sensorValue", autoValueMap);
+                devicesInfo.add(deviceInfo);
             }
         }
-
+        resultMap.put("devicesInfo", devicesInfo);
         resultMap.put("userNickName", getUserEntity.get().getUserNickname());
         resultMap.put("userProfile", getUserEntity.get().getUserProfile());
         resultMap.put("userOpen", getUserEntity.get().getUserOpen());
