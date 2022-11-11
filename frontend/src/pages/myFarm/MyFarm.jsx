@@ -8,7 +8,11 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import { useRecoilState } from "recoil";
 import { userInfo, userFarm, motorModal, motorControl } from "../../atom";
 import ControlDetail from "./ControlDetail"
-
+import ControlTemp from "../../components/control/ControlTemp";
+import ControlFan from "../../components/control/ControlFan";
+import ControlLed from "../../components/control/ControlLed";
+import ControlPump from "../../components/control/ControlPump"
+import ControlBuzzer from "../../components/control/ControlBuzzer"
 
 const MyFarm = () => {
   const [user, setUser] = useRecoilState(userInfo);
@@ -28,10 +32,17 @@ const MyFarm = () => {
         accessToken : localStorage.getItem('access_token')
       }
     })
+    console.log(result.data)
     setMotorState(result.data)
   }
 
-  
+  // 제어 정보 가져오기
+  const controlTemp = motorState.temp
+  const controlFan = motorState.fan
+  const controlLed = motorState.led
+  const controlPump = motorState.pump
+  const controlBuzzer = motorState.buzzer
+
   useEffect(() => {
     motorInfo()
   }, [deviceId])
@@ -86,7 +97,13 @@ const MyFarm = () => {
         <SensorList deviceId={deviceId} email={email} />
 
         {/* 제어 모달창 */}
-        <ControlDetail />
+        {/* <ControlDetail deviceId={deviceId} /> */}
+        <ControlTemp deviceId={deviceId} controlTemp={controlTemp}/>
+        <ControlFan deviceId={deviceId} controlFan={controlFan}/>
+        <ControlLed deviceId={deviceId} controlLed={controlLed} />
+        <ControlPump deviceId={deviceId} controlPump={controlPump} />
+        <ControlBuzzer deviceId={deviceId} controlBuzzer={controlBuzzer} />
+        
       </Container>
     </>
   );

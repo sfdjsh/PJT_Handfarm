@@ -1,11 +1,38 @@
 import { BASE_URL } from "../../config";
 import axios from "axios";
 
-export async function tempState(tempSwitch) {  
-  const URL = `${BASE_URL}/farm`
-
+export async function controlState(props) {  
+  console.log(props)
+  let data = {
+    controlName: props.control,
+    controlValue: props.switchState
+  }
+  const URL = `${BASE_URL}/farm/${props.deviceId}`
+  axios.post(URL, JSON.stringify(data), {
+    headers: {
+      "Content-Type": `application/json`,
+      accessToken: localStorage.getItem("access_token")
+    }
+  })
+    .then(response => {
+      console.log(response.data)
+    })
 }
 
-export async function axiosTempDegree(d) {
-  console.log(d)
+export async function axiosDegree(props) {
+  console.log(props)
+  let data = {
+    controlName: props.control,
+    controlValue: props.d
+  }
+  const URL = `${BASE_URL}/farm/${props.deviceId}/manual`
+  axios.put(URL, JSON.stringify(data), {
+    headers: {
+      "Content-Type": `application/json`,
+      accessToken: localStorage.getItem("access_token")
+    }
+  })
+    .then(response => {
+      console.log(response.data)
+    })
 }
