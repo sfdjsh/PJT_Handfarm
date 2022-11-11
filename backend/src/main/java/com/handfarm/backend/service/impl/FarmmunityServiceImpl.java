@@ -73,23 +73,25 @@ public class FarmmunityServiceImpl implements FarmmunityService {
         Integer upIdx = commentRegistDto.getUpIdx();
 
         UserEntity user = getUserEntity(request);
-        ArticleEntity article = articleRepository.findById(articleIdx).get();
+        Optional<ArticleEntity> article = articleRepository.findById(articleIdx);
+        if(article.isEmpty()) return;
+
         CommentEntity comment = CommentEntity.builder()
                 .upIdx(upIdx)
                 .commentContent(commentContent)
-                .articleIdx(article)
+                .articleIdx(article.get())
                 .userIdx(user).build();
         commentRepository.save(comment);
 
         // 댓글 등록 시 알림 가게 - 자기가 등록한게 아니면
-        if(!article.getUserIdx().getUserId().equals(comment.getUserIdx().getUserId())){
+        if(!article.get().getUserIdx().getUserId().equals(comment.getUserIdx().getUserId())){
             NoticeEntity notice = NoticeEntity.builder()
                     .noticeType("comment")
                     .noticeTime(comment.getCommentTime())
                     .articleIdx(articleIdx)
                     .fromUser(user)
                     .comment(comment)
-                    .toUser(article.getUserIdx()).build();
+                    .toUser(article.get().getUserIdx()).build();
             noticeRepository.save(notice);
         }
     }
@@ -115,6 +117,7 @@ public class FarmmunityServiceImpl implements FarmmunityService {
     public void deleteComment(HttpServletRequest request, Integer articleIdx, Integer commentIdx) {
         UserEntity user = getUserEntity(request);
         Optional<CommentEntity> comment = commentRepository.findById(commentIdx);
+        if(comment.isEmpty()) return;
 
         if(user.getUserId().equals(comment.get().getUserIdx().getUserId())){
             commentRepository.delete(comment.get());

@@ -1,14 +1,11 @@
 package com.handfarm.backend.config;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.handfarm.backend.domain.entity.DeviceEntity;
 import com.handfarm.backend.domain.entity.DeviceSensorEntity;
 import com.handfarm.backend.domain.entity.SensorEntity;
 import com.handfarm.backend.repository.DeviceRepository;
 import com.handfarm.backend.repository.DeviceSensorRepository;
 import com.handfarm.backend.repository.SensorRepository;
-import com.handfarm.backend.repository.UserRepository;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -28,8 +25,7 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
 import org.springframework.messaging.MessagingException;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Configuration
@@ -96,6 +92,7 @@ public class MqttConfig {
                         String[] data = it.split(":");
                         Optional<SensorEntity> sensorEntity = sensorRepository.findBySensorArea(data[0]);
                         Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceId);
+                        if(sensorEntity.isEmpty() || deviceEntity.isEmpty()) throw new NoSuchElementException();
                         Optional<DeviceSensorEntity> deviceSensorEntity = deviceSensorRepository.findByDeviceIdxAndSensorIdx(deviceEntity.get(), sensorEntity.get());
                         if(deviceSensorEntity.isPresent()){
                             deviceSensorEntity.get().setValue(Float.valueOf(data[1]));
