@@ -6,22 +6,23 @@ import com.handfarm.backend.domain.dto.article.CommentRegistDto;
 import java.util.Map;
 import com.handfarm.backend.domain.dto.article.ArticleViewDto;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface FarmmunityService {
-    void registArticle(String decodeId, ArticleRegistDto articleRegistDto, String domain, String category);
+    void registArticle(HttpServletRequest request, ArticleRegistDto articleRegistDto, String domain, String category);
 
     Map<String, Object> getArticleList(String domain, String category);
 
-    Boolean likeArticle(String decodeId, Integer articleIdx);
-    void updateArticle(String decodeId, Integer articleIdx, ArticleRegistDto articleRegistDto);
-    Map<String, Object> getArticleDetail(String decodeId, Integer articleIdx);
+    Boolean likeArticle(HttpServletRequest request, Integer articleIdx);
+    void updateArticle(HttpServletRequest request, Integer articleIdx, ArticleRegistDto articleRegistDto);
+    Map<String, Object> getArticleDetail(HttpServletRequest request, Integer articleIdx);
 
-    void registComment(String decodeId, Integer articleIdx, CommentRegistDto commentRegistDto);
+    void registComment(HttpServletRequest request, Integer articleIdx, CommentRegistDto commentRegistDto);
 
-    void deleteArticle(String decodeId, Integer articleIdx);
+    void deleteArticle(HttpServletRequest request, Integer articleIdx);
 
-    void deleteComment(String decodeId, Integer articleIdx, Integer commentIdx);
+    void deleteComment(HttpServletRequest request, Integer articleIdx, Integer commentIdx);
 
-    void updateComment(String decodeId, Integer articleIdx, Integer commentIdx, CommentRegistDto commentRegistDto);
+    void updateComment(HttpServletRequest request, Integer articleIdx, Integer commentIdx, CommentRegistDto commentRegistDto);
 }
