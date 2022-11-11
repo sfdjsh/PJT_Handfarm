@@ -9,18 +9,16 @@ import { userFarm } from '../../atom';
 const FarmRegisting = () => {
   const navigate = useNavigate()
   const [myFarm, setMyFarm] = useRecoilState(userFarm)
-  console.log(myFarm)
   // 내 농장 정보
-  const onFarm = async () => {
-    const result = await axios.get('https://handfarm.co.kr/api/farm', {
+  const onFarm = () => {
+    axios.get('https://handfarm.co.kr/api/farm', {
       headers: {
         accessToken: localStorage.getItem('access_token')
       }
     })
-    // console.log(result.data)
-    setMyFarm(result.data)
-    // console.log(myFarm)
-
+      .then(response => {
+        setMyFarm(response.data)
+      })
   }
   if (myFarm.deviceInfo.length > 0) {
       navigate('/myfarm')
