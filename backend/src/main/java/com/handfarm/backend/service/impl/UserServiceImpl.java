@@ -72,12 +72,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean editUserInfo(HttpServletRequest request, UserDto userDto){
-        UserEntity userEntity = getUserEntity(request);
-        userEntity.setUserNickname(userDto.getUserNickname());
-        userEntity.setUserProfile(userDto.getUserProfileImg());
-        userRepository.save(userEntity);
-        return true;
+    public void editUserInfo(HttpServletRequest request, UserDto userDto){
+
+            UserEntity userEntity = getUserEntity(request);
+            userEntity.setUserNickname(userDto.getUserNickname());
+            userEntity.setUserProfile(userDto.getUserProfileImg());
+            userRepository.save(userEntity);
+
     }
 
     @Override
