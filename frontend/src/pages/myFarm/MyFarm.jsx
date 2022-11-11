@@ -8,7 +8,11 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import { useRecoilState } from "recoil";
 import { userInfo, userFarm, motorModal, motorControl } from "../../atom";
 import ControlDetail from "./ControlDetail"
-
+import ControlTemp from "../../components/control/ControlTemp";
+import ControlFan from "../../components/control/ControlFan";
+import ControlLed from "../../components/control/ControlLed";
+import ControlPump from "../../components/control/ControlPump"
+import ControlBuzzer from "../../components/control/ControlBuzzer"
 
 const MyFarm = () => {
   const [user, setUser] = useRecoilState(userInfo);
@@ -18,24 +22,29 @@ const MyFarm = () => {
 
   const devices = myFarm.deviceInfo
   const [farmRadio, setFarmRadio] = useState('0');
-  console.log(myFarm)
-  console.log(devices)
   const [deviceId, setDeviceId] = useState(devices[0].deviceNo || '')
   const email = user.userEmail
 
-  const AonControl = async () => {
+  const motorInfo = async () => {
     const URL = `${BASE_URL}/farm/${deviceId}/manual`
     const result = await axios.get(URL, {
       headers: {
         accessToken : localStorage.getItem('access_token')
       }
     })
+    console.log(result.data)
     setMotorState(result.data)
   }
 
-  
+  // 제어 정보 가져오기
+  const controlTemp = motorState.temp
+  const controlFan = motorState.fan
+  const controlLed = motorState.led
+  const controlPump = motorState.pump
+  const controlBuzzer = motorState.buzzer
+
   useEffect(() => {
-    AonControl()
+    motorInfo()
   }, [deviceId])
 
   return (
@@ -89,7 +98,12 @@ const MyFarm = () => {
 
         {/* 제어 모달창 */}
         {/* <ControlDetail deviceId={deviceId} /> */}
-        <ControlDetail />
+        <ControlTemp deviceId={deviceId} controlTemp={controlTemp}/>
+        <ControlFan deviceId={deviceId} controlFan={controlFan}/>
+        <ControlLed deviceId={deviceId} controlLed={controlLed} />
+        <ControlPump deviceId={deviceId} controlPump={controlPump} />
+        <ControlBuzzer deviceId={deviceId} controlBuzzer={controlBuzzer} />
+        
       </Container>
     </>
   );
