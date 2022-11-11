@@ -20,11 +20,10 @@ public class NoticeController {
     private static final String FAIL = "error";
     private static final String TIMEOUT = "accessToken timeout";
     private static final String MESSAGE = "message";
-    private static final HttpStatus status404 = HttpStatus.NOT_FOUND;
     private static final HttpStatus status200 = HttpStatus.OK;
     private static final HttpStatus status500 = HttpStatus.INTERNAL_SERVER_ERROR;
     private static final HttpStatus status401 = HttpStatus.UNAUTHORIZED;
-    private static HttpStatus status;
+    private HttpStatus status;
 
     private NoticeService noticeService;
     private KakaoService kakaoService;
@@ -43,7 +42,7 @@ public class NoticeController {
             try{
                 resultMap.put("noticeCount",noticeService.getCountNotice(request));
                 resultMap.put(MESSAGE, SUCCESS);
-                status = HttpStatus.OK;
+                status = status200;
             }catch (Exception e){
                 resultMap.put(MESSAGE, FAIL);
                 status = status500;
@@ -61,7 +60,7 @@ public class NoticeController {
                 List<NoticeViewDto> list = noticeService.getNoticeList(request);
                 resultMap.put("noticeList", list);
                 resultMap.put(MESSAGE, SUCCESS);
-                status = HttpStatus.OK;
+                status = status200;
             }catch (Exception e){
                 resultMap.put(MESSAGE, FAIL);
                 status = status500;
@@ -77,8 +76,8 @@ public class NoticeController {
         if(checkToken(request, resultMap)){
             try{
                 if (noticeService.readNotice(request, idx)) {
-                    resultMap.put("message", SUCCESS);
-                    status = HttpStatus.OK;
+                    resultMap.put(MESSAGE, SUCCESS);
+                    status = status200;
                 }
             }catch (Exception e){
                 resultMap.put(MESSAGE, FAIL);
@@ -95,8 +94,8 @@ public class NoticeController {
         if(checkToken(request, resultMap)){
             try{
                 if (noticeService.deleteNotice(request, idx)) {
-                    resultMap.put("message", SUCCESS);
-                    status = HttpStatus.OK;
+                    resultMap.put(MESSAGE, SUCCESS);
+                    status = status200;
                 }
             }catch (Exception e){
                 resultMap.put(MESSAGE, FAIL);
@@ -114,9 +113,9 @@ public class NoticeController {
         }catch (Exception e){
             e.printStackTrace();
             if(request != null && request.getHeader("accessToken") != null){
-                resultMap.put("message", TIMEOUT);
+                resultMap.put(MESSAGE, TIMEOUT);
             }else{
-                resultMap.put("message", "acessToken is empty");
+                resultMap.put(MESSAGE, "acessToken is empty");
             }
             status = status401;
             return false;

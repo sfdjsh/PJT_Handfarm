@@ -24,7 +24,7 @@ public class FarmmunityController {
     private static final HttpStatus status200 = HttpStatus.OK;
     private static final HttpStatus status500 = HttpStatus.INTERNAL_SERVER_ERROR;
     private static final HttpStatus status401 = HttpStatus.UNAUTHORIZED;
-    private static HttpStatus status;
+    private HttpStatus status;
     private final FarmmunityService farmmunityService;
     private final KakaoService kakaoService;
 
@@ -41,7 +41,7 @@ public class FarmmunityController {
             try{
                 farmmunityService.registArticle(request, articleRegistDto, domain, category);
                 resultMap.put(MESSAGE, SUCCESS);
-                status = HttpStatus.OK;
+                status = status200;
             }catch (Exception e){
                 resultMap.put(MESSAGE, FAIL);
                 status = status500;
@@ -60,7 +60,7 @@ public class FarmmunityController {
                 resultMap.put("articleList", res.get("articleList"));
                 resultMap.put("articleInfo", res.get("articleInfo"));
                 resultMap.put(MESSAGE, SUCCESS);
-                status = HttpStatus.OK;
+                status = status200;
             }catch (Exception e){
                 resultMap.put(MESSAGE, FAIL);
                 status = status500;
@@ -79,7 +79,7 @@ public class FarmmunityController {
                 resultMap.put("commentList", articleDto.get("commentList"));
                 if(articleDto.get("isLikeClicked") != null) resultMap.put("isLikeClicked", articleDto.get("isLikeClicked"));
                 resultMap.put(MESSAGE, SUCCESS);
-                status = HttpStatus.OK;
+                status = status200;
             }catch (Exception e){
                 resultMap.put(MESSAGE, FAIL);
                 status = status500;
@@ -96,7 +96,7 @@ public class FarmmunityController {
             try{
                 farmmunityService.updateArticle(request, articleIdx, articleRegistDto);
                 resultMap.put(MESSAGE, SUCCESS);
-                status = HttpStatus.OK;
+                status = status200;
             }catch (Exception e){
                 resultMap.put(MESSAGE, FAIL);
                 status = status500;
@@ -113,7 +113,7 @@ public class FarmmunityController {
             try{
                 farmmunityService.deleteArticle(request, articleIdx);
                 resultMap.put(MESSAGE, SUCCESS);
-                status = HttpStatus.OK;
+                status = status200;
             }catch (Exception e){
                 resultMap.put(MESSAGE, FAIL);
                 status = status500;
@@ -130,7 +130,7 @@ public class FarmmunityController {
             try{
                 farmmunityService.registComment(request, articleIdx, commentRegistDto);
                 resultMap.put(MESSAGE, SUCCESS);
-                status = HttpStatus.OK;
+                status = status200;
             }catch (Exception e){
                 resultMap.put(MESSAGE, FAIL);
                 status = status500;
@@ -147,7 +147,7 @@ public class FarmmunityController {
             try{
                 farmmunityService.updateComment(request, articleIdx, commentIdx, commentRegistDto);
                 resultMap.put(MESSAGE, SUCCESS);
-                status = HttpStatus.OK;
+                status = status200;
             }catch (Exception e){
                 resultMap.put(MESSAGE, FAIL);
                 status = status500;
@@ -164,7 +164,7 @@ public class FarmmunityController {
             try{
                 farmmunityService.deleteComment(request, articleIdx, commentIdx);
                 resultMap.put(MESSAGE, SUCCESS);
-                status = HttpStatus.OK;
+                status = status200;
             }catch (Exception e){
                 resultMap.put(MESSAGE, FAIL);
                 status = status500;
@@ -182,7 +182,7 @@ public class FarmmunityController {
                 Boolean isLikeClick = farmmunityService.likeArticle(request, articleIdx);
                 resultMap.put("isLikeClick", isLikeClick);
                 resultMap.put(MESSAGE, SUCCESS);
-                status = HttpStatus.OK;
+                status = status200;
             }catch (Exception e){
                 resultMap.put(MESSAGE, FAIL);
                 status = status500;
@@ -199,9 +199,9 @@ public class FarmmunityController {
         }catch (Exception e){
             e.printStackTrace();
             if(request != null && request.getHeader("accessToken") !=null){
-                resultMap.put("message", TIMEOUT);
+                resultMap.put(MESSAGE, TIMEOUT);
             }else{
-                resultMap.put("message", "acessToken is empty");
+                resultMap.put(MESSAGE, "acessToken is empty");
             }
             status = status401;
             return false;

@@ -26,7 +26,7 @@ public class MyPageController {
     private static final HttpStatus status200 = HttpStatus.OK;
     private static final HttpStatus status500 = HttpStatus.INTERNAL_SERVER_ERROR;
     private static final HttpStatus status401 = HttpStatus.UNAUTHORIZED;
-    private static HttpStatus status;
+    private HttpStatus status;
 
 
 
@@ -97,9 +97,9 @@ public class MyPageController {
         }catch (Exception e){
             e.printStackTrace();
             if(request != null && request.getHeader("accessToken") !=null){
-                resultMap.put("message", TIMEOUT);
+                resultMap.put(MESSAGE, TIMEOUT);
             }else{
-                resultMap.put("message", "acessToken is empty");
+                resultMap.put(MESSAGE, "acessToken is empty");
             }
             status = status401;
             return false;

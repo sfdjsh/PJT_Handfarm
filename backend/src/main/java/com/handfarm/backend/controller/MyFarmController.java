@@ -24,11 +24,7 @@ public class MyFarmController {
     private static final HttpStatus status200 = HttpStatus.OK;
     private static final HttpStatus status401 = HttpStatus.UNAUTHORIZED;
     private static final HttpStatus status500 = HttpStatus.INTERNAL_SERVER_ERROR;
-    private static HttpStatus status;
-
-    static List<Session> sessionUsers = Collections.synchronizedList(new ArrayList<Session>());
-    static Boolean runCheck = false;
-
+    private HttpStatus status;
 
     private final DeviceService deviceService;
     private final KakaoService kakaoService;
@@ -98,9 +94,9 @@ public class MyFarmController {
         }catch (Exception e){
             e.printStackTrace();
             if(request != null && request.getHeader("accessToken") !=null){
-                resultMap.put("message", TIMEOUT);
+                resultMap.put(MESSAGE, TIMEOUT);
             }else{
-                resultMap.put("message", "acessToken is empty");
+                resultMap.put(MESSAGE, "acessToken is empty");
             }
             status = status401;
             return false;
