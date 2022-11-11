@@ -3,19 +3,15 @@ package com.handfarm.backend.service.impl;
 import com.handfarm.backend.domain.dto.User.UserDto;
 import com.handfarm.backend.domain.dto.article.ArticleViewDto;
 import com.handfarm.backend.domain.entity.ArticleEntity;
+import com.handfarm.backend.domain.entity.DeviceControlEntity;
 import com.handfarm.backend.domain.entity.UserEntity;
-import com.handfarm.backend.repository.ArticleRepository;
-import com.handfarm.backend.repository.CommentRepository;
-import com.handfarm.backend.repository.UserLikeArticlesRepository;
-import com.handfarm.backend.repository.UserRepository;
+import com.handfarm.backend.repository.*;
 import com.handfarm.backend.service.KakaoService;
 import com.handfarm.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -26,14 +22,16 @@ public class UserServiceImpl implements UserService {
     private final ArticleRepository articleRepository;
     private final UserLikeArticlesRepository userLikeArticlesRepository;
     private final CommentRepository commentRepository;
+    private final DeviceControlRepository deviceControlRepository;
 
     @Autowired
-    UserServiceImpl(UserRepository userRepository, KakaoService kakaoService, ArticleRepository articleRepository, UserLikeArticlesRepository userLikeArticlesRepository, CommentRepository commentRepository){
+    UserServiceImpl(UserRepository userRepository, KakaoService kakaoService, ArticleRepository articleRepository, UserLikeArticlesRepository userLikeArticlesRepository, CommentRepository commentRepository, DeviceControlRepository deviceControlRepository){
         this.userRepository = userRepository;
         this.kakaoService = kakaoService;
         this.articleRepository = articleRepository;
         this.userLikeArticlesRepository = userLikeArticlesRepository;
         this.commentRepository = commentRepository;
+        this.deviceControlRepository = deviceControlRepository;
     }
     @Override
     public String findByUserId(String decodeId) {
@@ -46,16 +44,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<String, Object> getUserInfo(HttpServletRequest request) {
+    public Map<String, Object> getUserInfo(HttpServletRequest request, String toUserNickname) {
         Map<String , Object> resultMap = new HashMap<>();
         List<ArticleViewDto> articleList = new ArrayList<>();
+        UserEntity myUserEntity = getUserEntity(request);
+        Optional<UserEntity> getUserEntity = userRepository.findByUserNickname(toUserNickname);
 
-        UserEntity userEntity = getUserEntity(request);
-        resultMap.put("userNickName", userEntity.getUserNickname());
-        resultMap.put("userProfile", userEntity.getUserProfile());
-        resultMap.put("userOpen", userEntity.getUserOpen());
+        if(!myUserEntity.equals(getUserEntity) && !getUserEntity.get().getUserOpen()) {
+            resultMap.put("message", "conceal");
+            return resultMap;
+        }
+
+        List<Optional<DeviceControlEntity>> deviceControlEntitylist = deviceControlRepository.findByDeviceIdx(getUserEntity.get().getDevice());
+        for (Optional<DeviceControlEntity> deviceControlEntity : deviceControlEntitylist) {
+            String controlName = deviceControlEntity.get().getControlIdx().getControlName();
+            String controlAutoValue = deviceControlEntity.get().getAutoControlval();
+            resultMap.put(controlName, controlAutoValue);
+        }
+
+        resultMap.put("userNickName", myUserEntity.getUserNickname());
+        resultMap.put("userProfile", myUserEntity.getUserProfile());
+        resultMap.put("userOpen", myUserEntity.getUserOpen());
         // 게시글 가져오기
-        List<ArticleEntity> articleEntityList = articleRepository.findByUserIdx(userEntity);
+        List<ArticleEntity> articleEntityList = articleRepository.findByUserIdx(myUserEntity);
 
         if(!articleEntityList.isEmpty()){
             for(ArticleEntity a : articleEntityList){
@@ -67,6 +78,7 @@ public class UserServiceImpl implements UserService {
         }else{
             resultMap.put("articleList", new ArrayList<>());
         }
+
 
         return resultMap;
     }
