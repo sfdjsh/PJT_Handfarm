@@ -2,19 +2,19 @@ package com.handfarm.backend.controller;
 
 import com.handfarm.backend.config.MqttGateway;
 import com.handfarm.backend.domain.dto.device.DedviceAutoControlDto;
-import com.handfarm.backend.repository.UserRepository;
 import com.handfarm.backend.service.DeviceService;
 import com.handfarm.backend.service.KakaoService;
-import com.handfarm.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.EOFException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api")
@@ -22,125 +22,158 @@ public class DeviceSensorController {
     private static final String SUCCESS = "success";
     private static final String FAIL = "error";
     private static final String TIMEOUT = "access-token timeout";
-    private static HttpStatus status = HttpStatus.NOT_FOUND; // 404에러
+    private static final String MESSAGE = "message";
+    private static final HttpStatus status200 = HttpStatus.OK;
+    private static final HttpStatus status500 = HttpStatus.INTERNAL_SERVER_ERROR;
+    private static final HttpStatus status401 = HttpStatus.UNAUTHORIZED;
+    private static HttpStatus status;
 
     private final MqttGateway mqttGateway;
     private final DeviceService deviceService;
+    private final KakaoService kakaoService;
     @Autowired
-    public DeviceSensorController(MqttGateway mqttGateway, DeviceService deviceService) {
+    public DeviceSensorController(MqttGateway mqttGateway, DeviceService deviceService, KakaoService kakaoService) {
         this.mqttGateway = mqttGateway;
         this.deviceService = deviceService;
+        this.kakaoService = kakaoService;
     }
 
-    @GetMapping("/farm/{deviceNo}")
-    public ResponseEntity<Map<String, Object>> getDeviceSensor(HttpServletRequest request, @PathVariable String deviceNo) throws IOException {
-        Map<String , Object> returnMap = new HashMap<>();
-//        if(!kakaoService.CheckAccessToken(request.getHeader("accessToken"))){   // 엑세스 토큰 만료 확인
-//            returnMap.put("message", timeOut);
-//            status = HttpStatus.INTERNAL_SERVER_ERROR;
-//            return new ResponseEntity<>(returnMap, status);
-//        }
-        returnMap.putAll(deviceService.getDeviceSensor(deviceNo));
-        status = HttpStatus.OK;
-        return new ResponseEntity<>(returnMap, status);
+    @GetMapping("/farm/{userNickname}")
+    public ResponseEntity<Map<String, Object>> getDeviceSensor(HttpServletRequest request, @PathVariable String userNickname) throws IOException {
+        Map<String , Object> resultMap = new HashMap<>();
+        if(checkToken(request, resultMap)){
+            try{
+                resultMap.putAll(deviceService.getDeviceSensor(userNickname));
+                resultMap.put(MESSAGE, SUCCESS);
+                status = status200;
+            }catch (Exception e){
+                resultMap.put(MESSAGE, FAIL);
+                status = status500;
+            }
+        }
+        return new ResponseEntity<>(resultMap, status);
     }
 
     @PutMapping("/farm/{deviceNo}")
     public ResponseEntity<Map<String, Object>> resetAutoValue(HttpServletRequest request, @PathVariable String deviceNo){
         Map<String, Object> resultMap = new HashMap<>();
-//        if(!kakaoService.CheckAccessToken(request.getHeader("accessToken"))){   // 엑세스 토큰 만료 확인
-//            returnMap.put("message", timeOut);
-//            status = HttpStatus.INTERNAL_SERVER_ERROR;
-//            return new ResponseEntity<>(returnMap, status);
-//        }
-        if(deviceService.resetAutoValue(deviceNo)){
-            status = HttpStatus.OK;
-            resultMap.put("message", SUCCESS);
-            return new ResponseEntity<>(resultMap, status);
-        }else{
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-            resultMap.put("message", FAIL);
-            return new ResponseEntity<>(resultMap, status);
+
+        if(checkToken(request, resultMap)){
+            try{
+                deviceService.resetAutoValue(deviceNo);
+                resultMap.put(MESSAGE, SUCCESS);
+                status = status200;
+            }catch (Exception e){
+                resultMap.put(MESSAGE, FAIL);
+                status = status500;
+            }
         }
+        return new ResponseEntity<>(resultMap, status);
     }
 
     @PostMapping("/farm/{deviceNo}")
     public ResponseEntity<Map<String, Object>> publisher(HttpServletRequest request, @RequestBody DedviceAutoControlDto dto, @PathVariable("deviceNo") String deviceNo) {
-        Map<String, Object> returnMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
         String topic = "ssafy/" + deviceNo + "/autoControl";
-//        if(!kakaoService.CheckAccessToken(request.getHeader("accessToken"))){   // 엑세스 토큰 만료 확인
-//            returnMap.put("message", timeOut);
-//            status = HttpStatus.INTERNAL_SERVER_ERROR;
-//            return new ResponseEntity<>(returnMap, status);
-//        }
-        try{
-            String Mqttmessage = String.valueOf(deviceService.deviceAutoControl(deviceNo, dto));
-            mqttGateway.sendToMqtt(Mqttmessage, topic);
-            returnMap.put("message" , SUCCESS);
-            status = HttpStatus.OK;
-            return new ResponseEntity<>(returnMap, status);
-        }catch (Exception e){
-            e.printStackTrace();
-            returnMap.put("message" , FAIL);
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-            return new ResponseEntity<>(returnMap, status);
+        if(checkToken(request, resultMap)){
+            try{
+                String Mqttmessage = String.valueOf(deviceService.deviceAutoControl(deviceNo, dto));
+                mqttGateway.sendToMqtt(Mqttmessage, topic);
+                resultMap.put(MESSAGE, SUCCESS);
+                status = status200;
+            }catch (Exception e){
+                resultMap.put(MESSAGE, FAIL);
+                status = status500;
+            }
         }
+        return new ResponseEntity<>(resultMap, status);
     }
 
 
     @PutMapping("/farm/{deviceNo}/auto")
     public ResponseEntity<Map<String, Object>> deviceAutoValue(HttpServletRequest request, @RequestBody DedviceAutoControlDto dto, @PathVariable String deviceNo){
-        Map<String, Object> returnMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
         String topic = "ssafy/" + deviceNo + "/autoControlval";
-
-        try{
-            String Mqttmessage = String.valueOf(deviceService.deviceAutoControlValue(deviceNo, dto));
-            mqttGateway.sendToMqtt(Mqttmessage, topic);
-            returnMap.put("message" , SUCCESS);
-            status = HttpStatus.OK;
-            return new ResponseEntity<>(returnMap, status);
-        }catch (Exception e){
-            e.printStackTrace();
-            returnMap.put("message" , FAIL);
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-            return new ResponseEntity<>(returnMap, status);
+        if(checkToken(request, resultMap)){
+            try{
+                String Mqttmessage = String.valueOf(deviceService.deviceAutoControlValue(deviceNo, dto));
+                mqttGateway.sendToMqtt(Mqttmessage, topic);
+                resultMap.put(MESSAGE, SUCCESS);
+                status = status200;
+            }catch (Exception e){
+                resultMap.put(MESSAGE, FAIL);
+                status = status500;
+            }
         }
+        return new ResponseEntity<>(resultMap, status);
     }
 
 
     @GetMapping("/farm/{userNickname}/auto")
-    public ResponseEntity<Map<String ,Object>> getAutoValue(HttpServletRequest request, @PathVariable String userNickname) throws IOException {
-
-        Map<String, Object> resultMap = new HashMap<>(deviceService.getAutoValue(request, userNickname));
-
-        status = HttpStatus.OK;
-
+    public ResponseEntity<Map<String ,Object>> getAutoValue(HttpServletRequest request, @PathVariable String userNickname){
+        Map<String, Object> resultMap = new HashMap<>();
+        if(checkToken(request, resultMap)){
+            try{
+                resultMap.putAll(deviceService.getAutoValue(request, userNickname));
+                resultMap.put(MESSAGE, SUCCESS);
+                status = status200;
+            }catch (Exception e){
+                resultMap.put(MESSAGE, FAIL);
+                status = status500;
+            }
+        }
         return new ResponseEntity<>(resultMap, status);
     }
 
-        @PutMapping("/farm/{deviceNo}/manual")
+    @PutMapping("/farm/{deviceNo}/manual")
     public ResponseEntity<Map<String, Object>> deviceManual(HttpServletRequest request, @RequestBody DedviceAutoControlDto dto, @PathVariable String deviceNo){
-        Map<String, Object> returnMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
         String topic = "ssafy/" + deviceNo + "/manualControl";
 
-        try{
-            String Mqttmessage = String.valueOf(deviceService.deviceManual(deviceNo, dto));
-            mqttGateway.sendToMqtt(Mqttmessage, topic);
-            returnMap.put("message" , SUCCESS);
-            status = HttpStatus.OK;
-            return new ResponseEntity<>(returnMap, status);
-        }catch (Exception e){
-            e.printStackTrace();
-            returnMap.put("message" , FAIL);
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-            return new ResponseEntity<>(returnMap, status);
+        if(checkToken(request, resultMap)){
+            try{
+                String Mqttmessage = String.valueOf(deviceService.deviceManual(deviceNo, dto));
+                mqttGateway.sendToMqtt(Mqttmessage, topic);
+                resultMap.put(MESSAGE, SUCCESS);
+                status = status200;
+            }catch (Exception e){
+                resultMap.put(MESSAGE, FAIL);
+                status = status500;
+            }
         }
+        return new ResponseEntity<>(resultMap, status);
     }
     @GetMapping("/farm/{deviceNo}/manual")
     public ResponseEntity<Map<String, Object>> getDeviceManual(HttpServletRequest request, @PathVariable String deviceNo){
         Map<String, Object> resultMap = new HashMap<>();
-        resultMap.putAll(deviceService.getDeviceManual(request,deviceNo));
+        if(checkToken(request, resultMap)){
+            try{
+                resultMap.putAll(deviceService.getDeviceManual(request,deviceNo));
+                resultMap.put(MESSAGE, SUCCESS);
+                status = status200;
+            }catch (Exception e){
+                resultMap.put(MESSAGE, FAIL);
+                status = status500;
+            }
+        }
         return new ResponseEntity<>(resultMap, status);
+    }
+
+
+    public Boolean checkToken(HttpServletRequest request, Map<String , Object> resultMap){
+        try{
+            kakaoService.CheckAccessToken(request.getHeader("accessToken"));
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            if(request != null && request.getHeader("accessToken") !=null){
+                resultMap.put("message", TIMEOUT);
+            }else{
+                resultMap.put("message", "acessToken is empty");
+            }
+            status = status401;
+            return false;
+        }
     }
 
 }
