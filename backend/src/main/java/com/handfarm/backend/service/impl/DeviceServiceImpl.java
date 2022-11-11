@@ -187,7 +187,7 @@ public class DeviceServiceImpl implements DeviceService {
             Map<String, Object> controlMap = new HashMap<>();
             controlMap.put("auto", deviceControlEntity.get().getAutoControl());
             controlMap.put("manual", deviceControlEntity.get().getManualControl());
-            resultMap.put(deviceControlEntity.get().getControlIdx().getControlArea(), controlMap);
+            resultMap.put(deviceControlEntity.get().getControlIdx().getControlName(), controlMap);
         }
 
         return resultMap;
