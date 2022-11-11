@@ -377,7 +377,7 @@ void EspMQTTClient::onWiFiConnectionEstablished()
       ArduinoOTA.begin();
 }
 
-void EspMQTTClient::onWiFiConnectionLost()
+int EspMQTTClient::onWiFiConnectionLost()
 {
   if (_enableSerialLogs)
     Serial.printf("WiFi! Lost connection (%fs). \n", millis()/1000.0);
@@ -388,6 +388,8 @@ void EspMQTTClient::onWiFiConnectionLost()
     WiFi.disconnect(true);
     MDNS.end();
   }
+
+  return 1000;
 }
 
 void EspMQTTClient::onMQTTConnectionEstablished()

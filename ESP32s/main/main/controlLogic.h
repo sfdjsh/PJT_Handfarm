@@ -11,4 +11,4 @@ void pumpOn();
 void pumpOff();
 void buzzerOn();
 void buzzerOff();
-void pwmControl_begin()
+void pwmControl_begin();

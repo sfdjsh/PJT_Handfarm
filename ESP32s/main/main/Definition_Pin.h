@@ -8,6 +8,7 @@
 #define DHTTYPE DHT22
 
 #define NeoPixel_pin 12
+#define NeoPixel_num 12
 
 #define LED_pin 14                 //Moter Driver 1 - PWM B
 #define LED_pwm 0
