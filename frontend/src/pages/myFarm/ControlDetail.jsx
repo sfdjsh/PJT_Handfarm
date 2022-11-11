@@ -24,13 +24,11 @@ const style = {
   p: 4,
 };
 
-const ControlDetail = () => {
+const ControlDetail = ({deviceId}) => {
   const [onControl, setOnControl] = useRecoilState(motorModal)
   const [motorState, setMotorState] = useRecoilState(motorControl)  
   const handleClose = () => setOnControl(false);
-
-  // let controlTemp = motorState.temp
-  // console.log(controlTemp)
+  const controlTemp = motorState.temp
 
   return (
     <>
@@ -46,16 +44,10 @@ const ControlDetail = () => {
             X
           </Typography>
 
-          <Typography flexGrow={1} variant="h6">제어 설정</Typography>
+          <Typography flexGrow={1} variant="h6">제  어 설정</Typography>
           <hr />
 
-          <Box>
-            <Typography sx={{fontSize:12}}>현재온도: 20C</Typography>
-            <Typography sx={{fontSize:12}}>습도: 30%</Typography>
-            <Typography sx={{fontSize:12}}>일단 대기: 30%</Typography>
-          </Box>
-
-          {/* <ControlTemp controlTemp={controlTemp} /> */}
+          <ControlTemp controlTemp={controlTemp} deviceId={deviceId}/>
 
           {/* <div>
             {lstMotor && lstMotor.map((control) => (
