@@ -11,7 +11,7 @@ public interface UserService {
 
     String findByUserId(String decodeId);
 
-    Map<String, Object> getUserInfo(HttpServletRequest request) throws IOException;
+    Map<String, Object> getUserInfo(HttpServletRequest request, String toUserNickname);
 
     void editUserInfo(HttpServletRequest request, UserDto userDto);
 
