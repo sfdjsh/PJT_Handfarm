@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<String, Object> getUserInfo(HttpServletRequest request) throws IOException {
+    public Map<String, Object> getUserInfo(HttpServletRequest request) {
         Map<String , Object> resultMap = new HashMap<>();
         List<ArticleViewDto> articleList = new ArrayList<>();
 

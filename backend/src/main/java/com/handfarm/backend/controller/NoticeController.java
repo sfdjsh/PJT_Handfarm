@@ -16,9 +16,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 public class NoticeController {
-    private static final String success = "success";
-    private static final String fail = "error";
-    private static final String timeOut = "access-token timeout";
+    private static final String SUCCESS = "success";
+    private static final String FAIL = "error";
+    private static final String TIMEOUT = "access-token timeout";
     private static HttpStatus status = HttpStatus.NOT_FOUND; // 404에러
 
     private NoticeService noticeService;
@@ -32,18 +32,18 @@ public class NoticeController {
     }
 
     @GetMapping("/alarm/count")
-    public ResponseEntity<?> countNotice(HttpServletRequest request){
+    public ResponseEntity<Map<String, Object>> countNotice(HttpServletRequest request){
         Map<String, Object> resultMap = new HashMap<>();
         String decodeId = checkToken(request, resultMap);
 
         try{
             if(decodeId != null){
                 resultMap.put("noticeCount",noticeService.getCountNotice(decodeId));
-                resultMap.put("message",success);
+                resultMap.put("message", SUCCESS);
                 status = HttpStatus.OK;
             }
         }catch (Exception e){
-            resultMap.put("message", fail);
+            resultMap.put("message", FAIL);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
 
@@ -51,7 +51,7 @@ public class NoticeController {
     }
 
     @GetMapping("/alarm") // 전체 알림 조회
-    public ResponseEntity<?> viewNoticeList(HttpServletRequest request){
+    public ResponseEntity<Map<String, Object>> viewNoticeList(HttpServletRequest request){
         Map<String, Object> resultMap = new HashMap<>();
         String decodeId = checkToken(request, resultMap);
 
@@ -59,11 +59,11 @@ public class NoticeController {
             if(decodeId != null){
                 List<NoticeViewDto> list = noticeService.getNoticeList(decodeId);
                 resultMap.put("noticeList", list);
-                resultMap.put("message", success);
+                resultMap.put("message", SUCCESS);
                 status = HttpStatus.OK;
             }
         }catch (Exception e){
-            resultMap.put("message", fail);
+            resultMap.put("message", FAIL);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
 
@@ -71,22 +71,22 @@ public class NoticeController {
     }
 
     @PostMapping("/alarm/{notice_idx}")
-    public ResponseEntity<?> readNotice(HttpServletRequest request, @PathVariable("notice_idx") Integer idx){
+    public ResponseEntity<Map<String, Object>> readNotice(HttpServletRequest request, @PathVariable("notice_idx") Integer idx){
         Map<String, Object> resultMap = new HashMap<>();
 
         try{
             if (!kakaoService.CheckAccessToken(request.getHeader("accessToken"))) {
-                resultMap.put("message", timeOut);
+                resultMap.put("message", TIMEOUT);
                 status = HttpStatus.UNAUTHORIZED;
             }else {
                 String decodeId = checkToken(request, resultMap);
                 if (noticeService.readNotice(decodeId, idx)) {
-                    resultMap.put("message", success);
+                    resultMap.put("message", SUCCESS);
                     status = HttpStatus.OK;
                 }
             }
         }catch (Exception e){
-            resultMap.put("message", fail);
+            resultMap.put("message", FAIL);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
 
@@ -94,21 +94,21 @@ public class NoticeController {
     }
 
     @DeleteMapping("/alarm/{notice_idx}")
-    public ResponseEntity<?> deleteNotice(HttpServletRequest request, @PathVariable("notice_idx") Integer idx){
+    public ResponseEntity<Map<String, Object>> deleteNotice(HttpServletRequest request, @PathVariable("notice_idx") Integer idx){
         Map<String, Object> resultMap = new HashMap<>();
         try{
             if (!kakaoService.CheckAccessToken(request.getHeader("accessToken"))) {
-                resultMap.put("message", timeOut);
+                resultMap.put("message", TIMEOUT);
                 status = HttpStatus.UNAUTHORIZED;
             }else {
                 String decodeId = checkToken(request, resultMap);
                 if (noticeService.deleteNotice(decodeId, idx)) {
-                    resultMap.put("message", success);
+                    resultMap.put("message", SUCCESS);
                     status = HttpStatus.OK;
                 }
             }
         }catch (Exception e){
-            resultMap.put("message", fail);
+            resultMap.put("message", FAIL);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
 
@@ -121,7 +121,7 @@ public class NoticeController {
         if(!decodeId.equals("timeout")){
             return decodeId;
         }else{
-            resultMap.put("message", timeOut);
+            resultMap.put("message", TIMEOUT);
             status = HttpStatus.UNAUTHORIZED;
             return null;
         }
