@@ -58,8 +58,6 @@ public class KakoServiceImpl implements KakaoService {
             bw.flush();
 
             //결과 코드가 200이라면 성공
-            int responseCode = conn.getResponseCode();
-            System.out.println("responseCode : " + responseCode);
 
             //요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -69,7 +67,6 @@ public class KakoServiceImpl implements KakaoService {
             while ((line = br.readLine()) != null) {
                 result += line;
             }
-            System.out.println("response body : " + result);
 
             //Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
             JsonParser parser = new JsonParser();
@@ -121,11 +118,14 @@ public class KakoServiceImpl implements KakaoService {
                 nickname = userEntityOptional.get().getUserNickname();
                 if(userEntityOptional.get().getDevice() != null){
                     List<Map<String , Object>> deviceList = new ArrayList<>();
-                    List<UserDeviceEntity> userDeviceEntityList = userDeviceRepository.findByUserIdx(userRepository.findByUserId(email).get());
-                    System.out.println(userDeviceEntityList);
+                    Optional<UserEntity> userEntity = userRepository.findByUserId(email);
+                    if(userEntity.isEmpty()) throw new NoSuchElementException();
+                    List<UserDeviceEntity> userDeviceEntityList = userDeviceRepository.findByUserIdx(userEntity.get());
+
                     if(!userDeviceEntityList.isEmpty()) {
                         for (UserDeviceEntity userDeviceEntity : userDeviceEntityList) {
                             Optional<DeviceEntity> device = deviceRepository.findById(userDeviceEntity.getDeviceIdx().getIdx());
+                            if(device.isEmpty()) throw new NoSuchElementException();
                             String Crop = device.get().getCrop().getCropName();
                             Map<String, Object> deviceMap = new HashMap<>();
                             deviceMap.put("deviceNo", device.get().getDeviceNo());

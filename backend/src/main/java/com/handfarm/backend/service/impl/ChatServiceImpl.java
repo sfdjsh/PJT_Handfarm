@@ -24,6 +24,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -33,15 +34,13 @@ public class ChatServiceImpl implements ChatService {
     private final ChatInfoRepository chatInfoRepository;
     private final RedisTemplate<String, ChatEntity> redisTemplate;
     private final KakaoService kakaoService;
-    private final ChatRedisRepository chatRedisRepository;
 
     @Autowired
-    ChatServiceImpl(ChatInfoRepository chatInfoRepository, UserRepository userRepository, RedisTemplate<String, ChatEntity> redisTemplate, KakaoService kakaoService, ChatRedisRepository chatRedisRepository){
+    ChatServiceImpl(ChatInfoRepository chatInfoRepository, UserRepository userRepository, RedisTemplate<String, ChatEntity> redisTemplate, KakaoService kakaoService){
         this.userRepository = userRepository;
         this.chatInfoRepository = chatInfoRepository;
         this.redisTemplate = redisTemplate;
         this.kakaoService = kakaoService;
-        this.chatRedisRepository = chatRedisRepository;
     }
 
     @Override
@@ -136,14 +135,15 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public String createChatRoom(HttpServletRequest request, String userNickname) {
         UserEntity loginUser = getUserEntity(request);
-        UserEntity toUser = userRepository.findByUserNickname(userNickname).get();
+        Optional<UserEntity> toUser = userRepository.findByUserNickname(userNickname);
+        if(toUser.isEmpty()) throw new NoSuchElementException();
 
         String roomId;
-        Optional<ChatInfoEntity> chatInfoEntity = chatInfoRepository.findByPersonAOrPersonB(loginUser, toUser);
+        Optional<ChatInfoEntity> chatInfoEntity = chatInfoRepository.findByPersonAOrPersonB(loginUser, toUser.get());
         if(chatInfoEntity.isPresent()){ // 이미 있는 채팅, 채팅 방 번호 전달
             roomId = String.valueOf(chatInfoEntity.get().getIdx());
         }else{ // DB에 방 정보 새로 생성
-            ChatInfoEntity chatInfo = new ChatInfoEntity(loginUser, toUser);
+            ChatInfoEntity chatInfo = new ChatInfoEntity(loginUser, toUser.get());
             chatInfoRepository.save(chatInfo);
             roomId = String.valueOf(chatInfo.getIdx());
         }
@@ -152,15 +152,16 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public void saveMessageRedis(ChatDto chatDto) {
-        UserEntity sendUser = userRepository.findByUserNickname(chatDto.getSendUserNickname()).get();
-        UserEntity toUser = userRepository.findByUserNickname(chatDto.getToUserNickname()).get();
+        Optional<UserEntity> sendUser = userRepository.findByUserNickname(chatDto.getSendUserNickname());
+        Optional<UserEntity> toUser = userRepository.findByUserNickname(chatDto.getToUserNickname());
+        if(sendUser.isEmpty() || toUser.isEmpty()) return;
         String msg = chatDto.getMsg();
         Integer roomId = chatDto.getRoomId();
         Boolean isRead = false;
 
         ChatEntity chat = ChatEntity.builder()
-                .roomId(String.valueOf(roomId)).msg(msg).sendUserId(sendUser.getUserId()).
-                toUserId(toUser.getUserId()).isRead(isRead).time(LocalDateTime.now(ZoneId.of("Asia/Seoul"))).build();
+                .roomId(String.valueOf(roomId)).msg(msg).sendUserId(sendUser.get().getUserId()).
+                toUserId(toUser.get().getUserId()).isRead(isRead).time(LocalDateTime.now(ZoneId.of("Asia/Seoul"))).build();
         redisTemplate.opsForList().leftPush(String.valueOf(roomId),chat);
     }
 
