@@ -27,8 +27,7 @@ public class ChatController {
     private static final HttpStatus status200 = HttpStatus.OK;
     private static final HttpStatus status500 = HttpStatus.INTERNAL_SERVER_ERROR;
     private static final HttpStatus status401 = HttpStatus.UNAUTHORIZED;
-    private static HttpStatus status;
-
+    private HttpStatus status;
     private final KakaoService kakaoService;
     private final ChatService chatService;
 
@@ -46,7 +45,7 @@ public class ChatController {
                 String roomId = chatService.createChatRoom(request, userNickname);
                 resultMap.put("roomId", roomId); // 받자마자 채팅 상세 조회로 Get 요청 해야함
                 resultMap.put(MESSAGE, SUCCESS);
-                status = HttpStatus.OK;
+                status = status200;
             }catch (Exception e){
                 resultMap.put(MESSAGE, FAIL);
                 status = status500;
@@ -64,7 +63,7 @@ public class ChatController {
                 List<ChatListViewDto> chatList = chatService.getChatList(request);
                 resultMap.put("chatList", chatList);
                 resultMap.put(MESSAGE, SUCCESS);
-                status = HttpStatus.OK;
+                status = status200;
             }catch (Exception e){
                 resultMap.put("message", FAIL);
                 status = status500;
@@ -85,7 +84,7 @@ public class ChatController {
                 resultMap.put("toUserNickname", toUser.getUserNickname());
                 resultMap.put("toUserProfileImg", toUser.getUserProfile());
                 resultMap.put(MESSAGE, SUCCESS);
-                status = HttpStatus.OK;
+                status = status200;
             }catch (Exception e){
                 resultMap.put("message", FAIL);
                 status = status500;
@@ -102,9 +101,9 @@ public class ChatController {
         }catch (Exception e){
             e.printStackTrace();
             if(request != null && request.getHeader("accessToken") !=null){
-                resultMap.put("message", TIMEOUT);
+                resultMap.put(MESSAGE, TIMEOUT);
             }else{
-                resultMap.put("message", "acessToken is empty");
+                resultMap.put(MESSAGE, "acessToken is empty");
             }
             status = status401;
             return false;

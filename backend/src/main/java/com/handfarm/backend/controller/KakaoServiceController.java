@@ -21,7 +21,7 @@ public class KakaoServiceController {
     private static final String MESSAGE = "message";
     private static final HttpStatus status200 = HttpStatus.OK;
     private static final HttpStatus status500 = HttpStatus.INTERNAL_SERVER_ERROR;
-    private static HttpStatus status;
+    private HttpStatus status;
 
     private final KakaoService kakaoService;
 
