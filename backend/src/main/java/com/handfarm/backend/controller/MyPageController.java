@@ -21,10 +21,11 @@ public class MyPageController {
     private static final String SUCCESS = "success";
     private static final String FAIL = "error";
     private static final String TIMEOUT = "accessToken timeout";
-    private static HttpStatus status404 = HttpStatus.NOT_FOUND; // 404에러
-    private static HttpStatus status200 = HttpStatus.OK; // 404에러
-    private static HttpStatus status500 = HttpStatus.INTERNAL_SERVER_ERROR; // 404에러
-    private static HttpStatus status401 = HttpStatus.UNAUTHORIZED; // 404에러
+    private static final String MESSAGE = "message";
+    private static final HttpStatus status404 = HttpStatus.NOT_FOUND;
+    private static final HttpStatus status200 = HttpStatus.OK;
+    private static final HttpStatus status500 = HttpStatus.INTERNAL_SERVER_ERROR;
+    private static final HttpStatus status401 = HttpStatus.UNAUTHORIZED;
     private static HttpStatus status;
 
 
@@ -47,10 +48,10 @@ public class MyPageController {
         if(checkToken(request, resultMap)){
             try{
                 resultMap.putAll(userService.getUserInfo(request));
-                resultMap.put("message", SUCCESS);
+                resultMap.put(MESSAGE, SUCCESS);
                 status = status200;
             }catch (Exception e){
-                resultMap.put("message", FAIL);
+                resultMap.put(MESSAGE, FAIL);
                 status = status500;
             }
         }
@@ -60,32 +61,32 @@ public class MyPageController {
     @PutMapping("/mypage")
     public ResponseEntity<Map<String, Object>> editUserInfo(HttpServletRequest request, @RequestBody UserDto userDto){
         Map<String , Object> resultMap = new HashMap<>();
-        if(!checkToken(request, resultMap)){
-            return new ResponseEntity<>(resultMap, status404);
+        if(checkToken(request, resultMap)){
+            try{
+                userService.editUserInfo(request, userDto);
+                resultMap.put(MESSAGE, SUCCESS);
+                status = status200;
+            }catch (Exception e){
+                resultMap.put(MESSAGE, FAIL);
+                status = status500;
+            }
         }
-        if(userService.editUserInfo(request, userDto)){
-            resultMap.put("message", SUCCESS);
-            status404 = HttpStatus.OK;
-            return new ResponseEntity<>(resultMap, status404);
-        }
-        resultMap.put("message", FAIL);
-        status404 = HttpStatus.INTERNAL_SERVER_ERROR;
-        return new ResponseEntity<>(resultMap, status404);
+        return new ResponseEntity<>(resultMap, status);
     }
 
     @PostMapping("/mypage")
     public ResponseEntity<Map<String, Object>> onoffUserInfo(HttpServletRequest request, @RequestBody UserDto userDto){
         Map<String , Object> resultMap = new HashMap<>();
-        if(!checkToken(request, resultMap)){
-            return new ResponseEntity<>(resultMap, status);
+        if(checkToken(request, resultMap)){
+            try {
+                userService.onoffUserInfo(request, userDto);
+                resultMap.put(MESSAGE, SUCCESS);
+                status = status200;
+            }catch (Exception e){
+                resultMap.put(MESSAGE, FAIL);
+                status = status500;
+            }
         }
-        if(userService.onoffUserInfo(request, userDto)){
-            resultMap.put("message", SUCCESS);
-            status404 = HttpStatus.OK;
-            return new ResponseEntity<>(resultMap, status);
-        }
-        resultMap.put("message", FAIL);
-        status404 = HttpStatus.INTERNAL_SERVER_ERROR;
         return new ResponseEntity<>(resultMap, status);
     }
 
