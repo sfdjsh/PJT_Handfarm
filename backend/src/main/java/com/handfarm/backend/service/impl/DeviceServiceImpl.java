@@ -7,13 +7,10 @@ import com.handfarm.backend.domain.entity.*;
 import com.handfarm.backend.repository.*;
 import com.handfarm.backend.service.DeviceService;
 import com.handfarm.backend.service.KakaoService;
-import com.handfarm.backend.service.UserService;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -23,7 +20,6 @@ public class DeviceServiceImpl implements DeviceService {
 
 
     private final DeviceRepository deviceRepository;
-    private final UserService userService;
     private final KakaoService kakaoService;
     private final UserRepository userRepository;
     private final CropRepository cropRepository;
@@ -33,9 +29,8 @@ public class DeviceServiceImpl implements DeviceService {
     private final ControlRepository controlRepository;
 
     @Autowired
-    DeviceServiceImpl(DeviceRepository deviceRepository, UserService userService, KakaoService kakaoService, UserRepository userRepository, CropRepository cropRepository, UserDeviceRepository userDeviceRepository, DeviceSensorRepository deviceSensorRepository, DeviceControlRepository deviceControlRepository, ControlRepository controlRepository){
+    DeviceServiceImpl(DeviceRepository deviceRepository, KakaoService kakaoService, UserRepository userRepository, CropRepository cropRepository, UserDeviceRepository userDeviceRepository, DeviceSensorRepository deviceSensorRepository, DeviceControlRepository deviceControlRepository, ControlRepository controlRepository){
         this.deviceRepository= deviceRepository;
-        this.userService = userService;
         this.kakaoService = kakaoService;
         this.userRepository = userRepository;
         this.cropRepository = cropRepository;
@@ -45,7 +40,7 @@ public class DeviceServiceImpl implements DeviceService {
         this.controlRepository = controlRepository;
     }
     @Override
-    public void registDevice(DeviceRegistDto deviceRegistDto) throws IOException {       // 기기 등록
+    public void registDevice(DeviceRegistDto deviceRegistDto){       // 기기 등록
         DeviceEntity deviceEntity = DeviceEntity.builder()
                 .deviceCrops(cropRepository.findByCropName(deviceRegistDto.getDeviceCrops()))
                 .deviceNo(deviceRegistDto.getDeviceNo())
@@ -59,9 +54,10 @@ public class DeviceServiceImpl implements DeviceService {
             String email = kakaoService.decodeToken(request.getHeader("accessToken"));
             Optional<UserEntity> userEntity = userRepository.findByUserId(email);
             Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceRegistDto.getDeviceNo());
+            if(userEntity.isEmpty() || deviceEntity.isEmpty()) return false;
 
             if(userDeviceRepository.findByDeviceIdxAndUserIdx(deviceEntity.get(), userEntity.get()) != null){
-                throw new Exception();
+                throw new NoSuchElementException();
             }
 
             deviceEntity.get().setDeviceName(deviceRegistDto.getDeviceName());
@@ -85,6 +81,7 @@ public class DeviceServiceImpl implements DeviceService {
     public Boolean deviceUpdate(HttpServletRequest request, DeviceRegistDto deviceRegistDto){
         try {
             Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceRegistDto.getDeviceNo());
+            if(deviceEntity.isEmpty()) throw new NoSuchElementException();
             deviceEntity.get().setDeviceName(deviceRegistDto.getDeviceName());
             deviceEntity.get().setCrop(cropRepository.findByCropName(deviceRegistDto.getDeviceCrops()));
             deviceRepository.save(deviceEntity.get());
@@ -101,16 +98,14 @@ public class DeviceServiceImpl implements DeviceService {
         Integer value = (Integer) dto.getControlValue();
         Optional<ControlEntity> controlEntity = controlRepository.findByControlName(control);
         Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceNo);
+        if(controlEntity.isEmpty() || deviceEntity.isEmpty()) throw new NoSuchElementException();
         Optional<DeviceControlEntity> deviceControlEntity = deviceControlRepository.findByDeviceIdxAndControlIdx(deviceEntity.get(), controlEntity.get());
-
+        if(deviceControlEntity.isEmpty()) throw new NoSuchElementException();
         deviceControlEntity.get().setAutoControl(value);
 
         deviceControlRepository.save(deviceControlEntity.get());
         JsonObject object = new JsonObject();
         object.addProperty(control, value);
-        Map<String, Object> map = new HashMap<>();
-        map.put(control, value);
-
         return object;
     }
 
@@ -120,17 +115,15 @@ public class DeviceServiceImpl implements DeviceService {
         String value = String.valueOf(dto.getControlValue());
         Optional<ControlEntity> controlEntity = controlRepository.findByControlName(control);
         Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceNo);
+        if(controlEntity.isEmpty() || deviceEntity.isEmpty()) throw new NoSuchElementException();
         Optional<DeviceControlEntity> deviceControlEntity = deviceControlRepository.findByDeviceIdxAndControlIdx(deviceEntity.get(), controlEntity.get());
-
+        if(deviceControlEntity.isEmpty()) throw new NoSuchElementException();
         deviceControlEntity.get().setAutoControlval(value);
 
         deviceControlRepository.save(deviceControlEntity.get());
         control = controlEntity.get().getControlArea();
         JsonObject object = new JsonObject();
         object.addProperty(control, value);
-        Map<String, Object> map = new HashMap<>();
-        map.put(control, value);
-
         return object;
     }
 
@@ -140,15 +133,14 @@ public class DeviceServiceImpl implements DeviceService {
         Integer value = (Integer) dto.getControlValue();
         Optional<ControlEntity> controlEntity = controlRepository.findByControlName(control);
         Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceNo);
+        if(controlEntity.isEmpty() || deviceEntity.isEmpty()) throw new NoSuchElementException();
         Optional<DeviceControlEntity> deviceControlEntity = deviceControlRepository.findByDeviceIdxAndControlIdx(deviceEntity.get(), controlEntity.get());
-
+        if(deviceControlEntity.isEmpty()) throw new NoSuchElementException();
         deviceControlEntity.get().setManualControl(value);
 
         deviceControlRepository.save(deviceControlEntity.get());
         JsonObject object = new JsonObject();
         object.addProperty(control, value);
-        Map<String, Object> map = new HashMap<>();
-        map.put(control, value);
 
         return object;
     }
@@ -159,6 +151,7 @@ public class DeviceServiceImpl implements DeviceService {
 
         String userId = kakaoService.decodeToken(request.getHeader("accessToken"));
         Optional<UserEntity> userEntity = userRepository.findByUserId(userId);
+        if(userEntity.isEmpty()) throw new NoSuchElementException();
         List<Map<String , Object>> deviceList = new ArrayList<>();
         List<UserDeviceEntity> userDeviceEntityList = userDeviceRepository.findByUserIdx(userEntity.get());
         for(UserDeviceEntity userDeviceEntity : userDeviceEntityList){
@@ -180,10 +173,11 @@ public class DeviceServiceImpl implements DeviceService {
         Map<String, Object> resultMap = new HashMap<>();
 
         Optional<DeviceEntity> device = deviceRepository.findByDeviceNo(deviceNo);
-
+        if(device.isEmpty()) throw new NoSuchElementException();
         List<Optional<DeviceControlEntity>> deviceControlList = deviceControlRepository.findByDeviceIdx(device.get());
 
         for(Optional<DeviceControlEntity> deviceControlEntity : deviceControlList){
+            if(deviceControlEntity.isEmpty()) throw new NoSuchElementException();
             Map<String, Object> controlMap = new HashMap<>();
             controlMap.put("auto", deviceControlEntity.get().getAutoControl());
             controlMap.put("manual", deviceControlEntity.get().getManualControl());
@@ -196,10 +190,9 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public Map<String, Object> getDeviceSensor(String userEmail) {
         Map<String, Object> resultMap = new HashMap<>();
-        UserEntity userEntity = userRepository.findByUserId(userEmail).get();
-        List<UserDeviceEntity> userDeviceEntityList = userDeviceRepository.findByUserIdx(userEntity);
-        ArrayList<DeviceEntity> deviceEntityArrayList = new ArrayList<>();
-        for(UserDeviceEntity userDeviceEntity : userDeviceRepository.findByUserIdx(userEntity)){
+        Optional<UserEntity> userEntity = userRepository.findByUserId(userEmail);
+        if(userEntity.isEmpty()) throw new NoSuchElementException();
+        for(UserDeviceEntity userDeviceEntity : userDeviceRepository.findByUserIdx(userEntity.get())){
             List<DeviceSensorEntity> deviceSensorEntityList = deviceSensorRepository.findByDeviceIdx(userDeviceEntity.getDeviceIdx());
             Map<String, Object> map = new HashMap<>();
             for(DeviceSensorEntity deviceSensorEntity : deviceSensorEntityList){
@@ -214,9 +207,9 @@ public class DeviceServiceImpl implements DeviceService {
 
     @Override
     public Boolean resetAutoValue(String deviceNo){
-        Map<String , Object> resultMap = new HashMap<>();
 
         Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceNo);
+        if(deviceEntity.isEmpty()) throw new NoSuchElementException();
 
         String temp = deviceEntity.get().getCrop().getCropTemp();
         String co2 = deviceEntity.get().getCrop().getCropCo2();
@@ -229,11 +222,12 @@ public class DeviceServiceImpl implements DeviceService {
         Optional<ControlEntity> tempControl = controlRepository.findByControlName("temp");
         Optional<ControlEntity> co2Control = controlRepository.findByControlName("fan");
         Optional<ControlEntity> soilHumidityControl = controlRepository.findByControlName("pump");
+        if(tempControl.isEmpty() || co2Control.isEmpty() || soilHumidityControl.isEmpty()) throw new NoSuchElementException();
 
         Optional<DeviceControlEntity> tempControlEntity = deviceControlRepository.findByDeviceIdxAndControlIdx(deviceEntity.get(), tempControl.get());
         Optional<DeviceControlEntity> co2ControlEntity = deviceControlRepository.findByDeviceIdxAndControlIdx(deviceEntity.get(), co2Control.get());
         Optional<DeviceControlEntity> soilHumidityControlEntity = deviceControlRepository.findByDeviceIdxAndControlIdx(deviceEntity.get(), soilHumidityControl.get());
-
+        if(tempControlEntity.isEmpty() || co2ControlEntity.isEmpty() || soilHumidityControlEntity.isEmpty()) throw new NoSuchElementException();
         tempControlEntity.get().setAutoControlval(temp);
         co2ControlEntity.get().setAutoControlval(co2);
         soilHumidityControlEntity.get().setAutoControlval(soilHumidity);
@@ -245,20 +239,22 @@ public class DeviceServiceImpl implements DeviceService {
         return true;
     }
     @Override
-    public Map<String,Object> getAutoValue(HttpServletRequest request, String userNickname) throws IOException {
+    public Map<String,Object> getAutoValue(HttpServletRequest request, String userNickname){
         Map<String, Object> resultMap = new HashMap<>();
 
         String userId = kakaoService.decodeToken(request.getHeader("accessToken"));
 
         Optional<UserEntity> myUserEntity = userRepository.findByUserId(userId);
-
         Optional<UserEntity> getUserEntity = userRepository.findByUserNickname(userNickname);
+        if(myUserEntity.isEmpty() || getUserEntity.isEmpty()) throw new NoSuchElementException();
 
         if(!myUserEntity.equals(getUserEntity) && !getUserEntity.get().getUserOpen()) {
             resultMap.put("message", "conceal");
         }else {
             List<Optional<DeviceControlEntity>> deviceControlEntitylist = deviceControlRepository.findByDeviceIdx(getUserEntity.get().getDevice());
+            if(deviceControlEntitylist.isEmpty()) throw new NoSuchElementException();
             for (Optional<DeviceControlEntity> deviceControlEntity : deviceControlEntitylist) {
+                if(deviceControlEntity.isEmpty()) throw new NoSuchElementException();
                 String controlName = deviceControlEntity.get().getControlIdx().getControlName();
                 String controlAutoValue = deviceControlEntity.get().getAutoControlval();
                 resultMap.put(controlName, controlAutoValue);

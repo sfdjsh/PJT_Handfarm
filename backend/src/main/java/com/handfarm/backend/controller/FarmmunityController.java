@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -197,9 +198,9 @@ public class FarmmunityController {
         try{
             kakaoService.CheckAccessToken(request.getHeader(ACCESSTOKEN));
             return true;
-        }catch (Exception e){
+        }catch (IOException e){
             e.printStackTrace();
-            if(request != null && request.getHeader(ACCESSTOKEN) !=null){
+            if(request.getHeader(ACCESSTOKEN) !=null){
                 resultMap.put(MESSAGE, TIMEOUT);
             }else{
                 resultMap.put(MESSAGE, "acessToken is empty");
