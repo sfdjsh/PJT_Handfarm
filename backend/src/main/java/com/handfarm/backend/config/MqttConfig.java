@@ -39,14 +39,12 @@ public class MqttConfig {
     private static final String TOPIC_FILTER = "ssafy/"+deviceId+"/info";
 
     private final DeviceRepository deviceRepository;
-    private final UserRepository userRepository;
     private final DeviceSensorRepository deviceSensorRepository;
     private final SensorRepository sensorRepository;
 
     @Autowired
-    public MqttConfig(DeviceRepository deviceRepository, UserRepository userRepository, DeviceSensorRepository deviceSensorRepository, SensorRepository sensorRepository) {
+    public MqttConfig(DeviceRepository deviceRepository,DeviceSensorRepository deviceSensorRepository, SensorRepository sensorRepository) {
         this.deviceRepository = deviceRepository;
-        this.userRepository = userRepository;
         this.deviceSensorRepository = deviceSensorRepository;
         this.sensorRepository = sensorRepository;
     }

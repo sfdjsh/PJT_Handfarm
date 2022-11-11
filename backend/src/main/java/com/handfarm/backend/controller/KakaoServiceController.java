@@ -19,6 +19,7 @@ public class KakaoServiceController {
     private static final String FAIL = "error";
     private static final String TIMEOUT = "access-token timeout";
     private static final String MESSAGE = "message";
+    private static final String ACCESSTOKEN = "accessToken";
     private static final HttpStatus status200 = HttpStatus.OK;
     private static final HttpStatus status500 = HttpStatus.INTERNAL_SERVER_ERROR;
     private HttpStatus status;
@@ -37,7 +38,7 @@ public class KakaoServiceController {
         try{
             Map<String, Object> userInfo = new HashMap<>();
             userInfo.putAll(kakaoService.getKakaoAccessToken(code));
-            userInfo.putAll(kakaoService.createKakaoUser((String) userInfo.get("accessToken")));
+            userInfo.putAll(kakaoService.createKakaoUser((String) userInfo.get(ACCESSTOKEN)));
             resultMap.put(MESSAGE, SUCCESS);
             resultMap.put("userInfo", userInfo);
             status = status200;
@@ -52,7 +53,7 @@ public class KakaoServiceController {
     public ResponseEntity<Map<String, Object>> kakaologout(HttpServletRequest request) throws IOException {
         Map<String ,Object> resultMap = new HashMap<>();
         try{
-            String accessToken = request.getHeader("accessToken");
+            String accessToken = request.getHeader(ACCESSTOKEN);
             resultMap.put(MESSAGE, kakaoService.KakaoLogout(accessToken));
             status = status200;
         }catch (Exception e){
@@ -83,8 +84,8 @@ public class KakaoServiceController {
 
 
             Map<String, Object> userInfo = new HashMap<>();
-            userInfo.putAll(kakaoService.createKakaoUser(request.getHeader("accessToken")));
-            resultMap.put("message", SUCCESS);
+            userInfo.putAll(kakaoService.createKakaoUser(request.getHeader(ACCESSTOKEN)));
+            resultMap.put(MESSAGE, SUCCESS);
             resultMap.put("userInfo", userInfo);
             status = HttpStatus.OK;
             return new ResponseEntity<>(resultMap, status);
@@ -93,7 +94,7 @@ public class KakaoServiceController {
 
     @GetMapping("/test/unlink")
     public String servicenulink(HttpServletRequest request) throws IOException {
-        String accessToken = request.getHeader("accessToken");
+        String accessToken = request.getHeader(ACCESSTOKEN);
         if(kakaoService.KakaoUnlink(accessToken)){
             return SUCCESS;
         }else{

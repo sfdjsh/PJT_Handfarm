@@ -23,6 +23,7 @@ public class DeviceSensorController {
     private static final String FAIL = "error";
     private static final String TIMEOUT = "access-token timeout";
     private static final String MESSAGE = "message";
+    private static final String ACCESSTOKEN = "accessToken";
     private static final HttpStatus status200 = HttpStatus.OK;
     private static final HttpStatus status500 = HttpStatus.INTERNAL_SERVER_ERROR;
     private static final HttpStatus status401 = HttpStatus.UNAUTHORIZED;
@@ -162,11 +163,11 @@ public class DeviceSensorController {
 
     public Boolean checkToken(HttpServletRequest request, Map<String , Object> resultMap){
         try{
-            kakaoService.CheckAccessToken(request.getHeader("accessToken"));
+            kakaoService.CheckAccessToken(request.getHeader(ACCESSTOKEN));
             return true;
         }catch (Exception e){
             e.printStackTrace();
-            if(request != null && request.getHeader("accessToken") !=null){
+            if(request != null && request.getHeader(ACCESSTOKEN) !=null){
                 resultMap.put(MESSAGE, TIMEOUT);
             }else{
                 resultMap.put(MESSAGE, "acessToken is empty");
