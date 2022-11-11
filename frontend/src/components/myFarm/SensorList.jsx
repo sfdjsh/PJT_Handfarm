@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+// import Iframe from 'react-iframe'
 import { useRecoilState } from "recoil";
 import { deviceSensor } from "../../atom";
 import { BASE_URL } from "../../config";
@@ -42,6 +43,15 @@ const SensorList = ({ deviceId, email }) => {
             <SoilHumidCard soilHumid={soilHumid} deviceId={deviceId} /> 
           </> : <></>
         }
+        <div>
+          <iframe 
+          src="https://f637-121-147-32-194.jp.ngrok.io/stream" 
+          width="400vh"
+          height="300vh"
+          allow="fullscreen"
+          display="block"
+          />
+        </div>
       </Grid>
     </>
   )
