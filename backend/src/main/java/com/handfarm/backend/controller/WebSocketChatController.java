@@ -22,9 +22,10 @@ public class WebSocketChatController {
         this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
-    // 메시지의 destination이 /chat 였다면 해당 sendMessage() method가 불리도록
+    // 클라이언트에서 /pub/chat 의 경로로 메시지를 보내는 요청을 하면 Controller에서 받아서 처리
     @MessageMapping("/chat")
-    public void sendMessage(ChatDto chatDto, SimpMessageHeaderAccessor accessor){
+    public void sendMessage(ChatDto chatDto){
+        // 메시지를 Controller가 받아서 sub/chat/{roomId}를 구독하고 있는 클라이언트에게 메시지 전달.
         simpMessagingTemplate.convertAndSend("/sub/chat/" + chatDto.getRoomId(), chatDto);
 
         chatService.saveMessageRedis(chatDto); // 레디스에 정보 저장

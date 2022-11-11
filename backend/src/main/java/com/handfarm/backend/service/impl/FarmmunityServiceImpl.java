@@ -4,15 +4,17 @@ import com.handfarm.backend.domain.dto.article.*;
 import com.handfarm.backend.domain.entity.*;
 import com.handfarm.backend.repository.*;
 import com.handfarm.backend.service.FarmmunityService;
+import com.handfarm.backend.service.KakaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
 public class FarmmunityServiceImpl implements FarmmunityService {
-
+    private final KakaoService kakaoService;
     private final ArticleRepository articleRepository;
     private final UserRepository userRepository;
     private final CropRepository cropRepository;
@@ -23,7 +25,7 @@ public class FarmmunityServiceImpl implements FarmmunityService {
     private final RegionRepository regionRepository;
 
     @Autowired
-    FarmmunityServiceImpl(ArticleRepository articleRepository, UserRepository userRepository, CropRepository cropRepository, DeviceRepository deviceRepository, CommentRepository commentRepository, UserLikeArticlesRepository userLikeArticlesRepository, NoticeRepository noticeRepository, RegionRepository regionRepository){
+    FarmmunityServiceImpl(ArticleRepository articleRepository, UserRepository userRepository, CropRepository cropRepository, DeviceRepository deviceRepository, CommentRepository commentRepository, UserLikeArticlesRepository userLikeArticlesRepository, NoticeRepository noticeRepository, RegionRepository regionRepository, KakaoService kakaoService){
         this.articleRepository = articleRepository;
         this.userRepository = userRepository;
         this.cropRepository = cropRepository;
@@ -32,15 +34,17 @@ public class FarmmunityServiceImpl implements FarmmunityService {
         this.userLikeArticlesRepository = userLikeArticlesRepository;
         this.noticeRepository = noticeRepository;
         this.regionRepository = regionRepository;
+        this.kakaoService = kakaoService;
     }
 
     @Override
-    public void registArticle(String decodeId, ArticleRegistDto articleRegistDto, String domain, String category) {
+    public void registArticle(HttpServletRequest request, ArticleRegistDto articleRegistDto, String domain, String category) {
         String articleTitle = articleRegistDto.getArticleTitle();
         String articleImg = articleRegistDto.getArticleImg();
         String articleContent = articleRegistDto.getArticleContent();
 
-        UserEntity user = userRepository.findByUserId(decodeId).get();
+        UserEntity user = getUserEntity(request);
+
         if(domain.equals("정보")) { // 딸기, 파프리카, 토마토
             CropEntity crop = cropRepository.findByCropName(category);
             ArticleEntity article = ArticleEntity.builder()
@@ -64,11 +68,11 @@ public class FarmmunityServiceImpl implements FarmmunityService {
     }
     
     @Override
-    public void registComment(String decodeId, Integer articleIdx, CommentRegistDto commentRegistDto){
+    public void registComment(HttpServletRequest request, Integer articleIdx, CommentRegistDto commentRegistDto){
         String commentContent = commentRegistDto.getCommentContent();
         Integer upIdx = commentRegistDto.getUpIdx();
 
-        UserEntity user = userRepository.findByUserId(decodeId).get();
+        UserEntity user = getUserEntity(request);
         ArticleEntity article = articleRepository.findById(articleIdx).get();
         CommentEntity comment = CommentEntity.builder()
                 .upIdx(upIdx)
@@ -91,8 +95,8 @@ public class FarmmunityServiceImpl implements FarmmunityService {
     }
 
     @Override
-    public void deleteArticle(String decodeId, Integer articleIdx) {
-        UserEntity user = userRepository.findByUserId(decodeId).get();
+    public void deleteArticle(HttpServletRequest request, Integer articleIdx) {
+        UserEntity user = getUserEntity(request);
         ArticleEntity article = articleRepository.findById(articleIdx).get();
 
         if(user.getUserId().equals(article.getUserIdx().getUserId())){
@@ -107,8 +111,8 @@ public class FarmmunityServiceImpl implements FarmmunityService {
     }
 
     @Override
-    public void deleteComment(String decodeId, Integer articleIdx, Integer commentIdx) {
-        UserEntity user = userRepository.findByUserId(decodeId).get();
+    public void deleteComment(HttpServletRequest request, Integer articleIdx, Integer commentIdx) {
+        UserEntity user = getUserEntity(request);
         CommentEntity comment = commentRepository.findById(commentIdx).get();
 
         if(user.getUserId().equals(comment.getUserIdx().getUserId())){
@@ -124,10 +128,12 @@ public class FarmmunityServiceImpl implements FarmmunityService {
     }
 
     @Override
-    public Map<String, Object> getArticleDetail(String decodeId, Integer articleIdx) {
+    public Map<String, Object> getArticleDetail(HttpServletRequest request, Integer articleIdx) {
         Map<String, Object> data = new HashMap<>();
         ArticleEntity article = articleRepository.findByIdx(articleIdx).get();
         List<CommentEntity> comment = commentRepository.findByArticleIdx(article);
+
+        UserEntity user = getUserEntity(request);
 
         ArticleDetailDto articleDetailDto = ArticleDetailDto.builder()
                 .articleUserProfile(article.getUserIdx().getUserProfile())
@@ -158,13 +164,10 @@ public class FarmmunityServiceImpl implements FarmmunityService {
             data.put("commentList", commentView);
         }
 
-        if(!decodeId.equals("isLogin")){
-            UserEntity user = userRepository.findByUserId(decodeId).get();
-            // 좋아요 했는지 안했는지 여부
-            Optional<UserLikeArticlesEntity> ula = userLikeArticlesRepository.findByUserAndArticle(user, article);
-            if(ula.isPresent()) data.put("isLikeClicked", true);
-            else data.put("isLikeClicked", false);
-        }
+        // 좋아요 했는지 안했는지 여부
+        Optional<UserLikeArticlesEntity> ula = userLikeArticlesRepository.findByUserAndArticle(user, article);
+        if(ula.isPresent()) data.put("isLikeClicked", true);
+        else data.put("isLikeClicked", false);
 
         return data;
     }
@@ -228,9 +231,11 @@ public class FarmmunityServiceImpl implements FarmmunityService {
     }
 
     @Override
-    public Boolean likeArticle(String decodeId, Integer articleIdx) {
+    public Boolean likeArticle(HttpServletRequest request, Integer articleIdx) {
+        UserEntity user = getUserEntity(request);
+        String userId = user.getUserId();
+
         boolean result = true;
-        UserEntity user = userRepository.findByUserId(decodeId).get();
         ArticleEntity article = articleRepository.findById(articleIdx).get();
 
         Optional<UserLikeArticlesEntity> userLikeArticlesEntity = userLikeArticlesRepository.findByUserAndArticle(user, article);
@@ -269,8 +274,8 @@ public class FarmmunityServiceImpl implements FarmmunityService {
     }
 
     @Override
-    public void updateArticle(String decodeId, Integer articleIdx, ArticleRegistDto articleRegistDto) {
-        UserEntity user = userRepository.findByUserId(decodeId).get();
+    public void updateArticle(HttpServletRequest request, Integer articleIdx, ArticleRegistDto articleRegistDto) {
+        UserEntity user = getUserEntity(request);
         ArticleEntity article = articleRepository.findById(articleIdx).get();
 
         if(user.getUserId().equals(article.getUserIdx().getUserId())){
@@ -299,8 +304,8 @@ public class FarmmunityServiceImpl implements FarmmunityService {
     }
 
     @Override
-    public void updateComment(String decodeId, Integer articleIdx, Integer commentIdx, CommentRegistDto commentRegistDto) {
-        UserEntity user = userRepository.findByUserId(decodeId).get();
+    public void updateComment(HttpServletRequest request, Integer articleIdx, Integer commentIdx, CommentRegistDto commentRegistDto) {
+        UserEntity user = getUserEntity(request);
         ArticleEntity article = articleRepository.findById(articleIdx).get();
         CommentEntity comment = commentRepository.findById(commentIdx).get();
 
@@ -317,5 +322,11 @@ public class FarmmunityServiceImpl implements FarmmunityService {
 
             commentRepository.save(commentEntity);
         }
+    }
+
+    public UserEntity getUserEntity(HttpServletRequest request){
+        String userId = kakaoService.decodeToken(request.getHeader("accessToken"));
+        Optional<UserEntity> userEntity = userRepository.findByUserId(userId);
+        return userEntity.get();
     }
 }

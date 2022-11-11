@@ -5,6 +5,7 @@ import com.handfarm.backend.domain.entity.NoticeEntity;
 import com.handfarm.backend.domain.entity.UserEntity;
 import com.handfarm.backend.repository.NoticeRepository;
 import com.handfarm.backend.repository.UserRepository;
+import com.handfarm.backend.service.KakaoService;
 import com.handfarm.backend.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,47 +20,46 @@ public class NoticeServiceImpl implements NoticeService {
 
     private UserRepository userRepository;
     private NoticeRepository noticeRepository;
+    private final KakaoService kakaoService;
 
     @Autowired
-    NoticeServiceImpl(UserRepository userRepository, NoticeRepository noticeRepository){
+    NoticeServiceImpl(UserRepository userRepository, NoticeRepository noticeRepository, KakaoService kakaoService){
         this.userRepository = userRepository;
         this.noticeRepository = noticeRepository;
+        this.kakaoService = kakaoService;
     }
     @Override
-    public Long getCountNotice(String decodeId) {
-        UserEntity userEntity = userRepository.findByUserId(decodeId).get();
+    public Long getCountNotice(HttpServletRequest request) {
+        UserEntity userEntity = getUserEntity(request);
 
         return noticeRepository.countByToUserAndIsRead(userEntity, false);
     }
 
     @Override
-    public List<NoticeViewDto> getNoticeList(String decodeId) {
+    public List<NoticeViewDto> getNoticeList(HttpServletRequest request) {
         List<NoticeViewDto> noticeList = new ArrayList<>();
+        UserEntity userEntity = getUserEntity(request);
 
-        Optional<UserEntity> userEntityOptional = userRepository.findByUserId(decodeId);
-        if(userEntityOptional.isPresent()){
-            UserEntity userEntity = userEntityOptional.get();
-            List<NoticeEntity> list = noticeRepository.findByToUser(userEntity);
-            // 알림 존재
-            if(!list.isEmpty()){
-                for(NoticeEntity n : list){
-                    NoticeViewDto noticeViewDto = NoticeViewDto.builder().idx(n.getIdx())
-                            .noticeType(n.getNoticeType())
-                            .articeIdx(n.getIdx())
-                            .noticeTime(n.getNoticeTime())
-                            .userNickname(n.getToUser().getUserNickname())
-                            .fromUserNickname(n.getFromUser().getUserNickname())
-                            .isRead(n.getIsRead()).build();
-                    noticeList.add(noticeViewDto);
-                }
+        List<NoticeEntity> list = noticeRepository.findByToUser(userEntity);
+        // 알림 존재
+        if(!list.isEmpty()){
+            for(NoticeEntity n : list){
+                NoticeViewDto noticeViewDto = NoticeViewDto.builder().idx(n.getIdx())
+                        .noticeType(n.getNoticeType())
+                        .articeIdx(n.getIdx())
+                        .noticeTime(n.getNoticeTime())
+                        .userNickname(n.getToUser().getUserNickname())
+                        .fromUserNickname(n.getFromUser().getUserNickname())
+                        .isRead(n.getIsRead()).build();
+                noticeList.add(noticeViewDto);
             }
         }
         return noticeList;
     }
 
     @Override
-    public boolean readNotice(String decodeId, Integer idx) {
-        UserEntity userEntity = userRepository.findByUserId(decodeId).get();
+    public boolean readNotice(HttpServletRequest request, Integer idx) {
+        UserEntity userEntity = getUserEntity(request);
         NoticeEntity notice = noticeRepository.findByToUserAndIdx(userEntity, idx).get();
 
         notice.setIsRead(true);
@@ -70,13 +70,19 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public boolean deleteNotice(String decodeId, Integer idx) {
-        UserEntity userEntity = userRepository.findByUserId(decodeId).get();
+    public boolean deleteNotice(HttpServletRequest request, Integer idx) {
+        UserEntity userEntity = getUserEntity(request);
         NoticeEntity notice = noticeRepository.findByToUserAndIdx(userEntity, idx).get();
         if(notice != null){
             noticeRepository.delete(notice);
         }
         if(!noticeRepository.findByToUserAndIdx(userEntity,idx).isPresent()) return true;
         return false;
+    }
+
+    public UserEntity getUserEntity(HttpServletRequest request){
+        String userId = kakaoService.decodeToken(request.getHeader("accessToken"));
+        Optional<UserEntity> userEntity = userRepository.findByUserId(userId);
+        return userEntity.get();
     }
 }
