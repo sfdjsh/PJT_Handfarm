@@ -189,7 +189,7 @@ public:
 private:
   bool handleWiFi();
   bool handleMQTT();
-  void onWiFiConnectionEstablished();
+  int onWiFiConnectionEstablished();
   void onWiFiConnectionLost();
   void onMQTTConnectionEstablished();
   void onMQTTConnectionLost();

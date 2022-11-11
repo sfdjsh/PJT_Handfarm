@@ -87,15 +87,15 @@ void ledOff(){
 }
 
 void fanOn(int val){
-  ledcWrite(Fan_R_pin, map(val,1,3,120,255));
-  ledcWrite(Fan_L_pin, map(val,1,3,120,255));
+  ledcWrite(Fan_R_pwm, map(val,1,3,120,255));
+  ledcWrite(Fan_L_pwm, map(val,1,3,120,255));
   // Serial.print("FAN ON - Power : ");
   // Serial.println(val);
 }
 
 void fanOff(){
-  ledcWrite(Fan_R_pin, 0);
-  ledcWrite(Fan_L_pin, 0);
+  ledcWrite(Fan_R_pwm, 0);
+  ledcWrite(Fan_L_pwm, 0);
   // Serial.println("FAN OFF");
 }
 
