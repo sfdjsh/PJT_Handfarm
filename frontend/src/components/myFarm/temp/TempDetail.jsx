@@ -1,26 +1,9 @@
 import React from 'react'
-import { useRecoilState } from "recoil";
-import { tempModal } from '../../atom'
-import { Typography, Modal, Box, Card, Slider, Button, InputAdornment, OutlinedInput } from "@mui/material";
-import DeviceThermostatOutlinedIcon from "@mui/icons-material/DeviceThermostatOutlined";
+import { Typography, Box, Card, Slider, Button, InputAdornment, OutlinedInput, CardContent } from "@mui/material";
 import { useState } from 'react';
-import { sensorManual } from '../../pages/api/MyFarm'
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 350,
-  height: 700,
-  bgcolor: "#212528",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+import { sensorManual } from '../../../pages/api/MyFarm'
 
 const TempDetail = ({ temp, deviceId }) => {
-  const [onTemp, setOnTemp] = useRecoilState(tempModal)
   const [highTemp, setHighTemp] = useState(25)
   const [lowTemp, setLowTemp] = useState(10)
 
@@ -40,46 +23,23 @@ const TempDetail = ({ temp, deviceId }) => {
 
   return (
     <>
-      <Modal
-        open={onTemp}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" textAlign="end"
-            onClick={() => { setOnTemp(false) }}
-          >
-            X
-          </Typography>
-
-          <Box display='flex' alignItems="center" sx={{ mt: 2 }}>
-            <DeviceThermostatOutlinedIcon />
-            <Typography flexGrow={1} variant="h6" fontWeight="bold">
-              Temp
-            </Typography>
-            <Typography variant="h5" textAlign="end" color="#F24822" fontWeight="bold">
-              {temp}°C
-            </Typography>
-          </Box>
-          <hr />
-
-          <Card sx={{ height: 140, mt: 1 }}>
-            <p>그래프 영역</p>
-          </Card> 
-
-          <Box display="flex" alignItems="center" sx={{ mt: 4 }}>
-            <Typography variant="h6" flexGrow={1} fontWeight='bold' >센서설정</Typography>
+      <Card sx={{mt:2, backgroundColor: "#1E1E1E"}}>
+        <CardContent>
+          <Box display="flex" alignItems="center">
+            <Typography variant="h6" flexGrow={1} fontWeight='bold' color="white">센서설정</Typography>
             <Typography color="#FFCD29">초기화</Typography>
           </Box>
           <hr />
+          <Box sx={{mt:1}}>
           <Typography color="#FFA629" variant="subtitle2">
             * 온도를 설정하면 현재 온도가 설정한 범위를 벗어날 경우 조절하게 됩니다.
           </Typography>
           <Typography sx={{ mt: 1 }} color="#FFA629" variant="subtitle2">
             * 온도 설정 범위는 -10°C ~ 40°C 까지입니다.
-          </Typography>
+          </Typography>    
+          </Box>
           <Box sx={{ mt: 3 }}>
-            <Typography variant="h7">최고 온도 설정</Typography>
+            <Typography variant="h7" color="white">최고 온도 설정</Typography>
             <Box display="flex" justifyContent="space-between">
               <Slider
                 value={highTemp}
@@ -103,7 +63,7 @@ const TempDetail = ({ temp, deviceId }) => {
           </Box>
 
           <Box sx={{ mt: 2 }}>
-            <Typography variant="h7">최저 온도 설정</Typography>
+            <Typography variant="h7" color="white">최저 온도 설정</Typography>
             <Box display="flex" justifyContent="space-between">
 
               <Slider
@@ -138,12 +98,12 @@ const TempDetail = ({ temp, deviceId }) => {
             </Button>
             <Button variant="contained" 
             sx={{ width: 80, height: 60, background: '#757575' }}
-            onClick={() => setOnTemp(false)}>
+            >
               <h3>취소</h3>
             </Button>
           </Box>
-        </Box>
-      </Modal>
+        </CardContent>
+      </Card>
     </>
   )
 }

@@ -3,27 +3,20 @@ import { BASE_URL } from "../../config";
 import axios from "axios";
 import SensorList from "../../components/myFarm/SensorList";
 import { Container, Box, Grid, IconButton, Radio } from "@mui/material";
-import SettingsRemoteIcon from "@mui/icons-material/SettingsRemote";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useRecoilState } from "recoil";
-import { userInfo, userFarm, motorModal, motorControl } from "../../atom";
-import ControlDetail from "./ControlDetail"
-import ControlTemp from "../../components/control/ControlTemp";
-import ControlFan from "../../components/control/ControlFan";
-import ControlLed from "../../components/control/ControlLed";
-import ControlPump from "../../components/control/ControlPump"
-import ControlBuzzer from "../../components/control/ControlBuzzer"
+import { userInfo, userFarm, motorControl } from "../../atom";
 
 const MyFarm = () => {
   const [user, setUser] = useRecoilState(userInfo);
   const [myFarm, setMyFarm] = useRecoilState(userFarm);
-  const [onControl, setOnControl] = useRecoilState(motorModal)
   const [motorState, setMotorState] = useRecoilState(motorControl) 
 
   const devices = myFarm.deviceInfo
   const [farmRadio, setFarmRadio] = useState('0');
   const [deviceId, setDeviceId] = useState(devices[0].deviceNo || '')
   const email = user.userEmail
+  const camera = devices[farmRadio].deviceCamera
 
   const motorInfo = async () => {
     const URL = `${BASE_URL}/farm/${deviceId}/manual`
@@ -32,16 +25,8 @@ const MyFarm = () => {
         accessToken : localStorage.getItem('access_token')
       }
     })
-    console.log(result.data)
     setMotorState(result.data)
   }
-
-  // 제어 정보 가져오기
-  const controlTemp = motorState.temp
-  const controlFan = motorState.fan
-  const controlLed = motorState.led
-  const controlPump = motorState.pump
-  const controlBuzzer = motorState.buzzer
 
   useEffect(() => {
     motorInfo()
@@ -49,7 +34,7 @@ const MyFarm = () => {
 
   return (
     <>
-      <Container sx={{ mt: 1, width: "90%" }}>
+      <Container sx={{ mt: 1 }}>
         <div>
           {devices.map((d, index) => (
             <Radio
@@ -81,30 +66,15 @@ const MyFarm = () => {
             <p>{devices[farmRadio].deviceName}</p>
           </Box>
           <Box>
-            <IconButton size="large"
-            onClick={() => {setOnControl(true)}}
-            >
-              <SettingsRemoteIcon />
-            </IconButton>
-          </Box>
-          <Box>
             <IconButton size="large">
               <SettingsIcon />
             </IconButton>
           </Box>
         </Grid>
-        {/* 센서 리스트 */}
-        <SensorList deviceId={deviceId} email={email} />
-
-        {/* 제어 모달창 */}
-        {/* <ControlDetail deviceId={deviceId} /> */}
-        <ControlTemp deviceId={deviceId} controlTemp={controlTemp}/>
-        <ControlFan deviceId={deviceId} controlFan={controlFan}/>
-        <ControlLed deviceId={deviceId} controlLed={controlLed} />
-        <ControlPump deviceId={deviceId} controlPump={controlPump} />
-        <ControlBuzzer deviceId={deviceId} controlBuzzer={controlBuzzer} />
-        
       </Container>
+
+      {/* 센서 리스트 */}
+      <SensorList deviceId={deviceId} email={email} camera={camera} />     
     </>
   );
 };
