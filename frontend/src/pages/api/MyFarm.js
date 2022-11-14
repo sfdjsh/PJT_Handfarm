@@ -29,6 +29,7 @@ export async function myFarmCreate({ deviceID, myFarmName, myCrops }) {
 
 // 센서 수동 설정
 export async function sensorManual(props) {
+  console.log(props)
   var data = null
   if (props.controlName === 'temp') {
     var data = {
@@ -44,6 +45,11 @@ export async function sensorManual(props) {
     var data = {
       controlName: props.controlName,
       controlValue: props.soilHumidSetting
+    }
+  } else if (props.controlName === 'led') {
+    var data = {
+      controlName: props.controlName,
+      controlValue: [props.startLed, props.endLed]
     }
   }
 
@@ -76,6 +82,28 @@ export async function sensorAuto(props) {
 
 export async function sensorSetting(props) {
   const URL = `${BASE_URL}/farm/${props.nickName}/auto`
+  const response = await axios.get(URL, {
+    headers: {
+      accessToken: localStorage.getItem("access_token"),
+    }
+  })
+  return response
+}
+
+// 센서 시간별 데이터 가져오기
+export async function sensorHours(props) {
+  const URL = `${BASE_URL}/farm/${props.deviceId}/log/${props.sensorName}/hour`
+  const response = await axios.get(URL, {
+    headers: {
+      accessToken: localStorage.getItem("access_token"),
+    }
+  })
+  return response
+}
+
+// 센서 주간별 데이터 가져오기
+export async function sensorDay(props) {
+  const URL = `${BASE_URL}/farm/${props.deviceId}/log/${props.sensorName}/day`
   const response = await axios.get(URL, {
     headers: {
       accessToken: localStorage.getItem("access_token"),

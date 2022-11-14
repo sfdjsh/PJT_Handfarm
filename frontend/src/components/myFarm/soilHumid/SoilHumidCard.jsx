@@ -13,7 +13,7 @@ const SoilHumidCard = ({ soilHumid, deviceId, value }) => {
 
   return (
     <>
-      {soilHumid !== null && value === 3 ?
+      {soilHumid !== null && value === 4 ?
         <>
           <Container>
             <Card sx={{ backgroundColor: "#1E1E1E", mt: 2 }}>
