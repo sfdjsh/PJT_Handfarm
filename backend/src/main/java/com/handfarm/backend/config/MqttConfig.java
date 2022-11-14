@@ -24,6 +24,7 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
 import org.springframework.messaging.MessagingException;
+import org.springframework.scheduling.annotation.Async;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -79,6 +80,7 @@ public class MqttConfig {
     public MessageHandler handler(){
         return new MessageHandler() {
             @Override
+            @Async
             public void handleMessage(Message<?> message) throws MessagingException {
                 String topic = message.getHeaders().get(MqttHeaders.RECEIVED_TOPIC).toString();
 
