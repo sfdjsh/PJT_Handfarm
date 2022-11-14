@@ -4,7 +4,6 @@ package com.handfarm.backend.service;
 import com.handfarm.backend.domain.dto.User.UserDto;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.Map;
 
 public interface UserService {
@@ -15,5 +14,5 @@ public interface UserService {
 
     void editUserInfo(HttpServletRequest request, UserDto userDto);
 
-    Boolean onoffUserInfo(HttpServletRequest request, UserDto userDto);
+    void onoffUserInfo(HttpServletRequest request);
 }

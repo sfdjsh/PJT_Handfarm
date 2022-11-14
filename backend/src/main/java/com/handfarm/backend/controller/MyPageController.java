@@ -74,12 +74,12 @@ public class MyPageController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @PostMapping("/mypage")
-    public ResponseEntity<Map<String, Object>> onoffUserInfo(HttpServletRequest request, @RequestBody UserDto userDto){
+    @GetMapping("/mypage")
+    public ResponseEntity<Map<String, Object>> onoffUserInfo(HttpServletRequest request){
         Map<String , Object> resultMap = new HashMap<>();
         if(checkToken(request, resultMap)){
             try {
-                userService.onoffUserInfo(request, userDto);
+                userService.onoffUserInfo(request);
                 resultMap.put(MESSAGE, SUCCESS);
                 status = status200;
             }catch (Exception e){
