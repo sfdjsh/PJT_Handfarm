@@ -10,5 +10,5 @@ import java.util.Optional;
 
 public interface DeviceSensorLogRepository extends JpaRepository<DeviceSensorLogEntity, Integer> {
 
-    ArrayList<DeviceSensorLogEntity> findByHourValue(Optional<DeviceEntity> deviceEntity);
+//    ArrayList<DeviceSensorLogEntity> findByHourValue(Optional<DeviceEntity> deviceEntity);
 }
