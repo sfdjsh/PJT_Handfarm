@@ -103,11 +103,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean onoffUserInfo(HttpServletRequest request, UserDto userDto){
+    public void onoffUserInfo(HttpServletRequest request){
         UserEntity userEntity = getUserEntity(request);
-        userEntity.setUserOpen(userDto.getUserOpen());
-        userRepository.save(userEntity);
-        return true;
+
+        if(!userEntity.getUserOpen()){
+            userEntity.setUserOpen(true);
+            userRepository.save(userEntity);
+        }else{
+            userEntity.setUserOpen(false);
+            userRepository.save(userEntity);
+        }
     }
 
     public UserEntity getUserEntity(HttpServletRequest request){
