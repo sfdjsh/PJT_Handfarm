@@ -18,6 +18,7 @@ const SensorList = ({ deviceId, email }) => {
     const sse = new EventSourcePolyfill(`${BASE_URL}/connect/${email}`)
     sse.addEventListener('connect', (e) => {
       const {data: receivedConnectData} = e;
+      console.log(receivedConnectData)
       setSensor(JSON.parse(receivedConnectData))
     })
   };
