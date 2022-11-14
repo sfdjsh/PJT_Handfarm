@@ -27,7 +27,7 @@ public interface DeviceService {
 
     Map<String, Object> getDeviceSensor(String deviceNo);
 
-    Boolean resetAutoValue(String deviceNo);
+    Map<String, Object> resetAutoValue(String deviceNo, DedviceAutoControlDto controlDto);
 
     Map<String,Object> getAutoValue(HttpServletRequest request, String userNickname) throws IOException;
 }
