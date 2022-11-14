@@ -56,12 +56,12 @@ public class DeviceSensorController {
     }
 
     @PutMapping("/farm/{deviceNo}")
-    public ResponseEntity<Map<String, Object>> resetAutoValue(HttpServletRequest request, @PathVariable String deviceNo){
+    public ResponseEntity<Map<String, Object>> resetAutoValue(HttpServletRequest request, @PathVariable String deviceNo, @RequestBody DedviceAutoControlDto controlDto){
         Map<String, Object> resultMap = new HashMap<>();
 
         if(checkToken(request, resultMap)){
             try{
-                deviceService.resetAutoValue(deviceNo);
+                resultMap.putAll(deviceService.resetAutoValue(deviceNo, controlDto));
                 resultMap.put(MESSAGE, SUCCESS);
                 status = status200;
             }catch (Exception e){

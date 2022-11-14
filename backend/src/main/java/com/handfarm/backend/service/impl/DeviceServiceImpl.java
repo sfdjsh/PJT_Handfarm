@@ -206,37 +206,29 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public Boolean resetAutoValue(String deviceNo){
-
+    public Map<String, Object> resetAutoValue(String deviceNo, DedviceAutoControlDto controlDto){
+        Map<String, Object> resultMap = new HashMap<>();
         Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceNo);
-        if(deviceEntity.isEmpty()) throw new NoSuchElementException();
-
-        String temp = deviceEntity.get().getCrop().getCropTemp();
-        String co2 = deviceEntity.get().getCrop().getCropCo2();
-        String soilHumidity = deviceEntity.get().getCrop().getCropSoilHumidity();
-
-        if(temp == null || co2==null || soilHumidity == null){
-            return false;
+        Optional<ControlEntity> controlEntity = controlRepository.findByControlName(controlDto.getControlName());
+        if(deviceEntity.isEmpty() || controlEntity.isEmpty()) throw new NoSuchElementException();
+        String control = "";
+        if(controlDto.getControlName().equals("temp")){
+            control = deviceEntity.get().getCrop().getCropTemp();
+        }else if(controlDto.getControlName().equals("fan")){
+            control = deviceEntity.get().getCrop().getCropCo2();
+        }else if(controlDto.getControlName().equals("pump")){
+            control = deviceEntity.get().getCrop().getCropSoilHumidity();
+        }else{
+            throw new NoSuchElementException();
         }
-
-        Optional<ControlEntity> tempControl = controlRepository.findByControlName("temp");
-        Optional<ControlEntity> co2Control = controlRepository.findByControlName("fan");
-        Optional<ControlEntity> soilHumidityControl = controlRepository.findByControlName("pump");
-        if(tempControl.isEmpty() || co2Control.isEmpty() || soilHumidityControl.isEmpty()) throw new NoSuchElementException();
-
+        if(control == null) throw new NoSuchElementException();
+        Optional<ControlEntity> tempControl = controlRepository.findByControlName(controlDto.getControlName());
         Optional<DeviceControlEntity> tempControlEntity = deviceControlRepository.findByDeviceIdxAndControlIdx(deviceEntity.get(), tempControl.get());
-        Optional<DeviceControlEntity> co2ControlEntity = deviceControlRepository.findByDeviceIdxAndControlIdx(deviceEntity.get(), co2Control.get());
-        Optional<DeviceControlEntity> soilHumidityControlEntity = deviceControlRepository.findByDeviceIdxAndControlIdx(deviceEntity.get(), soilHumidityControl.get());
-        if(tempControlEntity.isEmpty() || co2ControlEntity.isEmpty() || soilHumidityControlEntity.isEmpty()) throw new NoSuchElementException();
-        tempControlEntity.get().setAutoControlval(temp);
-        co2ControlEntity.get().setAutoControlval(co2);
-        soilHumidityControlEntity.get().setAutoControlval(soilHumidity);
-
+        tempControlEntity.get().setAutoControlval(control);
         deviceControlRepository.save(tempControlEntity.get());
-        deviceControlRepository.save(co2ControlEntity.get());
-        deviceControlRepository.save(soilHumidityControlEntity.get());
+        resultMap.put("controlValue", control);
 
-        return true;
+        return resultMap;
     }
     @Override
     public Map<String,Object> getAutoValue(HttpServletRequest request, String userNickname){
