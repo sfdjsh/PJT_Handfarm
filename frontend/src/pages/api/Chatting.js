@@ -27,7 +27,7 @@ export async function fetchMyChatDetail(roomId){
 
 export async function createChatRoom(userName){
 
-    const URL = `${LOCAL_URL}/chat/${userName}`
+    const URL = `${BASE_URL}/chat/${userName}`
     const response = await fetch(URL,{
         method : "GET",
         headers : {

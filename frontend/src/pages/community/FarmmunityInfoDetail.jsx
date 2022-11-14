@@ -120,6 +120,9 @@ export const FarmmunityInfoDetail = () => {
                         alt="Remy Sharp"
                         src={ article.articleUserProfile }
                         sx={{ width : 50, height : 50, mr : 1 }}
+                        onClick={() => {
+                            navigator(`/mypage/${article.articleUserNickname}`)
+                        }}
                     />
                 </Grid>
                 <Grid item xs={9}>

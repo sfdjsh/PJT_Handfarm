@@ -16,10 +16,11 @@ const style = {
   p: 1
 };
 
-const MyPageSetting = ({nickName}) => {
+const MyPageSetting = ({nickName, userProfile}) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  console.log(userProfile)
 
   return (
     <>
@@ -34,14 +35,14 @@ const MyPageSetting = ({nickName}) => {
       >
         <Box sx={style}>
           <Container>
-            <Box sx={{mt:5}}>
-              <h2>공개/비공개설정</h2>
-              <hr />
-              <ButtonGroup sx={{mt:1}}>
-                <Button >공개</Button>
-                <Button sx={{ background: 'white' }}>비공개</Button>
-              </ButtonGroup>
-            </Box>
+            {/*<Box sx={{mt:5}}>*/}
+            {/*  <h2>공개/비공개설정</h2>*/}
+            {/*  <hr />*/}
+            {/*  <ButtonGroup sx={{mt:1}}>*/}
+            {/*    <Button >공개</Button>*/}
+            {/*    <Button sx={{ background: 'white' }}>비공개</Button>*/}
+            {/*  </ButtonGroup>*/}
+            {/*</Box>*/}
 
             <Box sx={{mt:5}}>
               <h2>닉네임 변경</h2>
