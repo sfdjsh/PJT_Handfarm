@@ -104,14 +104,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void onoffUserInfo(HttpServletRequest request){
-        UserEntity userEntity = getUserEntity(request);
-
-        if(!userEntity.getUserOpen()){
-            userEntity.setUserOpen(true);
-            userRepository.save(userEntity);
+        String userId = kakaoService.decodeToken(request.getHeader("accessToken"));
+        Optional<UserEntity> userEntity = userRepository.findByUserId(userId);
+        if(userEntity.isEmpty()) throw new NoSuchElementException();
+        if(!userEntity.get().getUserOpen()){
+            userEntity.get().setUserOpen(true);
+            userRepository.save(userEntity.get());
         }else{
-            userEntity.setUserOpen(false);
-            userRepository.save(userEntity);
+            userEntity.get().setUserOpen(false);
+            userRepository.save(userEntity.get());
         }
     }
 
