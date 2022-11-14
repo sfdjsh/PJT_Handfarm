@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/api")
@@ -150,6 +151,21 @@ public class DeviceSensorController {
         if(checkToken(request, resultMap)){
             try{
                 resultMap.putAll(deviceService.getDeviceManual(request,deviceNo));
+                resultMap.put(MESSAGE, SUCCESS);
+                status = status200;
+            }catch (Exception e){
+                resultMap.put(MESSAGE, FAIL);
+                status = status500;
+            }
+        }
+        return new ResponseEntity<>(resultMap, status);
+    }
+
+    @GetMapping("/farm/{deviceNo}/log/{day}")
+    public ResponseEntity<Map<String ,Object>> getGraphLog(HttpServletRequest request, @PathVariable String deviceNo, @PathVariable String day){
+        Map<String ,Object> resultMap = new HashMap<>();
+        if(checkToken(request, resultMap)){
+            try{
                 resultMap.put(MESSAGE, SUCCESS);
                 status = status200;
             }catch (Exception e){
