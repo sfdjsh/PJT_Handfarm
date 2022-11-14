@@ -1,3 +1,4 @@
+import React, {useState} from "react"
 import { BASE_URL } from "../../config";
 import axios from "axios";
 
@@ -26,12 +27,27 @@ export async function myFarmCreate({ deviceID, myFarmName, myCrops }) {
     })
 };
 
-export async function sensorManual({ deviceId, highTemp, lowTemp }) {
-  const URL = `${BASE_URL}/farm/${deviceId}/auto`
-  let data = {
-    controlName: 'temp',
-    controlValue: [highTemp, lowTemp]
+// 센서 수동 설정
+export async function sensorManual(props) {
+  var data = null
+  if (props.controlName === 'temp') {
+    var data = {
+      controlName: props.controlName,
+      controlValue: [props.highTemp, props.lowTemp]
+    }
+  } else if (props.controlName === 'fan') {
+    var data = {
+      controlName: props.controlName,
+      controalValue: props.co2Setting
+    } 
+  } else if (props.controlName === 'pump') {
+    var data = {
+      controlName: props.controlName,
+      controlValue: props.soilHumidSetting
+    }
   }
+
+  const URL = `${BASE_URL}/farm/${props.deviceId}/auto`
   axios.put(URL, JSON.stringify(data), {
     headers: {
       "Content-Type": `application/json`,
@@ -41,4 +57,29 @@ export async function sensorManual({ deviceId, highTemp, lowTemp }) {
     .then(response => {
       console.log(response.data)
     })
+}
+
+// 센서 자동 설정 값 받아오기
+export async function sensorAuto(props) {
+  const URL = `${BASE_URL}/farm/${props.deviceId}`
+  let data = {
+    controlName: props.controlName,
+  }
+  const response = axios.put(URL, JSON.stringify(data), {
+    headers: {
+      "Content-Type": `application/json`,
+      accessToken: localStorage.getItem("access_token"),
+    }
+  })
+  return response
+}
+
+export async function sensorSetting(props) {
+  const URL = `${BASE_URL}/farm/${props.nickName}/auto`
+  const response = await axios.get(URL, {
+    headers: {
+      accessToken: localStorage.getItem("access_token"),
+    }
+  })
+  return response
 }

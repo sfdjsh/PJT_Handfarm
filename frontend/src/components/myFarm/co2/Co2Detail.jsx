@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Typography,
   Box,
@@ -9,11 +9,24 @@ import {
   OutlinedInput,
   CardContent,
 } from "@mui/material";
-import { useState } from "react";
-import { sensorManual } from "../../../pages/api/MyFarm";
+import { sensorManual, sensorAuto, sensorSetting } from "../../../pages/api/MyFarm";
+import { useRecoilState } from 'recoil';
+import { userInfo } from '../../../atom';
 
 const Co2Detail = ({ co2, deviceId }) => {
-  const [co2Setting, setCo2Setting] = useState(2000);
+  const [co2Setting, setCo2Setting] = useState(0);
+  const controlName = "fan"
+
+  const [user, setUser] = useRecoilState(userInfo)
+  const nickName = user.userNickname
+
+  // 사용자 센서 설정 값 가져오기
+  useEffect(() => {
+    const data = sensorSetting({nickName})
+      .then(res => {
+        setCo2Setting(res.data[deviceId].fan)
+      })
+  }, [])
 
   // 슬라이더 최저 온도 설정
   const co2Slider = (event, newValue) => {
@@ -21,6 +34,13 @@ const Co2Detail = ({ co2, deviceId }) => {
       setCo2Setting(newValue);
     }
   };
+
+  const initAuto = () => {
+    const data = sensorAuto({ deviceId, controlName })
+      .then(res => {
+        setCo2Setting(res.data.controlValue)
+      })
+  }
 
   return (
     <>
@@ -35,7 +55,8 @@ const Co2Detail = ({ co2, deviceId }) => {
             >
               센서설정
             </Typography>
-            <Typography color="#FFCD29">초기화</Typography>
+            <Typography color="#FFCD29"
+            onClick={initAuto}>초기화</Typography>
           </Box>
           <hr />
           <Box sx={{ mt: 1 }}>
@@ -80,7 +101,7 @@ const Co2Detail = ({ co2, deviceId }) => {
             <Button
               variant="contained"
               sx={{ width: 80, height: 60, mr: 4, background: "#424B5A" }}
-              onClick={() => sensorManual({ deviceId, co2Setting })}
+              onClick={() => sensorManual({ deviceId, co2Setting, controlName })}
             >
               <h3>등록</h3>
             </Button>

@@ -31,7 +31,7 @@ const SensorList = ({ deviceId, email, camera }) => {
   }, []);
 
   const temp = sensor[deviceId] ? sensor[deviceId].temp : "";
-  const co2 = sensor[deviceId] ? sensor[deviceId].CO2 : "";
+  const co2 = sensor[deviceId] ? sensor[deviceId].co2 : "";
   const humid = sensor[deviceId] ? sensor[deviceId].humid : "";
   const soilHumid = sensor[deviceId] ? sensor[deviceId].soilHumid : "";
 
@@ -39,6 +39,7 @@ const SensorList = ({ deviceId, email, camera }) => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  
   return (
     <>
       <Container>

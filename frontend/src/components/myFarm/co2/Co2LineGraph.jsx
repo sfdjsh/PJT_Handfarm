@@ -27,14 +27,14 @@ const Co2LineGraph = ({ deviceId }) => {
     ]);
   }, [sensor]);
 
-  console.log(data)
   return (
     <LineChart width={350} height={300} data={data}
     margin={{left:0, top:20, right:15}}>
       <XAxis dataKey="time" />
       <YAxis />
       <Legend verticalAlign="top" align="right" />
-      <Line type="monotone" dataKey="co2" stroke="#8884d8" />
+      <Line type="monotone" dataKey="co2" stroke="#8884d8"
+      dot={false} strokeWidth={2} />
     </LineChart>
   );
 };
