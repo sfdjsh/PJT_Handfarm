@@ -30,7 +30,7 @@ public class SseController {
 
     @GetMapping(value = "/connect/{userEmail}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public ResponseEntity<SseEmitter> connect(@PathVariable String userEmail) {
-        SseEmitter emitter = new SseEmitter(1000L);
+        SseEmitter emitter = new SseEmitter(100L);
         sseEmitters.add(emitter);
         Map<String, Object> resultMap = new HashMap<>(deviceService.getDeviceSensor(userEmail));
 
