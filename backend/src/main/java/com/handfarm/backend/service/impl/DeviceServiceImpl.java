@@ -258,23 +258,23 @@ public class DeviceServiceImpl implements DeviceService {
         return resultMap;
     }
 
-    @Override
-    public Map<String ,Object> getSensorLog(HttpServletRequest request, String deviceNo, String day){
-        Map<String ,Object> resultMap = new HashMap<>();
-        Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceNo);
-        ArrayList<SensorLogDto> sensorLogDtos = new ArrayList<>();
-        ArrayList<DeviceSensorLogEntity> deviceSensorLogEntities = new ArrayList<>();
-        if(day.equals("hour")){
-
-        }else if(day.equals("day")){
-            deviceSensorLogEntities = deviceSensorLogRepository.findByHourValue(deviceEntity);
-        }else{
-            throw new NoSuchElementException();
-        }
-
-
-        return resultMap;
-    }
+//    @Override
+//    public Map<String ,Object> getSensorLog(HttpServletRequest request, String deviceNo, String day){
+//        Map<String ,Object> resultMap = new HashMap<>();
+//        Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceNo);
+//        ArrayList<SensorLogDto> sensorLogDtos = new ArrayList<>();
+//        ArrayList<DeviceSensorLogEntity> deviceSensorLogEntities = new ArrayList<>();
+//        if(day.equals("hour")){
+//
+//        }else if(day.equals("day")){
+//            deviceSensorLogEntities = deviceSensorLogRepository.findByHourValue(deviceEntity);
+//        }else{
+//            throw new NoSuchElementException();
+//        }
+//
+//
+//        return resultMap;
+//    }
 
 
 }
