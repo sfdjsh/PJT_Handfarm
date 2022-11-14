@@ -114,23 +114,27 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public JsonObject deviceAutoControlValue(String deviceNo, DedviceAutoControlDto dto) {
         String control = dto.getControlName();
-        StringBuilder value = new StringBuilder(String.valueOf(dto.getControlValue()));
-        String[] values = value.toString().split(" ");
-        value = new StringBuilder();
+        String value = String.valueOf(dto.getControlValue());
+        String[] values = value.split(" ");
+        value = "";
         for(String spValue : values){
-            value.append(spValue);
+            value = value+spValue;
         }
         Optional<ControlEntity> controlEntity = controlRepository.findByControlName(control);
         Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceNo);
         if(controlEntity.isEmpty() || deviceEntity.isEmpty()) throw new NoSuchElementException();
         Optional<DeviceControlEntity> deviceControlEntity = deviceControlRepository.findByDeviceIdxAndControlIdx(deviceEntity.get(), controlEntity.get());
         if(deviceControlEntity.isEmpty()) throw new NoSuchElementException();
-        deviceControlEntity.get().setAutoControlval(value.toString());
+        deviceControlEntity.get().setAutoControlval(value);
 
         deviceControlRepository.save(deviceControlEntity.get());
         control = controlEntity.get().getControlArea();
         JsonObject object = new JsonObject();
-        object.addProperty(control, value.toString());
+        if(control.equals("co2") || control.equals("soilHumidity")){
+            object.addProperty(control, Integer.parseInt(value));
+        }else {
+            object.addProperty(control, value);
+        }
         return object;
     }
 
