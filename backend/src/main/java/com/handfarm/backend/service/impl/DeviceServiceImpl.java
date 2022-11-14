@@ -3,6 +3,7 @@ package com.handfarm.backend.service.impl;
 import com.google.gson.JsonObject;
 import com.handfarm.backend.domain.dto.device.DedviceAutoControlDto;
 import com.handfarm.backend.domain.dto.device.DeviceRegistDto;
+import com.handfarm.backend.domain.dto.device.SensorLogDto;
 import com.handfarm.backend.domain.entity.*;
 import com.handfarm.backend.repository.*;
 import com.handfarm.backend.service.DeviceService;
@@ -11,6 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -28,9 +33,10 @@ public class DeviceServiceImpl implements DeviceService {
     private final DeviceControlRepository deviceControlRepository;
     private final ControlRepository controlRepository;
     private final DeviceSensorLogRepository deviceSensorLogRepository;
+    private final SensorRepository sensorRepository;
 
     @Autowired
-    DeviceServiceImpl(DeviceRepository deviceRepository, KakaoService kakaoService, UserRepository userRepository, CropRepository cropRepository, UserDeviceRepository userDeviceRepository, DeviceSensorRepository deviceSensorRepository, DeviceControlRepository deviceControlRepository, ControlRepository controlRepository, DeviceSensorLogRepository deviceSensorLogRepository){
+    DeviceServiceImpl(DeviceRepository deviceRepository, KakaoService kakaoService, UserRepository userRepository, CropRepository cropRepository, UserDeviceRepository userDeviceRepository, DeviceSensorRepository deviceSensorRepository, DeviceControlRepository deviceControlRepository, ControlRepository controlRepository, DeviceSensorLogRepository deviceSensorLogRepository, SensorRepository sensorRepository){
         this.deviceRepository= deviceRepository;
         this.kakaoService = kakaoService;
         this.userRepository = userRepository;
@@ -40,6 +46,7 @@ public class DeviceServiceImpl implements DeviceService {
         this.deviceControlRepository = deviceControlRepository;
         this.controlRepository = controlRepository;
         this.deviceSensorLogRepository = deviceSensorLogRepository;
+        this.sensorRepository = sensorRepository;
     }
     @Override
     public void registDevice(DeviceRegistDto deviceRegistDto){       // 기기 등록
@@ -271,23 +278,41 @@ public class DeviceServiceImpl implements DeviceService {
         return resultMap;
     }
 
-//    @Override
-//    public Map<String ,Object> getSensorLog(HttpServletRequest request, String deviceNo, String day){
-//        Map<String ,Object> resultMap = new HashMap<>();
-//        Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceNo);
-//        ArrayList<SensorLogDto> sensorLogDtos = new ArrayList<>();
-//        ArrayList<DeviceSensorLogEntity> deviceSensorLogEntities = new ArrayList<>();
-//        if(day.equals("hour")){
-//
-//        }else if(day.equals("day")){
-//            deviceSensorLogEntities = deviceSensorLogRepository.findByHourValue(deviceEntity);
-//        }else{
-//            throw new NoSuchElementException();
-//        }
-//
-//
-//        return resultMap;
-//    }
+    @Override
+    public Map<String, Object> getSensorLog(String deviceNo, String sensor, String day) {
+        Map<String ,Object> resultMap = new HashMap<>();
+        Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceNo);
+        Optional<SensorEntity> sensorEntity = sensorRepository.findBySensorArea(sensor);
+        List<Map<String, Object>> resultList = new ArrayList<>();
+        if(deviceEntity.isEmpty() || sensorEntity.isEmpty()) throw new NoSuchElementException();
+        ArrayList<SensorLogDto> sensorLogList;
+        LocalDateTime startDateTime;
+        LocalDateTime endDateTime = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+        if(day.equals("day")){
+            List<SensorLogDto> sensorList;
+            startDateTime = endDateTime.minusDays(7);
+            sensorLogList = deviceSensorLogRepository.findByDayValue(deviceEntity.get(), sensorEntity.get(), startDateTime, endDateTime);
+
+            resultMap.put("sensorLogList", sensorLogList);
+
+        }else if(day.equals("hour")){
+            startDateTime = endDateTime.minusDays(1);
+            sensorLogList = deviceSensorLogRepository.findByHourValue(deviceEntity.get(), sensorEntity.get(), startDateTime, endDateTime);
+            for(SensorLogDto sensorLogDto : sensorLogList){
+                Map<String, Object> logMap = new HashMap<>();
+                String[] str = sensorLogDto.getLogTime().split(" ");
+                logMap.put("logDay",str[0]);
+                logMap.put("logTime", str[1]);
+                logMap.put("avgValue", sensorLogDto.getAvgValue());
+                resultList.add(logMap);
+            }
+            resultMap.put("sensorLogList", resultList);
+        }else{
+            throw new NoSuchElementException();
+        }
+
+        return resultMap;
+    }
 
 
 }
