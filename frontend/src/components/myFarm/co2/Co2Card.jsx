@@ -20,7 +20,7 @@ const Co2Card = ({ co2, deviceId, value }) => {
 
   return (
     <>
-      {co2 !== null && value === 1 ? (
+      {co2 !== null && value === 2 ? (
         <>
           <Container>
             <Card sx={{ background: "#1E1E1E", mt: 2 }}>

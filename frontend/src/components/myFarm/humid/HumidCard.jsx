@@ -8,18 +8,18 @@ import {
 } from "@mui/material";
 import { useRecoilState } from "recoil";
 import { motorControl } from "../../../atom";
-// import HumidDetail from "./HumidDetail";
-// import ControlPump from "../control/ControlPump";
 import HumidLineGraph from "./HumidLineGraph";
 import HumidBarGraph from "./HumidBarGraph"
+import HumidDayGraph from "./HumidDayGraph";
 
 const HumidCard = ({ humid, deviceId, value }) => {
   const [motorState, setMotorState] = useRecoilState(motorControl);
   const controlPump = motorState.pump;
+  const sensorName = 'humid'
 
   return (
     <>
-      {humid !== null && value === 2 ? (
+      {humid !== null && value === 3 ? (
         <>
           <Container>
             <Card sx={{ backgroundColor: "#1E1E1E", mt: 2 }}>
@@ -45,10 +45,15 @@ const HumidCard = ({ humid, deviceId, value }) => {
                   실시간 그래프
                 </Typography>
               </Box>
-              <HumidLineGraph deviceId={deviceId} />
+              <HumidLineGraph deviceId={deviceId} sensorName={sensorName} />
             </Card>
+          </Container>
 
-            {/* <HumidDetail humid={humid} deviceId={deviceId} /> */}
+          {/* 시간/일 별 그래프 */}
+          <Container>
+            <Card sx={{ mt:2, mb:3, backgroundColor:"#1E1E1E" }}>
+              <HumidDayGraph deviceId={deviceId} sensorName={sensorName} />
+            </Card>
           </Container>
         </>
       ) : (

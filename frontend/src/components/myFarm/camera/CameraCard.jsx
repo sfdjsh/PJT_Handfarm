@@ -11,7 +11,7 @@ const CameraCard = ({ camera, deviceId, value }) => {
 
   return (
     <>
-      {value === 5 ? (
+      {value === 6 ? (
         <Container>
           <iframe
             src={camera}

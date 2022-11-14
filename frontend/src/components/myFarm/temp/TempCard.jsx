@@ -13,7 +13,7 @@ const TempCard = ({ temp, deviceId, value }) => {
 
   return (
     <>
-      {temp !== null && value === 0 ? (
+      {temp !== null && value === 1 ? (
         <>
           {/* bar 차트 */}
           <Container>

@@ -5,13 +5,13 @@ import ControlLed from "../control/ControlLed"
 import LedDetail from './LedDetail';
 import { Container } from "@mui/material";
 
-const LedCard = ({ led, deviceId, value}) => {
+const LedCard = ({ deviceId, value }) => {
   const [motorState, setMotorState] = useRecoilState(motorControl) 
   const controlLed = motorState.led
   return (
     <>
       {
-        value == 4 ? 
+        value === 5 ? 
         <Container>
           <LedDetail deviceId={deviceId}/>
           <ControlLed controlLed={controlLed} deviceId={deviceId} /> 
