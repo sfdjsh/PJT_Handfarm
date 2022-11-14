@@ -1,4 +1,4 @@
-import {LOCAL_URL} from "../../config";
+import {BASE_URL, LOCAL_URL} from "../../config";
 
 export async function fetchInfoArticle(nowCrop) {
 
@@ -63,7 +63,7 @@ export async function deleteArticle(articleId){
 }
 
 export async function fetchArticleDetail(id) {
-    const URL = `${LOCAL_URL}/community/${id}`
+    const URL = `${BASE_URL}/community/${id}`
     const response = await fetch(URL, {
         method : "GET",
         headers : {
@@ -76,7 +76,7 @@ export async function fetchArticleDetail(id) {
 export async function commentCreate(articleId, commentInput) {
     console.log(commentInput,articleId)
 
-    const URL = `${LOCAL_URL}/community/${articleId}/comment`
+    const URL = `${BASE_URL}/community/${articleId}/comment`
     const response = await fetch(URL, {
         method : "POST",
         headers : {
@@ -92,7 +92,7 @@ export async function commentCreate(articleId, commentInput) {
 }
 
 export async function commentUpdate(articleId, commentId) {
-    const URL = `${LOCAL_URL}/community/${articleId}/comment/${commentId}`
+    const URL = `${BASE_URL}/community/${articleId}/comment/${commentId}`
     const response = await fetch(URL, {
         method : "PUT",
         headers : {
@@ -104,7 +104,7 @@ export async function commentUpdate(articleId, commentId) {
 }
 
 export async function commentDelete(articleId, commentId) {
-    const URL = `${LOCAL_URL}/community/${articleId}/comment/${commentId}`
+    const URL = `${BASE_URL}/community/${articleId}/comment/${commentId}`
     const response = await fetch(URL, {
         method : "DELETE",
         headers : {
@@ -117,7 +117,7 @@ export async function commentDelete(articleId, commentId) {
 
 export async function articleLike(articleId) {
 
-    const URL = `${LOCAL_URL}/community/${articleId}/like`
+    const URL = `${BASE_URL}/community/${articleId}/like`
     const response = await fetch(URL, {
         method : "GET",
         headers : {
@@ -130,7 +130,7 @@ export async function articleLike(articleId) {
 
 export async function articleUpdate(userInput, articleId){
 
-    const URL = `${LOCAL_URL}/community/${articleId}`
+    const URL = `${BASE_URL}/community/${articleId}`
     const response = await fetch(URL, {
         method : "PUT",
         headers : {
@@ -148,7 +148,7 @@ export async function articleUpdate(userInput, articleId){
 
 export async function articleDelete(articleId){
 
-    const URL = `${LOCAL_URL}/community/${articleId}`
+    const URL = `${BASE_URL}/community/${articleId}`
     const responser = await fetch(URL, {
         method : "DELETE",
         headers : {

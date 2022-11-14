@@ -15,6 +15,7 @@ import { makeStyles } from '@mui/styles';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import {userInfo} from '../../atom'
+import PeopleIcon from '@mui/icons-material/People';
 
 const useStyles = makeStyles({
     root: {
@@ -47,10 +48,10 @@ export const Footer = () => {
                     }}  label="농장" icon={<GiteOutlinedIcon />} />
                     <BottomNavigationAction style={{ color : "white" }} onClick={() => {
                         navigator('/community')
-                    }}  label="커뮤니티" icon={<ChatBubbleOutlineIcon />} />
+                    }}  label="커뮤니티" icon={<PeopleIcon />} />
                     <BottomNavigationAction style={{ color : "white" }} onClick={() => {
                         navigator('/chatList')
-                    }}  label="톡톡"  icon={<MailOutlineOutlinedIcon />} />
+                    }}  label="톡톡"  icon={<ChatBubbleOutlineIcon />} />
                     <BottomNavigationAction style={{ color : "white" }} onClick={() => {
                         navigator(`/mypage/${user.userNickname}`)
                     }}  label="프로필" icon={<PermIdentityOutlinedIcon />} />

@@ -4,26 +4,110 @@ import MyPageFarm from './MyPageFarm';
 import MyPageArticle from './MyPageArticle';
 import MyPageSetting from './MyPageSetting';
 import { useRecoilState } from 'recoil';
-import { userInfo } from '../../atom';
+import {chatAnother, userInfo} from '../../atom';
 import { Avatar, Typography, Container, Box, Switch } from '@mui/material';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import {useEffect} from "react";
 import {fetchUserInfo} from "../api/MyPage";
 import BasicCard from "../../components/common/Card";
+import { styled } from '@mui/material/styles';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Stack from '@mui/material/Stack';
+import {changeOpen} from "../api/MyPage";
+import {updateUserInfo} from "../api/MyPage";
+import {useParams} from "react-router-dom";
+import {useLocation} from "react-router-dom";
+import {createChatRoom} from "../api/Chatting";
+import {useNavigate} from "react-router-dom";
 
 const MyPage = () => {
-    const [nickName, setNickname] = useRecoilState(userInfo)
+    // const [loginUser, setLoginUser] = useRecoilState(userInfo)
     const [myPageLook, setMyPageLook] = useState('Farm')
     const [userArticle, setUserArticle] = useState([])
-    console.log(userArticle)
+    const [userNickname, setUserNickname] = useState("")
+    const [userOpen, setUserOpen] = useState(true)
+    const [checked, setChecked] = useState(true)
+    const [sensorValue, setSensorValue] = useState({})
+    const [userProfile, setUserProfile] = useState("")
+    const [deviceInfo, setDeviceInfo] = useState([])
+    const [loginUser, setLoginUser] = useRecoilState(userInfo)
+    const location = useLocation()
+    const [anotherUser, setAnotherUser] = useRecoilState(chatAnother)
+    let pageUser = useParams().nickname
+    const navigator = useNavigate()
 
     useEffect(() => {
-        fetchUserInfo()
+        fetchUserInfo(pageUser)
             .then((res) => res.json().then((res) => {
                 console.log(res)
-                setUserArticle(res.userArticle)
+                setUserArticle(res.articleList)
+                setUserNickname(res.userNickName)
+                setUserProfile(res.userProfile)
+                setChecked(res.userOpen)
+                setSensorValue(res.devicesInfo[0].sensorValue)
+                setDeviceInfo(res.devicesInfo[0])
+                // setUserOpen(res.userOpen)
+                console.log(res.userOpen)
+                // setUserOpen(res.userOpen)
             }))
     },[])
+
+    const goChatting = (userName) => {
+        createChatRoom(userName)
+            .then((res) => res.json().then((res) => {
+                setAnotherUser(userName)
+                navigator(`/chat/${res.roomId}`,  { state : {
+                        toUserNickname : userName
+                    }})
+            }))
+    }
+
+    const handleChange = (event) => {
+        setChecked(event.target.checked);
+        console.log(checked)
+    };
+
+    useEffect(() => {
+        changeOpen(checked)
+            .then((res) => res.json().then((res) => {
+                console.log(res)
+            }))
+    },[checked])
+
+    const Android12Switch = styled(Switch)(({ theme }) => ({
+        padding: 8,
+        '& .MuiSwitch-track': {
+            borderRadius: 22 / 2,
+            '&:before, &:after': {
+                content: '""',
+                position: 'absolute',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                width: 16,
+                height: 16,
+            },
+            '&:before': {
+                backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 24 24"><path fill="${encodeURIComponent(
+                    theme.palette.getContrastText(theme.palette.primary.main),
+                )}" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"/></svg>')`,
+                left: 12,
+            },
+            '&:after': {
+                backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 24 24"><path fill="${encodeURIComponent(
+                    theme.palette.getContrastText(theme.palette.primary.main),
+                )}" d="M19,13H5V11H19V13Z" /></svg>')`,
+                right: 12,
+            },
+        },
+        '& .MuiSwitch-thumb': {
+            boxShadow: 'none',
+            width: 16,
+            height: 16,
+            margin: 2,
+        },
+    }));
+
 
     
     return (
@@ -31,33 +115,60 @@ const MyPage = () => {
             <Container sx={{ mt: 2 }}>
                 <Box>
                     <Box display="flex" alignItems="center">
-                        <Box sx={{ display : "flex", alignItems : "center", fontFamily : "ScoreDream" }} flexGrow={1}>
-                            <Avatar alt="Profile Img" src="assets/img/handFarm.png"
+                        <Box sx={{ display : "flex", alignItems : "center", fontFamily : "ScoreDream", ml : 1 }} flexGrow={1}>
+                            <Avatar alt="Profile Img" src={userProfile}
                                 sx={{ width: 50, height: 50 }}>
                             </Avatar>
                             <Box sx={{ ml: 2 }}>
-                                <Typography sx={{ fontFamily : "ScoreDream" }} variant="h6">{nickName.userNickname}</Typography>
-                                <Box display="flex" alignItems='center'>
-                                    <MailOutlineIcon />
-                                    <Typography variant="subtitle2" sx={{ fontFamily : "ScoreDream" }}>채팅 보내기</Typography>
+                                <Typography sx={{ fontFamily : "ScoreDream", fontWeight: "bold" }} variant="h6">{userNickname}</Typography>
+                                <Box display="flex" alignItems='center' sx={{  color : "#B3B3B3"  }}>
+                                    { pageUser !== loginUser.userNickname ? (
+                                        <>
+                                            <MailOutlineIcon onClick={() => {
+                                                goChatting(userNickname)
+                                            }} />
+                                        <Typography variant="subtitle2" sx={{ fontFamily : "ScoreDream", color : "#B3B3B3", fontWeight: "bold"  }}>&nbsp;채팅 보내기</Typography>
+                                        </>
+                                    ) : (
+                                        <></>
+                                    ) }
                                 </Box>
                             </Box>
                         </Box>
-                        <Switch color="warning"></Switch>
-                        <MyPageSetting style={{ fontFamily : "ScoreDream" }} nickName={nickName.userNickname}/>
+                        {/*<Switch color="warning"></Switch>*/}
+                        { pageUser === loginUser.userNickname ? (
+                            <>
+                                <Stack direction="row" spacing={1} alignItems="center">
+                                    <Typography sx={{ fontFamily : "ScoreDream",fontWeight: "bold" }}>공개여부</Typography>
+                                    <FormControlLabel
+                                        style={{ margin : 0 }}
+                                        control={<Android12Switch
+                                            checked={checked}
+                                            onChange={handleChange}
+                                            // defaultChecked
+                                        />}
+                                    />
+                                    {/*<Typography>공개</Typography>*/}
+                                </Stack>
+                                <MyPageSetting style={{ fontFamily : "ScoreDream" }} nickName={userNickname} userProfile={userProfile}/>
+                            </>
+                        ) : (
+                            <>
+                            </>
+                        )}
                     </Box>
                 </Box>
                 <Box sx={{mt:10}} display="flex" justifyContent="space-around">
                     <Typography variant='h5' 
                     onClick={() => setMyPageLook('Farm')}
-                                sx={{ fontFamily : "ScoreDream" }}
+                                sx={{ fontFamily : "ScoreDream", fontWeight: "bold" }}
                     className={myPageLook==='Farm'?('look-on'):('look-off')}>농장</Typography>
                     <Typography variant='h5'
                     onClick={() => setMyPageLook('Article')}
-                                sx={{ fontFamily : "ScoreDream" }}
+                                sx={{ fontFamily : "ScoreDream", fontWeight: "bold" }}
                     className={myPageLook==='Article'?('look-on'):('look-off')}>작성한 게시글</Typography>
                 </Box>
-                {myPageLook==='Farm' ? (<MyPageFarm />) : (
+                {myPageLook==='Farm' ? (<MyPageFarm sensorValue={sensorValue} deviceInfo={deviceInfo} userOpen={checked} userNickName={pageUser} />) : (
                     <>
                         {userArticle.map((article, index) => (
                             <BasicCard
