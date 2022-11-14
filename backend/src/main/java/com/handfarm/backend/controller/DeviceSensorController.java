@@ -161,11 +161,12 @@ public class DeviceSensorController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @GetMapping("/farm/{deviceNo}/log/{day}")
-    public ResponseEntity<Map<String ,Object>> getGraphLog(HttpServletRequest request, @PathVariable String deviceNo, @PathVariable String day){
+    @GetMapping("/farm/{deviceNo}/log/{sensor}/{day}")
+    public ResponseEntity<Map<String ,Object>> getGraphLog(HttpServletRequest request, @PathVariable String deviceNo, @PathVariable String sensor, @PathVariable String day){
         Map<String ,Object> resultMap = new HashMap<>();
         if(checkToken(request, resultMap)){
             try{
+                resultMap.putAll(deviceService.getSensorLog(deviceNo, sensor, day));
                 resultMap.put(MESSAGE, SUCCESS);
                 status = status200;
             }catch (Exception e){
