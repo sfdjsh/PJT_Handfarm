@@ -1,11 +1,26 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Typography, Box, Card, Slider, Button, InputAdornment, OutlinedInput, CardContent } from "@mui/material";
-import { useState } from 'react';
-import { sensorManual } from '../../../pages/api/MyFarm'
+import { sensorManual, sensorAuto, sensorSetting } from '../../../pages/api/MyFarm'
+import { useRecoilState } from 'recoil';
+import { userInfo } from '../../../atom';
 
 const TempDetail = ({ temp, deviceId }) => {
-  const [highTemp, setHighTemp] = useState(25)
-  const [lowTemp, setLowTemp] = useState(10)
+  const controlName = "temp"
+  
+  const [user, setUser] = useRecoilState(userInfo)
+  const nickName = user.userNickname
+
+  const [highTemp, setHighTemp] = useState(0)
+  const [lowTemp, setLowTemp] = useState(0)
+
+  // 사용자 센서 설정 값 가져오기
+  useEffect(() => {
+    const data = sensorSetting({nickName})
+      .then(res => {
+        setHighTemp(res.data[deviceId].temp.split(',')[0].split('[')[1])
+        setLowTemp(res.data[deviceId].temp.split(',')[1].split(']')[0])
+      })
+  }, [])
 
   // 슬라이더 최저 온도 설정
   const lowTempSlider = (event, newValue) => {
@@ -21,22 +36,32 @@ const TempDetail = ({ temp, deviceId }) => {
     }
   }
 
+  // 초기화 센서 값 가져오기
+  const initAuto = () => {
+    const data = sensorAuto({ deviceId, controlName })
+      .then(res => {
+        setHighTemp(res.data.controlValue.split(',')[0].split('[')[1])
+        setLowTemp(res.data.controlValue.split(',')[1].split(']')[0])
+      })
+  }
+
   return (
     <>
-      <Card sx={{mt:2, backgroundColor: "#1E1E1E"}}>
+      <Card sx={{ mt: 2, backgroundColor: "#1E1E1E" }}>
         <CardContent>
           <Box display="flex" alignItems="center">
             <Typography variant="h6" flexGrow={1} fontWeight='bold' color="white">센서설정</Typography>
-            <Typography color="#FFCD29">초기화</Typography>
+            <Typography color="#FFCD29"
+              onClick={initAuto}>초기화</Typography>
           </Box>
           <hr />
-          <Box sx={{mt:1}}>
-          <Typography color="#FFA629" variant="subtitle2">
-            * 온도를 설정하면 현재 온도가 설정한 범위를 벗어날 경우 조절하게 됩니다.
-          </Typography>
-          <Typography sx={{ mt: 1 }} color="#FFA629" variant="subtitle2">
-            * 온도 설정 범위는 -10°C ~ 40°C 까지입니다.
-          </Typography>    
+          <Box sx={{ mt: 1 }}>
+            <Typography color="#FFA629" variant="subtitle2">
+              * 온도를 설정하면 현재 온도가 설정한 범위를 벗어날 경우 조절하게 됩니다.
+            </Typography>
+            <Typography sx={{ mt: 1 }} color="#FFA629" variant="subtitle2">
+              * 온도 설정 범위는 -10°C ~ 40°C 까지입니다.
+            </Typography>
           </Box>
           <Box sx={{ mt: 3 }}>
             <Typography variant="h7" color="white">최고 온도 설정</Typography>
@@ -56,7 +81,7 @@ const TempDetail = ({ temp, deviceId }) => {
                 id="outlined-start-adornment"
                 size='small'
                 endAdornment={<InputAdornment fontWeight='bold'>°C</InputAdornment>}
-                sx={{ background: 'white', width: '15ch', fontWeight: 'bold' }}
+                sx={{ background: 'white', width: '11ch', fontWeight: 'bold' }}
                 onChange={(e) => setHighTemp(e.target.value)}
               />
             </Box>
@@ -77,29 +102,24 @@ const TempDetail = ({ temp, deviceId }) => {
               />
 
               <OutlinedInput
-                value={-10 < lowTemp < 40? lowTemp : -10}
+                value={lowTemp > 40 || lowTemp < -10 ? -10 : lowTemp}
                 type='number'
                 id="outlined-start-adornment"
                 size='small'
                 endAdornment={<InputAdornment fontWeight='bold'>°C</InputAdornment>}
-                sx={{ background: 'white', width: '15ch', fontWeight: 'bold' }}
+                sx={{ background: 'white', width: '11ch', fontWeight: 'bold' }}
                 onChange={(e) => setLowTemp(e.target.value)}
               />
             </Box>
           </Box>
 
           <Box sx={
-            { display: 'flex', justifyContent: 'center', mt:4 }}>
-            <Button variant="contained" 
-            sx={{ width: 80, height: 60, mr: 4, background: '#424B5A' }}
-            onClick={() => sensorManual({ deviceId, highTemp, lowTemp })}
+            { display: 'flex', justifyContent: 'center', mt: 4 }}>
+            <Button variant="contained"
+              sx={{ width: 80, height: 60, background: '#424B5A' }}
+              onClick={() => sensorManual({ deviceId, highTemp, lowTemp, controlName })}
             >
               <h3>등록</h3>
-            </Button>
-            <Button variant="contained" 
-            sx={{ width: 80, height: 60, background: '#757575' }}
-            >
-              <h3>취소</h3>
             </Button>
           </Box>
         </CardContent>

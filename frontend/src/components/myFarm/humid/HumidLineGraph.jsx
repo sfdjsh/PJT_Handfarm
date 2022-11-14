@@ -33,7 +33,8 @@ const HumidLineGraph = ({ deviceId }) => {
       <XAxis dataKey="time" />
       <YAxis />
       <Legend verticalAlign="top" align="right" />
-      <Line type="monotone" dataKey="humid" stroke="#8884d8" />
+      <Line type="monotone" dataKey="humid" stroke="#8884d8"
+      dot={false} strokeWidth={2} />
     </LineChart>
   );
 };

@@ -14,7 +14,7 @@ const MyFarm = () => {
 
   const devices = myFarm.deviceInfo
   const [farmRadio, setFarmRadio] = useState('0');
-  const [deviceId, setDeviceId] = useState(devices[0].deviceNo || '')
+  const [deviceId, setDeviceId] = useState(devices[0].deviceNo)
   const email = user.userEmail
   const camera = devices[farmRadio].deviceCamera
 

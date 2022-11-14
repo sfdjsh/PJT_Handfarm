@@ -8,8 +8,8 @@ import {
 } from "@mui/material";
 import { useRecoilState } from "recoil";
 import { motorControl } from "../../../atom";
-import HumidDetail from "./HumidDetail";
-import ControlPump from "../control/ControlPump";
+// import HumidDetail from "./HumidDetail";
+// import ControlPump from "../control/ControlPump";
 import HumidLineGraph from "./HumidLineGraph";
 import HumidBarGraph from "./HumidBarGraph"
 
@@ -48,11 +48,8 @@ const HumidCard = ({ humid, deviceId, value }) => {
               <HumidLineGraph deviceId={deviceId} />
             </Card>
 
-            <HumidDetail humid={humid} deviceId={deviceId} />
-            
-            <ControlPump controlPump={controlPump} deviceId={deviceId} />
+            {/* <HumidDetail humid={humid} deviceId={deviceId} /> */}
           </Container>
-          
         </>
       ) : (
         <></>

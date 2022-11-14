@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
+import { userInfo } from '../../../atom';
 import {
   Typography,
   Box,
@@ -10,16 +11,36 @@ import {
   OutlinedInput,
   CardContent,
 } from "@mui/material";
-import { sensorManual } from "../../../pages/api/MyFarm";
+import { sensorManual, sensorAuto, sensorSetting } from "../../../pages/api/MyFarm";
 
 const SoilHumidDetail = ({ humid, deviceId }) => {
+  const controlName = "pump"
+
+  const [user, setUser] = useRecoilState(userInfo)
+  const nickName = user.userNickname
+
   const [soilHumidSetting, setSoilHumidSetting] = useState(50);
+
+  useEffect(() => {
+    const data = sensorSetting({nickName})
+      .then(res => {
+        setSoilHumidSetting(res.data[deviceId].pump)
+      })
+  }, [])
 
   const soilHumidSlider = (event, newValue) => {
     if (typeof newValue === "number") {
       setSoilHumidSetting(newValue);
     }
   };
+
+  // 초기화 센서 값 가져오기
+  const initAuto = () => {
+    const data = sensorAuto({ deviceId, controlName })
+      .then(res => {
+        setSoilHumidSetting(res.data.controlValue)
+      })
+  }
 
   return (
     <>
@@ -34,6 +55,8 @@ const SoilHumidDetail = ({ humid, deviceId }) => {
             >
               센서설정
             </Typography>
+            <Typography color="#FFCD29"
+              onClick={initAuto}>초기화</Typography>
           </Box>
           <hr />
           <Box sx={{ mt: 1 }}>
@@ -60,14 +83,14 @@ const SoilHumidDetail = ({ humid, deviceId }) => {
                 onChange={soilHumidSlider}
               />
               <OutlinedInput
-                value={0 < soilHumidSetting < 100 ? soilHumidSetting : 100}
+                value={soilHumidSetting > 100 || soilHumidSetting < 0 ? 100 : soilHumidSetting}
                 type="number"
                 id="outlined-start-adornment"
                 size="small"
                 endAdornment={
                   <InputAdornment fontWeight="bold">%</InputAdornment>
                 }
-                sx={{ background: "white", width: "17ch", fontWeight: "bold" }}
+                sx={{ background: "white", width: "12ch", fontWeight: "bold" }}
                 onChange={(e) => setSoilHumidSetting(e.target.value)}
               />
             </Box>
@@ -75,16 +98,10 @@ const SoilHumidDetail = ({ humid, deviceId }) => {
           <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
             <Button
               variant="contained"
-              sx={{ width: 80, height: 60, mr: 4, background: "#424B5A" }}
-              onClick={() => sensorManual({ deviceId, soilHumidSetting })}
+              sx={{ width: 80, height: 60, background: "#424B5A" }}
+              onClick={() => sensorManual({ deviceId, soilHumidSetting, controlName })}
             >
               <h3>등록</h3>
-            </Button>
-            <Button
-              variant="contained"
-              sx={{ width: 80, height: 60, background: "#757575" }}
-            >
-              <h3>취소</h3>
             </Button>
           </Box>
         </CardContent>
