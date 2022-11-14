@@ -114,18 +114,23 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public JsonObject deviceAutoControlValue(String deviceNo, DedviceAutoControlDto dto) {
         String control = dto.getControlName();
-        String value = String.valueOf(dto.getControlValue());
+        StringBuilder value = new StringBuilder(String.valueOf(dto.getControlValue()));
+        String[] values = value.toString().split(" ");
+        value = new StringBuilder();
+        for(String spValue : values){
+            value.append(spValue);
+        }
         Optional<ControlEntity> controlEntity = controlRepository.findByControlName(control);
         Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceNo);
         if(controlEntity.isEmpty() || deviceEntity.isEmpty()) throw new NoSuchElementException();
         Optional<DeviceControlEntity> deviceControlEntity = deviceControlRepository.findByDeviceIdxAndControlIdx(deviceEntity.get(), controlEntity.get());
         if(deviceControlEntity.isEmpty()) throw new NoSuchElementException();
-        deviceControlEntity.get().setAutoControlval(value);
+        deviceControlEntity.get().setAutoControlval(value.toString());
 
         deviceControlRepository.save(deviceControlEntity.get());
         control = controlEntity.get().getControlArea();
         JsonObject object = new JsonObject();
-        object.addProperty(control, value);
+        object.addProperty(control, value.toString());
         return object;
     }
 
