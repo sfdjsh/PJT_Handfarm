@@ -22,6 +22,7 @@
     "mqtt": "^4.3.7",
     "quill": "^1.3.6",
     "react": "^18.2.0",
+    "react-blur": "^1.1.1",
     "react-dom": "^18.2.0",
     "react-mqtt-client": "^1.0.0",
     "react-mqtt-controls": "^0.1.1",
