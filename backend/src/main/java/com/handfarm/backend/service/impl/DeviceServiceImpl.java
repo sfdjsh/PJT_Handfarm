@@ -3,6 +3,7 @@ package com.handfarm.backend.service.impl;
 import com.google.gson.JsonObject;
 import com.handfarm.backend.domain.dto.device.DedviceAutoControlDto;
 import com.handfarm.backend.domain.dto.device.DeviceRegistDto;
+import com.handfarm.backend.domain.dto.device.SensorLogDto;
 import com.handfarm.backend.domain.entity.*;
 import com.handfarm.backend.repository.*;
 import com.handfarm.backend.service.DeviceService;
@@ -27,9 +28,10 @@ public class DeviceServiceImpl implements DeviceService {
     private final DeviceSensorRepository deviceSensorRepository;
     private final DeviceControlRepository deviceControlRepository;
     private final ControlRepository controlRepository;
+    private final DeviceSensorLogRepository deviceSensorLogRepository;
 
     @Autowired
-    DeviceServiceImpl(DeviceRepository deviceRepository, KakaoService kakaoService, UserRepository userRepository, CropRepository cropRepository, UserDeviceRepository userDeviceRepository, DeviceSensorRepository deviceSensorRepository, DeviceControlRepository deviceControlRepository, ControlRepository controlRepository){
+    DeviceServiceImpl(DeviceRepository deviceRepository, KakaoService kakaoService, UserRepository userRepository, CropRepository cropRepository, UserDeviceRepository userDeviceRepository, DeviceSensorRepository deviceSensorRepository, DeviceControlRepository deviceControlRepository, ControlRepository controlRepository, DeviceSensorLogRepository deviceSensorLogRepository){
         this.deviceRepository= deviceRepository;
         this.kakaoService = kakaoService;
         this.userRepository = userRepository;
@@ -38,6 +40,7 @@ public class DeviceServiceImpl implements DeviceService {
         this.deviceSensorRepository = deviceSensorRepository;
         this.deviceControlRepository = deviceControlRepository;
         this.controlRepository = controlRepository;
+        this.deviceSensorLogRepository = deviceSensorLogRepository;
     }
     @Override
     public void registDevice(DeviceRegistDto deviceRegistDto){       // 기기 등록
@@ -254,5 +257,24 @@ public class DeviceServiceImpl implements DeviceService {
         }
         return resultMap;
     }
+
+    @Override
+    public Map<String ,Object> getSensorLog(HttpServletRequest request, String deviceNo, String day){
+        Map<String ,Object> resultMap = new HashMap<>();
+        Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceNo);
+        ArrayList<SensorLogDto> sensorLogDtos = new ArrayList<>();
+        ArrayList<DeviceSensorLogEntity> deviceSensorLogEntities = new ArrayList<>();
+        if(day.equals("hour")){
+
+        }else if(day.equals("day")){
+            deviceSensorLogEntities = deviceSensorLogRepository.findByHourValue(deviceEntity);
+        }else{
+            throw new NoSuchElementException();
+        }
+
+
+        return resultMap;
+    }
+
 
 }
