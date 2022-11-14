@@ -3,7 +3,6 @@ package com.handfarm.backend.service.impl;
 import com.google.gson.JsonObject;
 import com.handfarm.backend.domain.dto.device.DedviceAutoControlDto;
 import com.handfarm.backend.domain.dto.device.DeviceRegistDto;
-import com.handfarm.backend.domain.dto.device.SensorLogDto;
 import com.handfarm.backend.domain.entity.*;
 import com.handfarm.backend.repository.*;
 import com.handfarm.backend.service.DeviceService;
@@ -246,13 +245,18 @@ public class DeviceServiceImpl implements DeviceService {
         if(!myUserEntity.equals(getUserEntity) && !getUserEntity.get().getUserOpen()) {
             resultMap.put("message", "conceal");
         }else {
-            List<Optional<DeviceControlEntity>> deviceControlEntitylist = deviceControlRepository.findByDeviceIdx(getUserEntity.get().getDevice());
-            if(deviceControlEntitylist.isEmpty()) throw new NoSuchElementException();
-            for (Optional<DeviceControlEntity> deviceControlEntity : deviceControlEntitylist) {
-                if(deviceControlEntity.isEmpty()) throw new NoSuchElementException();
-                String controlName = deviceControlEntity.get().getControlIdx().getControlName();
-                String controlAutoValue = deviceControlEntity.get().getAutoControlval();
-                resultMap.put(controlName, controlAutoValue);
+            List<UserDeviceEntity> userDeviceEntityList = userDeviceRepository.findByUserIdx(getUserEntity.get());
+            for(UserDeviceEntity userDeviceEntity : userDeviceEntityList){
+                List<Optional<DeviceControlEntity>> deviceControlEntitylist = deviceControlRepository.findByDeviceIdx(userDeviceEntity.getDeviceIdx());
+                if(deviceControlEntitylist.isEmpty()) throw new NoSuchElementException();
+                Map<String ,Object> autoValue = new HashMap<>();
+                for (Optional<DeviceControlEntity> deviceControlEntity : deviceControlEntitylist) {
+                    if(deviceControlEntity.isEmpty()) throw new NoSuchElementException();
+                    String controlName = deviceControlEntity.get().getControlIdx().getControlName();
+                    String controlAutoValue = deviceControlEntity.get().getAutoControlval();
+                    autoValue.put(controlName, controlAutoValue);
+                }
+                resultMap.put(userDeviceEntity.getDeviceIdx().getDeviceNo(), autoValue);
             }
         }
         return resultMap;
