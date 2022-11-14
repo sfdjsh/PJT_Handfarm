@@ -1,15 +1,22 @@
 package com.handfarm.backend.domain.dto.device;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter
 public class SensorLogDto {
-    private String date;
-    private String avgValue;
+
+    @Id
+    @Column
+    private String logTime;
+
+    @Column
+    private Double avgValue;
 }
