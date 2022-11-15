@@ -40,10 +40,17 @@ const CommunityInfo = () => {
 
     useEffect(() => {
         if(filter === "인기순"){
-            regionInfo.sort(function (a,b) {
+            regionArticle.sort(function (a,b) {
                 return b.likeCount - a.likeCount
             })
-            setRegionArticle(regionInfo)
+            const likeArticle = [...regionArticle]
+            setRegionArticle(likeArticle)
+        }else if(filter === ""){
+            regionArticle.sort(function (a,b) {
+                return new Date(a.articleTime) - new Date(b.articleTime)
+            })
+            const currentArticle = [...regionArticle]
+            setRegionArticle(currentArticle)
         }
     },[filter])
 

@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4b81b8fd-fc66-4b80-83f5-fee977677905" name="Changes" comment="#11 feat : myPage &amp; Farmmunity">
+    <list default="true" id="4b81b8fd-fc66-4b80-83f5-fee977677905" name="Changes" comment="#hotfix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/common/Footer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/Footer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/Chatting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/Chatting.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/community/CommunityInfo.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/community/CommunityInfo.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/community/CommunityRegion.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/community/CommunityRegion.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,7 +17,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="frontend" />
+        <entry key="$PROJECT_DIR$/.." value="F13_FE_김강현" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -74,6 +74,14 @@
       <workItem from="1668382811171" duration="16944000" />
       <workItem from="1668470112769" duration="14953000" />
     </task>
+    <task id="LOCAL-00001" summary="#hotfix">
+      <created>1668489742145</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1668489742145</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -95,6 +103,7 @@
     <MESSAGE value="#8 feat : chatting" />
     <MESSAGE value="#9 feat : API connect" />
     <MESSAGE value="#11 feat : myPage &amp; Farmmunity" />
-    <option name="LAST_COMMIT_MESSAGE" value="#11 feat : myPage &amp; Farmmunity" />
+    <MESSAGE value="#hotfix" />
+    <option name="LAST_COMMIT_MESSAGE" value="#hotfix" />
   </component>
 </project>
