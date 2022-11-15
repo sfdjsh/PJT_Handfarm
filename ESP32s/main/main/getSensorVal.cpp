@@ -5,6 +5,7 @@ void relay_begin() {
   pinMode(Pump_pin, OUTPUT);
   pinMode(Heater_pin, OUTPUT);
   pinMode(Cooler_pin, OUTPUT);
+  pinMode(CDS_pin, INPUT);
 }
 
 int getCDS() {  //return average (cnt)

@@ -5,14 +5,10 @@
 #include "common.h"
 #include "Credential.h"
 
-//freeRtos
-TaskHandle_t Task1;
-TaskHandle_t Task2;
-
 //table
-int controlTable[] = {0,0,0,0,0};                    //tenp, led, fan, pump, buzzer
-int manualTable[] = {1,0,0,0,0};
-control controlVal = {30,10,30,500,12,14}; 
+int controlTable[] = { 0, 0, 0, 0, 0 };  //tenp, led, fan, pump, buzzer
+int manualTable[] = { 1, 0, 0, 0, 0 };
+control controlVal = { 30, 10, 30, 500, 12, 14 };
 
 //object declaration
 PM2008_I2C pm2008_i2c;
@@ -20,7 +16,10 @@ DHT dht(DHT22_pin, DHTTYPE);
 EspMQTTClient client(ssid, password, mqttBrokerIP, clientName, mqttPort);
 StaticJsonDocument<200> doc;
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NeoPixel_num, NeoPixel_pin, NEO_GRB + NEO_KHZ800);
-// CM1106_I2C cm1106_i2c;
+CM1106_I2C cm1106_i2c;
+
+unsigned long Post_Time = millis();
+unsigned long Post_Delay = 2*1000;
 
 void setup() {
   Serial.begin(115200);
@@ -32,95 +31,70 @@ void setup() {
   // cm1106_i2c.check_sw_version();
   client.enableDebuggingMessages();
   pwmControl_begin();
-  
+
   strip.begin();
   strip.setBrightness(255);
   strip.show();
-
-  //Declaration Task
-  xTaskCreatePinnedToCore(
-    neopixelloop,         // 태스크 함수
-    "Task1",           // 테스크 이름
-    10000,             // 스택 크기(워드단위)
-    NULL,              // 태스크 파라미터
-    1,                 // 태스크 우선순위
-    &Task1,            // 태스크 핸들
-    0);                // 실행될 코어
-
-  xTaskCreatePinnedToCore(
-    mqttloop,          // 태스크 함수
-    "Task2",           // 테스크 이름
-    10000,             // 스택 크기(워드단위)
-    NULL,              // 태스크 파라미터
-    1,                 // 태스크 우선순위
-    &Task2,            // 태스크 핸들
-    1);                // 실행될 코어
-
 }
 
 void onConnectionEstablished();
+void tx(float temp, float humid, float pm2p5, float pm10,int cds,int co2);
 
-void neopixelloop(void *param){
-  if(client.onWiFiConnectionLost() == 1000){
-    colorWave(strip, 50, 'r');
-  }
-  else{
-    colorWave(strip, 50, 'g');
-  }
-}
-
-void mqttloop(void *param){
-   //dht.readTemperature() |  dht.readHumidity()
+void loop() {
+  //dht.readTemperature() |  dht.readHumidity()
   //getCDS()
-  //pm2008_i2c.pm2p5_grimm | pm2008_i2c.pm10_grimm
-  //digitalWrite(Relay_IN1,HIGH), digitalWrite(Relay_IN1,LOW);
-  //Serial.println(analogRead(Soil_pin));
   //Serial.println(getCO2(CM1106_I2C cm1106_i2c))
-  int temp;
-  int solidHumidity;
-  int co2;
+  int temp,solidHumidity,co2;
 
+  //float temp = dht.readTemperature();
+  //float humid = dht.readHumidity();
+  //float pm2p5 = pm2008_i2c.pm2p5_grimm;
+  //float pm10 = pm2008_i2c.pm10_grimm;
+  //int solidHumidity = analogRead(Soil_pin);
+  //int co2 = getCO2(CM1106_I2C cm1106_i2c);
+  
   client.loop();
-  for(int i=0;i<5;i++){
-    if(controlTable[i] == 0){
+  for (int i = 0; i < 5; i++) {
+    if (controlTable[i] == 0) {
       manualMode(i);
     }
-    if(controlTable[i] == 1){
+    if (controlTable[i] == 1) {
       autoMode(i, temp, solidHumidity, co2);
     }
   }
 
+  if(((millis() - Post_Time) > Post_Delay)){
+    pm2008_i2c.read();
+    tx(dht.readTemperature(), dht.readHumidity(), pm2008_i2c.pm2p5_grimm, pm2008_i2c.pm10_grimm, getCDS(),getCO2(cm1106_i2c)); 
+    Serial.println(getCDS());
+    Post_Time = millis();
+  }
   //check
   /*
-  for(int i=0;i<5;i++){
-    Serial.print(manualTable[i]);
+    for(int i=0;i<5;i++){
+      Serial.print(manualTable[i]);
+      Serial.print(" ");
+    }
+    Serial.println();
+
+    for(int i=0;i<5;i++){
+      Serial.print(controlTable[i]);
+      Serial.print(" ");
+    }
+    Serial.println();
+    Serial.print(controlVal.temp_h);
     Serial.print(" ");
-  }
-  Serial.println();
-
-  for(int i=0;i<5;i++){
-    Serial.print(controlTable[i]);
+    Serial.print(controlVal.temp_l);
     Serial.print(" ");
-  }
-  Serial.println();
-
-
-  Serial.print(controlVal.temp_h);
-  Serial.print(" ");
-  Serial.print(controlVal.temp_l);
-  Serial.print(" ");
-  Serial.print(controlVal.humid);
-  Serial.print(" ");
-  Serial.print(controlVal.co2);
-  Serial.print(" ");
-  Serial.print(controlVal.led_s);
-  Serial.print(" ");
-  Serial.print(controlVal.led_e);
-  Serial.println();
-  */
-}
-
-void loop() {
+    Serial.print(controlVal.humid);
+    Serial.print(" ");
+    Serial.print(controlVal.co2);
+    Serial.print(" ");
+    Serial.print(controlVal.led_s);
+    Serial.print(" ");
+    Serial.print(controlVal.led_e);
+    Serial.println();
+     */
 }
 
 void onConnectionEstablished() {
@@ -135,4 +109,50 @@ void onConnectionEstablished() {
   client.subscribe(topic_sub_manual, [](const String &payload) {
     updateManualTable(payload);
   });
+}
+
+void tx(float temp, float humid, float pm2p5, float pm10,int cds,int co2){
+  char publish_msg[100];
+  char str_temp[10];
+  char str_humid[10];
+  char str_pm2p5[10];
+  char str_pm10[10];
+  dtostrf(temp, 4, 1, str_temp);
+  dtostrf(humid, 4, 1, str_humid);
+  dtostrf(pm2p5, 4, 1, str_pm2p5);
+  dtostrf(pm10, 4, 1, str_pm10);
+  sprintf(publish_msg,"{temp:%s,humid:%s,pm2.5:%s,pm10:%s,cds:%d,co2:%d}", str_temp, str_humid, str_pm2p5, str_pm10,cds,co2);
+  client.publish(topic_pub, publish_msg);
+}
+
+void colorWave(uint8_t wait) {
+  int i, j, stripsize, cycle;
+  float ang, rsin, gsin, bsin, offset;
+  static int tick = 0;
+  stripsize = strip.numPixels();
+  cycle = stripsize * 25;  // times around the circle...
+
+  while (++tick % cycle) {
+    offset = map2PI(tick);
+    for (i = 0; i < stripsize; i++) {
+      ang = map2PI(i) - offset;
+      rsin = sin(ang);
+      gsin = sin(2.0 * ang / 3.0 + map2PI(int(stripsize / 6)));
+      bsin = sin(4.0 * ang / 5.0 + map2PI(int(stripsize / 3)));
+      //strip.setPixelColor(i, strip.Color(trigScale(rsin), 0, 0));
+      strip.setPixelColor(i, strip.Color(0, 0, trigScale(bsin)));
+    }
+    strip.show();
+    delay(wait);
+  }
+}
+
+byte trigScale(float val) {
+  val += 1.0;    // move range to [0.0, 2.0]
+  val *= 127.0;  // move range to [0.0, 254.0]
+
+  return int(val) & 255;
+}
+float map2PI(int i) {
+  return PI * 2.0 * float(i) / float(strip.numPixels());
 }
