@@ -164,7 +164,7 @@ public class ChatServiceImpl implements ChatService {
         if(sendUser.isEmpty() || toUser.isEmpty()) return;
         String msg = chatDto.getMsg();
         Integer roomId = chatDto.getRoomId();
-        Boolean isRead = false;
+        Boolean isRead = chatDto.getIsRead();
 
         ChatEntity chat = ChatEntity.builder()
                 .roomId(String.valueOf(roomId)).msg(msg).sendUserId(sendUser.get().getUserId()).
