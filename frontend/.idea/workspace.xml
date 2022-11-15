@@ -4,24 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4b81b8fd-fc66-4b80-83f5-fee977677905" name="Changes" comment="#10 feat : API connect">
-      <change afterPath="$PROJECT_DIR$/src/components/common/BoxSensor.jsx" afterDir="false" />
+    <list default="true" id="4b81b8fd-fc66-4b80-83f5-fee977677905" name="Changes" comment="#11 feat : myPage &amp; Farmmunity">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/ArticleFilter.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/ArticleFilter.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/common/Footer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/Footer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/myFarm/SensorList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/myFarm/SensorList.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/Article.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/Article.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/api/Chatting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/Chatting.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/api/Farmmunity.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/Farmmunity.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/api/MyPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/MyPage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/chat/ChatList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/chat/ChatList.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/chat/CreateReadChat.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/chat/CreateReadChat.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/community/FarmmunityInfoDetail.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/community/FarmmunityInfoDetail.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/myPage/MyPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/myPage/MyPage.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/community/CommunityInfo.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/community/CommunityInfo.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/community/CommunityRegion.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/community/CommunityRegion.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/community/FarmmunityMain.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/community/FarmmunityMain.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/myPage/MyPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/myPage/MyPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/myPage/MyPageFarm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/myPage/MyPageFarm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/myPage/MyPageSetting.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/myPage/MyPageSetting.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,6 +81,7 @@
       <workItem from="1668039120362" duration="8096000" />
       <workItem from="1668123446102" duration="16220000" />
       <workItem from="1668382811171" duration="16944000" />
+      <workItem from="1668470112769" duration="14953000" />
     </task>
     <servers />
   </component>
@@ -107,6 +103,7 @@
     <MESSAGE value="article, Navbar, mqtt, farmmunityMain" />
     <MESSAGE value="#8 feat : chatting" />
     <MESSAGE value="#9 feat : API connect" />
-    <option name="LAST_COMMIT_MESSAGE" value="#9 feat : API connect" />
+    <MESSAGE value="#11 feat : myPage &amp; Farmmunity" />
+    <option name="LAST_COMMIT_MESSAGE" value="#11 feat : myPage &amp; Farmmunity" />
   </component>
 </project>

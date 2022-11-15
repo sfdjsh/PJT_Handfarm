@@ -48,10 +48,10 @@ const MyPage = () => {
                 setSensorValue(res.devicesInfo[0].sensorValue)
                 setDeviceInfo(res.devicesInfo[0])
                 // setUserOpen(res.userOpen)
-                console.log(res.userOpen)
+                // console.log(res.userOpen)
                 // setUserOpen(res.userOpen)
             }))
-    },[])
+    },[pageUser])
 
     const goChatting = (userName) => {
         createChatRoom(userName)
