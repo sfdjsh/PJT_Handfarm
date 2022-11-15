@@ -57,7 +57,6 @@ public class FarmmunityController {
         Map<String, Object> resultMap = new HashMap<>();
         if(checkToken(request, resultMap)){
             try{
-//                Map<String, Object> res = farmmunityService.getArticleList(domain, category);
                 resultMap.putAll(farmmunityService.getArticleList(domain, category));
                 resultMap.put(MESSAGE, SUCCESS);
                 status = status200;
