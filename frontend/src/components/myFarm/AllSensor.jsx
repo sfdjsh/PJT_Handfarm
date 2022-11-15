@@ -35,6 +35,7 @@ const AllSensor = (props) => {
                       width:'110px', height: "110px",
                     }}
                     className={sensor === '- - - -'? 'blurEffect' : ''}
+                    onClick={() => {console.log('하이?')}}
                   >   
                     <Box>
                       <Typography sx={{fontWeight:'bold', m:1}}>{sensorName[index]}</Typography>
@@ -44,7 +45,6 @@ const AllSensor = (props) => {
                         {sensor} {sensor !== '- - - -' ? unit[index] : ''}
                       </Typography>
                     </Box>
-                    {/* </CardContent> */}
                   </Card>
                 </Grid>
               ))}

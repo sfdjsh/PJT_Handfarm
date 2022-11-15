@@ -14,7 +14,7 @@ import {
 import DeviceThermostatOutlinedIcon from "@mui/icons-material/DeviceThermostatOutlined";
 import {userInfo} from "../../atom";
 import {useRecoilState} from "recoil";
-import Blur from "react-blur";
+// import Blur from "react-blur";
 import handFarm from '../../pictures/handFarmLogo.png'
 import './MyPage.css'
 

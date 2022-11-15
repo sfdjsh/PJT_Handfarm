@@ -50,22 +50,33 @@ const SensorList = ({ deviceId, email, camera }) => {
     <>
       <Container>
         <Box sx={{ background: "#757575", pt: 1, color: "white" }}>
-          <Tabs
+          <Box display="flex">
+            {/* 전체 tab default */}
+            <Box>
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                aria-label="visible arrows tabs example"
+                textColor="inherit"
+              >
+                <Tab label="전체" value={0} ></Tab>
+              </Tabs>
+            </Box>
+            {/* 센서 리스트 */}
+            <Tabs
             value={value}
             onChange={handleChange}
             variant="scrollable"
             scrollButtons
             aria-label="visible arrows tabs example"
-            textColor="inherit"
-          >
-            <Tab label="전체" value={0}></Tab>
-            {temp !== '- - - -' ? <Tab label="온도" value={1} /> : <></>}
-            {co2 !== '- - - -' ? <Tab label="이산화탄소" value={2} /> : <></>}
-            {humid !== '- - - -' ? <Tab label="습도" value={3} /> : <></>}
-            {soilHumid !== '- - - -' ? <Tab label="토양습도" value={4} /> : <></>} 
-            <Tab label="Led" value={5} />
-            {/* {camera !== null ? <Tab label="카메라" value={6} /> : <></>} */}
-          </Tabs>
+            textColor="inherit">
+              {temp !== '- - - -' ? <Tab label="온도" value={1} /> : null}
+              {co2 !== '- - - -' ? <Tab label="이산화탄소" value={2} /> : null}
+              {humid !== '- - - -' ? <Tab label="습도" value={3} /> : null}
+              {soilHumid !== '- - - -' ? <Tab label="토양습도" value={4} /> : null} 
+              <Tab label="Led" value={5} />
+            </Tabs>
+          </Box>
         </Box>
       </Container>
       <Grid sx={{ mt: 1 }}>
