@@ -295,7 +295,6 @@ public class DeviceServiceImpl implements DeviceService {
                 Map<String, Object> logMap = new HashMap<>();
                 String[] str = sensorLogDto.getLogTime().split("-");
                 logMap.put("logDate", str[1]+"월 "+Integer.valueOf(str[2])+"일");
-//                logMap.put("logDay", Integer.valueOf(str[2]));
                 logMap.put("aveValue", sensorLogDto.getAvgValue());
                 resultList.add(logMap);
             }

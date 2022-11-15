@@ -37,6 +37,23 @@ public class ChatController {
         this.chatService = chatService;
     }
 
+    @GetMapping("chat/count") // 읽지 않은 채팅 개수
+    public ResponseEntity<Map<String,Object>> getNotReadCount(HttpServletRequest request){
+        Map<String, Object> resultMap = new HashMap<>();
+        if(checkToken(request, resultMap)){
+            try{
+                resultMap.put("notReadCount", chatService.getNotReadCount(request)); // 받자마자 채팅 상세 조회로 Get 요청 해야함
+                resultMap.put(MESSAGE, SUCCESS);
+                status = status200;
+            }catch (Exception e){
+                resultMap.put(MESSAGE, FAIL);
+                status = status500;
+            }
+        }
+
+        return new ResponseEntity<>(resultMap, status);
+    }
+
     @GetMapping("chat/{user_nickname}") // 채팅 방 생성
     public ResponseEntity<Map<String, Object>> createChatRoom(HttpServletRequest request, @PathVariable("user_nickname") String userNickname) throws IOException {
         Map<String, Object> resultMap = new HashMap<>();

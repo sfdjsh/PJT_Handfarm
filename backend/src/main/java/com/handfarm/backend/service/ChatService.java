@@ -19,4 +19,6 @@ public interface ChatService {
     String createChatRoom(HttpServletRequest request, String userNickname);
 
     void saveMessageRedis(ChatDto chatDto);
+
+    Integer getNotReadCount(HttpServletRequest request);
 }
