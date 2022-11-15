@@ -19,16 +19,17 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(NeoPixel_num, NeoPixel_pin, NEO_GRB 
 CM1106_I2C cm1106_i2c;
 
 unsigned long Post_Time = millis();
-unsigned long Post_Delay = 2*1000;
+unsigned long Post_Delay = 2 * 1000;
 
 void setup() {
   Serial.begin(115200);
   Wire.begin();
   dht.begin();
   relay_begin();
+  cm1106_i2c.begin();
   pm2008_i2c.command();
-  // cm1106_i2c.read_serial_number();
-  // cm1106_i2c.check_sw_version();
+  cm1106_i2c.read_serial_number();
+  cm1106_i2c.check_sw_version();
   client.enableDebuggingMessages();
   pwmControl_begin();
 
@@ -38,34 +39,34 @@ void setup() {
 }
 
 void onConnectionEstablished();
-void tx(float temp, float humid, float pm2p5, float pm10,int cds,int co2);
+void tx(float temp, float humid, float pm2p5, float pm10, int cds, int co2, int soilHumidity);
 
 void loop() {
   //dht.readTemperature() |  dht.readHumidity()
   //getCDS()
   //Serial.println(getCO2(CM1106_I2C cm1106_i2c))
-  int temp,solidHumidity,co2;
 
   //float temp = dht.readTemperature();
   //float humid = dht.readHumidity();
   //float pm2p5 = pm2008_i2c.pm2p5_grimm;
   //float pm10 = pm2008_i2c.pm10_grimm;
   //int solidHumidity = analogRead(Soil_pin);
-  //int co2 = getCO2(CM1106_I2C cm1106_i2c);
-  
+  int co2 = getCO2(cm1106_i2c);
+  int soilHumidity = analogRead(Soil_pin);
+
   client.loop();
   for (int i = 0; i < 5; i++) {
     if (controlTable[i] == 0) {
       manualMode(i);
     }
     if (controlTable[i] == 1) {
-      autoMode(i, temp, solidHumidity, co2);
+      //autoMode(i, temp, solidHumidity, co2);
     }
   }
 
-  if(((millis() - Post_Time) > Post_Delay)){
+  if (((millis() - Post_Time) > Post_Delay)) {
     pm2008_i2c.read();
-    tx(dht.readTemperature(), dht.readHumidity(), pm2008_i2c.pm2p5_grimm, pm2008_i2c.pm10_grimm, getCDS(),getCO2(cm1106_i2c)); 
+    tx(dht.readTemperature(), dht.readHumidity(), pm2008_i2c.pm2p5_grimm, pm2008_i2c.pm10_grimm, getCDS(), co2,soilHumidity);
     Serial.println(getCDS());
     Post_Time = millis();
   }
@@ -111,7 +112,7 @@ void onConnectionEstablished() {
   });
 }
 
-void tx(float temp, float humid, float pm2p5, float pm10,int cds,int co2){
+void tx(float temp, float humid, float pm2p5, float pm10, int cds, int co2,int soilHumidity) {
   char publish_msg[100];
   char str_temp[10];
   char str_humid[10];
@@ -121,7 +122,7 @@ void tx(float temp, float humid, float pm2p5, float pm10,int cds,int co2){
   dtostrf(humid, 4, 1, str_humid);
   dtostrf(pm2p5, 4, 1, str_pm2p5);
   dtostrf(pm10, 4, 1, str_pm10);
-  sprintf(publish_msg,"{temp:%s,humid:%s,pm2.5:%s,pm10:%s,cds:%d,co2:%d}", str_temp, str_humid, str_pm2p5, str_pm10,cds,co2);
+  sprintf(publish_msg, "{temp:%s,humid:%s,pm2p5:%s,pm10:%s,cds:%d,co2:%d,humidSoil:%d}", str_temp, str_humid, str_pm2p5, str_pm10, cds, co2,soilHumidity);
   client.publish(topic_pub, publish_msg);
 }
 
