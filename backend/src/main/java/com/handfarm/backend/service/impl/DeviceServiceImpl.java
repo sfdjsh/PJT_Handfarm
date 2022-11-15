@@ -289,11 +289,17 @@ public class DeviceServiceImpl implements DeviceService {
         LocalDateTime startDateTime;
         LocalDateTime endDateTime = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
         if(day.equals("day")){
-            List<SensorLogDto> sensorList;
             startDateTime = endDateTime.minusDays(7);
             sensorLogList = deviceSensorLogRepository.findByDayValue(deviceEntity.get(), sensorEntity.get(), startDateTime, endDateTime);
-
-            resultMap.put("sensorLogList", sensorLogList);
+            for(SensorLogDto sensorLogDto : sensorLogList){
+                Map<String, Object> logMap = new HashMap<>();
+                String[] str = sensorLogDto.getLogTime().split("-");
+                logMap.put("logDate", str[1]+"월 "+Integer.valueOf(str[2])+"일");
+//                logMap.put("logDay", Integer.valueOf(str[2]));
+                logMap.put("aveValue", sensorLogDto.getAvgValue());
+                resultList.add(logMap);
+            }
+            resultMap.put("sensorLogList", resultList);
 
         }else if(day.equals("hour")){
             startDateTime = endDateTime.minusDays(1);
@@ -302,7 +308,7 @@ public class DeviceServiceImpl implements DeviceService {
                 Map<String, Object> logMap = new HashMap<>();
                 String[] str = sensorLogDto.getLogTime().split(" ");
                 logMap.put("logDay",str[0]);
-                logMap.put("logTime", str[1]);
+                logMap.put("logTime", str[1]+"시");
                 logMap.put("avgValue", sensorLogDto.getAvgValue());
                 resultList.add(logMap);
             }
