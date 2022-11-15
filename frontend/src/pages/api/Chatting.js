@@ -40,7 +40,7 @@ export async function createChatRoom(userName){
 }
 
 export async function fetchChatSum(){
-    const URL = `${BASE_URL}/chat/sum`
+    const URL = `${BASE_URL}/chat/count`
     const response = await fetch(URL, {
         method : "GET",
         headers : {
