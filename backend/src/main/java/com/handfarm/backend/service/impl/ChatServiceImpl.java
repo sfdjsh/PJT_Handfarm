@@ -86,6 +86,8 @@ public class ChatServiceImpl implements ChatService {
     public List<ChatDetailDto> getChatDetail(HttpServletRequest request, String roomId) { // 채팅 내용 상세 조회
         List<ChatDetailDto> chatList = new ArrayList<>();
         List<ChatEntity> chat = redisTemplate.opsForList().range(roomId, 0, redisTemplate.opsForList().size(roomId));
+        UserEntity user = getUserEntity(request);
+        String userId = user.getUserId();
 
         if(chat.isEmpty()){
             // 채팅방 없음. 빈배열 생성
@@ -98,6 +100,12 @@ public class ChatServiceImpl implements ChatService {
                 mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // timestamp 형식 안따르도록 설정
                 mapper.registerModules(new JavaTimeModule(), new Jdk8Module());
                 ChatEntity chatEntity = mapper.convertValue(chatObject, ChatEntity.class);
+
+                // 안읽었던 내용들 읽음 처리
+                if(chatEntity.getToUserId().equals(userId) && !chatEntity.getIsRead()){
+                    chatEntity.setIsRead(true);
+                    redisTemplate.opsForList().set(roomId, i, chatEntity);
+                }
 
                 Optional<UserEntity> sendUser = userRepository.findByUserId(chatEntity.getSendUserId());
                 Optional<UserEntity> toUser = userRepository.findByUserId(chatEntity.getToUserId());
