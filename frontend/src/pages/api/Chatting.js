@@ -38,3 +38,15 @@ export async function createChatRoom(userName){
     return response
 
 }
+
+export async function fetchChatSum(){
+    const URL = `${BASE_URL}/chat/sum`
+    const response = await fetch(URL, {
+        method : "GET",
+        headers : {
+            accessToken : localStorage.getItem("access_token"),
+            "Content-Type" : "application/json",
+        }
+    })
+    return response
+}

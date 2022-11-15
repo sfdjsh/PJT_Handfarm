@@ -80,11 +80,38 @@ export const ChatList = () => {
                                         {detailDate(new Date(chat.time))}
                                     </Grid>
                                 </Grid>
-                                    
-                                    <p style={{ fontWeight : "normal", textAlign : "left", lineHeight : "25px", color : "#e0e0e0", margin : "0px" , marginTop : "20px", textOverflow : "ellipsis", overflow : "hidden", whiteSpace : "nowrap" }}>
-                                        {chat.content}
-                                    </p>
-                                
+                                    <Grid container>
+                                        <Grid item xs={10}>
+                                            <p style={{ fontWeight : "normal", textAlign : "left", lineHeight : "25px", color : "#e0e0e0", margin : "0px" , marginTop : "20px", textOverflow : "ellipsis", overflow : "hidden", whiteSpace : "nowrap" }}>
+                                                {chat.content}
+                                            </p>
+                                        </Grid>
+                                        <Grid item xs={2}>
+                                            { chat.notReadCount !== 0 ? (
+                                                <div style={{
+                                                    width : "30px",
+                                                    height : "30px",
+                                                    borderRadius : "50%",
+                                                    fontWeight : "bold",
+                                                    textAlign : "center",
+                                                    lineHeight : "30px",
+                                                    color : "#e0e0e0",
+                                                    margin : "0px" ,
+                                                    backgroundColor : "#d32f2f",
+                                                    marginTop : "20px",
+                                                    textOverflow : "ellipsis",
+                                                    overflow : "hidden",
+                                                    whiteSpace : "nowrap",
+                                                    fontFamily : "ScoreDream"
+                                                }}>
+                                                    { chat.notReadCount }
+                                                </div>
+                                            ) : (
+                                                <></>
+                                            ) }
+                                        </Grid>
+                                    </Grid>
+
                             </Grid>
                         </Grid>
                         <Divider sx={{ mt :3, mb:3 , backgroundColor : "#757575" }}/>
