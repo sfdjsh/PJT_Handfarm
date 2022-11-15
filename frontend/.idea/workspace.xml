@@ -6,17 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="4b81b8fd-fc66-4b80-83f5-fee977677905" name="Changes" comment="#11 feat : myPage &amp; Farmmunity">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/common/ArticleFilter.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/ArticleFilter.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/common/Footer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/Footer.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/api/Chatting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/Chatting.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/Farmmunity.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/Farmmunity.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/MyPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/MyPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/chat/ChatList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/chat/ChatList.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/chat/CreateReadChat.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/chat/CreateReadChat.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/community/CommunityInfo.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/community/CommunityInfo.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/community/CommunityRegion.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/community/CommunityRegion.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/community/FarmmunityMain.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/community/FarmmunityMain.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/myPage/MyPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/myPage/MyPage.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

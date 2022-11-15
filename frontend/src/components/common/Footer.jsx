@@ -30,6 +30,7 @@ export const Footer = () => {
     const classes = useStyles();
     const [value, setValue] = useState(0)
     const navigator = useNavigate();
+    const [chattingNum, setChattingNum] = useState(0)
     const [user, setUser] = useRecoilState(userInfo)
 
     useEffect(() => {
@@ -37,6 +38,7 @@ export const Footer = () => {
             .then((res) => res.json().then((res) => {
                 console.log("푸터")
                 console.log(res)
+                setChattingNum(res.notReadCount)
             }))
     },)
 
@@ -61,13 +63,15 @@ export const Footer = () => {
                     }}  label="커뮤니티" icon={<PeopleIcon />} />
                     <BottomNavigationAction style={{ color : "white" }} onClick={() => {
                         navigator('/chatList')
-                    }}  label="톡톡"  icon={<ChatBubbleOutlineIcon />} />
+                    }}  label="톡톡"  icon={
+                        <Badge badgeContent={chattingNum} color="error">
+                            <ChatBubbleOutlineIcon />
+                        </Badge>
+                    } />
                     <BottomNavigationAction style={{ color : "white" }} onClick={() => {
                         navigator(`/mypage/${user.userNickname}`)
                     }}  label="프로필" icon={
-                        <Badge>
                             <PermIdentityOutlinedIcon />
-                        </Badge>
                     } />
                 </BottomNavigation>
             </Box>
