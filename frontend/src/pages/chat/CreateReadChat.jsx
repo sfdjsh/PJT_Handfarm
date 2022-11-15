@@ -24,7 +24,7 @@ export function CreateReadChat() {
     const scrollRef = useRef();
     const [chatList, setChatList] = useState([])
     const [anotherProfile, setAnotherProfile] = useState("")
-    console.log(anotherProfile)
+    console.log(chatList)
     // const editDone = false
     //
     // const scrollToBottom = useCallback(() => {
@@ -33,7 +33,6 @@ export function CreateReadChat() {
     //         scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
     //     }
     // }, [editDone]);
-    console.log(scrollRef.current)
     useEffect(() => {
         console.log("여기옴")
         window.scrollTo(0,document.body.scrollHeight)
@@ -49,7 +48,7 @@ export function CreateReadChat() {
     }, [])
     const connect = () => {
         client.current = new StompJs.Client({
-            brokerURL: 'ws://localhost:8081/ws',
+            brokerURL: 'ws://handfarm.co.kr:8081/ws',
             onConnect: () => {
                 console.log('success');
                 subscribe();
@@ -69,7 +68,8 @@ export function CreateReadChat() {
                 roomId: parseInt(apply_id.id),
                 msg : chat,
                 toUserNickname : toUserNickname,
-                sendUserNickname : nowUser.userNickname
+                sendUserNickname : nowUser.userNickname,
+                isRead : false
             }),
         });
 
@@ -113,6 +113,13 @@ export function CreateReadChat() {
                      chatting.sendUserNickname === nowUser.userNickname ? (
                          <Box className="chat ch2">
                             <Box className="textbox" key={index} sx={{ color : 'black' }} >{ chatting.msg }</Box>
+                             {/*{ chatting.isRead === false ? (*/}
+                             {/*    <p style={{ paddingTop : "20px", paddingRight : "5px", color : "#F9EB54"  }}>*/}
+                             {/*        1*/}
+                             {/*    </p>*/}
+                             {/*) : (*/}
+                             {/*    <></>*/}
+                             {/*) }*/}
                          </Box>
                      )  : (
                          <Box className="chat ch1" key={index} sx={{ display : "flex",justifyContent : "left",  color : "black"}}>

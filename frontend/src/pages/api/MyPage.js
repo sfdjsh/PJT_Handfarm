@@ -21,16 +21,16 @@ export async function changeOpen(isOpen) {
     //     isOpen = 0
     // }
     console.log(isOpen)
-    const URL = `${BASE_URL}/mypage`
+    const URL = `${BASE_URL}/mypage/`
     const response = await fetch(URL, {
-        method : "POST",
+        method : "GET",
         headers : {
             accessToken : localStorage.getItem("access_token"),
             "Content-Type" : "application/json",
-        },
-        body : JSON.stringify({
-            userOpen : isOpen,
-        })
+        }
+        // body : JSON.stringify({
+        //     userOpen : isOpen,
+        // })
     })
     return response
 }

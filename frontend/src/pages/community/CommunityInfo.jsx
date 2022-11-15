@@ -23,6 +23,8 @@ export const CommunityInfo = () => {
     const [infoArticle, setInfoArticle] = useState([])
     const [crop, setCrop] = useRecoilState(nowCrop)
     const [cropInfo, setCropInfo] = useState([])
+    const [filter, setFilter] = useState("")
+    console.log(filter)
 
     useEffect(() => {
         const getArticle = fetchInfoArticle(crop)
@@ -33,8 +35,18 @@ export const CommunityInfo = () => {
             }))
     },[crop])
 
-    console.log(cropInfo)
-    console.log(infoArticle)
+    const getFilterValue = (text) => {
+        setFilter(text)
+    }
+
+    useEffect(() => {
+        if(filter === "인기순"){
+            infoArticle.sort(function (a,b) {
+                return b.likeCount - a.likeCount
+            })
+            setInfoArticle(infoArticle)
+        }
+    },[filter])
 
     return (
         <Box>
@@ -60,7 +72,7 @@ export const CommunityInfo = () => {
             </Box>
             <Divider style={{ backgroundColor : "white" }}/>
             <Box sx={{ display : "flex", justifyContent : "start" }}>
-                <ArticleFilter/>
+                <ArticleFilter getFilter={getFilterValue}/>
             </Box>
             <Box>
                 { infoArticle.map((article, index) => (
@@ -73,6 +85,7 @@ export const CommunityInfo = () => {
                                 alt="Remy Sharp"
                                 src={article.articleImg}
                                 sx={{ m : 2, width: 100, height: 100, boxShadow: '1px 2px 9px #F4AAB9' }}
+                                variant="square"
                             />
                         </Grid>
                         <Grid item xs={8}>
