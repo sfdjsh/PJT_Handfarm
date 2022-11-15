@@ -106,6 +106,7 @@ public class RedisRepositoryTest {
 
                 UserEntity personA = chatRoomInfo.getPersonA();
                 UserEntity personB = chatRoomInfo.getPersonB();
+                
 //                if(personA.getUserId().equals(decodeId)){
 //                    chatList.add(new ChatListViewDto(chatEntity.getRoomId(), personB.getUserNickname(), personB.getUserProfile(),chatEntity.getMsg(), chatEntity.getTime()));
 //                }else{
