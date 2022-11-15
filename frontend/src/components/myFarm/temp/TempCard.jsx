@@ -6,10 +6,12 @@ import { motorControl } from "../../../atom";
 import ControlTemp from "../control/ControlTemp";
 import TempLineGraph from "./TempLineGraph";
 import TempBarGraph from "./TempBarGraph"
+import TempDayGraph from "./TempDayGraph"
 
 const TempCard = ({ temp, deviceId, value }) => {
   const [motorState, setMotorState] = useRecoilState(motorControl);
   const controlTemp = motorState.temp;
+  const sensorName = 'temp'
 
   return (
     <>
@@ -42,6 +44,8 @@ const TempCard = ({ temp, deviceId, value }) => {
               </Box>
               <TempLineGraph deviceId={deviceId} />
             </Card>
+            {/* 센서 시간/주간 그래프 */}
+            <TempDayGraph deviceId={deviceId} sensorName={sensorName} />
 
             {/* 센서 설정 */}
             <TempDetail temp={temp} deviceId={deviceId} />

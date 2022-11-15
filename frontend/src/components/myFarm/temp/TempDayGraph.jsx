@@ -4,7 +4,7 @@ import { sensorHours, sensorDay } from "../../../pages/api/MyFarm";
 import { Typography, Box, Card } from "@mui/material";
 import { Line, XAxis, YAxis, Legend, LineChart, Tooltip, CartesianGrid } from "recharts";
 
-const HumidDayGraph = ({ deviceId, sensorName }) => {
+const TempDayGraph = ({ deviceId, sensorName }) => {
   const [data, setData] = useState([]);
   const [time, setTime] = useState('Hours')
 
@@ -77,4 +77,4 @@ const HumidDayGraph = ({ deviceId, sensorName }) => {
   );
 };
 
-export default HumidDayGraph;
+export default TempDayGraph;

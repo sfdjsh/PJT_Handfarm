@@ -41,8 +41,10 @@ const SoilHumidCard = ({ soilHumid, deviceId, value }) => {
               <SoilHumidLineGraph deviceId={deviceId} />
             </Card>
 
+            {/* 센서 설정 */}
             <SoilHumidDetail soilHumid={soilHumid} deviceId={deviceId} />
-            
+
+            {/* 제어 설정 */}
             <ControlPump controlPump={controlPump} deviceId={deviceId} />
           </Container>
         </>

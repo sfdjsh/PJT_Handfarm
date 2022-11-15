@@ -21,7 +21,7 @@ const Co2LineGraph = ({ deviceId }) => {
       ...currentData,
       {
         name: "Co2",
-        co2: datas.CO2,
+        co2: datas.co2,
         time: timer,
       },
     ]);

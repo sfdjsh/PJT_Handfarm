@@ -47,14 +47,10 @@ const HumidCard = ({ humid, deviceId, value }) => {
               </Box>
               <HumidLineGraph deviceId={deviceId} sensorName={sensorName} />
             </Card>
+            <HumidDayGraph deviceId={deviceId} sensorName={sensorName} />
           </Container>
 
           {/* 시간/일 별 그래프 */}
-          <Container>
-            <Card sx={{ mt:2, mb:3, backgroundColor:"#1E1E1E" }}>
-              <HumidDayGraph deviceId={deviceId} sensorName={sensorName} />
-            </Card>
-          </Container>
         </>
       ) : (
         <></>
