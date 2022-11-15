@@ -4,10 +4,8 @@ import com.handfarm.backend.domain.dto.article.ArticleRegistDto;
 import com.handfarm.backend.domain.dto.article.CommentRegistDto;
 
 import java.util.Map;
-import com.handfarm.backend.domain.dto.article.ArticleViewDto;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 public interface FarmmunityService {
     void registArticle(HttpServletRequest request, ArticleRegistDto articleRegistDto, String domain, String category);

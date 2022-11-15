@@ -198,6 +198,7 @@ public class FarmmunityServiceImpl implements FarmmunityService {
                             .articleImg(a.getArticleImg())
                             .likeCount(userLikeArticlesRepository.countByArticleIdx(a.getIdx()))
                             .commentCount(commentRepository.countByArticleIdx(a))
+                            .articleTime(a.getArticleTime())
                             .build();
 
                     result.add(article);
@@ -221,6 +222,7 @@ public class FarmmunityServiceImpl implements FarmmunityService {
                             .articleImg(null)
                             .likeCount(userLikeArticlesRepository.countByArticleIdx(a.getIdx()))
                             .commentCount(commentRepository.countByArticleIdx(a))
+                            .articleTime(a.getArticleTime())
                             .build();
 
                     result.add(article);
