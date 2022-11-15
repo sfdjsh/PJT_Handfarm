@@ -25,6 +25,7 @@ export const CommunityInfo = () => {
     const [cropInfo, setCropInfo] = useState([])
     const [filter, setFilter] = useState("")
     console.log(filter)
+    console.log(infoArticle)
 
     useEffect(() => {
         const getArticle = fetchInfoArticle(crop)
@@ -44,7 +45,15 @@ export const CommunityInfo = () => {
             infoArticle.sort(function (a,b) {
                 return b.likeCount - a.likeCount
             })
-            setInfoArticle(infoArticle)
+            const likeArticle = [...infoArticle]
+            console.log(infoArticle)
+            setInfoArticle(likeArticle)
+        }else if(filter == ""){
+            infoArticle.sort(function (a,b) {
+                return new Date(a.articleTime) - new Date(b.articleTime)
+            })
+            const currentArticle = [...infoArticle]
+            setInfoArticle(currentArticle)
         }
     },[filter])
 
