@@ -21,7 +21,6 @@ public class DeviceServiceImpl implements DeviceService {
 
 
 
-
     private final DeviceRepository deviceRepository;
     private final KakaoService kakaoService;
     private final UserRepository userRepository;
@@ -293,7 +292,7 @@ public class DeviceServiceImpl implements DeviceService {
                 Map<String, Object> logMap = new HashMap<>();
                 String[] str = sensorLogDto.getLogTime().split("-");
                 logMap.put("logDate", str[1]+"월 "+Integer.valueOf(str[2])+"일");
-                logMap.put("aveValue", sensorLogDto.getAvgValue());
+                logMap.put("avgValue",  Float.valueOf(String.format("%.1f", sensorLogDto.getAvgValue())));
                 resultList.add(logMap);
             }
             resultMap.put("sensorLogList", resultList);
@@ -306,7 +305,7 @@ public class DeviceServiceImpl implements DeviceService {
                 String[] str = sensorLogDto.getLogTime().split(" ");
                 logMap.put("logDay",str[0]);
                 logMap.put("logTime", str[1]+"시");
-                logMap.put("avgValue", sensorLogDto.getAvgValue());
+                logMap.put("avgValue", Float.valueOf(String.format("%.1f", sensorLogDto.getAvgValue())));
                 resultList.add(logMap);
             }
             resultMap.put("sensorLogList", resultList);
