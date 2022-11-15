@@ -43,6 +43,40 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
+    public Integer getNotReadCount(HttpServletRequest request) {
+        int count = 0;
+        UserEntity user = getUserEntity(request);
+        String userId = user.getUserId();
+
+        List<ChatInfoEntity> chatInfoList = chatInfoRepository.findByUserChatInfo(user);
+
+        if (!chatInfoList.isEmpty()) {
+            for (ChatInfoEntity c : chatInfoList) {
+                String roomId = String.valueOf(c.getIdx());
+                List<ChatEntity> chat = redisTemplate.opsForList().range(roomId, 0, redisTemplate.opsForList().size(roomId));
+                if(!chat.isEmpty()) {
+                    for(int i=0; i<chat.size(); i++) {
+                        Object chatObject = chat.get(i);
+
+                        ObjectMapper mapper = new ObjectMapper();
+                        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // timestamp 형식 안따르도록 설정
+                        mapper.registerModules(new JavaTimeModule(), new Jdk8Module());
+                        ChatEntity chatEntity = mapper.convertValue(chatObject, ChatEntity.class);
+
+                        if (chatEntity.getToUserId().equals(userId) && !chatEntity.getIsRead()) count++;
+                    }
+                }else{
+                    continue;
+                }
+            }
+
+            return count;
+        }
+
+        return count;
+    }
+
+    @Override
     public List<ChatListViewDto> getChatList(HttpServletRequest request) { // 채팅 목록 조회
         UserEntity user = getUserEntity(request);
         String userId = user.getUserId();
