@@ -1,0 +1,13 @@
+.on-selected {
+  color: #2160CA
+}
+
+.off-selected {
+  color: white
+}
+
+.blurEffect {
+  filter: blur(10px);
+  -webkit-filter: blur(3px);
+}
+

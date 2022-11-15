@@ -2,7 +2,6 @@ import { BASE_URL } from "../../config";
 import axios from "axios";
 
 export async function controlState(props) {  
-  console.log(props)
   let data = {
     controlName: props.control,
     controlValue: props.switchState
@@ -14,13 +13,12 @@ export async function controlState(props) {
       accessToken: localStorage.getItem("access_token")
     }
   })
-    .then(response => {
-      console.log(response.data)
-    })
+    // .then(response => {
+    //   console.log(response.data)
+    // })
 }
 
 export async function axiosDegree(props) {
-  console.log(props)
   let data = {
     controlName: props.control,
     controlValue: props.d
@@ -32,7 +30,7 @@ export async function axiosDegree(props) {
       accessToken: localStorage.getItem("access_token")
     }
   })
-    .then(response => {
-      console.log(response.data)
-    })
+    // .then(response => {
+    //   console.log(response.data)
+    // })
 }

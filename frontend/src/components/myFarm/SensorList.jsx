@@ -3,59 +3,90 @@ import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { deviceSensor } from "../../atom";
 import { BASE_URL } from "../../config";
-import { EventSourcePolyfill, NativeEventSource } from 'event-source-polyfill'
-import { Grid } from '@mui/material' 
+import { EventSourcePolyfill } from "event-source-polyfill";
+import { Grid } from "@mui/material";
 
-import TempCard from "./TempCard";
-import Co2Card from "./Co2Card"
-import HumidCard from "./HumidCard"
-import SoilHumidCard from "./SoilHumidCard"
+import AllSensor from "./AllSensor";
+import TempCard from "./temp/TempCard";
+import Co2Card from "./co2/Co2Card";
+import HumidCard from "./humid/HumidCard";
+import SoilHumidCard from "./soilHumid/SoilHumidCard";
+import LedCard from "./led/LedCard";
 
-const SensorList = ({ deviceId, email }) => {
-  const [sensor, setSensor] = useRecoilState(deviceSensor)
+import { Box, Tabs, Tab, Container } from "@mui/material";
+import CameraCard from "./camera/CameraCard";
+
+const SensorList = ({ deviceId, email, camera }) => {
+  const [sensor, setSensor] = useRecoilState(deviceSensor);
 
   const test = () => {
-    const sse = new EventSourcePolyfill(`${BASE_URL}/connect/${email}`)
-    sse.addEventListener('connect', (e) => {
-      const {data: receivedConnectData} = e;
-      console.log(receivedConnectData)
-      setSensor(JSON.parse(receivedConnectData))
-    })
+    const sse = new EventSourcePolyfill(`${BASE_URL}/connect/${email}`);
+    sse.addEventListener("connect", (e) => {
+      const { data: receivedConnectData } = e;
+      setSensor(JSON.parse(receivedConnectData));
+    });
   };
 
   useEffect(() => {
     test();
-  }, [])
+  }, []);
 
-  const temp = sensor[deviceId]? sensor[deviceId].temp : ''
-  const co2 = sensor[deviceId]? sensor[deviceId].temp : ''
-  const humid = sensor[deviceId]? sensor[deviceId].humid : ''
-  const soilHumid = sensor[deviceId]? sensor[deviceId].soilHumid : ''
+  const temp = sensor[deviceId].temp ? sensor[deviceId].temp : '- - - -';
+  const co2 = sensor[deviceId].co2 ? sensor[deviceId].co2 : '- - - -';
+  const humid = sensor[deviceId].humid ? sensor[deviceId].humid : '- - - -';
+  const soilHumid = sensor[deviceId].humidSoil ? sensor[deviceId].humidSoil : '- - - -';
+  const superDust = sensor[deviceId].pm2p5 ? sensor[deviceId].pm2p5 : "- - - -"
+  const dust = sensor[deviceId].pm10 ? sensor[deviceId].pm10 : '- - - -'
+  const light = sensor[deviceId].cds ? sensor[deviceId].cds : '- - - -'
+  // const altitude = sensor[devicdId].altitude ? sensor[deviceId].altitude  : '- - - -'
+  // const pressure = sensor[deviceId].pressure ? sensor[deviceId].preessure : '- - - -'
 
+  const [value, setValue] = useState(0);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+  
   return (
     <>
-      <Grid container spacing={1} sx={{ mt: 1 }}>
-        {
-          sensor?      
+      <Container>
+        <Box sx={{ background: "#757575", pt: 1, color: "white" }}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            variant="scrollable"
+            scrollButtons
+            aria-label="visible arrows tabs example"
+            textColor="inherit"
+          >
+            <Tab label="전체" value={0}></Tab>
+            {temp !== '- - - -' ? <Tab label="온도" value={1} /> : <></>}
+            {co2 !== '- - - -' ? <Tab label="이산화탄소" value={2} /> : <></>}
+            {humid !== '- - - -' ? <Tab label="습도" value={3} /> : <></>}
+            {soilHumid !== '- - - -' ? <Tab label="토양습도" value={4} /> : <></>} 
+            <Tab label="Led" value={5} />
+            {/* {camera !== null ? <Tab label="카메라" value={6} /> : <></>} */}
+          </Tabs>
+        </Box>
+      </Container>
+      <Grid sx={{ mt: 1 }}>
+        {sensor[deviceId] ? (
           <>
-            <TempCard temp={temp} deviceId={deviceId} />
-            <HumidCard humid={humid} deviceId={deviceId} />
-            <Co2Card co2={co2} deviceId={deviceId} />
-            <SoilHumidCard soilHumid={soilHumid} deviceId={deviceId} /> 
-          </> : <></>
-        }
-        <div>
-          <iframe 
-          src="https://f637-121-147-32-194.jp.ngrok.io/stream" 
-          width="400vh"
-          height="300vh"
-          allow="fullscreen"
-          display="block"
-          />
-        </div>
+            <AllSensor deviceId={deviceId} value={value} 
+            temp={temp} co2={co2} humid={humid} soilHumid={soilHumid} 
+            dust={dust} superDust={superDust} light={light} />
+            <TempCard temp={temp} deviceId={deviceId} value={value} />
+            <Co2Card co2={co2} deviceId={deviceId} value={value} />
+            <HumidCard humid={humid} deviceId={deviceId} value={value} />
+            <SoilHumidCard soilHumid={soilHumid} deviceId={deviceId} value={value}/>
+            <LedCard deviceId={deviceId} value={value} />
+            <CameraCard camera={camera} deviceId={deviceId} value={value} />
+          </>
+        ) : (
+          <></>
+        )}
       </Grid>
     </>
-  )
+  );
 };
 
 export default SensorList;
