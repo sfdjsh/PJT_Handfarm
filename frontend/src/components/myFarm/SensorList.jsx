@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { deviceSensor } from "../../atom";
 import { BASE_URL } from "../../config";
-import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
+import { EventSourcePolyfill } from "event-source-polyfill";
 import { Grid } from "@mui/material";
 
 import AllSensor from "./AllSensor";
@@ -13,7 +13,7 @@ import HumidCard from "./humid/HumidCard";
 import SoilHumidCard from "./soilHumid/SoilHumidCard";
 import LedCard from "./led/LedCard";
 
-import { Box, Tabs, Tab, Container, tabsClasses } from "@mui/material";
+import { Box, Tabs, Tab, Container } from "@mui/material";
 import CameraCard from "./camera/CameraCard";
 
 const SensorList = ({ deviceId, email, camera }) => {
@@ -35,9 +35,11 @@ const SensorList = ({ deviceId, email, camera }) => {
   const co2 = sensor[deviceId].co2 ? sensor[deviceId].co2 : '- - - -';
   const humid = sensor[deviceId].humid ? sensor[deviceId].humid : '- - - -';
   const soilHumid = sensor[deviceId].humidSoil ? sensor[deviceId].humidSoil : '- - - -';
-  // const superDust = sensor[deviceId] ? sensor[deviceId].pm2.5 : ""
+  const superDust = sensor[deviceId].pm2p5 ? sensor[deviceId].pm2p5 : "- - - -"
   const dust = sensor[deviceId].pm10 ? sensor[deviceId].pm10 : '- - - -'
   const light = sensor[deviceId].cds ? sensor[deviceId].cds : '- - - -'
+  // const altitude = sensor[devicdId].altitude ? sensor[deviceId].altitude  : '- - - -'
+  // const pressure = sensor[deviceId].pressure ? sensor[deviceId].preessure : '- - - -'
 
   const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
@@ -55,11 +57,6 @@ const SensorList = ({ deviceId, email, camera }) => {
             scrollButtons
             aria-label="visible arrows tabs example"
             textColor="inherit"
-            // sx={{
-            //   [`& .${tabsClasses.scrollButtons}`]: {
-            //     "&.Mui-disabled": { opacity: 0.3 },
-            //   },
-            // }}
           >
             <Tab label="전체" value={0}></Tab>
             {temp !== '- - - -' ? <Tab label="온도" value={1} /> : <></>}
@@ -75,7 +72,8 @@ const SensorList = ({ deviceId, email, camera }) => {
         {sensor[deviceId] ? (
           <>
             <AllSensor deviceId={deviceId} value={value} 
-            temp={temp} co2={co2} humid={humid} soilHumid={soilHumid} dust={dust} light={light} />
+            temp={temp} co2={co2} humid={humid} soilHumid={soilHumid} 
+            dust={dust} superDust={superDust} light={light} />
             <TempCard temp={temp} deviceId={deviceId} value={value} />
             <Co2Card co2={co2} deviceId={deviceId} value={value} />
             <HumidCard humid={humid} deviceId={deviceId} value={value} />

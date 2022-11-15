@@ -21,7 +21,7 @@ const SoilHumidLineGraph = ({ deviceId }) => {
       ...currentData,
       {
         name: "Temp",
-        soilHumid: datas.soilHumid,
+        soilHumid: datas.humidSoil,
         time: timer,
       },
     ]);
