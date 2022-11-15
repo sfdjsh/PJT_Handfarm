@@ -4,7 +4,7 @@ void setup() {
   Serial.begin(115200);
   StaticJsonDocument<200> doc;
 
-  char json[]="{\"temp\":0,\"led\":1,\"temp1\":[123,2345]}";
+  char json[]="{\"temp\":0,\"led\":1,\"temp1\":"[123,2345]}";
   auto error = deserializeJson(doc,json);
 
   if(error){
@@ -18,8 +18,8 @@ void setup() {
   int pump = doc["pump"];
   int fan = doc["fan"];
   int buzzer = doc["buzzer"];
-  int temp1 = doc["temp1"][0];
-  int temp2 = doc["temp1"][1];
+  int temp1 = doc["temp1"][0] | -999;
+  int temp2 = doc["temp1"][1] | -999;
 
   Serial.println(temp);
   Serial.println(led);

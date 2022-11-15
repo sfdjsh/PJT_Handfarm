@@ -317,7 +317,7 @@ bool EspMQTTClient::handleMQTT()
         Serial.printf("MQTT!: Failed MQTT connection count: %i \n", _failedMQTTConnectionAttemptCount);
 
       // When there is too many failed attempt, sometimes it help to reset the WiFi connection or to restart the board.
-      if(_handleWiFi && _failedMQTTConnectionAttemptCount == 8)
+      if(_failedMQTTConnectionAttemptCount == 8)
       {
         if (_enableSerialLogs)
           Serial.println("MQTT!: Can't connect to broker after too many attempt, resetting WiFi ...");
@@ -377,7 +377,7 @@ void EspMQTTClient::onWiFiConnectionEstablished()
       ArduinoOTA.begin();
 }
 
-int EspMQTTClient::onWiFiConnectionLost()
+void EspMQTTClient::onWiFiConnectionLost()
 {
   if (_enableSerialLogs)
     Serial.printf("WiFi! Lost connection (%fs). \n", millis()/1000.0);
@@ -388,8 +388,6 @@ int EspMQTTClient::onWiFiConnectionLost()
     WiFi.disconnect(true);
     MDNS.end();
   }
-
-  return 1000;
 }
 
 void EspMQTTClient::onMQTTConnectionEstablished()
