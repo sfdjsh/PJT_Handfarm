@@ -17,4 +17,5 @@ public class ChatListViewDto {
     private String anotherUserProfileImg;
     private String content;
     private LocalDateTime time;
+    private Integer notReadCount;
 }
