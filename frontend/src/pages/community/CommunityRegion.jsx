@@ -23,8 +23,7 @@ const CommunityInfo = () => {
     const [region, setRegion] = useRecoilState(nowRegion)
     const navigator = useNavigate()
     const [regionInfo, setRegionInfo] = useState([])
-    console.log(regionArticle)
-    console.log(regionInfo)
+    const [filter, setFilter] = useState("")
 
     useEffect(() => {
         const getArticle = fetchRegionArticle(region)
@@ -34,6 +33,19 @@ const CommunityInfo = () => {
                 setRegionInfo(res.articleInfo)
             }))
     },[region])
+
+    const getFilterValue = (text) => {
+        setFilter(text)
+    }
+
+    useEffect(() => {
+        if(filter === "인기순"){
+            regionInfo.sort(function (a,b) {
+                return b.likeCount - a.likeCount
+            })
+            setRegionArticle(regionInfo)
+        }
+    },[filter])
 
     return (
         <Box>
@@ -59,7 +71,7 @@ const CommunityInfo = () => {
             </Box>
             <Divider style={{ backgroundColor : "#757575" }}/>
             <Box sx={{ display : "flex", justifyContent : "start" }}>
-                <ArticleFilter/>
+                <ArticleFilter getFilter={getFilterValue}/>
             </Box>
             <Box>
                 { regionArticle.map((article, index) => (

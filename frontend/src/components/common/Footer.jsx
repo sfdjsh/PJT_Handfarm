@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
@@ -16,6 +16,8 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import {userInfo} from '../../atom'
 import PeopleIcon from '@mui/icons-material/People';
+import {fetchChatSum} from "../../pages/api/Chatting";
+import {Badge} from "@mui/material";
 
 const useStyles = makeStyles({
     root: {
@@ -29,6 +31,14 @@ export const Footer = () => {
     const [value, setValue] = useState(0)
     const navigator = useNavigate();
     const [user, setUser] = useRecoilState(userInfo)
+
+    useEffect(() => {
+        fetchChatSum()
+            .then((res) => res.json().then((res) => {
+                console.log("푸터")
+                console.log(res)
+            }))
+    },)
 
     return (
         <>
@@ -54,7 +64,11 @@ export const Footer = () => {
                     }}  label="톡톡"  icon={<ChatBubbleOutlineIcon />} />
                     <BottomNavigationAction style={{ color : "white" }} onClick={() => {
                         navigator(`/mypage/${user.userNickname}`)
-                    }}  label="프로필" icon={<PermIdentityOutlinedIcon />} />
+                    }}  label="프로필" icon={
+                        <Badge>
+                            <PermIdentityOutlinedIcon />
+                        </Badge>
+                    } />
                 </BottomNavigation>
             </Box>
         </>
