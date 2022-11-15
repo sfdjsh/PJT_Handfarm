@@ -10,8 +10,11 @@ export async function fetchInfoArticle(nowCrop) {
         nowCrop = "파프리카"
     }
 
-    const URL = `${LOCAL_URL}/community/정보/${nowCrop}`
+    const URL = `${BASE_URL}/community/정보/${nowCrop}`
     const response = await fetch(URL, {
+        headers : {
+            accessToken : localStorage.getItem("access_token")
+        },
         method : "GET"
     })
     return response
@@ -30,8 +33,11 @@ export async function fetchRegionArticle(nowRegion){
         nowRegion = "구미"
     }
 
-    const URL = `${LOCAL_URL}/community/지역/${nowRegion}`
+    const URL = `${BASE_URL}/community/지역/${nowRegion}`
     const response = await fetch(URL, {
+        headers : {
+            accessToken : localStorage.getItem("access_token")
+        },
         method : "GET"
     })
     return response
@@ -51,7 +57,7 @@ export async function fetchRegionArticle(nowRegion){
 // }
 
 export async function deleteArticle(articleId){
-    const URL = `${LOCAL_URL}/community/${articleId}`
+    const URL = `${BASE_URL}/community/${articleId}`
     const response = await fetch(URL,{
         method : "DELETE",
         headers : {
