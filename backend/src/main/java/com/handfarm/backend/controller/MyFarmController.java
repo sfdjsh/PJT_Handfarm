@@ -82,11 +82,6 @@ public class MyFarmController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @PostMapping("/device")
-    public void deviceRegister(@RequestBody DeviceRegistDto deviceRegistDto) throws IOException {
-        deviceService.registDevice(deviceRegistDto);
-    }
-
     public Boolean checkToken(HttpServletRequest request, Map<String, Object> resultMap){
         try{
             kakaoService.CheckAccessToken(request.getHeader(ACCESSTOKEN));

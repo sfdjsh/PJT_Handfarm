@@ -38,12 +38,12 @@ public class DeviceSensorController {
         this.kakaoService = kakaoService;
     }
 
-    @GetMapping("/farm/{userNickname}")
-    public ResponseEntity<Map<String, Object>> getDeviceSensor(HttpServletRequest request, @PathVariable String userNickname) throws IOException {
+    @GetMapping("/farm/{userEmail}")
+    public ResponseEntity<Map<String, Object>> getDeviceSensor(HttpServletRequest request, @PathVariable String userEmail) throws IOException {
         Map<String , Object> resultMap = new HashMap<>();
         if(checkToken(request, resultMap)){
             try{
-                resultMap.putAll(deviceService.getDeviceSensor(userNickname));
+                resultMap.putAll(deviceService.getDeviceSensor(userEmail));
                 resultMap.put(MESSAGE, SUCCESS);
                 status = status200;
             }catch (Exception e){
