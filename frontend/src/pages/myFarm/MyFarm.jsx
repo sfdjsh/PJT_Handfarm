@@ -5,12 +5,13 @@ import SensorList from "../../components/myFarm/SensorList";
 import { Container, Box, Grid, IconButton, Radio } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useRecoilState } from "recoil";
-import { userInfo, userFarm, motorControl } from "../../atom";
+import { userInfo, userFarm, motorControl, locations } from "../../atom";
 
 const MyFarm = () => {
   const [user, setUser] = useRecoilState(userInfo);
   const [myFarm, setMyFarm] = useRecoilState(userFarm);
   const [motorState, setMotorState] = useRecoilState(motorControl) 
+  const [location, setLocation] = useRecoilState(locations)
 
   const devices = myFarm.deviceInfo
   const [farmRadio, setFarmRadio] = useState('0');
@@ -32,6 +33,10 @@ const MyFarm = () => {
   useEffect(() => {
     motorInfo()
   }, [deviceId])
+
+  useEffect(() => {
+    setLocation([devices[farmRadio].deviceLatitude, devices[farmRadio].deviceLong])
+  }, [])
 
   return (
     <>
