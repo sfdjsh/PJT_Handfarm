@@ -26,7 +26,7 @@ public interface DeviceService {
 
     Map<String, Object> getDeviceManual(HttpServletRequest request, String deviceNo);
 
-    Map<String, Object> getDeviceSensor(String deviceNo);
+    Map<String, Object> getDeviceSensor(String userEmail);
 
     Map<String, Object> resetAutoValue(String deviceNo, DedviceAutoControlDto controlDto);
 

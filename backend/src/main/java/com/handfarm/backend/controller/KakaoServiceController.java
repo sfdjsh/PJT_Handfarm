@@ -75,28 +75,4 @@ public class KakaoServiceController {
         }
         return new ResponseEntity<>(resultMap, status);
     }
-// --- 일단 놔두기 --- //
-    @GetMapping("/test")
-    public ResponseEntity<Map<String, Object>> tokencheck(HttpServletRequest request) throws IOException {
-        Map<String, Object> resultMap = new HashMap<>();
-
-
-            Map<String, Object> userInfo = new HashMap<>();
-            userInfo.putAll(kakaoService.createKakaoUser(request.getHeader(ACCESSTOKEN)));
-            resultMap.put(MESSAGE, SUCCESS);
-            resultMap.put("userInfo", userInfo);
-            status = HttpStatus.OK;
-            return new ResponseEntity<>(resultMap, status);
-
-    }
-
-    @GetMapping("/test/unlink")
-    public String servicenulink(HttpServletRequest request) throws IOException {
-        String accessToken = request.getHeader(ACCESSTOKEN);
-        if(kakaoService.KakaoUnlink(accessToken)){
-            return SUCCESS;
-        }else{
-            return FAIL;
-        }
-    }
 }
