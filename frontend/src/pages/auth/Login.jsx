@@ -10,7 +10,6 @@ export const Login = () => {
 
   useEffect(() => {
     if (LoggedIn) {
-      console.log(LoggedIn) 
       navigate('/myfarm/registing')
     }
   })
