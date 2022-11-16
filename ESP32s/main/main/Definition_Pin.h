@@ -20,9 +20,9 @@ const int freq = 5000;
 const int resolutino = 8;
 
 
-#define CDS_pin 4 
+#define CDS_pin 35 
 #define Motion_pin 0
-#define Soil_pin 2
+#define Soil_pin 34
 
 #define SDA_pin 21                 //I2c --> AirQuality & CO2
 #define SCL_pin 22

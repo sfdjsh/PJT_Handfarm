@@ -70,6 +70,11 @@ void loop() {
     Serial.println(getCDS());
     Post_Time = millis();
   }
+
+  // //check
+  // Serial.println(getCDS());
+  // Serial.println(analogRead(CDS_pin));
+  // Serial.println(soilHumidity);
   //check
   /*
     for(int i=0;i<5;i++){
