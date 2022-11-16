@@ -52,7 +52,7 @@ const SensorList = ({ deviceId, email, camera }) => {
         <Box sx={{ background: "#757575", pt: 1, color: "white" }}>
           <Box display="flex">
             {/* 전체 tab default */}
-            <Box>
+            {/* <Box>
               <Tabs
                 value={value}
                 onChange={handleChange}
@@ -61,7 +61,7 @@ const SensorList = ({ deviceId, email, camera }) => {
               >
                 <Tab label="전체" value={0} ></Tab>
               </Tabs>
-            </Box>
+            </Box> */}
             {/* 센서 리스트 */}
             <Tabs
             value={value}
@@ -70,6 +70,7 @@ const SensorList = ({ deviceId, email, camera }) => {
             scrollButtons
             aria-label="visible arrows tabs example"
             textColor="inherit">
+              <Tab label="전체" value={0} ></Tab>
               {temp !== '- - - -' ? <Tab label="온도" value={1} /> : null}
               {co2 !== '- - - -' ? <Tab label="이산화탄소" value={2} /> : null}
               {humid !== '- - - -' ? <Tab label="습도" value={3} /> : null}
