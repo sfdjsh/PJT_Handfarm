@@ -1,5 +1,5 @@
 import React from "react";
-import Iframe from "react-iframe";
+// import Iframe from "react-iframe";
 import { useRecoilState } from "recoil";
 import { motorControl } from "../../../atom";
 import ControlBuzzer from "../control/ControlBuzzer";
@@ -12,16 +12,20 @@ const CameraCard = ({ camera, deviceId, value }) => {
   return (
     <>
       {value === 6 ? (
-        <Container>
-          <iframe
-            src={camera}
-            width="358vh"
-            height="300vh"
-            allow="fullscreen"
-            display="block"
-          />
+        <>
+          <Container>
+            <div style={{width:'350px', height:'300px'}}>
+              <iframe
+                src={camera}
+                width="360"
+                height="310"
+                frameBorder="0"
+                style={{marginRight:'200px'}}
+              />
+            </div>
             <ControlBuzzer controlBuzzer={controlBuzzer} deviceId={deviceId} />
-        </Container>
+          </Container>
+        </>
       ) : (
         <></>
       )}
