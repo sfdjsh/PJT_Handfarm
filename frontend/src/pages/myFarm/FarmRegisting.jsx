@@ -12,6 +12,7 @@ const FarmRegisting = () => {
 
   const [user, setUser] = useRecoilState(userInfo)
   const nickName = user.userNickname
+  
   // 내 농장 정보
   const onFarm = () => {
     axios.get('https://handfarm.co.kr/api/farm', {
@@ -23,9 +24,11 @@ const FarmRegisting = () => {
         setMyFarm(response.data)
       })
   }
+
   if (myFarm.deviceInfo.length > 0) {
+      console.log(myFarm.deviceInfo.length)
       navigate('/myfarm')
-    }
+  }
     
   useEffect(() => {
     onFarm()

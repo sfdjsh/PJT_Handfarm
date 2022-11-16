@@ -38,8 +38,8 @@ const SensorList = ({ deviceId, email, camera }) => {
   const superDust = sensor[deviceId].pm2p5 ? sensor[deviceId].pm2p5 : "- - - -"
   const dust = sensor[deviceId].pm10 ? sensor[deviceId].pm10 : '- - - -'
   const light = sensor[deviceId].cds ? sensor[deviceId].cds : '- - - -'
-  // const altitude = sensor[devicdId].altitude ? sensor[deviceId].altitude  : '- - - -'
-  // const pressure = sensor[deviceId].pressure ? sensor[deviceId].preessure : '- - - -'
+  const altitude = sensor[deviceId].altitude ? sensor[deviceId].altitude  : '- - - -'
+  const pressure = sensor[deviceId].pressure ? sensor[deviceId].preessure : '- - - -'
 
   const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
@@ -76,6 +76,7 @@ const SensorList = ({ deviceId, email, camera }) => {
               {humid !== '- - - -' ? <Tab label="습도" value={3} /> : null}
               {soilHumid !== '- - - -' ? <Tab label="토양습도" value={4} /> : null} 
               <Tab label="Led" value={5} />
+              <Tab label="camera" value={6} />
             </Tabs>
           </Box>
         </Box>
@@ -85,7 +86,8 @@ const SensorList = ({ deviceId, email, camera }) => {
           <>
             <AllSensor deviceId={deviceId} value={value} 
             temp={temp} co2={co2} humid={humid} soilHumid={soilHumid} 
-            dust={dust} superDust={superDust} light={light} />
+            dust={dust} superDust={superDust} light={light} 
+            pressure={pressure} altitude={altitude} />
             <TempCard temp={temp} deviceId={deviceId} value={value} />
             <Co2Card co2={co2} deviceId={deviceId} value={value} />
             <HumidCard humid={humid} deviceId={deviceId} value={value} />
