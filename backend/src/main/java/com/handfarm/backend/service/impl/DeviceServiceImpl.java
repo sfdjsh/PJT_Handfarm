@@ -3,6 +3,7 @@ package com.handfarm.backend.service.impl;
 import com.google.gson.JsonObject;
 import com.handfarm.backend.domain.dto.device.DedviceAutoControlDto;
 import com.handfarm.backend.domain.dto.device.DeviceRegistDto;
+import com.handfarm.backend.domain.dto.device.ControlInfoDto;
 import com.handfarm.backend.domain.dto.device.SensorLogDto;
 import com.handfarm.backend.domain.entity.*;
 import com.handfarm.backend.repository.*;
@@ -316,5 +317,19 @@ public class DeviceServiceImpl implements DeviceService {
         return resultMap;
     }
 
+    @Override
+    public void getSensorValue(HttpServletRequest request, String userNickname, ControlInfoDto sensorInfoDto) {
+        Optional<DeviceEntity> deviceOptional = deviceRepository.findByDeviceNo(sensorInfoDto.getDeviceNo());
+        Optional<ControlEntity> controlOptional = controlRepository.findByControlName(sensorInfoDto.getControlName());
+        if(deviceOptional.isEmpty() || controlOptional.isEmpty()) throw new NoSuchElementException();
+        DeviceEntity deviceEntity = deviceOptional.get();
+        ControlEntity controlEntity = controlOptional.get();
 
+        Optional<DeviceControlEntity> deviceControlEntityOptional = deviceControlRepository.findByDeviceIdxAndControlIdx(deviceEntity, controlEntity);
+        if(deviceControlEntityOptional.isEmpty()) throw new NoSuchElementException();
+        DeviceControlEntity deviceControlEntity = deviceControlEntityOptional.get();
+
+        deviceControlEntity.setAutoControlval(sensorInfoDto.getControlValue());
+        deviceControlRepository.save(deviceControlEntity);
+    }
 }

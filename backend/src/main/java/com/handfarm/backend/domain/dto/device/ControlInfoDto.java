@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SampleAutoValueDto {
-    private String cropTemp;
-    private String cropSoilHumidity;
-    private String cropCo2;
+public class ControlInfoDto {
+    private String deviceNo;
+    private String controlName;
+    private String controlValue;
 }
