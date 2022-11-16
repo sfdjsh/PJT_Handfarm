@@ -1,5 +1,5 @@
 import React from "react";
-import './Graph.css'
+import "./Graph.css";
 import { useRecoilState } from "recoil";
 import { deviceSensor } from "../../atom";
 import {
@@ -10,160 +10,377 @@ import {
   Typography,
   CardActions,
   Container,
+  Divider,
 } from "@mui/material";
-import axios from 'axios'
+import axios from "axios";
+import TodayWeather from "./TodayWeather";
+import CameraCard from "./camera/CameraCard";
 
 const AllSensor = (props) => {
-  // const sensorList = [ props.temp, props.co2, props.humid, props.soilHumid, props.dust, props.superDust, props.light ];
-  const sensorList = [props.pressure, props.temp, props.humid, props.co2, props.dust, props.superDust, props.light, props.soilHumid, props.altitude];
-  const sensorName = ["Pressure", "Temp", "Humid", "Co2", "Dust", "Altitude", "SoilHumid", "Altra Dust", "Light"];
-  const unit = ["Kpa", "℃", "RH", "ppm", "RH", "㎍/㎥", "m", "㎍/㎥", "lx"]
-  const sensorColor = ["2E3138", "2b97bc", "64B6F8", "FFA26C", "feb04d", "2E3138", "fd3f01"]
-  // altitude(m)
-  // const testgogo = () => {
-  //   URL = 'https://5c8d-121-147-32-194.jp.ngrok.io/stream'
-  //   axios.get(URL, {
-  //     headers: {
-  //       "ngrok-skip-browser-warning" : "69420"
-  //     }
-  //   })
-  //     .then(response => {
-  //       console.log(response.data)
-  //     })
-  // }
-  // 2E3138
-  // item xs = 4 인거 : 기압, C02, 고도, cds, 토양습도
-  // item xs = 8 인거 : temp, 습도
-  // height 두배 : pm2.5, pm10
-
+  const sensorList = [
+    props.pressure,
+    props.temp,
+    props.humid,
+    props.co2,
+    props.superDust,
+    props.dust,
+    props.altitude,
+    props.light,
+    props.soilHumid,
+  ];
+  const sensorName = [
+    "Pressure",
+    "Temp",
+    "Humid",
+    "Co2",
+    "pm2.5",
+    "pm10",
+    "Altitude",
+    "Light",
+    "SoilHumid",
+  ];
+  const unit = ["Kpa", "℃", "%", "ppm", "㎍/㎥", "m", "%", "lux"];
+  const sensorColor = [
+    "2E3138",
+    "FFA26C",
+    "C387FF",
+    "C387FF",
+    "FFA26C",
+    "feb04d",
+    "2E3138",
+    "fd3f01",
+    "65B6F7",
+  ];
   const result = sensorList.map((sensor, index) => {
-    if (index === 0 || index === 2 || index === 5 ) {
+    if (index === 0 || index === 3) {
       return (
-        <Grid item xs={4} key={index} >
-          <Card sx={{
-            background: `#${sensorColor[index]}`,
-            height: "110px",
-          }}
-          // className={sensor === '- - - -'? 'blurEffect' : ''}
+        <Grid item xs={4} key={index}>
+          <Card
+            sx={{
+              background: `#${sensorColor[index]}`,
+              height: "110px",
+            }}
+            className={sensor === "- - - -" ? "blur-effect" : ""}
           >
             <Box>
-              <Typography sx={{ fontWeight: 'bold', m: 1 }}>
-                {sensorName[index]}
-              </Typography>
-              <Typography variant="h6" align="center"
-                sx={{ mt: 1.5, fontWeight: 'bold' }}
+              {index === 0 ? (
+                <img
+                  src="/assets/sensorImg/기압센서.png"
+                  alt="..."
+                  style={{ width: "20%", margin: "5px" }}
+                />
+              ) : (
+                <></>
+              )}
+              {index === 3 ? (
+                <img
+                  src="/assets/sensorImg/이산화탄소센서.png"
+                  alt="..."
+                  style={{ width: "20%", margin: "5px" }}
+                />
+              ) : (
+                <></>
+              )}
+              <Typography
+                variant="h6"
+                align="center"
+                sx={{ mt: 0.5, fontWeight: "bold" }}
               >
-                {sensor} {sensor !== '- - - -' ? unit[index] : ''}
+                {sensor}{" "}
+                <span style={{ fontSize: "16px" }}>
+                  {sensor !== "- - - -" ? unit[index] : ""}
+                </span>
+              </Typography>
+            </Box>
+            <Box sx={{ mt: 1, mr: 1 }}>
+              <Typography
+                variant="subtitle2"
+                align="end"
+                sx={{ fontWeight: "bold" }}
+                className={index === 0 ? "off-selected" : "text-black"}
+              >
+                {sensorName[index]}
               </Typography>
             </Box>
           </Card>
         </Grid>
-      )
+      );
     } else if (index === 1) {
       return (
         <Grid item xs={8} key={index}>
-          <Card sx={{
-            background: `#${sensorColor[index]}`,
-            height: "110px",
-          }}
-          // className={sensor === '- - - -'? 'blurEffect' : ''}
+          <Card
+            sx={{
+              background: `#${sensorColor[index]}`,
+              height: "110px",
+            }}
+            className={sensor === "- - - -" ? "blur-effect" : ""}
           >
-            <Box>
-              <Typography sx={{ fontWeight: 'bold', m: 1 }}>
-                {sensorName[index]}
-              </Typography>
-              <Typography variant="h6" align="center"
-                sx={{ mt: 1.5, fontWeight: 'bold' }}
-              >
-                {sensor} {sensor !== '- - - -' ? unit[index] : ''}
-              </Typography>
-            </Box>
+            <Grid container>
+              <Grid item xs={6}>
+                <Box>
+                  <img
+                    src="/assets/sensorImg/온도센서.png"
+                    alt="..."
+                    style={{ width: "20%", margin: "5px" }}
+                  />
+                  <Typography
+                    variant="h6"
+                    align="center"
+                    sx={{ mt: 0.5, fontWeight: "bold" }}
+                  >
+                    {sensor}{" "}
+                    <span style={{ fontSize: "16px" }}>
+                      {sensor !== "- - - -" ? unit[index] : ""}
+                    </span>
+                  </Typography>
+                </Box>
+                <Box sx={{ mt: 1, mr: 1 }}>
+                  <Typography
+                    variant="subtitle2"
+                    align="end"
+                    sx={{ fontWeight: "bold" }}
+                  >
+                    {sensorName[index]}
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={6}>
+                <Box>
+                  <img
+                    src="/assets/sensorImg/습도센서.png"
+                    alt="..."
+                    style={{ width: "20%", margin: "5px" }}
+                  />
+                  <Typography
+                    variant="h6"
+                    align="center"
+                    sx={{ mt: 0.5, ml: 2, fontWeight: "bold" }}
+                  >
+                    {sensorList[index + 1]}{" "}
+                    <span style={{ fontSize: "16px" }}>
+                      {sensor !== "- - - -" ? unit[index + 1] : ""}
+                    </span>
+                  </Typography>
+                  <Box sx={{ mt: 1, mr: 1 }}>
+                    <Typography
+                      variant="subtitle2"
+                      align="end"
+                      sx={{ fontWeight: "bold" }}
+                    >
+                      {sensorName[index + 1]}
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+            </Grid>
           </Card>
         </Grid>
-      )
+      );
     } else if (index === 4) {
       return (
         <Grid item xs={4} key={index}>
-          <Card sx={{
-            background: `#${sensorColor[index]}`,
-            width:'110px', height: "236px",
-            position: 'absolute'
-          }}
-          // className={sensor === '- - - -'? 'blurEffect' : ''}
+          <Card
+            sx={{
+              background: `#${sensorColor[0]}`,
+              width: "28%",
+              height: "28%",
+              position: "absolute",
+            }}
+            className={sensor === "- - - -" ? "blur-effect" : ""}
           >
-            <Box>
-              <Typography sx={{ fontWeight: 'bold', m: 1 }}>
-                {sensorName[index]}
-              </Typography>
-              <Typography variant="h6" align="center"
-                sx={{ mt: 1.5, fontWeight: 'bold' }}
-              >
-                {sensor} {sensor !== '- - - -' ? unit[index] : ''}
-              </Typography>
-            </Box>
+            <Grid container>
+              <Grid item xs={12}>
+                <img
+                  src="/assets/sensorImg/미세먼지센서.png"
+                  alt="..."
+                  style={{ width: "20%", margin: "5px" }}
+                />
+                <Typography
+                  variant="h6"
+                  align="center"
+                  color="white"
+                  sx={{ fontWeight: "bold", mt: 1 }}
+                >
+                  {sensor}{" "}
+                  <span style={{ fontSize: "16px" }}>
+                    {sensor !== "- - - -" ? unit[index] : ""}
+                  </span>
+                </Typography>
+                <Box sx={{ mt: 1, mr: 1 }}>
+                  <Typography
+                    variant="subtitle2"
+                    align="end"
+                    sx={{ fontWeight: "bold" }}
+                    color="white"
+                  >
+                    {sensorName[index]}
+                  </Typography>
+                </Box>
+                <hr
+                  style={{ marginLeft: "10%", marginTop: "15%", width: "80%" }}
+                />
+              </Grid>
+              <Grid item xs={12} sx={{ mt: 4 }}>
+                <Typography
+                  variant="h6"
+                  align="center"
+                  color="white"
+                  sx={{ fontWeight: "bold" }}
+                >
+                  {sensorList[5]}{" "}
+                  <span style={{ fontSize: "16px" }}>
+                    {sensor !== "- - - -" ? unit[index] : ""}
+                  </span>
+                </Typography>
+                <Box sx={{ mt: 1, mr: 1 }}>
+                  <Typography
+                    variant="subtitle2"
+                    align="end"
+                    sx={{ fontWeight: "bold" }}
+                    color="white"
+                  >
+                    {sensorName[index + 1]}
+                  </Typography>
+                </Box>
+              </Grid>
+            </Grid>
           </Card>
         </Grid>
-      )
+      );
     } else if (index === 6) {
       return (
-        <Grid item xs={4} key={index} >
-          <Card sx={{
-            background: `#${sensorColor[index]}`,
-            height: "110px",
-          }}
-          // className={sensor === '- - - -'? 'blurEffect' : ''}
+        <Grid item xs={4} key={index}>
+          <Card
+            sx={{
+              background: `#${sensorColor[index]}`,
+              height: "110px",
+            }}
+            className={sensor === "- - - -" ? "blur-effect" : ""}
           >
+            <img
+              src="/assets/sensorImg/고도센서.png"
+              alt="..."
+              style={{ width: "20%", margin: "5px" }}
+            />
             <Box>
-              <Typography sx={{ fontWeight: 'bold', m: 1 }}>
-                {sensorName[index]}
-              </Typography>
-              <Typography variant="h6" align="center"
-                sx={{ mt: 1.5, fontWeight: 'bold' }}
+              <Typography
+                variant="h6"
+                align="center"
+                sx={{ mt: 0.5, fontWeight: "bold", color: "white" }}
               >
-                {sensor} {sensor !== '- - - -' ? unit[index] : ''}
+                {sensor} {sensor !== "- - - -" ? unit[index] : ""}
+              </Typography>
+            </Box>
+            <Box sx={{ mt: 1, mr: 1 }}>
+              <Typography
+                variant="subtitle2"
+                align="end"
+                sx={{ fontWeight: "bold", color: "white" }}
+              >
+                {sensorName[index]}
               </Typography>
             </Box>
           </Card>
         </Grid>
-      )
+      );
     } else if (index === 7) {
       return (
         <>
-          <Grid item xs={4}></Grid>
-          <Grid item xs={4} key={index} >
-          <Card sx={{
-            background: `#${sensorColor[index]}`,
-            height: "110px",
-          }}
-          // className={sensor === '- - - -'? 'blurEffect' : ''}
-          >
-            <Box>
-              <Typography sx={{ fontWeight: 'bold', m: 1 }}>
-                {sensorName[index]}
-              </Typography>
-              <Typography variant="h6" align="center"
-                sx={{ mt: 1.5, fontWeight: 'bold' }}
-              >
-                {sensor} {sensor !== '- - - -' ? unit[index] : ''}
-              </Typography>
-            </Box>
-          </Card>
-        </Grid>
+          <Grid item xs={4} key={index}>
+            <Card
+              sx={{
+                background: "#2E3138",
+                height: "110px",
+              }}
+              className={sensor === "- - - -" ? "blur-effect" : ""}
+            >
+              <img
+                src="/assets/sensorImg/조도센서.png"
+                alt="..."
+                style={{ width: "20%", margin: "5px" }}
+              />
+              <Box>
+                <Typography
+                  variant="h6"
+                  align="center"
+                  sx={{ mt: 0.5, fontWeight: "bold", color: "white" }}
+                >
+                  {sensor} {sensor !== "- - - -" ? unit[index] : ""}
+                </Typography>
+              </Box>
+              <Box sx={{ mt: 1, mr: 1 }}>
+                <Typography
+                  variant="subtitle2"
+                  align="end"
+                  sx={{ fontWeight: "bold", color: "white" }}
+                >
+                  {sensorName[index]}
+                </Typography>
+              </Box>
+            </Card>
+          </Grid>
         </>
-      )
+      );
+    } else if (index === 8) {
+      return (
+        <>
+          <Grid item xs={4}></Grid>
+          <Grid item xs={4} key={index}>
+            <Card
+              sx={{
+                background: `#${sensorColor[index]}`,
+                height: "110px",
+              }}
+              className={sensor === "- - - -" ? "blur-effect" : ""}
+            >
+              <img
+                src="/assets/sensorImg/토양습도센서.png"
+                alt="..."
+                style={{ width: "20%", margin: "5px" }}
+              />
+              <Box>
+                <Typography
+                  variant="h6"
+                  align="center"
+                  sx={{ mt: 0.5, ml:2, fontWeight: "bold" }}
+                >
+                  {sensor}{" "}
+                  <span style={{ fontSize: "16px" }}>
+                    {sensor !== "- - - -" ? unit[2] : ""}
+                  </span>
+                </Typography>
+              </Box>
+              <Box sx={{ mt: 1, mr: 1 }}>
+                <Typography
+                  variant="subtitle2"
+                  align="end"
+                  sx={{ fontWeight: "bold" }}
+                >
+                  {sensorName[index]}
+                </Typography>
+              </Box>
+            </Card>
+          </Grid>
+        </>
+      );
     }
-  })
-  
+  });
+
   return (
     <>
-      {props.value === 0 ?
+      {props.value === 0 ? (
         <Container>
           <Grid container spacing={2} sx={{ mt: 2 }}>
             {result}
           </Grid>
-        </Container> : <></>}
+          <TodayWeather deviceId={props.deviceId} />
+          <CameraCard deviceId={props.deviceId} />
+        </Container>
+      ) : (
+        <></>
+      )}
     </>
-  )
-}
+  );
+};
 
 export default AllSensor;

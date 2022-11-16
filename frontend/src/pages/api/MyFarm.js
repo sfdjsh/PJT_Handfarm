@@ -111,3 +111,16 @@ export async function sensorDay(props) {
   })
   return response
 }
+
+// 날씨 API
+export async function getWeather(props) {
+  // const lat = props.lat
+  // const lon = props.lon
+  // const API_KEY = '32772117ac1406fcd8705a8c452031b3'
+  // const URL = `http://api.openweathermap.org/data/2.5/forecast?id=524901&lat=${lat}&lon=${lon}&appid=${API_KEY}`
+  // const response = axios.get(URL) {
+  //   console.log(response)
+  // }
+
+  // return response
+}

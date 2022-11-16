@@ -57,41 +57,15 @@ export const deviceSensor = atom({
     effects_UNSTABLE : [persistAtom],
 })
 
-// 센서 모달 on/off
-export const tempModal = atom({
-    key: 'tempModal',
-    default: false,
-    effects_UNSTABLE: [persistAtom],
-})
-
-export const humidModal = atom({
-    key: 'humidModal',
-    default: false,
-    effects_UNSTABLE: [persistAtom],
-})
-
-export const co2Modal = atom({
-    key: 'co2Modal',
-    default: false,
-    effects_UNSTABLE: [persistAtom],
-})
-
-export const soilHumidModal = atom({
-    key: 'soilHumidModal',
-    default: false,
-    effects_UNSTABLE: [persistAtom],
-})
-
-// 제어 모달창
-export const motorModal = atom({
-    key: 'motorModal',
-    default: false,
-    effects_UNSTABLE: [persistAtom],
-})
-
 // 제어 자동/수동 정보
 export const motorControl = atom({
     key: 'motorControl',
     default: [],
     effects_UNSTABLE: [persistAtom],
+})
+
+export const locations = atom({
+    key: 'locations',
+    default: [],
+    effects_UNSTABLE: [persistAtom]
 })
