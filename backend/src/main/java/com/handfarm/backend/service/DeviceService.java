@@ -3,6 +3,7 @@ package com.handfarm.backend.service;
 import com.google.gson.JsonObject;
 import com.handfarm.backend.domain.dto.device.DedviceAutoControlDto;
 import com.handfarm.backend.domain.dto.device.DeviceRegistDto;
+import com.handfarm.backend.domain.dto.device.ControlInfoDto;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -32,4 +33,6 @@ public interface DeviceService {
     Map<String,Object> getAutoValue(HttpServletRequest request, String userNickname) throws IOException;
 
     Map<String,Object> getSensorLog(String deviceNo, String sensor, String day);
+
+    void getSensorValue(HttpServletRequest request, String userNickname, ControlInfoDto sensorInfoDto);
 }

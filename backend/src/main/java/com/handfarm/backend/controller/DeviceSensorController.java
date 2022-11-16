@@ -2,6 +2,7 @@ package com.handfarm.backend.controller;
 
 import com.handfarm.backend.config.MqttGateway;
 import com.handfarm.backend.domain.dto.device.DedviceAutoControlDto;
+import com.handfarm.backend.domain.dto.device.ControlInfoDto;
 import com.handfarm.backend.service.DeviceService;
 import com.handfarm.backend.service.KakaoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,6 +115,22 @@ public class DeviceSensorController {
         if(checkToken(request, resultMap)){
             try{
                 resultMap.putAll(deviceService.getAutoValue(request, userNickname));
+                resultMap.put(MESSAGE, SUCCESS);
+                status = status200;
+            }catch (Exception e){
+                resultMap.put(MESSAGE, FAIL);
+                status = status500;
+            }
+        }
+        return new ResponseEntity<>(resultMap, status);
+    }
+
+    @PutMapping("/farm/{userNickname}/auto/value")
+    public ResponseEntity<Map<String,Object>> getSensorValue(HttpServletRequest request, @PathVariable String userNickname, @RequestBody ControlInfoDto controlInfoDto){
+        Map<String, Object> resultMap = new HashMap<>();
+        if(checkToken(request, resultMap)){
+            try{
+                deviceService.getSensorValue(request, userNickname, controlInfoDto);
                 resultMap.put(MESSAGE, SUCCESS);
                 status = status200;
             }catch (Exception e){
