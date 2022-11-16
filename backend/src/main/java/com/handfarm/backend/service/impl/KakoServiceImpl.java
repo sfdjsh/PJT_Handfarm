@@ -33,7 +33,7 @@ public class KakoServiceImpl implements KakaoService {
         this.deviceRepository = deviceRepository;
     }
 
-    public Map<String, Object> getKakaoAccessToken (String code ) throws IOException{                // 로그인 시도 서비스
+    public Map<String, Object> getKakaoAccessToken (String code) throws IOException{                // 로그인 시도 서비스
         Map<String, Object> resultMap = new HashMap<>();
         String access_Token = "";
         String refresh_Token = "";
@@ -52,7 +52,7 @@ public class KakoServiceImpl implements KakaoService {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id="+cliend_id); // TODO REST_API_KEY 입력
-            sb.append("&redirect_uri=https://handfarm.co.kr/kakao"); // TODO 인가코드 받은 redirect_uri 입력
+            sb.append("&redirect_uri=http://localhost:3000/kakao"); // TODO 인가코드 받은 redirect_uri 입력
             sb.append("&code=" + code);
             bw.write(sb.toString());
             bw.flush();
