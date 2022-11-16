@@ -4,11 +4,15 @@ import { Container, Fab, Box, Typography } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { userFarm } from '../../atom';
+import { userFarm, userInfo } from '../../atom';
 
 const FarmRegisting = () => {
   const navigate = useNavigate()
   const [myFarm, setMyFarm] = useRecoilState(userFarm)
+
+  const [user, setUser] = useRecoilState(userInfo)
+  const nickName = user.userNickname
+  
   // 내 농장 정보
   const onFarm = () => {
     axios.get('https://handfarm.co.kr/api/farm', {
@@ -20,9 +24,11 @@ const FarmRegisting = () => {
         setMyFarm(response.data)
       })
   }
+
   if (myFarm.deviceInfo.length > 0) {
+      console.log(myFarm.deviceInfo.length)
       navigate('/myfarm')
-    }
+  }
     
   useEffect(() => {
     onFarm()
@@ -42,7 +48,7 @@ const FarmRegisting = () => {
         ml: 2.5
       }}>
         <Box>
-          <Typography variant="h6" sx={{ pt: 10, textAlign: 'center' }}>안녕하세요. 정석호님!</Typography>
+          <Typography variant="h6" sx={{ pt: 10, textAlign: 'center' }}>안녕하세요. {nickName}님!</Typography>
           <Typography variant="h6" sx={{ pt: 1, textAlign: 'center' }}>핸드팜에 오신 걸 환영합니다.</Typography>
         </Box>
         <Box sx={{ mt: 10 }}>
