@@ -34,7 +34,6 @@ public class MyFarmController {
         this.deviceService = deviceService;
         this.kakaoService = kakaoService;
     }
-
     @PostMapping("/farm")
     public ResponseEntity<Map<String, Object>> userDeviceRegister(HttpServletRequest request, @RequestBody DeviceRegistDto deviceRegistDto) {
         Map<String, Object> resultMap = new HashMap<>();
@@ -72,6 +71,22 @@ public class MyFarmController {
         if(checkToken(request, resultMap)){
             try{
                 resultMap.putAll(deviceService.getUserDeviceAll(request));
+                resultMap.put(MESSAGE, SUCCESS);
+                status = status200;
+            }catch (Exception e){
+                resultMap.put(MESSAGE, FAIL);
+                status = status500;
+            }
+        }
+        return new ResponseEntity<>(resultMap, status);
+    }
+
+    @DeleteMapping("/farm/{deviceNo}")
+    public ResponseEntity<Map<String ,Object>> deleteDevice(HttpServletRequest request, @PathVariable String deviceNo){
+        Map<String ,Object> resultMap = new HashMap<>();
+        if(checkToken(request, resultMap)){
+            try{
+                deviceService.deleteDevice(request, deviceNo);
                 resultMap.put(MESSAGE, SUCCESS);
                 status = status200;
             }catch (Exception e){

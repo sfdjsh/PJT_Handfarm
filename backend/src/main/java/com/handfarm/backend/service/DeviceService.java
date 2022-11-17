@@ -35,4 +35,6 @@ public interface DeviceService {
     Map<String,Object> getSensorLog(String deviceNo, String sensor, String day);
 
     void getSensorValue(HttpServletRequest request, String userNickname, ControlInfoDto sensorInfoDto);
+
+    void deleteDevice(HttpServletRequest request, String deviceNo);
 }

@@ -332,4 +332,16 @@ public class DeviceServiceImpl implements DeviceService {
         deviceControlEntity.setAutoControlval(sensorInfoDto.getControlValue());
         deviceControlRepository.save(deviceControlEntity);
     }
+
+    @Override
+    public void deleteDevice(HttpServletRequest request, String deviceNo){
+        String userId = kakaoService.decodeToken(request.getHeader("accessToken"));
+        Optional<UserEntity> userEntity = userRepository.findByUserId(userId);
+        Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceNo);
+        if(userEntity.isEmpty() || deviceEntity.isEmpty()) throw new NoSuchElementException();
+
+        UserDeviceEntity userDeviceEntity = userDeviceRepository.findByDeviceIdxAndUserIdx(deviceEntity.get(), userEntity.get());
+
+        userDeviceRepository.delete(userDeviceEntity);
+    }
 }
