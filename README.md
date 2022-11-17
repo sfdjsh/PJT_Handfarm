@@ -203,7 +203,7 @@
 
 ### 2. 기기 정보 등록
 
-<table> 
+<table style = width: 800px> 
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
