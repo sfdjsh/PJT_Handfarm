@@ -128,13 +128,14 @@ public class KakoServiceImpl implements KakaoService {
                             if(device.isEmpty()) throw new NoSuchElementException();
                             String Crop = device.get().getCrop().getCropName();
                             Map<String, Object> deviceMap = new HashMap<>();
-                            deviceMap.put("deviceNo", device.get().getDeviceNo());
+                            Map<String ,Object> deviceAll = new HashMap<>();
                             deviceMap.put("deviceName", device.get().getDeviceName());
                             deviceMap.put("cropName", Crop);
                             deviceMap.put("deviceLatitude", device.get().getDeviceLatitude());
                             deviceMap.put("deviceLong", device.get().getDeviceLong());
                             deviceMap.put("deviceCamera", device.get().getDeviceCamera());
-                            deviceList.add(deviceMap);
+                            deviceAll.put(device.get().getDeviceNo(), deviceMap);
+                            deviceList.add(deviceAll);
                         }
                         resultMap.put("deviceInfo", deviceList);
                     }
