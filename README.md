@@ -173,7 +173,7 @@
 ## 💻 웹 주요기능
 
 ### 1. 웰컴 페이지 및 로그인 기능
-<table style = "width: 800px"> 
+<table> 
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
@@ -192,17 +192,17 @@
 
 ### 2. 기기 정보 등록
 
-<table style = "width: 800px"> 
+<table> 
     <tr>
-        <td style = "width: 100px">
+        <td>
         <div style="display : flex; justify-content : center;">
             <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/af6a7480353db272d748d22a557333dc/image.png" width =200 >
         </div> 
         </td>
-        <td style = "width: 100px">
+        <td>
             <img src= "https://lab.ssafy.com/s07-final/S07P31C101/uploads/91941ace4bb4e78e02a0565e7a3192c7/image.png" width = 200>
         </td>
-        <td style = "width: 100px">
+        <td>
              ✔ 로그인에 성공하면 보유한 디바이스 정보 유뮤에 따라 패이지를 분리합니다.<br>   해당 페이지는 디바이스를 보유하지 않을떄 해당 페이지를 호출합니다. <br><br>
              ✔ 등록하기를 클릭시 기기의 정보, 농장 이름, 작물을 선택하여 디바이스를 등록 할 수 있습니다.
         </td>
@@ -211,17 +211,17 @@
 
 ### 3. 파뮤니티 메인 or 정보 공유 페이지
 
-<table style = "width: 800px"> 
+<table> 
     <tr>
-        <td style = "width: 100px">
+        <td>
         <div style="display : flex; justify-content : center;">
             <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/682d23b8cfd06462a31c48dfabf6e91a/image.png" width =200 >
         </div> 
         </td>
-        <td style = "width: 100px">
+        <td>
             <img src= "https://lab.ssafy.com/s07-final/S07P31C101/uploads/bffd225d7b8acb161684bf7d8691e511/image.png" width = 200>
         </td>
-        <td style = "width: 100px">
+        <td>
              ✔ 핸드팜의 커뮤니티 공간인 파뮤니티 메인 페이지 입니다.<br>   분류 카테고리로 정보 공유, 지역 게시판 으로 분리되며<br>  클릭시 해당 커뮤니티 페이지로 이동합니다. <br><br>
              ✔ 정보 공유의 게시판 페이지입니다. <br> 여러 작물중 원하는 태그를 선택하여 해당 작물의 정보를 얻을 수 있습니다. <br> 게시글을 읽을 수 있고 작성 또한 기능 구현을 했습니다.
         </td>
@@ -476,4 +476,17 @@
 | 외부서비스 정보 | [외부서비스 정보 바로가기](/exec/02_광주_1반_C101_외부_서비스_정보.pdf) |
 | 시연 시나리오   | [시연 시나리오 바로가기](/exec/07_광주_1반_시연시나리오.pdf) |
 | 발표자료        | [발표자료 바로가기](https://drive.google.com/file/d/12lOU1-kJ9XMx_7HsXzjGJ9VWt4gaxyYJ/view) |
+
+<style>
+			table {
+				width: 800px;
+                border:none;
+			}
+			td {
+                width: 100px;
+				padding: 10px;
+				border: none;
+			}
+</style>
+
 
