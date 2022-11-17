@@ -173,7 +173,7 @@
 ## 💻 웹 주요기능
 
 ### 1. 웰컴 페이지 및 로그인 기능
-<table> 
+<table style = width: 800px> 
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
@@ -205,12 +205,12 @@
 
 <table style = width: 800px> 
     <tr>
-        <td>
+        <td style = width: 100px>
         <div style="display : flex; justify-content : center;">
             <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/af6a7480353db272d748d22a557333dc/image.png" width =200 >
         </div> 
         </td>
-        <td>
+        <td style = width: 100px>
             <img src= "https://lab.ssafy.com/s07-final/S07P31C101/uploads/91941ace4bb4e78e02a0565e7a3192c7/image.png" width = 200>
         </td>
         <td>
@@ -222,14 +222,14 @@
 
 ### 3. 파뮤니티 메인 or 정보 공유 페이지
 
-<table> 
+<table style = width: 800px> 
     <tr>
-        <td>
+        <td style = width: 100px>
         <div style="display : flex; justify-content : center;">
             <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/682d23b8cfd06462a31c48dfabf6e91a/image.png" width =200 >
         </div> 
         </td>
-        <td>
+        <td style = width: 100px>
             <img src= "https://lab.ssafy.com/s07-final/S07P31C101/uploads/bffd225d7b8acb161684bf7d8691e511/image.png" width = 200>
         </td>
         <td>
