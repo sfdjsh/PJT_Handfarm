@@ -170,7 +170,9 @@ public class DeviceServiceImpl implements DeviceService {
         if(userEntity.isEmpty()) throw new NoSuchElementException();
         List<Map<String , Object>> deviceList = new ArrayList<>();
         List<UserDeviceEntity> userDeviceEntityList = userDeviceRepository.findByUserIdx(userEntity.get());
+        List<String> deviceNoList = new ArrayList<>();
         for(UserDeviceEntity userDeviceEntity : userDeviceEntityList){
+            deviceNoList.add(userDeviceEntity.getDeviceIdx().getDeviceNo());
             Map<String, Object> deviceMap = new HashMap<>();
             Map<String, Object> deviceAll = new HashMap<>();
             deviceMap.put("deviceName", userDeviceEntity.getDeviceIdx().getDeviceName());
@@ -182,6 +184,7 @@ public class DeviceServiceImpl implements DeviceService {
             deviceList.add(deviceAll);
         }
         resultMap.put("deviceInfo", deviceList);
+        resultMap.put("deviceNo", deviceNoList);
 
         return resultMap;
     }
