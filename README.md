@@ -188,18 +188,6 @@
              ✔ 서비스를 사용하기 위해클릭시 카카오 로그인 페이지로 이동합니다.
         </td>
     </tr>
-
-    <style>
-			table {
-				width: 800px;
-                border:none;
-			}
-			td {
-                width: 100px;
-				padding: 10px;
-				border: none;
-			}
-    </style>
 </table>
 
 ### 2. 기기 정보 등록
@@ -488,17 +476,5 @@
 | 외부서비스 정보 | [외부서비스 정보 바로가기](/exec/02_광주_1반_C101_외부_서비스_정보.pdf) |
 | 시연 시나리오   | [시연 시나리오 바로가기](/exec/07_광주_1반_시연시나리오.pdf) |
 | 발표자료        | [발표자료 바로가기](https://drive.google.com/file/d/12lOU1-kJ9XMx_7HsXzjGJ9VWt4gaxyYJ/view) |
-
-<style>
-			table {
-				width: 800px;
-                border:none;
-			}
-			td {
-                width: 100px;
-				padding: 10px;
-				border: none;
-			}
-</style>
 
 
