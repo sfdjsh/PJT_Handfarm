@@ -172,13 +172,14 @@ public class DeviceServiceImpl implements DeviceService {
         List<UserDeviceEntity> userDeviceEntityList = userDeviceRepository.findByUserIdx(userEntity.get());
         for(UserDeviceEntity userDeviceEntity : userDeviceEntityList){
             Map<String, Object> deviceMap = new HashMap<>();
-            deviceMap.put("deviceNo", userDeviceEntity.getDeviceIdx().getDeviceNo());
+            Map<String, Object> deviceAll = new HashMap<>();
             deviceMap.put("deviceName", userDeviceEntity.getDeviceIdx().getDeviceName());
             deviceMap.put("cropName", userDeviceEntity.getDeviceIdx().getCrop().getCropName());
             deviceMap.put("deviceLatitude", userDeviceEntity.getDeviceIdx().getDeviceLatitude());
             deviceMap.put("deviceLong", userDeviceEntity.getDeviceIdx().getDeviceLong());
             deviceMap.put("deviceCamera", userDeviceEntity.getDeviceIdx().getDeviceCamera());
-            deviceList.add(deviceMap);
+            deviceAll.put(userDeviceEntity.getDeviceIdx().getDeviceNo(), deviceMap);
+            deviceList.add(deviceAll);
         }
         resultMap.put("deviceInfo", deviceList);
 
