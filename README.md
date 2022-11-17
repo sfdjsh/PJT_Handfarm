@@ -1,4 +1,3 @@
-
 ![handfarm](https://lab.ssafy.com/s07-final/S07P31C101/uploads/851b1f25faeb754ac19c29854951e127/image.png)
 
 <div align="center">
@@ -332,7 +331,55 @@
         <td>
              ✔ 마이페이지에서 자신이 작성한 게시글을 확인할 수있습니다. <br /><br />
              ✔ 해당 게시글을 클릭하면 게시글 상세 페이지로 넘어가고 댓글 , 대댓글 등을 확인할 수 있습니다. <br /><br />
-             ✔ 톱니바튀 버튼을 누르면 자신의 프로필 이미지, 닉네임 등을 바꿀 수 있고 로그아웃을 할 수 있습니다.
+             ✔ 톱니바퀴 버튼을 누르면 자신의 프로필 이미지, 닉네임 등을 바꿀 수 있고 로그아웃을 할 수 있습니다.
+        </td>
+    </tr>
+</table>
+
+### 8-1. 마이 팜 - 농장 정보 실시간 조회
+
+<table> 
+    <tr>
+        <td>
+        <div style="display : flex; justify-content : center;">
+            <img src="https://lab.ssafy.com/s07-bigdata-recom-sub2/S07P22C105/uploads/93dc211d62d415706aed5a7c55cc246f/image.png" width =200 >
+        </div> 
+        </td>
+        <td>
+        <div style="display : flex; justify-content : center;">
+            <img src="https://lab.ssafy.com/s07-bigdata-recom-sub2/S07P22C105/uploads/28e5f096f50809a6b5d5747d7b218658/image.png" width =200 >
+        </div> 
+        </td>
+        <td>
+             ✔ 자신의 농장에 부착되어 있는 센서들을 확인하고, 농장 이름을 변경하고 삭제할 수 있습니다. <br /><br />
+             ✔ 리모콘 버튼을 클릭하면 해당 센서의 작동 방식을 자동/수동 여부를 선택할 수 있습니다. <br /><br />
+             ✔ 총 9개의 센서 중 농장에 부착된 센서의 변경 값을 실시간으로 확인할 수 있습니다. <br /><br />
+             ✔ 농장의 위도 경도를 바탕으로 시간 별 날씨를 사용자에게 제공합니다. <br /><br />
+
+        </td>
+    </tr>
+</table>
+
+### 8-2. 마이 팜 - 농장 정보 상세 조회
+
+<table> 
+    <tr>
+        <td>
+        <div style="display : flex; justify-content : center;">
+            <img src="https://lab.ssafy.com/s07-bigdata-recom-sub2/S07P22C105/uploads/cd84c8ee960ef94660590676ef181b63/image.png" width =200 >
+        </div> 
+        </td>
+        <td>
+        <div style="display : flex; justify-content : center;">
+            <img src="https://lab.ssafy.com/s07-bigdata-recom-sub2/S07P22C105/uploads/6343e7a0231007254506d60665ff743a/image.png" width =200 >
+        </div> 
+        </td>
+        <td>
+             ✔ 스크롤 하여 사용자의 센서를 클릭하면 센서 별 값을 조회할 수 있습니다. <br /><br />
+             ✔ 해당 센서 하나를 클릭하면 해당하는 센서의 값이 실시간으로 화면에 나타납니다. <br /><br />
+             ✔ 실시간으로 변하는 센서의 값을 그래프를 통해서 확인할 수 있습니다. <br /><br />
+             ✔ 해당 센서에 대한 값들의 수동 값을 설정할 수 있습니다. 초기화를 누르면 작물에 적합한 값으로 자동 초기화 됩니다. <br /><br />
+
         </td>
     </tr>
 </table>
