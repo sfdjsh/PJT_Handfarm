@@ -188,6 +188,18 @@
              ✔ 서비스를 사용하기 위해클릭시 카카오 로그인 페이지로 이동합니다.
         </td>
     </tr>
+
+    <style>
+			table {
+				width: 800px;
+                border:none;
+			}
+			td {
+                width: 100px;
+				padding: 10px;
+				border: none;
+			}
+    </style>
 </table>
 
 ### 2. 기기 정보 등록
