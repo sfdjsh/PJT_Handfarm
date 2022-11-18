@@ -3,69 +3,106 @@ import { BASE_URL } from "../../config";
 import axios from "axios";
 import SensorList from "../../components/myFarm/SensorList";
 import { Container, Box, Grid, IconButton, Radio } from "@mui/material";
+import SettingsRemoteIcon from '@mui/icons-material/SettingsRemote';
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useRecoilState } from "recoil";
-import { userInfo, userFarm, motorControl, locations } from "../../atom";
+import { userInfo, userFarm, motorControl, cameraInfo, locations, motorModal } from "../../atom";
+import { useNavigate } from "react-router-dom";
+import ControlDetail from "./ControlDetail"; 
 
 const MyFarm = () => {
-  // const [user, setUser] = useRecoilState(userInfo);
-  // const [myFarm, setMyFarm] = useRecoilState(userFarm);
-  // const [motorState, setMotorState] = useRecoilState(motorControl)
-  // const [location, setLocation] = useRecoilState(locations)
+  const navigate = useNavigate();
 
-  // const devices = myFarm.deviceInfo
-  // const [farmRadio, setFarmRadio] = useState('');
-  // const [deviceId, setDeviceId] = useState(devices[0].deviceNo)
-  // const email = user.userEmail
-  // const camera = devices[farmRadio].deviceCamera
+  const [user, setUser] = useRecoilState(userInfo);
+  const [myFarm, setMyFarm] = useRecoilState(userFarm);
+  const [motorState, setMotorState] = useRecoilState(motorControl);
+  const [camera, setCamera] = useRecoilState(cameraInfo);
+  const [location, setLocation] = useRecoilState(locations);
+  const devices = myFarm.deviceInfo
+  const [farmRadio, setFarmRadio] = useState("0");
+  const [deviceId, setDeviceId] = useState(myFarm.deviceNo[0]);
+  const email = user.userEmail;
 
-  // const motorInfo = async () => {
-  //   const URL = `${BASE_URL}/farm/${deviceId}/manual`
-  //   const result = await axios.get(URL, {
-  //     headers: {
-  //       accessToken: localStorage.getItem('access_token')
-  //     }
-  //   })
-  //   setMotorState(result.data)
-  // }
+  const [onControl, setOnControl] = useRecoilState(motorModal)
+    const motorInfo = async () => {
+      const URL = `${BASE_URL}/farm/${deviceId}/manual`
+      const result = await axios.get(URL, {
+        headers: {
+          accessToken : localStorage.getItem('access_token')
+        }
+      })
+      setMotorState(result.data)
+    }
 
-  // useEffect(() => {
-  //   motorInfo()
-  // }, [deviceId])
+  useEffect(() => {
+    motorInfo()
+  }, [deviceId])
 
-  // useEffect(() => {
-  //   setLocation([devices[farmRadio].deviceLatitude, devices[farmRadio].deviceLong])
-  // }, [])
+  useEffect(() => {
+    navigate(`/myfarm/${deviceId}`);
+  }, [deviceId]);
 
-  const test = [
-    {'D30' : { "deviceLatitude": 35.2058, "cropName": "딸기", "deviceCamera": "https://5c8d-121-147-32-194.jp.ngrok.io/stream", "deviceName": "지니 농장", "deviceLong": 126}}, 
-    {'D33' : { "deviceLatitude": 35.2058, "cropName": "딸기", "deviceCamera": "https://5c8d-121-147-32-194.jp.ngrok.io/stream", "deviceName": "지니 농장", "deviceLong": 126}}
-  ]
+  useEffect(() => {
+    if (myFarm.deviceInfo[deviceId].deviceCamera) {
+      setCamera(myFarm.deviceInfo[deviceId].deviceCamera)
+    }
+  }, [deviceId]);
 
-  const test1 = test.map((farm) => {
-    console.log(farm.D30)
-    return (
-      <>
-        <div>ㅋㅋㅋ</div>
-      </>
-    )
-  })
+  useEffect(() => {
+    setLocation([myFarm.deviceInfo[deviceId].deviceLatitude, myFarm.deviceInfo[deviceId].deviceLong])
+  }, [deviceId])
 
   return (
     <>
-      {test1}
+      <Container sx={{ mt: 1 }}>
+        {myFarm && myFarm.deviceNo.map((d, index) => (
+            <>
+              <Radio
+                key={index}
+                checked={farmRadio === `${index}`}
+                value={index}
+                onChange={(e) => {
+                  setFarmRadio(e.target.value);
+                  setDeviceId(myFarm.deviceNo[index]);
+                }}
+                name="radio-buttons"
+              />
+            </>
+          ))}
+        <Grid
+          container
+          style={{
+            backgroundColor: "#757575",
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+         <Box sx={{ ml: 1 }} flexGrow={1}>
+            <p style={{ color: "#FFA629" }}>{myFarm.deviceInfo[deviceId].cropName}</p>
+          </Box>
+          <Box flexGrow={1}>
+            <p>{myFarm.deviceInfo[deviceId].deviceName}</p>
+          </Box>
+          <Box>
+            <IconButton size="large"
+            onClick={() => {setOnControl(true)}}>
+              <SettingsRemoteIcon />
+            </IconButton>
+            <IconButton size="large">
+              <SettingsIcon />
+            </IconButton>
+          </Box>
+        </Grid>
+      </Container>
+      
+      {/* 제어 모달 */}
+      <ControlDetail deviceId={deviceId} />
+      
+      {/* 센서 리스트 */}
+      {myFarm ? <SensorList deviceId={deviceId} email={email} /> : <></>}
     </>
   );
 };
 
 export default MyFarm;
-
-
-
-// {
-//   "message": "success",
-//   "deviceInfo": [
-//     {'D30' : { "deviceLatitude": 35.2058, "cropName": "딸기", "deviceCamera": "https://5c8d-121-147-32-194.jp.ngrok.io/stream", "deviceName": "지니 농장", "deviceLong": 126}}, 
-//     {'D33' : { "deviceLatitude": 35.2058, "cropName": "딸기", "deviceCamera": "https://5c8d-121-147-32-194.jp.ngrok.io/stream", "deviceName": "지니 농장", "deviceLong": 126}}
-//   ]
-// }

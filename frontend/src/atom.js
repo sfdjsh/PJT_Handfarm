@@ -14,6 +14,7 @@ export const userInfo = atom({
         isLogged: false,
         userEmail: ''
     }],
+    default: [],
     effects_UNSTABLE: [persistAtom],
 })
 
@@ -77,3 +78,18 @@ export const changeTab = atom({
     default: 0,
     effects_UNSTABLE: [persistAtom]
 })
+
+// 카메라 정보
+export const cameraInfo = atom({
+    key: 'cameraInfo',
+    default: "",
+    efeects_UNSTABLE: [persistAtom]
+})
+
+// 제어 모달
+export const motorModal = atom({
+    key: 'motorModal',
+    default: false,
+    efeects_UNSTABLE: [persistAtom]
+})
+
