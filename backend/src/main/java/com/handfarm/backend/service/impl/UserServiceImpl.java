@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
                 deviceInfo.put("deviceName", userDeviceEntity.getDeviceIdx().getDeviceName());
                 deviceInfo.put("deviceCrop", userDeviceEntity.getDeviceIdx().getCrop().getCropName());
                 deviceInfo.put("deviceNo", userDeviceEntity.getDeviceIdx().getDeviceNo());
-                List<Optional<DeviceControlEntity>> deviceControlEntitylist = deviceControlRepository.findByDeviceIdx(getUserEntity.get().getDevice());
+                List<Optional<DeviceControlEntity>> deviceControlEntitylist = deviceControlRepository.findByDeviceIdx(userDeviceEntity.getDeviceIdx());
                 Map<String, Object> autoValueMap = new HashMap<>();
                 for (Optional<DeviceControlEntity> deviceControlEntity : deviceControlEntitylist) {
                     if(deviceControlEntity.isEmpty()) throw new NoSuchElementException();
