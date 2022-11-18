@@ -60,6 +60,7 @@ public class UserServiceImpl implements UserService {
                 Map<String, Object> deviceInfo = new HashMap<>();
                 deviceInfo.put("deviceName", userDeviceEntity.getDeviceIdx().getDeviceName());
                 deviceInfo.put("deviceCrop", userDeviceEntity.getDeviceIdx().getCrop().getCropName());
+                deviceInfo.put("deviceNo", userDeviceEntity.getDeviceIdx().getDeviceNo());
                 List<Optional<DeviceControlEntity>> deviceControlEntitylist = deviceControlRepository.findByDeviceIdx(getUserEntity.get().getDevice());
                 Map<String, Object> autoValueMap = new HashMap<>();
                 for (Optional<DeviceControlEntity> deviceControlEntity : deviceControlEntitylist) {
