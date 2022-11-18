@@ -96,8 +96,15 @@ public class UserServiceImpl implements UserService {
     public void editUserInfo(HttpServletRequest request, UserDto userDto){
 
             UserEntity userEntity = getUserEntity(request);
-            userEntity.setUserNickname(userDto.getUserNickname());
-            userEntity.setUserProfile(userDto.getUserProfileImg());
+            if(userDto.getUserNickname()!=null) {
+                userEntity.setUserNickname(userDto.getUserNickname());
+            }
+            if(userDto.getUserProfileImg() != null) {
+                userEntity.setUserProfile(userDto.getUserProfileImg());
+            }
+            if(userDto.getUserOpen() != null) {
+                userEntity.setUserOpen(userDto.getUserOpen());
+            }
             userRepository.save(userEntity);
 
     }

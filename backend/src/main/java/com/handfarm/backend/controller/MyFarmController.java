@@ -51,7 +51,7 @@ public class MyFarmController {
     }
 
     @PutMapping("/farm")
-    public ResponseEntity<Map<String, Object>> deviceUpdate(HttpServletRequest request, @RequestBody DeviceRegistDto deviceRegistDto) throws IOException {
+    public ResponseEntity<Map<String, Object>> deviceUpdate(HttpServletRequest request, @RequestBody DeviceRegistDto deviceRegistDto) {
         Map<String, Object> resultMap = new HashMap<>();
         if(checkToken(request, resultMap)){
             try{
