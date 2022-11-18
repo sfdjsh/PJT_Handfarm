@@ -168,22 +168,20 @@ public class DeviceServiceImpl implements DeviceService {
         String userId = kakaoService.decodeToken(request.getHeader("accessToken"));
         Optional<UserEntity> userEntity = userRepository.findByUserId(userId);
         if(userEntity.isEmpty()) throw new NoSuchElementException();
-        List<Map<String , Object>> deviceList = new ArrayList<>();
         List<UserDeviceEntity> userDeviceEntityList = userDeviceRepository.findByUserIdx(userEntity.get());
         List<String> deviceNoList = new ArrayList<>();
+        Map<String, Object> deviceAll = new HashMap<>();
         for(UserDeviceEntity userDeviceEntity : userDeviceEntityList){
             deviceNoList.add(userDeviceEntity.getDeviceIdx().getDeviceNo());
             Map<String, Object> deviceMap = new HashMap<>();
-            Map<String, Object> deviceAll = new HashMap<>();
             deviceMap.put("deviceName", userDeviceEntity.getDeviceIdx().getDeviceName());
             deviceMap.put("cropName", userDeviceEntity.getDeviceIdx().getCrop().getCropName());
             deviceMap.put("deviceLatitude", userDeviceEntity.getDeviceIdx().getDeviceLatitude());
             deviceMap.put("deviceLong", userDeviceEntity.getDeviceIdx().getDeviceLong());
             deviceMap.put("deviceCamera", userDeviceEntity.getDeviceIdx().getDeviceCamera());
             deviceAll.put(userDeviceEntity.getDeviceIdx().getDeviceNo(), deviceMap);
-            deviceList.add(deviceAll);
         }
-        resultMap.put("deviceInfo", deviceList);
+        resultMap.put("deviceInfo", deviceAll);
         resultMap.put("deviceNo", deviceNoList);
 
         return resultMap;
