@@ -8,81 +8,64 @@ import { useRecoilState } from "recoil";
 import { userInfo, userFarm, motorControl, locations } from "../../atom";
 
 const MyFarm = () => {
-  const [user, setUser] = useRecoilState(userInfo);
-  const [myFarm, setMyFarm] = useRecoilState(userFarm);
-  const [motorState, setMotorState] = useRecoilState(motorControl) 
-  const [location, setLocation] = useRecoilState(locations)
+  // const [user, setUser] = useRecoilState(userInfo);
+  // const [myFarm, setMyFarm] = useRecoilState(userFarm);
+  // const [motorState, setMotorState] = useRecoilState(motorControl)
+  // const [location, setLocation] = useRecoilState(locations)
 
-  const devices = myFarm.deviceInfo
-  const [farmRadio, setFarmRadio] = useState('0');
-  const [deviceId, setDeviceId] = useState(devices[0].deviceNo)
-  const email = user.userEmail
-  const camera = devices[farmRadio].deviceCamera
+  // const devices = myFarm.deviceInfo
+  // const [farmRadio, setFarmRadio] = useState('');
+  // const [deviceId, setDeviceId] = useState(devices[0].deviceNo)
+  // const email = user.userEmail
+  // const camera = devices[farmRadio].deviceCamera
 
-  const motorInfo = async () => {
-    const URL = `${BASE_URL}/farm/${deviceId}/manual`
-    const result = await axios.get(URL, {
-      headers: {
-        accessToken : localStorage.getItem('access_token')
-      }
-    })
-    console.log(result.data)
-    setMotorState(result.data)
-  }
+  // const motorInfo = async () => {
+  //   const URL = `${BASE_URL}/farm/${deviceId}/manual`
+  //   const result = await axios.get(URL, {
+  //     headers: {
+  //       accessToken: localStorage.getItem('access_token')
+  //     }
+  //   })
+  //   setMotorState(result.data)
+  // }
 
-  useEffect(() => {
-    motorInfo()
-  }, [deviceId])
+  // useEffect(() => {
+  //   motorInfo()
+  // }, [deviceId])
 
-  useEffect(() => {
-    setLocation([devices[farmRadio].deviceLatitude, devices[farmRadio].deviceLong])
-  }, [])
+  // useEffect(() => {
+  //   setLocation([devices[farmRadio].deviceLatitude, devices[farmRadio].deviceLong])
+  // }, [])
+
+  const test = [
+    {'D30' : { "deviceLatitude": 35.2058, "cropName": "딸기", "deviceCamera": "https://5c8d-121-147-32-194.jp.ngrok.io/stream", "deviceName": "지니 농장", "deviceLong": 126}}, 
+    {'D33' : { "deviceLatitude": 35.2058, "cropName": "딸기", "deviceCamera": "https://5c8d-121-147-32-194.jp.ngrok.io/stream", "deviceName": "지니 농장", "deviceLong": 126}}
+  ]
+
+  const test1 = test.map((farm) => {
+    console.log(farm.D30)
+    return (
+      <>
+        <div>ㅋㅋㅋ</div>
+      </>
+    )
+  })
 
   return (
     <>
-      <Container sx={{ mt: 1 }}>
-        <div>
-          {devices.map((d, index) => (
-            <Radio
-              key={d.deviceNo}
-              checked={farmRadio === `${index}`}
-              value={index}
-              onChange={(e) => {
-                const deviceNo = d.deviceNo
-                setFarmRadio(e.target.value)
-                setDeviceId(deviceNo)
-              }}
-              name="radio-buttons"
-            />
-          ))}
-        </div>
-        <Grid
-          container
-          style={{
-            backgroundColor: "#757575",
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <Box sx={{ ml: 1 }} flexGrow={1}>
-            <p style={{ color: "#FFA629" }}>{devices[farmRadio].cropName}</p>
-          </Box>
-          <Box flexGrow={1}>
-            <p>{devices[farmRadio].deviceName}</p>
-          </Box>
-          <Box>
-            <IconButton size="large">
-              <SettingsIcon />
-            </IconButton>
-          </Box>
-        </Grid>
-      </Container>
-
-      {/* 센서 리스트 */}
-      <SensorList deviceId={deviceId} email={email} camera={camera} />     
+      {test1}
     </>
   );
 };
 
 export default MyFarm;
+
+
+
+// {
+//   "message": "success",
+//   "deviceInfo": [
+//     {'D30' : { "deviceLatitude": 35.2058, "cropName": "딸기", "deviceCamera": "https://5c8d-121-147-32-194.jp.ngrok.io/stream", "deviceName": "지니 농장", "deviceLong": 126}}, 
+//     {'D33' : { "deviceLatitude": 35.2058, "cropName": "딸기", "deviceCamera": "https://5c8d-121-147-32-194.jp.ngrok.io/stream", "deviceName": "지니 농장", "deviceLong": 126}}
+//   ]
+// }

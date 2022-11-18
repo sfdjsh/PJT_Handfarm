@@ -2,16 +2,17 @@ import React, { useState, useEffect } from "react";
 import TempDetail from "./TempDetail";
 import { Card, Typography, Container, Box } from "@mui/material";
 import { useRecoilState } from "recoil";
-import { motorControl } from "../../../atom";
+import { motorControl, changeTab } from "../../../atom";
 import ControlTemp from "../control/ControlTemp";
 import TempLineGraph from "./TempLineGraph";
 import TempBarGraph from "./TempBarGraph"
 import TempDayGraph from "./TempDayGraph"
 
-const TempCard = ({ temp, deviceId, value }) => {
+const TempCard = ({ temp, deviceId }) => {
   const [motorState, setMotorState] = useRecoilState(motorControl);
+  const [value, setValue] = useRecoilState(changeTab)
   const controlTemp = motorState.temp;
-  const sensorName = 'temp'
+  const sensorName = 'temp' 
 
   return (
     <>
@@ -36,7 +37,8 @@ const TempCard = ({ temp, deviceId, value }) => {
 
           {/* 실시간 그래프 */}
           <Container>
-            <Card sx={{ mt:2, backgroundColor:"#1E1E1E" }}>
+            <Card sx={{ mt:2, backgroundColor:"#1E1E1E" }}
+            onClick={() => console.log('하이')}>
               <Box sx={{ ml:1, mt:2 }}>
                 <Typography variant="h6" fontWeight="bold" color="white">
                   실시간 그래프

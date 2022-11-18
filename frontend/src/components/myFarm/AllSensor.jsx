@@ -1,7 +1,7 @@
-import React from "react";
+import React, {useState} from "react";
 import "./Graph.css";
 import { useRecoilState } from "recoil";
-import { deviceSensor } from "../../atom";
+import { deviceSensor, changeTab } from "../../atom";
 import {
   Box,
   Grid,
@@ -15,8 +15,12 @@ import {
 import axios from "axios";
 import TodayWeather from "./TodayWeather";
 import CameraCard from "./camera/CameraCard";
+import { useNavigate } from "react-router-dom";
 
 const AllSensor = (props) => {
+  const [value, setValue] = useRecoilState(changeTab)
+  const navigate = useNavigate()
+  
   const sensorList = [
     props.pressure,
     props.temp,
@@ -28,6 +32,7 @@ const AllSensor = (props) => {
     props.light,
     props.soilHumid,
   ];
+  
   const sensorName = [
     "Pressure",
     "Temp",
@@ -51,6 +56,10 @@ const AllSensor = (props) => {
     "fd3f01",
     "65B6F7",
   ];
+
+  const goTemp = () => {
+    navigate('/myfarm/석호')
+  }
   const result = sensorList.map((sensor, index) => {
     if (index === 0 || index === 3) {
       return (
@@ -61,6 +70,7 @@ const AllSensor = (props) => {
               height: "110px",
             }}
             className={sensor === "- - - -" ? "blur-effect" : ""}
+            // onClick={setValue(0)}
           >
             <Box>
               {index === 0 ? (
@@ -114,6 +124,7 @@ const AllSensor = (props) => {
               height: "110px",
             }}
             className={sensor === "- - - -" ? "blur-effect" : ""}
+            onClick={goTemp}
           >
             <Grid container>
               <Grid item xs={6}>
@@ -342,7 +353,7 @@ const AllSensor = (props) => {
                 <Typography
                   variant="h6"
                   align="center"
-                  sx={{ mt: 0.5, ml:2, fontWeight: "bold" }}
+                  sx={{ mt: 0.5, ml:1, fontWeight: "bold" }}
                 >
                   {sensor}{" "}
                   <span style={{ fontSize: "16px" }}>
@@ -368,13 +379,14 @@ const AllSensor = (props) => {
 
   return (
     <>
-      {props.value === 0 ? (
+      {value === 0 ? (
         <Container>
-          <Grid container spacing={2} sx={{ mt: 2 }}>
+          <Typography sx={{mt:2, fontWeight:'bold'}} variant="h5">Connected Sensor</Typography>
+          <Grid container spacing={2} sx={{ mt:0.1 }}>
             {result}
           </Grid>
           <TodayWeather deviceId={props.deviceId} />
-          <CameraCard deviceId={props.deviceId} />
+          <CameraCard deviceId={props.deviceId} camera={props.camera} />
         </Container>
       ) : (
         <></>

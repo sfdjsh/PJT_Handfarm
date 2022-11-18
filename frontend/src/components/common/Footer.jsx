@@ -44,7 +44,7 @@ export const Footer = () => {
 
     return (
         <>
-            <Box>
+            <Box sx={{position: 'fixed', bottom:0}}>
                 <Divider style={{ backgroundColor : "white" }}/>
                 <BottomNavigation
                     showLabels
