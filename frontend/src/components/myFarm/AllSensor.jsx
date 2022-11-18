@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 const AllSensor = (props) => {
   const [value, setValue] = useRecoilState(changeTab)
   const navigate = useNavigate()
-  
+
   const sensorList = [
     props.pressure,
     props.temp,
@@ -153,6 +153,7 @@ const AllSensor = (props) => {
                   >
                     {sensorName[index]}
                   </Typography>
+                  {/* <hr /> */}
                 </Box>
               </Grid>
               <Grid item xs={6}>

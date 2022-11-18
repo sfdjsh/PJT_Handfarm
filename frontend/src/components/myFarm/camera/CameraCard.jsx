@@ -1,13 +1,12 @@
 import React from "react";
 // import Iframe from "react-iframe";
 import { useRecoilState } from "recoil";
-import { motorControl } from "../../../atom";
-import ControlBuzzer from "../control/ControlBuzzer";
+import { motorControl, cameraInfo } from "../../../atom";
 import { Container, Typography, Box } from "@mui/material";
 
-const CameraCard = ({ camera, deviceId, value }) => {
-  const [motorState, setMotorState] = useRecoilState(motorControl);
-  const controlBuzzer = motorState.buzzer;
+const CameraCard = () => {
+  const [camera, setCamera] = useRecoilState(cameraInfo)
+  console.log(camera)
 
   return (
     <>
@@ -18,10 +17,8 @@ const CameraCard = ({ camera, deviceId, value }) => {
             width="100%"
             height="300vh"
             frameBorder="0"
-            // style={{ marginRight: '200px' }}
           />
         </Box>
-        {/* <ControlBuzzer controlBuzzer={controlBuzzer} deviceId={deviceId} /> */}
     </>
   );
 };

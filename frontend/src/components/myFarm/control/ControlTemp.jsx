@@ -34,7 +34,7 @@ const ControlTemp = ({ controlTemp, deviceId }) => {
 
   return (
     <>
-      <Card sx={{ mt: 2, mb: 3, height: 120, backgroundColor: "#1E1E1E" }}>
+      <Card sx={{ mt: 2, mb: 2, height: 120, backgroundColor: "#1E1E1E" }}>
         <CardContent>
           <Box display="flex" alignItems="center">
             <Typography variant="h6" fontWeight="bold" color="white">
@@ -79,7 +79,7 @@ const ControlTemp = ({ controlTemp, deviceId }) => {
                 className={tempDegree === degree[0] ? "onCheck" : ""}
                 sx={{ fontWeight: "bold", borderRadius: "15px", p: 0.5 }}
               >
-                Cool
+                HOT
               </Typography>
             </Button>
             <Button
@@ -109,7 +109,7 @@ const ControlTemp = ({ controlTemp, deviceId }) => {
                 className={tempDegree === degree[2] ? "onCheck" : ""}
                 sx={{ fontWeight: "bold", borderRadius: "15px", p: 0.5 }}
               >
-                HOT
+                COOL
               </Typography>
             </Button>
           </ButtonGroup>

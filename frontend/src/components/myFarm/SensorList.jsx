@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 // import Iframe from 'react-iframe'
 import { useRecoilState } from "recoil";
-import { deviceSensor, changeTab } from "../../atom";
+import { deviceSensor } from "../../atom";
 import { BASE_URL } from "../../config";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import { Grid } from "@mui/material";
@@ -13,12 +13,24 @@ import HumidCard from "./humid/HumidCard";
 import SoilHumidCard from "./soilHumid/SoilHumidCard";
 import LedCard from "./led/LedCard";
 
-import { Box, Tabs, Tab, Container } from "@mui/material";
+import { Box, Tabs, Tab, Container, tabsClasses  } from "@mui/material";
 import CameraCard from "./camera/CameraCard";
+import { useNavigate } from "react-router-dom";
 
-const SensorList = ({ deviceId, email, camera }) => {
+const SensorList = ({ deviceId, email }) => {
+  const navigate = useNavigate();
+
+  // 센서 실시간 정보들
   const [sensor, setSensor] = useRecoilState(deviceSensor);
-  const [value, setValue] = useRecoilState(changeTab)
+  const [temp, setTemp] = useState(null);
+  const [co2, setCo2] = useState(null);
+  const [humid, setHumid] = useState(null);
+  const [soilHumid, setSoilHumid] = useState(null);
+  const [pm2p5, setPm2p5] = useState(null);
+  const [pm10, setPm10] = useState(null);
+  const [light, setLight] = useState(null);
+  const [altitude, setAltitude] = useState(null);
+  const [pressure, setPressure] = useState(null);
 
   const test = () => {
     const sse = new EventSourcePolyfill(`${BASE_URL}/connect/${email}`);
@@ -30,75 +42,100 @@ const SensorList = ({ deviceId, email, camera }) => {
 
   useEffect(() => {
     test();
-  }, []);
+    if (sensor[deviceId]) {
+      setTemp(sensor[deviceId].temp);
+      setCo2(sensor[deviceId].co2);
+      setHumid(sensor[deviceId].humid);
+      setSoilHumid(sensor[deviceId].humidSoil);
+      setPm2p5(sensor[deviceId].pm2p5);
+      setPm10(sensor[deviceId].pm10);
+      setLight(sensor[deviceId].cds);
+      setAltitude(sensor[deviceId].altitude);
+      setPressure(sensor[deviceId].pressure);
+    } else {
+      console.log("기다립시다.");
+    }
+  }, [sensor]);
 
-  const temp = sensor[deviceId].temp ? sensor[deviceId].temp : '- - - -';
-  const co2 = sensor[deviceId].co2 ? sensor[deviceId].co2 : '- - - -';
-  const humid = sensor[deviceId].humid ? sensor[deviceId].humid : '- - - -';
-  const soilHumid = sensor[deviceId].humidSoil ? sensor[deviceId].humidSoil : '- - - -';
-  const superDust = sensor[deviceId].pm2p5 ? sensor[deviceId].pm2p5 : "- - - -"
-  const dust = sensor[deviceId].pm10 ? sensor[deviceId].pm10 : '- - - -'
-  const light = sensor[deviceId].cds ? sensor[deviceId].cds : '- - - -'
-  const altitude = sensor[deviceId].altitude ? sensor[deviceId].altitude  : '- - - -'
-  const pressure = sensor[deviceId].pressure ? sensor[deviceId].preessure : '- - - -'
+  const [value, setValue] = useState("temp");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  
+
+  // const LinkTab = (props) => {
+  //   return (
+  //     <Tab
+  //       onClick={() => {
+  //         navigate(`/myfarm/${props.deviceId}/${props.value}`);
+  //       }}
+  //       {...props}
+  //     />
+  //   );
+  // };
+
   return (
     <>
-      <Container>
-        <Box sx={{ background: "#757575", pt: 1, color: "white" }}>
-          <Box display="flex">
-            {/* 전체 tab default */}
-            {/* <Box>
-              <Tabs
-                value={value}
-                onChange={handleChange}
-                aria-label="visible arrows tabs example"
-                textColor="inherit"
-              >
-                <Tab label="전체" value={0} ></Tab>
-              </Tabs>
-            </Box> */}
-            {/* 센서 리스트 */}
-            <Tabs
-            value={value}
-            onChange={handleChange}
-            variant="scrollable"
-            scrollButtons
-            aria-label="visible arrows tabs example"
-            textColor="inherit">
-              <Tab label="전체" value={0} ></Tab>
-              {temp !== '- - - -' ? <Tab label="온도" value={1} /> : null}
-              {co2 !== '- - - -' ? <Tab label="이산화탄소" value={2} /> : null}
-              {humid !== '- - - -' ? <Tab label="습도" value={3} /> : null}
-              {soilHumid !== '- - - -' ? <Tab label="토양습도" value={4} /> : null} 
-              <Tab label="Led" value={5} />
-              {/* <Tab label="camera" value={6} /> */}
-            </Tabs>
-          </Box>
-        </Box>
-      </Container>
-      <Grid sx={{ mt: 1 }}>
-        {sensor[deviceId].temp ? (
-          <>
-            <AllSensor deviceId={deviceId}
-            temp={temp} co2={co2} humid={humid} soilHumid={soilHumid} 
-            dust={dust} superDust={superDust} light={light} 
-            pressure={pressure} altitude={altitude} camera={camera} />
-            <TempCard temp={temp} deviceId={deviceId} />
-            <Co2Card co2={co2} deviceId={deviceId} />
-            <HumidCard humid={humid} deviceId={deviceId} />
-            <SoilHumidCard soilHumid={soilHumid} deviceId={deviceId} />
-            <LedCard deviceId={deviceId} />
-            {/* <CameraCard camera={camera} deviceId={deviceId} value={value} /> */}
-          </>
-        ) : (
-          <></>
-        )}
-      </Grid>
+      {sensor[deviceId] ? (
+        <>
+          <Container>
+            <Box sx={{ background: "#757575", pt: 1, color: "white" }}>
+              <Box display="flex">
+                  <Tabs
+                    value={value}
+                    onChange={handleChange}
+                    aria-label="visible arrows tabs example"
+                    textColor="inherit"
+                  >
+                    <Tab value="all" label="전체"></Tab>
+                  </Tabs>
+                  <Tabs
+                    value={value}
+                    onChange={handleChange}
+                    variant="scrollable"
+                    scrollButtons
+                    aria-label="visible arrows tabs example"
+                    textColor="inherit"
+                  >
+                    {/* <Tab label="전체" value='all'></Tab> */}
+                    {temp ? <Tab label="온도" value="temp" /> : null}
+                    {co2 ? <Tab label="이산화탄소" value="three" /> : null}
+                    {humid ? <Tab label="습도" value="four" /> : null}
+                    {soilHumid ? <Tab label="토양습도" value="five" /> : null}
+                  </Tabs>
+              </Box>
+            </Box>
+          </Container>
+          <Grid sx={{ mt: 1 }}>
+            {sensor[deviceId] ? (
+              <>
+                <AllSensor
+                  deviceId={deviceId}
+                  value={value}
+                  temp={temp}
+                  co2={co2}
+                  humid={humid}
+                  soilHumid={soilHumid}
+                  pm2p5={pm2p5}
+                  pm10={pm10}
+                  light={light}
+                  pressure={pressure}
+                  altitude={altitude}
+                />
+                <TempCard temp={temp} deviceId={deviceId} value={value} />
+                <Co2Card co2={co2} deviceId={deviceId} value={value} />
+                <HumidCard humid={humid} deviceId={deviceId} value={value} />
+                <SoilHumidCard soilHumid={soilHumid} deviceId={deviceId} value={value} />
+                <LedCard deviceId={deviceId} value={value} />
+              </>
+            ) : (
+              <></>
+            )}
+          </Grid>
+        </>
+      ) : (
+        <p>렌더링 중...</p>
+      )}
     </>
   );
 };
