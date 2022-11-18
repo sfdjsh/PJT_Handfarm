@@ -12,24 +12,20 @@ const FarmRegisting = () => {
 
   const [user, setUser] = useRecoilState(userInfo)
   const nickName = user.userNickname
-  
+
   // 내 농장 정보
-  const onFarm = () => {
-    axios.get('https://handfarm.co.kr/api/farm', {
+  const onFarm = async () => {
+    const result = await axios.get('https://handfarm.co.kr/api/farm', {
       headers: {
         accessToken: localStorage.getItem('access_token')
       }
     })
-      .then(response => {
-        setMyFarm(response.data)
-      })
+    setMyFarm(result.data)
+    if (myFarm.deviceInfo.length > 0) {
+      navigate('/myfarm')
+    }
   }
 
-  if (myFarm.deviceInfo.length > 0) {
-      console.log(myFarm.deviceInfo.length)
-      navigate('/myfarm')
-  }
-    
   useEffect(() => {
     onFarm()
   }, [myFarm])
@@ -37,7 +33,8 @@ const FarmRegisting = () => {
   const goFarmCreate = () => {
     navigate('/myfarm/create')
   }
-
+  
+  console.log(myFarm)
   return (
     <>
       <Box sx={{
@@ -65,3 +62,17 @@ const FarmRegisting = () => {
 }
 
 export default FarmRegisting;
+
+
+// diviceInfo : [
+//   {"deviceNo" : [
+//   {'D30': { "deviceLatitude": 35.2058, "cropName": "딸기", "deviceCamera": "https://5c8d-121-147-32-194.jp.ngrok.io/stream", "deviceNo": "D30", "deviceName": "지니 농장", "deviceLong": 126}},
+//   {'D33': { "deviceLatitude": 35.2058, "cropName": "딸기", "deviceCamera": "https://5c8d-121-147-32-194.jp.ngrok.io/stream", "deviceNo": "D30", "deviceName": "지니 농장", "deviceLong": 126}},
+//   ]}
+// ]
+
+// // deviceInfo : [{deviceNo: [{'D30': }]}]
+
+// test.deviceInfo.map((farm) => {
+//   console.log(farm.cropName)
+// })

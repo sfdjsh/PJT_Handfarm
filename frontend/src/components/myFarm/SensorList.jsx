@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 // import Iframe from 'react-iframe'
 import { useRecoilState } from "recoil";
-import { deviceSensor } from "../../atom";
+import { deviceSensor, changeTab } from "../../atom";
 import { BASE_URL } from "../../config";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import { Grid } from "@mui/material";
@@ -18,6 +18,7 @@ import CameraCard from "./camera/CameraCard";
 
 const SensorList = ({ deviceId, email, camera }) => {
   const [sensor, setSensor] = useRecoilState(deviceSensor);
+  const [value, setValue] = useRecoilState(changeTab)
 
   const test = () => {
     const sse = new EventSourcePolyfill(`${BASE_URL}/connect/${email}`);
@@ -41,7 +42,6 @@ const SensorList = ({ deviceId, email, camera }) => {
   const altitude = sensor[deviceId].altitude ? sensor[deviceId].altitude  : '- - - -'
   const pressure = sensor[deviceId].pressure ? sensor[deviceId].preessure : '- - - -'
 
-  const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -76,24 +76,24 @@ const SensorList = ({ deviceId, email, camera }) => {
               {humid !== '- - - -' ? <Tab label="습도" value={3} /> : null}
               {soilHumid !== '- - - -' ? <Tab label="토양습도" value={4} /> : null} 
               <Tab label="Led" value={5} />
-              <Tab label="camera" value={6} />
+              {/* <Tab label="camera" value={6} /> */}
             </Tabs>
           </Box>
         </Box>
       </Container>
       <Grid sx={{ mt: 1 }}>
-        {sensor[deviceId] ? (
+        {sensor[deviceId].temp ? (
           <>
-            <AllSensor deviceId={deviceId} value={value} 
+            <AllSensor deviceId={deviceId}
             temp={temp} co2={co2} humid={humid} soilHumid={soilHumid} 
             dust={dust} superDust={superDust} light={light} 
-            pressure={pressure} altitude={altitude} />
-            <TempCard temp={temp} deviceId={deviceId} value={value} />
-            <Co2Card co2={co2} deviceId={deviceId} value={value} />
-            <HumidCard humid={humid} deviceId={deviceId} value={value} />
-            <SoilHumidCard soilHumid={soilHumid} deviceId={deviceId} value={value}/>
-            <LedCard deviceId={deviceId} value={value} />
-            <CameraCard camera={camera} deviceId={deviceId} value={value} />
+            pressure={pressure} altitude={altitude} camera={camera} />
+            <TempCard temp={temp} deviceId={deviceId} />
+            <Co2Card co2={co2} deviceId={deviceId} />
+            <HumidCard humid={humid} deviceId={deviceId} />
+            <SoilHumidCard soilHumid={soilHumid} deviceId={deviceId} />
+            <LedCard deviceId={deviceId} />
+            {/* <CameraCard camera={camera} deviceId={deviceId} value={value} /> */}
           </>
         ) : (
           <></>

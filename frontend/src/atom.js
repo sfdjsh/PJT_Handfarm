@@ -64,8 +64,16 @@ export const motorControl = atom({
     effects_UNSTABLE: [persistAtom],
 })
 
+// 위도/경도 정보
 export const locations = atom({
     key: 'locations',
     default: [],
+    effects_UNSTABLE: [persistAtom]
+})
+
+// Tab change
+export const changeTab = atom({
+    key: 'changeTab',
+    default: 0,
     effects_UNSTABLE: [persistAtom]
 })
