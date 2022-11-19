@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import { BASE_URL } from "../../config";
 import axios from "axios";
 import SensorList from "../../components/myFarm/SensorList";
-import { Container, Box, Grid, IconButton, Radio } from "@mui/material";
+import { Container, Box, Grid, IconButton, Radio, Button } from "@mui/material";
 import SettingsRemoteIcon from '@mui/icons-material/SettingsRemote';
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useRecoilState } from "recoil";
-import { userInfo, userFarm, motorControl, cameraInfo, locations, motorModal } from "../../atom";
+import { userInfo, userFarm, motorControl, cameraInfo, locations, motorModal, updateModal } from "../../atom";
 import { useNavigate } from "react-router-dom";
 import ControlDetail from "./ControlDetail"; 
+import UpdateFarm from "./UpdateFarm";
 
 const MyFarm = () => {
   const navigate = useNavigate();
@@ -23,16 +24,17 @@ const MyFarm = () => {
   const [deviceId, setDeviceId] = useState(myFarm.deviceNo[0]);
   const email = user.userEmail;
 
+  const [onUpdate, setOnUpdate] = useRecoilState(updateModal)
   const [onControl, setOnControl] = useRecoilState(motorModal)
-    const motorInfo = async () => {
-      const URL = `${BASE_URL}/farm/${deviceId}/manual`
-      const result = await axios.get(URL, {
-        headers: {
-          accessToken : localStorage.getItem('access_token')
-        }
-      })
-      setMotorState(result.data)
-    }
+  const motorInfo = async () => {
+    const URL = `${BASE_URL}/farm/${deviceId}/manual`
+    const result = await axios.get(URL, {
+      headers: {
+        accessToken : localStorage.getItem('access_token')
+      }
+    })
+    setMotorState(result.data)
+  }
 
   useEffect(() => {
     motorInfo()
@@ -55,20 +57,29 @@ const MyFarm = () => {
   return (
     <>
       <Container sx={{ mt: 1 }}>
-        {myFarm && myFarm.deviceNo.map((d, index) => (
-            <>
-              <Radio
-                key={index}
-                checked={farmRadio === `${index}`}
-                value={index}
-                onChange={(e) => {
-                  setFarmRadio(e.target.value);
-                  setDeviceId(myFarm.deviceNo[index]);
-                }}
-                name="radio-buttons"
-              />
-            </>
-          ))}
+        <Box display="flex" alignItems="center">
+          <Box flexGrow={1}>
+            {myFarm && myFarm.deviceNo.map((d, index) => (
+                <>
+                  <Radio
+                    key={index}
+                    checked={farmRadio === `${index}`}
+                    value={index}
+                    onChange={(e) => {
+                      setFarmRadio(e.target.value);
+                      setDeviceId(myFarm.deviceNo[index]);
+                    }}
+                    name="radio-buttons"
+                  />
+                </>
+              ))}
+          </Box>
+          {/* 농장 등록하러가기 */}
+          <Button sx={{ fontWeight:'bold' }}
+          onClick={() => {navigate('/myfarm/create')}}>
+            농장 등록
+          </Button>
+        </Box>
         <Grid
           container
           style={{
@@ -86,10 +97,11 @@ const MyFarm = () => {
           </Box>
           <Box>
             <IconButton size="large"
-            onClick={() => {setOnControl(true)}}>
+              onClick={() => {setOnControl(true)}}>
               <SettingsRemoteIcon />
             </IconButton>
-            <IconButton size="large">
+            <IconButton size="large"
+            onClick={() => {setOnUpdate(true)}}>
               <SettingsIcon />
             </IconButton>
           </Box>
@@ -98,6 +110,9 @@ const MyFarm = () => {
       
       {/* 제어 모달 */}
       <ControlDetail deviceId={deviceId} />
+      
+      {/* 농장 수정 */}
+      <UpdateFarm deviceId={deviceId} />
       
       {/* 센서 리스트 */}
       {myFarm ? <SensorList deviceId={deviceId} email={email} /> : <></>}

@@ -93,3 +93,9 @@ export const motorModal = atom({
     efeects_UNSTABLE: [persistAtom]
 })
 
+// 농장 수정 모달
+export const updateModal = atom({
+    key: 'updateModal',
+    default: false,
+    efeects_UNSTABLE: [persistAtom]
+})

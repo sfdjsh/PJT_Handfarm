@@ -4,11 +4,11 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { myFarmCreate } from '../api/MyFarm';
 
-const crops = [
-    '딸기', '파프리카', '방울 토마토'
-]
-
-export const FarmCreate = () => {
+const FarmCreate = () => {
+    const crops = [
+        '딸기', '파프리카', '방울 토마토'
+    ]
+    
     const navigate = useNavigate()
     const [deviceID, setDeviceID] = useState('')
     const [myFarmName, setMyFarmName] = useState('')

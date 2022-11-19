@@ -152,8 +152,8 @@ const AllSensor = (props) => {
                     sx={{ fontWeight: "bold" }}
                   >
                     {sensorName[index]}
-                  </Typography>
                   {/* <hr /> */}
+                  </Typography>
                 </Box>
               </Grid>
               <Grid item xs={6}>

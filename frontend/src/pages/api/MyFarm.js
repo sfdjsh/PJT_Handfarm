@@ -2,6 +2,19 @@ import React, {useState} from "react"
 import { BASE_URL } from "../../config";
 import axios from "axios";
 
+// 농장 정보 조회
+export async function farmInfo() {
+
+  const response = await axios.get('https://handfarm.co.kr/api/farm', {
+    headers: {
+      accessToken: localStorage.getItem('access_token')
+    }
+  })
+
+  return response
+}
+
+
 // 농장 등록 API
 export async function myFarmCreate({ deviceID, myFarmName, myCrops }) {  
 
@@ -121,4 +134,28 @@ export async function getWeather(props) {
   const response = await axios.get(URL)
 
   return response
+}
+
+// 농장 수정
+export async function updateFarm({deviceId, farmName, myCrops}) {
+  const URL = `${BASE_URL}/farm`
+  let data = {
+    'deviceNo': deviceId,
+    'deviceName': farmName, 
+    'deviceCrops': myCrops
+  }
+  
+  const response = await axios.put(URL, JSON.stringify(data), {
+    headers: {
+      "Content-Type": `application/json`,
+      accessToken : localStorage.getItem("access_token")
+    }
+  })
+
+  return response
+}
+
+// 농장 삭제
+export async function deleteFarm({deviceId}) {
+  const URL = `${BASE_URL}/farm`
 }

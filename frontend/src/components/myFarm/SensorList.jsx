@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { deviceSensor } from "../../atom";
 import { BASE_URL } from "../../config";
-import { EventSourcePolyfill } from "event-source-polyfill";
+import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
 import { Grid } from "@mui/material";
 
 import AllSensor from "./AllSensor";
@@ -32,16 +32,32 @@ const SensorList = ({ deviceId, email }) => {
   const [altitude, setAltitude] = useState(null);
   const [pressure, setPressure] = useState(null);
 
-  const test = () => {
-    const sse = new EventSourcePolyfill(`${BASE_URL}/connect/${email}`);
-    sse.addEventListener("connect", (e) => {
-      const { data: receivedConnectData } = e;
-      setSensor(JSON.parse(receivedConnectData));
-    });
-  };
+  const EventSource = EventSourcePolyfill || NativeEventSource
 
   useEffect(() => {
-    test();
+    let sse;
+    const axiosSse = async () => {
+      try {
+        sse = new EventSource(`${BASE_URL}/connect/${email}`)
+        sse.addEventListener("connect", (e) => {
+          const { data: receivedConnectData } = e;
+          setSensor(JSON.parse(receivedConnectData));
+        });
+
+        sse.onerror = async (event) => {
+          if (event.error) {
+            if (!event.error.message.includes('No activity')) {
+              sse.close();
+            }
+          }
+        }
+      } catch (error) {}
+    }
+    axiosSse()
+    return () => sse.close();
+  })
+
+  useEffect(() => {
     if (sensor[deviceId]) {
       setTemp(sensor[deviceId].temp);
       setCo2(sensor[deviceId].co2);
@@ -53,7 +69,7 @@ const SensorList = ({ deviceId, email }) => {
       setAltitude(sensor[deviceId].altitude);
       setPressure(sensor[deviceId].pressure);
     } else {
-      console.log("기다립시다.");
+      console.log("센서 렌더링중...");
     }
   }, [sensor]);
 
@@ -81,14 +97,14 @@ const SensorList = ({ deviceId, email }) => {
           <Container>
             <Box sx={{ background: "#757575", pt: 1, color: "white" }}>
               <Box display="flex">
-                  <Tabs
+                  {/* <Tabs
                     value={value}
                     onChange={handleChange}
                     aria-label="visible arrows tabs example"
                     textColor="inherit"
                   >
                     <Tab value="all" label="전체"></Tab>
-                  </Tabs>
+                  </Tabs> */}
                   <Tabs
                     value={value}
                     onChange={handleChange}
@@ -97,7 +113,7 @@ const SensorList = ({ deviceId, email }) => {
                     aria-label="visible arrows tabs example"
                     textColor="inherit"
                   >
-                    {/* <Tab label="전체" value='all'></Tab> */}
+                    <Tab label="전체" value='all'></Tab>
                     {temp ? <Tab label="온도" value="temp" /> : null}
                     {co2 ? <Tab label="이산화탄소" value="three" /> : null}
                     {humid ? <Tab label="습도" value="four" /> : null}
@@ -134,7 +150,7 @@ const SensorList = ({ deviceId, email }) => {
           </Grid>
         </>
       ) : (
-        <p>렌더링 중...</p>
+        <p>센서 렌더링 중...</p>
       )}
     </>
   );
