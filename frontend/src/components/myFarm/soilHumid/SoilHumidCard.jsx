@@ -1,19 +1,16 @@
 import React from 'react'
 import { Card, CardContent, Typography, CardActions, Container, Box } from '@mui/material'
-import { useRecoilState } from 'recoil';
-import { sensorState, motorControl } from '../../../atom';
-import ControlPump from '../control/ControlPump';
 import SoilHumidBarGraph from "./SoilHumidBarGraph"
 import SoilHumidLineGraph from "./SoilHumidLineGraph"
 import SoilHumidDetail from "./SoilHumidDetail"
+import SoilHumidDayGraph from "./SoilHumidDayGraph"
 
 const SoilHumidCard = ({ soilHumid, deviceId, value }) => {
-  const [motorState, setMotorState] = useRecoilState(motorControl) 
-  const controlPump = motorState.pump
+  const sensorName = 'humidSoil'
 
   return (
     <>
-      {soilHumid !== null && value === 4 ?
+      {soilHumid !== null && value === 'soilHumid' ?
         <>
           <Container>
             <Card sx={{ backgroundColor: "#1E1E1E", mt: 2 }}>
@@ -41,11 +38,10 @@ const SoilHumidCard = ({ soilHumid, deviceId, value }) => {
               <SoilHumidLineGraph deviceId={deviceId} />
             </Card>
 
+            <SoilHumidDayGraph deviceId={deviceId} sensorName={sensorName} />
             {/* 센서 설정 */}
             <SoilHumidDetail soilHumid={soilHumid} deviceId={deviceId} />
 
-            {/* 제어 설정 */}
-            <ControlPump controlPump={controlPump} deviceId={deviceId} />
           </Container>
         </>
         : <></>}

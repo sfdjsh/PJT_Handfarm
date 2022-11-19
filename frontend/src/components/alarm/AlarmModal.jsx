@@ -37,7 +37,6 @@ const AlarmModal = () => {
       >
         <Box sx={style}>
           <AlarmInfo />
-          <ModalState open={open} />
         </Box>
       </Modal>
     </>

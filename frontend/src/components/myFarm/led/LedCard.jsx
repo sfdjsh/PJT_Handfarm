@@ -11,10 +11,9 @@ const LedCard = ({ deviceId, value }) => {
   return (
     <>
       {
-        value === 5 ? 
+        value === 'led' ? 
         <Container>
           <LedDetail deviceId={deviceId}/>
-          <ControlLed controlLed={controlLed} deviceId={deviceId} /> 
         </Container>
         : <></>
       }

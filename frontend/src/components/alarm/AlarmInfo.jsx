@@ -37,6 +37,11 @@ const AlarmInfo = () => {
     }
   };
 
+  const goArticle = (articleIdx) => {
+    setOpen(false)
+    navigator(`/communuty/${articleIdx}`)
+  }
+
   return (
     <>
       <div>{alarms.length === 0 ? 
@@ -55,10 +60,9 @@ const AlarmInfo = () => {
               </Typography>
               <Box sx={{ display: "flex", justifyContent: "space-between", pt:1 }}>
                 <Button
-                onClick={() => {AlarmRead(alarm.idx)
-                  .then(() => {setOpen(false)})
-                  // 게시글 다 완성되면 여기 바꿔야함.
-                  // .then(() => {navigator('/myfarm')})
+                onClick={() => {
+                  AlarmRead(alarm.idx)
+                  goArticle(alarm.articeIdx)
                 }}>
                   <span style={{color:"#3F74C8", fontWeight:'bold', fontSize:15}}>Go</span>
                 </Button>

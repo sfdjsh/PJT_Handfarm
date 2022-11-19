@@ -4,7 +4,7 @@ import { sensorHours, sensorDay } from "../../../pages/api/MyFarm";
 import { Typography, Box, Card } from "@mui/material";
 import { Line, XAxis, YAxis, Legend, LineChart, Tooltip, CartesianGrid } from "recharts";
 
-const TempDayGraph = ({ deviceId, sensorName }) => {
+const Co2DayGraph = ({ deviceId, sensorName }) => {
   const [data, setData] = useState([]);
   const [time, setTime] = useState('Hours')
 
@@ -15,7 +15,7 @@ const TempDayGraph = ({ deviceId, sensorName }) => {
   }, [])
 
   // 시간 별 그래프
-  const hourTemp = () => {
+  const hourCo2 = () => {
     setTime('Hours')
     sensorHours({ deviceId, sensorName }).then((res) => {
       setData(res.data.sensorLogList);
@@ -23,7 +23,7 @@ const TempDayGraph = ({ deviceId, sensorName }) => {
   };
 
   // 주간 별 그래프
-  const dayTemp = () => {
+  const dayCo2 = () => {
     setTime('Week')
     sensorDay({ deviceId, sensorName }).then((res) => {
       setData(res.data.sensorLogList);
@@ -39,13 +39,13 @@ const TempDayGraph = ({ deviceId, sensorName }) => {
               시간/주간 그래프
             </Typography>
           </Box>
-          <Typography onClick={hourTemp}
+          <Typography onClick={hourCo2}
             sx={{ mr: 2, fontWeight: 'bold' }}
             className={time === 'Hours' ? 'on-selected' : 'off-selected'}
           >
             시간별
           </Typography>
-          <Typography onClick={dayTemp}
+          <Typography onClick={dayCo2}
             sx={{ mr: 2, fontWeight: 'bold' }}
             className={time === 'Week' ? 'on-selected' : 'off-selected'}
           >
@@ -77,4 +77,4 @@ const TempDayGraph = ({ deviceId, sensorName }) => {
   );
 };
 
-export default TempDayGraph;
+export default Co2DayGraph;

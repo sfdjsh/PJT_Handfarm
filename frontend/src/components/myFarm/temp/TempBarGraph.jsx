@@ -3,20 +3,21 @@ import { useRecoilState } from "recoil";
 import { deviceSensor } from "../../../atom";
 import { BarChart, Bar, LabelList } from "recharts";
 
-const TempBarGraph = ({ temp }) => {
+const TempBarGraph = ({ deviceId }) => {
   const [data, setData] = useState([]);
   const [sensor, setSensor] = useRecoilState(deviceSensor);
 
   useEffect(() => {
+    const datas = sensor[deviceId]
     setData([
       {
         name: "temp",
-        temp: temp,
+        temp: datas.temp,
       },
       {}
     ]);
   }, [sensor]);
-
+  
   return (
     <BarChart
       layout="vertical"

@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import axios from 'axios'
-import { Container, Fab, Box, Typography } from '@mui/material'
+import { Fab, Box, Typography } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { userFarm, userInfo } from '../../atom';
+import { farmInfo } from '../api/MyFarm';
 
 const FarmRegisting = () => {
   const navigate = useNavigate()
@@ -14,25 +15,21 @@ const FarmRegisting = () => {
   const nickName = user.userNickname
   
   // 내 농장 정보
-  const onFarm = () => {
-    axios.get('https://handfarm.co.kr/api/farm', {
-      headers: {
-        accessToken: localStorage.getItem('access_token')
-      }
-    })
-      .then(response => {
-        setMyFarm(response.data)
+  const onFarm = () => { 
+    farmInfo()
+      .then(res => {
+        setMyFarm(res.data)
       })
   }
 
-  if (myFarm.deviceInfo.length > 0) {
-      console.log(myFarm.deviceInfo.length)
-      navigate('/myfarm')
-  }
-    
   useEffect(() => {
-    onFarm()
+    onFarm();
   }, [myFarm])
+
+  if (myFarm && myFarm.deviceNo) {
+    const deviceId = myFarm.deviceNo[0]
+    navigate(`/myfarm/${deviceId}`)
+  }
 
   const goFarmCreate = () => {
     navigate('/myfarm/create')
