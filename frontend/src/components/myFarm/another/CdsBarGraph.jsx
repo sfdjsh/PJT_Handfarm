@@ -3,7 +3,7 @@ import { useRecoilState } from "recoil";
 import { deviceSensor } from "../../../atom";
 import { BarChart, Bar, LabelList } from "recharts";
 
-const Co2BarGraph = ({ deviceId }) => {
+const CdsBarGraph = ({ deviceId }) => {
   const [data, setData] = useState([]);
   const [sensor, setSensor] = useRecoilState(deviceSensor);
 
@@ -12,8 +12,8 @@ const Co2BarGraph = ({ deviceId }) => {
 
     setData([
       {
-        name: "co2",
-        co2: datas.co2,
+        name: "light",
+        cds: datas.cds,
       },
       {}
     ]);
@@ -31,14 +31,14 @@ const Co2BarGraph = ({ deviceId }) => {
       }}
     >
       <Bar
-        dataKey="co2"
+        dataKey="cds"
         barSize={20}
-        fill="#9747FF"
+        fill="#F7B634"
       >
-        <LabelList datakey="co2" position="right" fill="white" />
+        <LabelList datakey="cds" position="right" fill="white" />
       </Bar>
     </BarChart>
   );
 };
 
-export default Co2BarGraph;
+export default CdsBarGraph;

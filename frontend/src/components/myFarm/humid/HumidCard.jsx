@@ -14,12 +14,11 @@ import HumidDayGraph from "./HumidDayGraph";
 
 const HumidCard = ({ humid, deviceId, value }) => {
   const [motorState, setMotorState] = useRecoilState(motorControl);
-  const controlPump = motorState.pump;
   const sensorName = 'humid'
 
   return (
     <>
-      {humid !== null && value === 3 ? (
+      {humid !== null && value === 'humid' ? (
         <>
           <Container>
             <Card sx={{ backgroundColor: "#1E1E1E", mt: 2 }}>
@@ -33,7 +32,7 @@ const HumidCard = ({ humid, deviceId, value }) => {
                   현재 습도
                 </Typography>
               </Box>
-              <HumidBarGraph humid={humid} />
+              <HumidBarGraph deviceId={deviceId} />
             </Card>
           </Container>
 

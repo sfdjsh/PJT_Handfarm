@@ -1,7 +1,7 @@
 import React from 'react'
 import { useRecoilState } from "recoil";
 import { deviceSensor } from "../../atom";
-import {Box, Grid, Typography} from "@mui/material"
+import { Grid, Typography } from "@mui/material"
 
 const SensorInfo = ({deviceId}) => {
   const [sensors, setSensors] = useRecoilState(deviceSensor)
@@ -32,12 +32,6 @@ const SensorInfo = ({deviceId}) => {
   } else {
     console.log('없어요')
   }
-
-  // return (
-  //   <>
-  //     <p>{dkskzl}</p>
-  //   </>
-  // )
 }
 
 export default SensorInfo

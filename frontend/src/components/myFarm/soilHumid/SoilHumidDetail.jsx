@@ -44,7 +44,7 @@ const SoilHumidDetail = ({ humid, deviceId }) => {
 
   return (
     <>
-      <Card sx={{ mt: 2, backgroundColor: "#1E1E1E" }}>
+      <Card sx={{ mt: 2, mb:10, backgroundColor: "#1E1E1E" }}>
         <CardContent>
           <Box display="flex" alignItems="center">
             <Typography
@@ -98,10 +98,12 @@ const SoilHumidDetail = ({ humid, deviceId }) => {
           <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
             <Button
               variant="contained"
-              sx={{ width: 80, height: 60, background: "#424B5A" }}
+              sx={{ width: 80, height: 50, background: "#424B5A" }}
               onClick={() => sensorManual({ deviceId, soilHumidSetting, controlName })}
             >
-              <h3>등록</h3>
+              <Typography variant="h7" sx={{ fontWeight: "bold" }}>
+                등록
+              </Typography>
             </Button>
           </Box>
         </CardContent>

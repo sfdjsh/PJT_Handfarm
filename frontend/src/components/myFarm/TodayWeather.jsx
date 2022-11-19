@@ -8,7 +8,7 @@ import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import CloudIcon from '@mui/icons-material/Cloud';
 import UmbrellaIcon from '@mui/icons-material/Umbrella';
 
-const TodayWeather = ({deviceId}) => {
+const TodayWeather = () => {
   const [location, setLocation] = useRecoilState(locations)
   const lat = location[0]
   const lon = location[1]

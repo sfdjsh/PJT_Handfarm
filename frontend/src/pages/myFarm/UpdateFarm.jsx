@@ -11,7 +11,7 @@ import {
   Select,
   MenuItem
 } from "@mui/material";
-import { updateFarm, farmInfo } from '../../pages/api/MyFarm'
+import { updateFarm, farmInfo, deleteFarm } from '../../pages/api/MyFarm'
 import { useNavigate } from "react-router-dom";
 
 const style = {
@@ -27,11 +27,30 @@ const style = {
   p: 1,
 };
 
+const deleteStyle = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 360,
+  height: 200,
+  bgcolor: "#212528",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 1,
+  display: 'flex',
+  alignItems: 'center'
+}
+
 const UpdateFarm = ({ deviceId }) => {
   const navigate = useNavigate()
   const [user, setUser] = useRecoilState(userFarm)
   const [onUpdate, setOnUpdate] = useRecoilState(updateModal);
   const handleClose = () => setOnUpdate(false);
+
+  const [onDelete, setOnDelete] = useState(false)
+  const deleteClose = () => setOnDelete(false)
+  const deleteOpen = () => setOnDelete(true)
 
   const crops = ["딸기", "파프리카", "방울 토마토"];
   const [farmName, setFarmName] = useState('')
@@ -52,6 +71,20 @@ const UpdateFarm = ({ deviceId }) => {
             .then((res) => {
               setUser(res.data)
               setOnUpdate(false)
+            })
+        }
+      })
+  }
+
+  const axiosFarmDelete = () => {
+    const data = deleteFarm({deviceId})
+      .then(res => {
+        if (res.data.message === "success") {
+          farmInfo()
+            .then((res) => {
+              setUser(res.data)
+              setOnDelete(false)
+              navigate('/myfarm/registing')
             })
         }
       })
@@ -142,11 +175,39 @@ const UpdateFarm = ({ deviceId }) => {
                 </Typography>
               </Box>
               <Button variant="contained" sx={{ background: "#424B5A" }}
-              >
-                <Typography sx={{ color: "#FFA629" }} fontWeight="bold">
+              onClick={deleteOpen}>
+                <Typography variant="h7">
                   삭제
                 </Typography>
               </Button>
+            </Box>
+          </Container>
+        </Box>
+      </Modal>
+
+      <Modal
+        open={onDelete}
+        onClose={deleteClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={deleteStyle}>
+          <Container>
+            <Box>
+              <Typography variant="h7" sx={{fontWeight:'bold'}}>
+                '{farmName}' 를 정말 삭제하시겠습니까?
+              </Typography>
+            </Box>
+            <Box sx={{display: 'flex', justifyContent: 'center', mt:3}}>
+                <Button variant="contained" sx={{mr:2, background:'#424B5A'}}
+                onClick={axiosFarmDelete}>
+                  <Typography variant="h7">삭제</Typography>
+                </Button>
+                <Button variant="contained" sx={{background:'#757575'}}
+                onClick={deleteClose}
+                >
+                  <Typography variant="h7">취소</Typography>
+                </Button>
             </Box>
           </Container>
         </Box>

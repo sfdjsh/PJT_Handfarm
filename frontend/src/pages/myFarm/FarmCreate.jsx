@@ -108,7 +108,8 @@ const FarmCreate = () => {
                     onClick={errorText}>
                         <h3>등록</h3>
                     </Button>
-                    <Button variant="contained" sx={{ width: 80, height: 60, background: '#757575' }}>
+                    <Button variant="contained" sx={{ width: 80, height: 60, background: '#757575' }}
+                    onClick={() => {navigate(-1)}}>
                         <h3>취소</h3>
                     </Button>
                 </Box>

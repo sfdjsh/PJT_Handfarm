@@ -29,7 +29,6 @@ export async function AlarmRead(readId) {
 
 // 알림 삭제 함수
 export async function AlarmDelete(deleteId) {
-  console.log(deleteId)
   if (deleteId !== 0) {
     axios({
       method: 'DELETE',
@@ -38,11 +37,8 @@ export async function AlarmDelete(deleteId) {
         accessToken: localStorage.getItem('access_token')
       }
     })
-      .then(response => {
-        if (alert('정말 삭제하시겠습니까?')) {
-          console.log(response.data)
-          window.location.reload()
-        }
+      .then(res => {
+        window.location.reload()
       })
   }
 };

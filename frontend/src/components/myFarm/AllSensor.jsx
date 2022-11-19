@@ -32,7 +32,7 @@ const AllSensor = (props) => {
     props.light,
     props.soilHumid,
   ];
-  
+
   const sensorName = [
     "Pressure",
     "Temp",
@@ -41,7 +41,7 @@ const AllSensor = (props) => {
     "pm2.5",
     "pm10",
     "Altitude",
-    "Light",
+    "Cds",
     "SoilHumid",
   ];
   const unit = ["Kpa", "℃", "%", "ppm", "㎍/㎥", "m", "%", "lux"];
@@ -57,10 +57,9 @@ const AllSensor = (props) => {
     "65B6F7",
   ];
 
-  const goTemp = () => {
-    navigate('/myfarm/석호')
-  }
   const result = sensorList.map((sensor, index) => {
+
+    // 기압센서, 이산화탄소 센서
     if (index === 0 || index === 3) {
       return (
         <Grid item xs={4} key={index}>
@@ -69,7 +68,7 @@ const AllSensor = (props) => {
               background: `#${sensorColor[index]}`,
               height: "110px",
             }}
-            className={sensor === "- - - -" ? "blur-effect" : ""}
+            className={sensor === undefined ? "blur-effect" : ""}
             // onClick={setValue(0)}
           >
             <Box>
@@ -95,11 +94,12 @@ const AllSensor = (props) => {
                 variant="h6"
                 align="center"
                 sx={{ mt: 0.5, fontWeight: "bold" }}
+                className={index === 0? 'off-selected' : ''}
               >
-                {sensor}{" "}
-                <span style={{ fontSize: "16px" }}>
-                  {sensor !== "- - - -" ? unit[index] : ""}
-                </span>
+                { sensor !== undefined ? 
+                <>
+                  {sensor} <span style={{ fontSize: '16px'}}>{unit[index]}</span>
+                </> : '- - - -'}
               </Typography>
             </Box>
             <Box sx={{ mt: 1, mr: 1 }}>
@@ -115,7 +115,10 @@ const AllSensor = (props) => {
           </Card>
         </Grid>
       );
-    } else if (index === 1) {
+    }
+
+    // 온도센서, 습도센서 
+    else if (index === 1) {
       return (
         <Grid item xs={8} key={index}>
           <Card
@@ -123,8 +126,7 @@ const AllSensor = (props) => {
               background: `#${sensorColor[index]}`,
               height: "110px",
             }}
-            className={sensor === "- - - -" ? "blur-effect" : ""}
-            onClick={goTemp}
+            className={sensor === undefined ? "blur-effect" : ""}
           >
             <Grid container>
               <Grid item xs={6}>
@@ -139,10 +141,10 @@ const AllSensor = (props) => {
                     align="center"
                     sx={{ mt: 0.5, fontWeight: "bold" }}
                   >
-                    {sensor}{" "}
-                    <span style={{ fontSize: "16px" }}>
-                      {sensor !== "- - - -" ? unit[index] : ""}
-                    </span>
+                    { sensor !== undefined ? 
+                    <>
+                      {sensor} <span style={{ fontSize: '16px'}}>{unit[index]}</span>
+                    </> : '- - - -'}
                   </Typography>
                 </Box>
                 <Box sx={{ mt: 1, mr: 1 }}>
@@ -152,7 +154,6 @@ const AllSensor = (props) => {
                     sx={{ fontWeight: "bold" }}
                   >
                     {sensorName[index]}
-                  {/* <hr /> */}
                   </Typography>
                 </Box>
               </Grid>
@@ -168,10 +169,10 @@ const AllSensor = (props) => {
                     align="center"
                     sx={{ mt: 0.5, ml: 2, fontWeight: "bold" }}
                   >
-                    {sensorList[index + 1]}{" "}
-                    <span style={{ fontSize: "16px" }}>
-                      {sensor !== "- - - -" ? unit[index + 1] : ""}
-                    </span>
+                    { sensorList[index+1] !== undefined ? 
+                    <>
+                      {sensorList[index+1]} <span style={{ fontSize: '16px'}}>{unit[index+1]}</span>
+                    </> : '- - - -'}
                   </Typography>
                   <Box sx={{ mt: 1, mr: 1 }}>
                     <Typography
@@ -188,7 +189,10 @@ const AllSensor = (props) => {
           </Card>
         </Grid>
       );
-    } else if (index === 4) {
+    }
+
+    // 미세먼지 센서 
+    else if (index === 4) {
       return (
         <Grid item xs={4} key={index}>
           <Card
@@ -198,7 +202,7 @@ const AllSensor = (props) => {
               height: "28%",
               position: "absolute",
             }}
-            className={sensor === "- - - -" ? "blur-effect" : ""}
+            className={sensor === undefined ? "blur-effect" : ""}
           >
             <Grid container>
               <Grid item xs={12}>
@@ -213,10 +217,10 @@ const AllSensor = (props) => {
                   color="white"
                   sx={{ fontWeight: "bold", mt: 1 }}
                 >
-                  {sensor}{" "}
-                  <span style={{ fontSize: "16px" }}>
-                    {sensor !== "- - - -" ? unit[index] : ""}
-                  </span>
+                  { sensor !== undefined ? 
+                  <>
+                    {sensor} <span style={{ fontSize: '16px'}}>{unit[index]}</span>
+                  </> : '- - - -'}
                 </Typography>
                 <Box sx={{ mt: 1, mr: 1 }}>
                   <Typography
@@ -239,10 +243,14 @@ const AllSensor = (props) => {
                   color="white"
                   sx={{ fontWeight: "bold" }}
                 >
-                  {sensorList[5]}{" "}
+                  {/* {sensorList[5]}{" "}
                   <span style={{ fontSize: "16px" }}>
-                    {sensor !== "- - - -" ? unit[index] : ""}
-                  </span>
+                    {sensor !== undefined ? unit[index] : "- - - -"}
+                  </span> */}
+                  { sensorList[5] !== undefined? 
+                  <>
+                    {sensorList[5]} <span style={{ fontSize: '16px'}}>{unit[index]}</span>
+                  </> : '- - - -'}
                 </Typography>
                 <Box sx={{ mt: 1, mr: 1 }}>
                   <Typography
@@ -259,7 +267,10 @@ const AllSensor = (props) => {
           </Card>
         </Grid>
       );
-    } else if (index === 6) {
+    } 
+    
+    // 고도 센서
+    else if (index === 6) {
       return (
         <Grid item xs={4} key={index}>
           <Card
@@ -267,7 +278,7 @@ const AllSensor = (props) => {
               background: `#${sensorColor[index]}`,
               height: "110px",
             }}
-            className={sensor === "- - - -" ? "blur-effect" : ""}
+            className={sensor === undefined ? "blur-effect" : ""}
           >
             <img
               src="/assets/sensorImg/고도센서.png"
@@ -280,7 +291,10 @@ const AllSensor = (props) => {
                 align="center"
                 sx={{ mt: 0.5, fontWeight: "bold", color: "white" }}
               >
-                {sensor} {sensor !== "- - - -" ? unit[index] : ""}
+                { sensor !== undefined ? 
+                  <>
+                    {sensor} <span style={{ fontSize: '16px'}}>{unit[5]}</span>
+                  </> : '- - - -'}
               </Typography>
             </Box>
             <Box sx={{ mt: 1, mr: 1 }}>
@@ -304,7 +318,7 @@ const AllSensor = (props) => {
                 background: "#2E3138",
                 height: "110px",
               }}
-              className={sensor === "- - - -" ? "blur-effect" : ""}
+              className={sensor === undefined ? "blur-effect" : ""}
             >
               <img
                 src="/assets/sensorImg/조도센서.png"
@@ -317,7 +331,7 @@ const AllSensor = (props) => {
                   align="center"
                   sx={{ mt: 0.5, fontWeight: "bold", color: "white" }}
                 >
-                  {sensor} {sensor !== "- - - -" ? unit[index] : ""}
+                  { sensor !== undefined ? sensor : '- - - -'}
                 </Typography>
               </Box>
               <Box sx={{ mt: 1, mr: 1 }}>
@@ -343,7 +357,7 @@ const AllSensor = (props) => {
                 background: `#${sensorColor[index]}`,
                 height: "110px",
               }}
-              className={sensor === "- - - -" ? "blur-effect" : ""}
+              className={sensor === undefined ? "blur-effect" : ""}
             >
               <img
                 src="/assets/sensorImg/토양습도센서.png"
@@ -356,10 +370,10 @@ const AllSensor = (props) => {
                   align="center"
                   sx={{ mt: 0.5, ml:1, fontWeight: "bold" }}
                 >
-                  {sensor}{" "}
-                  <span style={{ fontSize: "16px" }}>
-                    {sensor !== "- - - -" ? unit[2] : ""}
-                  </span>
+                  { sensor !== undefined ? 
+                  <>
+                    {sensor} <span style={{ fontSize: '16px'}}>{unit[2]}</span>
+                  </> : '- - - -'}
                 </Typography>
               </Box>
               <Box sx={{ mt: 1, mr: 1 }}>
@@ -380,7 +394,7 @@ const AllSensor = (props) => {
 
   return (
     <>
-      {value === 0 ? (
+      {props.value === 'all' ? (
         <Container>
           <Typography sx={{mt:2, fontWeight:'bold'}} variant="h5">Connected Sensor</Typography>
           <Grid container spacing={2} sx={{ mt:0.1 }}>

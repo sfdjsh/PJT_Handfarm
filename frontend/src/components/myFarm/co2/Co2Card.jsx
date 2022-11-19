@@ -9,18 +9,17 @@ import {
 } from "@mui/material";
 import { useRecoilState } from "recoil";
 import { motorControl } from "../../../atom";
-import ControlFan from "../control/ControlFan";
 import Co2BarGraph from "./Co2BarGraph"
 import Co2LineGraph from "./Co2LineGraph"
 import Co2Detail from "./Co2Detail"
+import Co2DayGraph from "./Co2DayGraph";
 
 const Co2Card = ({ co2, deviceId, value }) => {
-  const [motorState, setMotorState] = useRecoilState(motorControl);
-  const controlFan = motorState.fan;
+  const sensorName = 'co2'
 
   return (
     <>
-      {co2 !== null && value === 2 ? (
+      {co2 !== null && value === 'co2' ? (
         <>
           <Container>
             <Card sx={{ background: "#1E1E1E", mt: 2 }}>
@@ -34,7 +33,7 @@ const Co2Card = ({ co2, deviceId, value }) => {
                   현재 이산화탄소 농도
                 </Typography>
               </Box>
-              <Co2BarGraph co2={co2}/>
+              <Co2BarGraph deviceId={deviceId}/>
             </Card>
           </Container>
 
@@ -48,11 +47,12 @@ const Co2Card = ({ co2, deviceId, value }) => {
               <Co2LineGraph deviceId={deviceId} />
             </Card>
 
+            {/* 센서 시간/주간 그래프 */}
+            <Co2DayGraph deviceId={deviceId} sensorName={sensorName} />
+
             {/* 센서 설정 */}
             <Co2Detail co2={co2} deviceId={deviceId} value={value} />
 
-            {/* 제어 설정 */}
-            <ControlFan controlFan={controlFan} deviceId={deviceId} />
           </Container>
         </>
       ) : (

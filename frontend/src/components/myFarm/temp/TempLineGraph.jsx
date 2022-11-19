@@ -27,6 +27,7 @@ const TempLineGraph = ({ deviceId }) => {
     ]);
   }, [sensor]);
 
+
   return (
     <LineChart width={350} height={300} data={data}
     margin={{left:0, top:20, right:15}}>
