@@ -25,9 +25,9 @@ import {ChatList} from "./pages/chat/ChatList";
 function App() {
   const location = useLocation();
   
-  useEffect(() => {
-    console.log(location);
-  }, [ location ])
+  // useEffect(() => {
+  //   console.log(location);
+  // }, [ location ])
 
   return (
     <>
