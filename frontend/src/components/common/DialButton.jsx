@@ -27,9 +27,9 @@ export default function DialButton({ now }) {
     let crop = useRecoilValue(nowCrop)
     let region = useRecoilValue(nowRegion)
     const [where, setWhere] = useState("")
-    console.log(now)
-    console.log(crop)
-    console.log(where)
+    // console.log(now)
+    // console.log(crop)
+    // console.log(where)
 
     const whereToGo = () =>{
         if(now === "정보"){

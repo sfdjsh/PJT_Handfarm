@@ -32,6 +32,16 @@ export const alarmState = atom({
     effects_UNSTABLE: [persistAtom],
 })
 
+
+// 마이페이지 센서 모달 on/off
+export const sensorModalState = atom({
+    key : 'sensorModalState',
+    default : false,
+    effects_UNSTABLE : [persistAtom],
+})
+
+//
+
 export const nowCrop = atom({
     key : "crop",
     default : "",
@@ -94,4 +104,20 @@ export const motorControl = atom({
     key: 'motorControl',
     default: [],
     effects_UNSTABLE: [persistAtom],
+})
+
+// 마이페이지 유저 농장
+export const myPageUserFarm = atom({
+    key : 'myPageUserFarm',
+    default : [],
+    effects_UNSTABLE : [persistAtom],
+})
+
+export const sensorValue = atom({
+    key : 'sensorValue',
+    default : {
+        area : "",
+        value : ""
+    },
+    effects_UNSTABLE : [persistAtom],
 })

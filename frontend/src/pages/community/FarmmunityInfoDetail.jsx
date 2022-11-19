@@ -57,14 +57,14 @@ export const FarmmunityInfoDetail = () => {
     } 			// 얘는 isShowMore의 상태가 바뀔때마다 호출된다
 
     useEffect(() => {
-        console.log("여기옴")
+        // console.log("여기옴")
         window.scrollTo(0,document.body.scrollHeight)
     },[onPost])
 
     useEffect(() => {
         const getArticle = fetchArticleDetail(articleNum)
             .then((res) => res.json().then((res) => {
-                console.log(res)
+                // console.log(res)
                 setArticle(res.articleDto)
                 setCommentList(res.commentList)
                 if(res.isLikeClicked !== undefined){
@@ -75,13 +75,13 @@ export const FarmmunityInfoDetail = () => {
 
     const handleCommentchange = (e) => {
         setCommentInput(e.target.value)
-        console.log(commentInput)
+        // console.log(commentInput)
     }
 
     const registLike = () => {
         articleLike(articleNum)
             .then((res) => res.json().then((res)=> {
-                console.log(res)
+                // console.log(res)
                 setValue(value => ++value)
                 // window.location.reload()
             }))
@@ -95,7 +95,7 @@ export const FarmmunityInfoDetail = () => {
         if(commentInput === "") return;
         const postComment = commentCreate(articleId, commentInput)
             .then((res) => res.json().then((res) => {
-                console.log(res)
+                // console.log(res)
                 setOnPost(!onPost)
                 setCommentInput("")
             }))
