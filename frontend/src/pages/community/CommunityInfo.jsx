@@ -24,13 +24,12 @@ export const CommunityInfo = () => {
     const [crop, setCrop] = useRecoilState(nowCrop)
     const [cropInfo, setCropInfo] = useState([])
     const [filter, setFilter] = useState("")
-    console.log(filter)
-    console.log(infoArticle)
+
 
     useEffect(() => {
         const getArticle = fetchInfoArticle(crop)
             .then((res) => res.json().then((res) => {
-                console.log(res)
+                // console.log(res)
                 setInfoArticle(res.articleList)
                 setCropInfo(res.articleInfo)
             }))
@@ -46,7 +45,7 @@ export const CommunityInfo = () => {
                 return b.likeCount - a.likeCount
             })
             const likeArticle = [...infoArticle]
-            console.log(infoArticle)
+            // console.log(infoArticle)
             setInfoArticle(likeArticle)
         }else if(filter == ""){
             infoArticle.sort(function (a,b) {
