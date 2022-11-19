@@ -92,7 +92,7 @@ public class DeviceServiceImpl implements DeviceService {
                     control = deviceEntity.get().getCrop().getCropLed();
                 }
                 DeviceControlEntity deviceControlEntity = DeviceControlEntity.builder().deviceIdx(deviceEntity.get()).controlIdx(controlEntity.get())
-                        .autoControlval(control).build();
+                        .autoControlval(control).autoControl(1).build();
                 deviceControlRepository.save(deviceControlEntity);
             }
             return true;
