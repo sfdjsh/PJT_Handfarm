@@ -47,8 +47,8 @@ function App() {
           <Route exact path="/chatList" element={<ChatList/>}></Route>
           <Route exact path="/myfarm/create" element={<FarmCreate />}></Route>
           <Route exact path="/kakao" element={<Kakao />}></Route>
-          <Route exact path="/myfarm" element={<MyFarm />}></Route>
-          <Route exact path='/mypage/:nickname' element={<MyPage />}></Route>
+          <Route exact path="/myfarm/:deviceId" element={<MyFarm />}></Route>
+          <Route exact path='/mypage/:nickname' element={<MyPage />}></Route>  
         </Routes>
        </Box>
         { location.pathname === '/' || (location.pathname.split('/')[2] === 'info' && parseInt(location.pathname.split('/')[3]) >= 1 ) || location.pathname.split('/')[2] >= 1 ? (<CommentForm/>) : (<Footer />) }

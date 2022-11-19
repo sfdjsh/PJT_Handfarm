@@ -32,7 +32,7 @@ const HumidDayGraph = ({ deviceId, sensorName }) => {
 
   return (
     <>
-      <Card sx={{ mt: 2, backgroundColor: "#1E1E1E" }}>
+      <Card sx={{ mt: 2, mb:10, backgroundColor: "#1E1E1E" }}>
         <Box display="flex" alignItems="center" sx={{ ml: 1, mt: 2 }}>
           <Box flexGrow={1}>
             <Typography variant="h6" fontWeight="bold" color="white">

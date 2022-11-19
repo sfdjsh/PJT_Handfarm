@@ -1,21 +1,16 @@
 import React, { useState, useEffect } from "react";
 import TempDetail from "./TempDetail";
 import { Card, Typography, Container, Box } from "@mui/material";
-import { useRecoilState } from "recoil";
-import { motorControl } from "../../../atom";
-import ControlTemp from "../control/ControlTemp";
 import TempLineGraph from "./TempLineGraph";
 import TempBarGraph from "./TempBarGraph"
 import TempDayGraph from "./TempDayGraph"
 
 const TempCard = ({ temp, deviceId, value }) => {
-  const [motorState, setMotorState] = useRecoilState(motorControl);
-  const controlTemp = motorState.temp;
-  const sensorName = 'temp'
+  const sensorName = 'temp' 
 
   return (
     <>
-      {temp !== null && value === 1 ? (
+      {temp !== null && value === 'temp' ? (
         <>
           {/* bar 차트 */}
           <Container>
@@ -30,7 +25,7 @@ const TempCard = ({ temp, deviceId, value }) => {
                   현재 온도
                 </Typography>
               </Box>
-              <TempBarGraph temp={temp} />
+              <TempBarGraph deviceId={deviceId} />
             </Card>
           </Container>
 
@@ -50,8 +45,6 @@ const TempCard = ({ temp, deviceId, value }) => {
             {/* 센서 설정 */}
             <TempDetail temp={temp} deviceId={deviceId} />
 
-            {/* 제어 설정 */}
-            <ControlTemp controlTemp={controlTemp} deviceId={deviceId} />
           </Container>
         </>
       ) : (

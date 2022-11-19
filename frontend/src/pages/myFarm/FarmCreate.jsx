@@ -4,11 +4,11 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { myFarmCreate } from '../api/MyFarm';
 
-const crops = [
-    '딸기', '파프리카', '방울 토마토'
-]
-
-export const FarmCreate = () => {
+const FarmCreate = () => {
+    const crops = [
+        '딸기', '파프리카', '방울 토마토'
+    ]
+    
     const navigate = useNavigate()
     const [deviceID, setDeviceID] = useState('')
     const [myFarmName, setMyFarmName] = useState('')
@@ -108,7 +108,8 @@ export const FarmCreate = () => {
                     onClick={errorText}>
                         <h3>등록</h3>
                     </Button>
-                    <Button variant="contained" sx={{ width: 80, height: 60, background: '#757575' }}>
+                    <Button variant="contained" sx={{ width: 80, height: 60, background: '#757575' }}
+                    onClick={() => {navigate(-1)}}>
                         <h3>취소</h3>
                     </Button>
                 </Box>

@@ -44,7 +44,7 @@ const Co2Detail = ({ co2, deviceId }) => {
 
   return (
     <>
-      <Card sx={{ mt: 2, backgroundColor: "#1E1E1E" }}>
+      <Card sx={{ mt: 2, mb:10, backgroundColor: "#1E1E1E" }}>
         <CardContent>
           <Box display="flex" alignItems="center">
             <Typography
@@ -78,13 +78,13 @@ const Co2Detail = ({ co2, deviceId }) => {
                 aria-label="Default"
                 valueLabelDisplay="auto"
                 sx={{ mr: 2 }}
-                min={400}
+                min={0}
                 max={6000}
                 onChange={co2Slider}
               />
 
               <OutlinedInput
-                value={400 < co2Setting < 6000 ? co2Setting : 2000}
+                value={0 < co2Setting < 6000 ? co2Setting : 2000}
                 type="number"
                 id="outlined-start-adornment"
                 size="small"
@@ -100,16 +100,12 @@ const Co2Detail = ({ co2, deviceId }) => {
           <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
             <Button
               variant="contained"
-              sx={{ width: 80, height: 60, mr: 4, background: "#424B5A" }}
+              sx={{ width: 80, height: 50, background: "#424B5A" }}
               onClick={() => sensorManual({ deviceId, co2Setting, controlName })}
             >
-              <h3>등록</h3>
-            </Button>
-            <Button
-              variant="contained"
-              sx={{ width: 80, height: 60, background: "#757575" }}
-            >
-              <h3>취소</h3>
+              <Typography variant="h7" sx={{ fontWeight: "bold" }}>
+                  등록
+              </Typography>
             </Button>
           </Box>
         </CardContent>
