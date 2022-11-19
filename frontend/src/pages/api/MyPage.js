@@ -23,14 +23,14 @@ export async function changeOpen(isOpen) {
     console.log(isOpen)
     const URL = `${BASE_URL}/mypage/`
     const response = await fetch(URL, {
-        method : "GET",
+        method : "PUT",
         headers : {
             accessToken : localStorage.getItem("access_token"),
             "Content-Type" : "application/json",
-        }
-        // body : JSON.stringify({
-        //     userOpen : isOpen,
-        // })
+        },
+        body : JSON.stringify({
+            userOpen : isOpen,
+        })
     })
     return response
 }
@@ -40,8 +40,40 @@ export async function updateUserInfo(userInfo) {
     const response = await fetch(URL, {
         method : "PUT",
         headers : {
-            accessToken : localStorage.getItem("access_token")
+            accessToken : localStorage.getItem("access_token"),
+            "Content-Type" : "application/json"
         }
+    })
+    return response
+}
+
+export async function fetchMyFarm(){
+    const URL = `${BASE_URL}/farm`
+    const response = await fetch(URL, {
+        method : "GET",
+        headers : {
+            accessToken : localStorage.getItem("access_token"),
+            "Content-Type" : "application/json"
+        },
+    })
+    return response
+
+}
+
+export async function referSensorSetting(userName, deviceNo, controlName, controlValue){
+    console.log(userName, deviceNo, controlName, controlValue)
+    const URL = `${BASE_URL}/farm/${userName}/auto/value`
+    const response = await fetch(URL, {
+        method : "PUT",
+        headers : {
+            accessToken : localStorage.getItem("access_token"),
+            "Content-Type" : "application/json"
+        },
+        body : JSON.stringify({
+            deviceNo : deviceNo,
+            controlName : controlName,
+            controlValue : controlValue
+        })
     })
     return response
 }

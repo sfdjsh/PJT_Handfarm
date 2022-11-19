@@ -11,7 +11,7 @@ import {useRecoilState} from "recoil";
 
 export default function SelectFormRegion() {
     const [region, setRegion] = useRecoilState(nowRegion);
-    console.log(region)
+    // console.log(region)
 
     const handleChange = (event) => {
         setRegion(event.target.value);
