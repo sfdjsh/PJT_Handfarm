@@ -6,7 +6,6 @@ import { Container, Typography, Box } from "@mui/material";
 
 const CameraCard = () => {
   const [camera, setCamera] = useRecoilState(cameraInfo)
-  console.log(camera)
 
   return (
     <>

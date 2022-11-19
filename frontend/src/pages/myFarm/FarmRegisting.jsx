@@ -5,6 +5,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { userFarm, userInfo } from '../../atom';
+import { farmInfo } from '../api/MyFarm';
 
 const FarmRegisting = () => {
   const navigate = useNavigate()
@@ -15,13 +16,18 @@ const FarmRegisting = () => {
   
   // 내 농장 정보
   const onFarm = () => {
-    axios.get('https://handfarm.co.kr/api/farm', {
-      headers: {
-        accessToken: localStorage.getItem('access_token')
-      }
-    })
-      .then(response => {
-        setMyFarm(response.data)
+    // axios.get('https://handfarm.co.kr/api/farm', {
+    //   headers: {
+    //     accessToken: localStorage.getItem('access_token')
+    //   }
+    // })
+    //   .then(response => {
+    //     setMyFarm(response.data)
+    //   })
+    
+    farmInfo()
+      .then(res => {
+        setMyFarm(res.data)
       })
   }
 
