@@ -21,6 +21,7 @@ import handFarm from '../../pictures/handFarmLogo.png'
 import './MyPage.css'
 import SensorModalInfo from "../../components/common/SensorModalInfo";
 import Divider from "@mui/material/Divider";
+import {useParams} from "react-router-dom";
 
 const representImg = styled.div`
   background-image: url(${handFarmLogo});
@@ -51,6 +52,7 @@ const MyPageFarm = ({sensorValues,deviceInfo, userOpen, userNickName}) => {
     const [loginUser, setLoginUser] = useRecoilState(userInfo)
     const [open, setOpen] = useRecoilState(sensorModalState)
     const [nowValue, setNowValue] = useRecoilState(sensorValue)
+    let pageUser = useParams().nickname
     const handleOpen = (area, value) => {
         setNowValue({
             area : area,
@@ -90,7 +92,11 @@ const MyPageFarm = ({sensorValues,deviceInfo, userOpen, userNickName}) => {
               >
                 <Grid item xs={5.9}
                       onClick={() =>{
-                          handleOpen("temp", sensorValues?.temp)
+                          if(loginUser.userNickname === pageUser){
+                              return;
+                          }else{
+                              handleOpen("temp", sensorValues?.temp)
+                          }
                       }}
                 >
                   <Box>
@@ -120,7 +126,11 @@ const MyPageFarm = ({sensorValues,deviceInfo, userOpen, userNickName}) => {
                   </Grid>
                 <Grid item xs={5.9}
                       onClick={() =>{
-                          handleOpen("fan", sensorValues?.fan)
+                          if(loginUser.userNickname === pageUser){
+                              return;
+                          }else{
+                              handleOpen("fan", sensorValues?.fan)
+                          }
                       }}
                 >
                   <Box>
@@ -153,7 +163,11 @@ const MyPageFarm = ({sensorValues,deviceInfo, userOpen, userNickName}) => {
               >
                 <Grid item xs={5.9}
                       onClick={() =>{
-                          handleOpen("led", sensorValues?.led)
+                          if(loginUser.userNickname === pageUser){
+                              return;
+                          }else{
+                              handleOpen("led", sensorValues?.led)
+                          }
                       }}
                 >
                   <Box>
@@ -184,7 +198,11 @@ const MyPageFarm = ({sensorValues,deviceInfo, userOpen, userNickName}) => {
                   </Grid>
                 <Grid item xs={5.9}
                       onClick={() =>{
-                          handleOpen("pump", sensorValues?.pump)
+                          if(loginUser.userNickname === pageUser){
+                              return;
+                          }else{
+                              handleOpen("pump", sensorValues?.pump)
+                          }
                       }}
                 >
                   <Box>
