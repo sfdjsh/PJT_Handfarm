@@ -26,8 +26,8 @@ const AllSensor = (props) => {
     props.temp,
     props.humid,
     props.co2,
-    props.superDust,
-    props.dust,
+    props.pm2p5,
+    props.pm10,
     props.altitude,
     props.light,
     props.soilHumid,
@@ -67,9 +67,9 @@ const AllSensor = (props) => {
             sx={{
               background: `#${sensorColor[index]}`,
               height: "110px",
+              borderRadius: '15px'
             }}
             className={sensor === undefined ? "blur-effect" : ""}
-            // onClick={setValue(0)}
           >
             <Box>
               {index === 0 ? (
@@ -125,11 +125,12 @@ const AllSensor = (props) => {
             sx={{
               background: `#${sensorColor[index]}`,
               height: "110px",
+              borderRadius: '15px'
             }}
             className={sensor === undefined ? "blur-effect" : ""}
           >
             <Grid container>
-              <Grid item xs={6}>
+              <Grid item xs={5.9}>
                 <Box>
                   <img
                     src="/assets/sensorImg/온도센서.png"
@@ -157,7 +158,10 @@ const AllSensor = (props) => {
                   </Typography>
                 </Box>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={0.1} sx={{ display : "flex", justifyContent : "center" }}>
+                <Divider style={{ marginTop: '9px', marginBottom: '5px', border : "1px solid black" }} />
+              </Grid>
+              <Grid item xs={5.9}>
                 <Box>
                   <img
                     src="/assets/sensorImg/습도센서.png"
@@ -201,6 +205,7 @@ const AllSensor = (props) => {
               width: "28%",
               height: "28%",
               position: "absolute",
+              borderRadius: '15px'
             }}
             className={sensor === undefined ? "blur-effect" : ""}
           >
@@ -243,10 +248,6 @@ const AllSensor = (props) => {
                   color="white"
                   sx={{ fontWeight: "bold" }}
                 >
-                  {/* {sensorList[5]}{" "}
-                  <span style={{ fontSize: "16px" }}>
-                    {sensor !== undefined ? unit[index] : "- - - -"}
-                  </span> */}
                   { sensorList[5] !== undefined? 
                   <>
                     {sensorList[5]} <span style={{ fontSize: '16px'}}>{unit[index]}</span>
@@ -277,6 +278,7 @@ const AllSensor = (props) => {
             sx={{
               background: `#${sensorColor[index]}`,
               height: "110px",
+              borderRadius: '15px'
             }}
             className={sensor === undefined ? "blur-effect" : ""}
           >
@@ -317,6 +319,7 @@ const AllSensor = (props) => {
               sx={{
                 background: "#2E3138",
                 height: "110px",
+                borderRadius: '15px'
               }}
               className={sensor === undefined ? "blur-effect" : ""}
             >
@@ -356,6 +359,7 @@ const AllSensor = (props) => {
               sx={{
                 background: `#${sensorColor[index]}`,
                 height: "110px",
+                borderRadius: '15px'
               }}
               className={sensor === undefined ? "blur-effect" : ""}
             >
