@@ -157,5 +157,11 @@ export async function updateFarm({deviceId, farmName, myCrops}) {
 
 // 농장 삭제
 export async function deleteFarm({deviceId}) {
-  const URL = `${BASE_URL}/farm`
+  const URL = `${BASE_URL}/farm/${deviceId}`
+  const response = await axios.delete(URL, {
+    headers: {
+      accessToken: localStorage.getItem('access_token')
+    }
+  })
+  return response
 }

@@ -56,7 +56,7 @@ export const Footer = () => {
                     style={{ backgroundColor : "#212528" }}
                 >
                     <BottomNavigationAction style={{ color : "white" }} onClick={() => {
-                        navigator('/myfarm')
+                        navigator('/myfarm/:deviceId')
                     }}  label="농장" icon={<GiteOutlinedIcon />} />
                     <BottomNavigationAction style={{ color : "white" }} onClick={() => {
                         navigator('/community')

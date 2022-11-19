@@ -15,16 +15,7 @@ const FarmRegisting = () => {
   const nickName = user.userNickname
   
   // 내 농장 정보
-  const onFarm = () => {
-    // axios.get('https://handfarm.co.kr/api/farm', {
-    //   headers: {
-    //     accessToken: localStorage.getItem('access_token')
-    //   }
-    // })
-    //   .then(response => {
-    //     setMyFarm(response.data)
-    //   })
-    
+  const onFarm = () => { 
     farmInfo()
       .then(res => {
         setMyFarm(res.data)

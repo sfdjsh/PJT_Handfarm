@@ -3,15 +3,16 @@ import { useRecoilState } from "recoil";
 import { deviceSensor } from "../../../atom";
 import { BarChart, Bar, LabelList } from "recharts";
 
-const HumidBarGraph = ({ humid }) => {
+const HumidBarGraph = ({ deviceId }) => {
   const [data, setData] = useState([]);
   const [sensor, setSensor] = useRecoilState(deviceSensor);
 
   useEffect(() => {
+    const datas = sensor[deviceId]
     setData([
       {
         name: "humid",
-        humid: humid,
+        humid: datas.humid,
       },
       {}
     ]);

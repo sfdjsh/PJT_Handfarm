@@ -1,25 +1,20 @@
-import React, {useEffect} from 'react';
-import { AppBar, IconButton, Divider, Box } from '@mui/material'
-import NotificationsIcon from '@mui/icons-material/NotificationsNone';
-import { display } from '@mui/system';
+import React, { useState, useEffect } from 'react';
+import { IconButton, Badge, Grid } from '@mui/material'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import {Grid} from "@mui/material";
-import {useLocation, useNavigate} from "react-router-dom";
-import {useState} from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import {BASE_URL} from "../../config";
-import {Badge} from "@mui/material";
+import { BASE_URL } from "../../config";
 import AlarmModal from "../alarm/AlarmModal";
-import {chatAnother} from "../../atom";
-import {useRecoilState} from "recoil";
+import { chatAnother } from "../../atom";
+import { useRecoilState } from "recoil";
 
 
 export const Header = () => {
   const navigator = useNavigate()
   const location = window.location.pathname
   const [alarmCount, setAlarmCount] = useState(0)
-    const [nowAnotherUser, setNowAnotheruser] = useRecoilState(chatAnother)
-  console.log(location.split('/'))
+  const [nowAnotherUser, setNowAnotheruser] = useRecoilState(chatAnother)
+
   // 알람 갯수 로직
   useEffect(() => {
     if(location !== '/'){

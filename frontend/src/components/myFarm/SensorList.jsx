@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import Iframe from 'react-iframe'
 import { useRecoilState } from "recoil";
 import { deviceSensor } from "../../atom";
 import { BASE_URL } from "../../config";
@@ -12,13 +11,12 @@ import Co2Card from "./co2/Co2Card";
 import HumidCard from "./humid/HumidCard";
 import SoilHumidCard from "./soilHumid/SoilHumidCard";
 import LedCard from "./led/LedCard";
+import AnotherCard from "./another/AnotherCard";
+import PmCard from "./pm/PmCard";
 
-import { Box, Tabs, Tab, Container, tabsClasses  } from "@mui/material";
-import CameraCard from "./camera/CameraCard";
-import { useNavigate } from "react-router-dom";
+import { Box, Tabs, Tab, Container } from "@mui/material";
 
 const SensorList = ({ deviceId, email }) => {
-  const navigate = useNavigate();
 
   // 센서 실시간 정보들
   const [sensor, setSensor] = useRecoilState(deviceSensor);
@@ -44,6 +42,10 @@ const SensorList = ({ deviceId, email }) => {
           setSensor(JSON.parse(receivedConnectData));
         });
 
+        sse.onmessage = async (event) => {
+          console.log(event)
+        }
+
         sse.onerror = async (event) => {
           if (event.error) {
             if (!event.error.message.includes('No activity')) {
@@ -51,7 +53,9 @@ const SensorList = ({ deviceId, email }) => {
             }
           }
         }
-      } catch (error) {}
+      } catch (error) {
+        console.log(error)
+      }
     }
     axiosSse()
     return () => sse.close();
@@ -73,22 +77,11 @@ const SensorList = ({ deviceId, email }) => {
     }
   }, [sensor]);
 
-  const [value, setValue] = useState("temp");
+  const [value, setValue] = useState("all");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
-  // const LinkTab = (props) => {
-  //   return (
-  //     <Tab
-  //       onClick={() => {
-  //         navigate(`/myfarm/${props.deviceId}/${props.value}`);
-  //       }}
-  //       {...props}
-  //     />
-  //   );
-  // };
 
   return (
     <>
@@ -97,14 +90,6 @@ const SensorList = ({ deviceId, email }) => {
           <Container>
             <Box sx={{ background: "#757575", pt: 1, color: "white" }}>
               <Box display="flex">
-                  {/* <Tabs
-                    value={value}
-                    onChange={handleChange}
-                    aria-label="visible arrows tabs example"
-                    textColor="inherit"
-                  >
-                    <Tab value="all" label="전체"></Tab>
-                  </Tabs> */}
                   <Tabs
                     value={value}
                     onChange={handleChange}
@@ -113,11 +98,14 @@ const SensorList = ({ deviceId, email }) => {
                     aria-label="visible arrows tabs example"
                     textColor="inherit"
                   >
-                    <Tab label="전체" value='all'></Tab>
+                    <Tab label="전체" value='all' />
                     {temp ? <Tab label="온도" value="temp" /> : null}
-                    {co2 ? <Tab label="이산화탄소" value="three" /> : null}
-                    {humid ? <Tab label="습도" value="four" /> : null}
-                    {soilHumid ? <Tab label="토양습도" value="five" /> : null}
+                    {co2 ? <Tab label="이산화탄소" value="co2" /> : null}
+                    {humid ? <Tab label="습도" value="humid" /> : null}
+                    {soilHumid ? <Tab label="토양습도" value="soilHumid" /> : null}
+                    <Tab label="Led" value="led" />
+                    {pm2p5 || pm10 ? <Tab label="미세먼지" value="pm" /> : null}
+                    { light || altitude || pressure ? <Tab label="그 외" value="another" /> : null}
                   </Tabs>
               </Box>
             </Box>
@@ -143,6 +131,9 @@ const SensorList = ({ deviceId, email }) => {
                 <HumidCard humid={humid} deviceId={deviceId} value={value} />
                 <SoilHumidCard soilHumid={soilHumid} deviceId={deviceId} value={value} />
                 <LedCard deviceId={deviceId} value={value} />
+                <AnotherCard deviceId={deviceId} value={value}
+                light={light} altitude={altitude} pressure={pressure}/>
+                <PmCard deviceId={deviceId} pm2p5={pm2p5} pm10={pm10} value={value} />
               </>
             ) : (
               <></>
