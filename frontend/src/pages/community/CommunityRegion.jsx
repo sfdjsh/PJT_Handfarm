@@ -28,7 +28,7 @@ const CommunityInfo = () => {
     useEffect(() => {
         const getArticle = fetchRegionArticle(region)
             .then((res) => res.json().then((res) => {
-                console.log(res)
+                // console.log(res)
                 setRegionArticle(res.articleList)
                 setRegionInfo(res.articleInfo)
             }))
