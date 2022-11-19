@@ -57,11 +57,11 @@ public class DeviceServiceImpl implements DeviceService {
 
     @Override
     public boolean userRegistDevice(HttpServletRequest request, DeviceRegistDto deviceRegistDto) {
-        try {
+
             String email = kakaoService.decodeToken(request.getHeader("accessToken"));
             Optional<UserEntity> userEntity = userRepository.findByUserId(email);
             Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceRegistDto.getDeviceNo());
-            if(userEntity.isEmpty() || deviceEntity.isEmpty()) return false;
+            if(userEntity.isEmpty() || deviceEntity.isEmpty()) throw new NoSuchElementException();
 
             if(userDeviceRepository.findByDeviceIdxAndUserIdx(deviceEntity.get(), userEntity.get()) != null){
                 throw new NoSuchElementException();
@@ -96,10 +96,7 @@ public class DeviceServiceImpl implements DeviceService {
                 deviceControlRepository.save(deviceControlEntity);
             }
             return true;
-        }catch (Exception e){
-            e.printStackTrace();
-            return false;
-        }
+
     }
 
     @Override
