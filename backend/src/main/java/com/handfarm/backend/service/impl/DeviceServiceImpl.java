@@ -77,6 +77,24 @@ public class DeviceServiceImpl implements DeviceService {
             userDeviceEntity.setUserIdx(userEntity.get());
             userDeviceRepository.save(userDeviceEntity);
             userRepository.save(userEntity.get());
+
+            for(int i=1; i<=4; i++){
+                Optional<ControlEntity> controlEntity = controlRepository.findById(i);
+                if(controlEntity.isEmpty()) throw new NoSuchElementException();
+                String control = "";
+                if(i==1){
+                    control = deviceEntity.get().getCrop().getCropTemp();
+                }else if(i==2){
+                    control = deviceEntity.get().getCrop().getCropCo2();
+                }else if(i==3){
+                    control = deviceEntity.get().getCrop().getCropSoilHumidity();
+                }else {
+                    control = deviceEntity.get().getCrop().getCropLed();
+                }
+                DeviceControlEntity deviceControlEntity = DeviceControlEntity.builder().deviceIdx(deviceEntity.get()).controlIdx(controlEntity.get())
+                        .autoControlval(control).build();
+                deviceControlRepository.save(deviceControlEntity);
+            }
             return true;
         }catch (Exception e){
             e.printStackTrace();
@@ -236,6 +254,8 @@ public class DeviceServiceImpl implements DeviceService {
             control = deviceEntity.get().getCrop().getCropCo2();
         }else if(controlDto.getControlName().equals("pump")){
             control = deviceEntity.get().getCrop().getCropSoilHumidity();
+        }else if(controlDto.getControlName().equals("led")){
+            control = deviceEntity.get().getCrop().getCropLed();
         }else{
             throw new NoSuchElementException();
         }
