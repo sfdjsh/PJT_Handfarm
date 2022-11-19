@@ -37,14 +37,13 @@ export const ChatList = () => {
     useEffect(() => {
          fetchMyChattingRooms()
         .then((res) => res.json().then((res) => {
-            console.log(res)
+            // console.log(res)
             // setChatList(res.chatList.reverse())
             let chatChat = res.chatList.sort((a,b) => new Date(b.time) - new Date(a.time))
             setChatList(chatChat)
         }))
     },[])
 
-    console.log(chatList)
 
     return(
         <>

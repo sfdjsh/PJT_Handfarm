@@ -11,7 +11,7 @@ import {useRecoilState} from "recoil";
 
 export default function SelectForm() {
     const [crop, setCrop] = useRecoilState(nowCrop);
-    console.log(crop)
+    // console.log(crop)
 
     const handleChange = (event) => {
         setCrop(event.target.value);

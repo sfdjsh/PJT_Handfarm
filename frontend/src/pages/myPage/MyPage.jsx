@@ -20,6 +20,8 @@ import {useParams} from "react-router-dom";
 import {useLocation} from "react-router-dom";
 import {createChatRoom} from "../api/Chatting";
 import {useNavigate} from "react-router-dom";
+import {fetchMyFarm} from "../api/MyPage";
+import {myPageUserFarm} from "../../atom";
 
 const MyPage = () => {
     // const [loginUser, setLoginUser] = useRecoilState(userInfo)
@@ -32,26 +34,40 @@ const MyPage = () => {
     const [userProfile, setUserProfile] = useState("")
     const [deviceInfo, setDeviceInfo] = useState([])
     const [loginUser, setLoginUser] = useRecoilState(userInfo)
+    // const [nowPageUserFarm, setNowPageUserFarm] = useRecoilState(myPageUserFarm)
     const location = useLocation()
     const [anotherUser, setAnotherUser] = useRecoilState(chatAnother)
+    // 로그인 유저 농장
+    const [nowUserFarm, setNowUserFarm] = useRecoilState(myPageUserFarm)
     let pageUser = useParams().nickname
     const navigator = useNavigate()
+    console.log(pageUser)
 
     useEffect(() => {
         fetchUserInfo(pageUser)
             .then((res) => res.json().then((res) => {
-                console.log(res)
                 setUserArticle(res.articleList)
                 setUserNickname(res.userNickName)
                 setUserProfile(res.userProfile)
                 setChecked(res.userOpen)
-                setSensorValue(res.devicesInfo[0].sensorValue)
+                setSensorValue({...res.devicesInfo[0].sensorValue})
                 setDeviceInfo(res.devicesInfo[0])
+                // setNowPageUserFarm(res.devicesInfo[0])
                 // setUserOpen(res.userOpen)
                 // console.log(res.userOpen)
                 // setUserOpen(res.userOpen)
+                console.log(res)
             }))
     },[pageUser])
+
+    useEffect(() => {
+        fetchUserInfo(loginUser.userNickname)
+            .then((res) => res.json().then((res)=> {
+                console.log(res.devicesInfo)
+                setNowUserFarm(res.devicesInfo)
+            }))
+    }, [pageUser]);
+
 
     const goChatting = (userName) => {
         createChatRoom(userName)
@@ -65,13 +81,13 @@ const MyPage = () => {
 
     const handleChange = (event) => {
         setChecked(event.target.checked);
-        console.log(checked)
+        // console.log(checked)
     };
 
     useEffect(() => {
         changeOpen(checked)
             .then((res) => res.json().then((res) => {
-                console.log(res)
+                // console.log(res)
             }))
     },[checked])
 
@@ -117,7 +133,7 @@ const MyPage = () => {
                     <Box display="flex" alignItems="center">
                         <Box sx={{ display : "flex", alignItems : "center", fontFamily : "ScoreDream", ml : 1 }} flexGrow={1}>
                             <Avatar alt="Profile Img" src={userProfile}
-                                sx={{ width: 50, height: 50 }}>
+                                sx={{ width: 60, height: 60 }}>
                             </Avatar>
                             <Box sx={{ ml: 2 }}>
                                 <Typography sx={{ fontFamily : "ScoreDream", fontWeight: "bold" }} variant="h6">{userNickname}</Typography>
@@ -158,17 +174,17 @@ const MyPage = () => {
                         )}
                     </Box>
                 </Box>
-                <Box sx={{mt:10}} display="flex" justifyContent="space-around">
+                <Box sx={{mt:5}} display="flex" justifyContent="space-around">
                     <Typography variant='h5' 
                     onClick={() => setMyPageLook('Farm')}
-                                sx={{ fontFamily : "ScoreDream", fontWeight: "bold" }}
+                                sx={{ fontFamily : "ScoreDream", fontWeight: "bold", fontSize : "22px" }}
                     className={myPageLook==='Farm'?('look-on'):('look-off')}>농장</Typography>
                     <Typography variant='h5'
                     onClick={() => setMyPageLook('Article')}
-                                sx={{ fontFamily : "ScoreDream", fontWeight: "bold" }}
+                                sx={{ fontFamily : "ScoreDream", fontWeight: "bold", fontSize : "22px" }}
                     className={myPageLook==='Article'?('look-on'):('look-off')}>작성한 게시글</Typography>
                 </Box>
-                {myPageLook==='Farm' ? (<MyPageFarm sensorValue={sensorValue} deviceInfo={deviceInfo} userOpen={checked} userNickName={pageUser} />) : (
+                {myPageLook==='Farm' ? (<MyPageFarm sensorValues={sensorValue} deviceInfo={deviceInfo} userOpen={checked} userNickName={pageUser} />) : (
                     <>
                         {userArticle.map((article, index) => (
                             <BasicCard

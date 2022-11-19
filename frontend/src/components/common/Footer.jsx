@@ -36,8 +36,8 @@ export const Footer = () => {
     useEffect(() => {
         fetchChatSum()
             .then((res) => res.json().then((res) => {
-                console.log("푸터")
-                console.log(res)
+                // console.log("푸터")
+                // console.log(res)
                 setChattingNum(res.notReadCount)
             }))
     },)

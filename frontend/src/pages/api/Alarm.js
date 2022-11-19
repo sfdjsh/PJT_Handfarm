@@ -29,7 +29,7 @@ export async function AlarmRead(readId) {
 
 // 알림 삭제 함수
 export async function AlarmDelete(deleteId) {
-  console.log(deleteId)
+  // console.log(deleteId)
   if (deleteId !== 0) {
     axios({
       method: 'DELETE',
