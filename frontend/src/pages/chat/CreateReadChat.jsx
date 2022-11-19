@@ -24,7 +24,6 @@ export function CreateReadChat() {
     const scrollRef = useRef();
     const [chatList, setChatList] = useState([])
     const [anotherProfile, setAnotherProfile] = useState("")
-    console.log(chatList)
     // const editDone = false
     //
     // const scrollToBottom = useCallback(() => {
@@ -34,14 +33,13 @@ export function CreateReadChat() {
     //     }
     // }, [editDone]);
     useEffect(() => {
-        console.log("여기옴")
         window.scrollTo(0,document.body.scrollHeight)
     },[chatList])
 
     useEffect(() => {
         fetchMyChatDetail(parseInt(apply_id.id))
             .then((res) => res.json().then((res) => {
-                console.log(res)
+                // console.log(res)
                 setAnotherProfile(res.toUserProfileImg)
                 setChatList(res.chatDetail.reverse())
             }))
@@ -50,7 +48,7 @@ export function CreateReadChat() {
         client.current = new StompJs.Client({
             brokerURL: 'ws://handfarm.co.kr:8081/ws',
             onConnect: () => {
-                console.log('success');
+                // console.log('success');
                 subscribe();
             },
         });

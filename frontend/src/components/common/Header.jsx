@@ -19,7 +19,7 @@ export const Header = () => {
   const location = window.location.pathname
   const [alarmCount, setAlarmCount] = useState(0)
     const [nowAnotherUser, setNowAnotheruser] = useRecoilState(chatAnother)
-  console.log(location.split('/'))
+  // console.log(location.split('/'))
   // 알람 갯수 로직
   useEffect(() => {
     if(location !== '/'){
