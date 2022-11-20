@@ -1,7 +1,7 @@
 #include <Adafruit_NeoPixel.h>
 
-#define PIN 12
-#define STRIPSIZE 12
+#define PIN 23
+#define STRIPSIZE 100
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(STRIPSIZE, PIN, NEO_GRB + NEO_KHZ800);
 
@@ -30,7 +30,7 @@ void colorWave(uint8_t wait) {
       gsin = sin(2.0 * ang / 3.0 + map2PI(int(stripsize/6)));
       bsin = sin(4.0 * ang / 5.0 + map2PI(int(stripsize/3)));
       //strip.setPixelColor(i, strip.Color(trigScale(rsin), 0, 0));
-      strip.setPixelColor(i, strip.Color(0, 0, trigScale(bsin)));
+      strip.setPixelColor(i, strip.Color(trigScale(bsin), trigScale(bsin), trigScale(bsin)));
     }
     strip.show();
     delay(wait);

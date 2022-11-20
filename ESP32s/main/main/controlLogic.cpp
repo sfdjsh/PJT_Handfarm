@@ -60,11 +60,13 @@ void autoMode(int i, int temp_now, int humidity_now, int co2_now){
 void tempUp(){
   digitalWrite(Heater_pin,LOW);
   digitalWrite(Cooler_pin,HIGH);
+  digitalWrite(Cooler_Fan_pin,LOW);
   // Serial.println("(Heater ON & Cooler OFF) Heating...");
 }
 
 void tempDown(){
   digitalWrite(Cooler_pin,LOW);
+  digitalWrite(Cooler_Fan_pin,HIGH);
   digitalWrite(Heater_pin,HIGH);
   // Serial.println("(Cooler ON & Heater OFF) Cooling...");
 }
@@ -72,6 +74,7 @@ void tempDown(){
 void tempStay(){
   digitalWrite(Heater_pin,HIGH);
   digitalWrite(Cooler_pin,HIGH);
+  digitalWrite(Cooler_Fan_pin,LOW);
   // Serial.println("(Heater OFF & Cooler OFF) Staying");
 }
 

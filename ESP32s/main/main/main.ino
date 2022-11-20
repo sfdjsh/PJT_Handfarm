@@ -4,6 +4,8 @@
 #include "controlLogic.h"
 #include "common.h"
 #include "Credential.h"
+#include <Adafruit_BMP085.h>
+
 
 //table
 int controlTable[] = { 0, 0, 0, 0, 0 };  //tenp, led, fan, pump, buzzer
@@ -16,6 +18,8 @@ DHT dht(DHT22_pin, DHTTYPE);
 EspMQTTClient client(ssid, password, mqttBrokerIP, clientName, mqttPort);
 StaticJsonDocument<200> doc;
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NeoPixel_num, NeoPixel_pin, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel strip2 = Adafruit_NeoPixel(NeoPixel2_num, NeoPixel2_pin, NEO_GRB + NEO_KHZ800);
+Adafruit_BMP085 bmp;
 CM1106_I2C cm1106_i2c;
 
 unsigned long Post_Time = millis();
@@ -23,7 +27,7 @@ unsigned long Post_Delay = 2 * 1000;
 
 void setup() {
   Serial.begin(115200);
-  Wire.begin();
+  Wire.begin(13,15);
   dht.begin();
   relay_begin();
   cm1106_i2c.begin();
@@ -32,27 +36,28 @@ void setup() {
   cm1106_i2c.check_sw_version();
   client.enableDebuggingMessages();
   pwmControl_begin();
+  bmp.begin();
 
   strip.begin();
   strip.setBrightness(255);
   strip.show();
+  strip2.begin();
+  strip2.setBrightness(255);
+  strip2.show();
 }
 
 void onConnectionEstablished();
-void tx(float temp, float humid, float pm2p5, float pm10, int cds, int co2, int soilHumidity);
+void tx(float temp, float humid, float pm2p5, float pm10, int cds, int co2, int soilHumidity,int pressure, int altitude);
 
 void loop() {
-  //dht.readTemperature() |  dht.readHumidity()
-  //getCDS()
-  //Serial.println(getCO2(CM1106_I2C cm1106_i2c))
+  //dht.readTemperature() |  dht.readHumidity() | getCDS() | getCO2(CM1106_I2C cm1106_i2c | pm2008_i2c.pm2p5_grimm  | pm2008_i2c.pm10_grimm | analogRead(Soil_pin);
 
-  //float temp = dht.readTemperature();
-  //float humid = dht.readHumidity();
-  //float pm2p5 = pm2008_i2c.pm2p5_grimm;
-  //float pm10 = pm2008_i2c.pm10_grimm;
-  //int solidHumidity = analogRead(Soil_pin);
-  int co2 = getCO2(cm1106_i2c);
-  int soilHumidity = analogRead(Soil_pin);
+  for(int i=0;i<100;i++){
+    strip.setPixelColor(i,0,0,255);
+    strip2.setPixelColor(i,0,0,255);
+    strip.show();
+    strip2.show();
+  }
 
   client.loop();
   for (int i = 0; i < 5; i++) {
@@ -65,17 +70,13 @@ void loop() {
   }
 
   if (((millis() - Post_Time) > Post_Delay)) {
+    int co2 = getCO2(cm1106_i2c);
+    int soilHumidity = analogRead(Soil_pin);
     pm2008_i2c.read();
-    tx(dht.readTemperature(), dht.readHumidity(), pm2008_i2c.pm2p5_grimm, pm2008_i2c.pm10_grimm, getCDS(), co2,soilHumidity);
-    Serial.println(getCDS());
+    tx(dht.readTemperature(), dht.readHumidity(), pm2008_i2c.pm2p5_grimm, pm2008_i2c.pm10_grimm, getCDS(), co2,soilHumidity,100,200);
     Post_Time = millis();
   }
 
-  // //check
-  // Serial.println(getCDS());
-  // Serial.println(analogRead(CDS_pin));
-  // Serial.println(soilHumidity);
-  //check
   /*
     for(int i=0;i<5;i++){
       Serial.print(manualTable[i]);
@@ -117,7 +118,7 @@ void onConnectionEstablished() {
   });
 }
 
-void tx(float temp, float humid, float pm2p5, float pm10, int cds, int co2,int soilHumidity) {
+void tx(float temp, float humid, float pm2p5, float pm10, int cds, int co2,int soilHumidity, int pressure, int altitude) {
   char publish_msg[100];
   char str_temp[10];
   char str_humid[10];
@@ -127,7 +128,8 @@ void tx(float temp, float humid, float pm2p5, float pm10, int cds, int co2,int s
   dtostrf(humid, 4, 1, str_humid);
   dtostrf(pm2p5, 4, 1, str_pm2p5);
   dtostrf(pm10, 4, 1, str_pm10);
-  sprintf(publish_msg, "{temp:%s,humid:%s,pm2p5:%s,pm10:%s,cds:%d,co2:%d,humidSoil:%d}", str_temp, str_humid, str_pm2p5, str_pm10, cds, co2,soilHumidity);
+  soilHumidity = map(soilHumidity,0,4095,0,100);
+  sprintf(publish_msg, "{temp:%s,humid:%s,pm2p5:%s,pm10:%s,cds:%d,co2:%d,humidSoil:%d,pressure:%d,height:%d}", str_temp, str_humid, str_pm2p5, str_pm10, cds, co2,soilHumidity,pressure, altitude);
   client.publish(topic_pub, publish_msg);
 }
 

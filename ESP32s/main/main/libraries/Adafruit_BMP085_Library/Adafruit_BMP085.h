@@ -26,7 +26,7 @@
 
 #define BMP085_DEBUG 0 //!< Debug mode
 
-#define BMP085_I2CADDR 0x77 //!< BMP085 I2C address
+#define BMP085_I2CADDR 0x76 //!< BMP085 I2C address
 
 #define BMP085_ULTRALOWPOWER 0 //!< Ultra low power mode
 #define BMP085_STANDARD 1      //!< Standard mode
