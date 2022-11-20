@@ -48,7 +48,7 @@ export function CreateReadChat() {
         client.current = new StompJs.Client({
             brokerURL: 'ws://handfarm.co.kr:8081/ws',
             onConnect: () => {
-                // console.log('success');
+                console.log('success');
                 subscribe();
             },
         });
