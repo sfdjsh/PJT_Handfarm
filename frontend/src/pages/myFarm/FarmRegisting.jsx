@@ -26,7 +26,7 @@ const FarmRegisting = () => {
     onFarm();
   }, [myFarm])
 
-  if (myFarm && myFarm.deviceNo) {
+  if (myFarm && user.userInfo.deviceId) {
     const deviceId = myFarm.deviceNo[0]
     navigate(`/myfarm/${deviceId}`)
   }
