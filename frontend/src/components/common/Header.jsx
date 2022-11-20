@@ -45,7 +45,13 @@ export const Header = () => {
                     navigator(-1)
                   }}/>
                 </Grid>
-                <Grid item xs={8} sx={{ display : "flex", justifyContent : "center", alignItems : "center", fontSize : "22px" }}>
+                <Grid item
+                      xs={8}
+                      sx={{ display : "flex", justifyContent : "center", alignItems : "center", fontSize : "22px" }}
+                      onClick={() => {
+                        navigator(`/mypage/${nowAnotherUser}`)
+                      }}
+                >
                   {nowAnotherUser}
                 </Grid>
               </>

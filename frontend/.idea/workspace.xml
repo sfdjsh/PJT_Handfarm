@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="4b81b8fd-fc66-4b80-83f5-fee977677905" name="Changes" comment="#hotfix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/chat/CreateReadChat.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/chat/CreateReadChat.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/Header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/Header.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,7 +16,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="frontend" />
+        <entry key="$PROJECT_DIR$/.." value="F15_FE_김강현" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
