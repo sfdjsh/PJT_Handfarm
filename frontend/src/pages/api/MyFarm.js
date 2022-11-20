@@ -52,7 +52,7 @@ export async function sensorManual(props) {
   } else if (props.controlName === 'fan') {
     var data = {
       controlName: props.controlName,
-      controalValue: props.co2Setting
+      controlValue: props.co2Setting
     } 
   } else if (props.controlName === 'pump') {
     var data = {
