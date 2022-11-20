@@ -61,11 +61,10 @@ const SoilHumidDetail = ({ humid, deviceId }) => {
           <hr />
           <Box sx={{ mt: 1 }}>
             <Typography color="#FFA629" variant="subtitle2">
-              * 온도를 설정하면 현재 온도가 설정한 범위를 벗어날 경우 조절하게
-              됩니다.
+              * 토양 습도를 설정하면 현재 토양 습도가 설정한 범위를 벗어날 경우 Pump가 작동합니다.
             </Typography>
             <Typography sx={{ mt: 1 }} color="#FFA629" variant="subtitle2">
-              * 온도 설정 범위는 -10°C ~ 40°C 까지입니다.
+              * 토양 습도 설정 범위는 0% ~ 100% 까지입니다.
             </Typography>
           </Box>
           <Box sx={{ mt: 2 }}>

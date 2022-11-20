@@ -4,7 +4,7 @@ import { sensorManual, sensorAuto, sensorSetting } from '../../../pages/api/MyFa
 import { useRecoilState } from 'recoil';
 import { userInfo } from '../../../atom';
 
-const TempDetail = ({ temp, deviceId }) => {
+const TempDetail = ({ deviceId }) => {
   const controlName = "temp"
   
   const [user, setUser] = useRecoilState(userInfo)
@@ -57,7 +57,7 @@ const TempDetail = ({ temp, deviceId }) => {
           <hr />
           <Box sx={{ mt: 1 }}>
             <Typography color="#FFA629" variant="subtitle2">
-              * 온도를 설정하면 현재 온도가 설정한 범위를 벗어날 경우 조절하게 됩니다.
+              * 온도를 설정하면 현재 온도가 설정한 범위를 벗어날 경우 조절합니다.
             </Typography>
             <Typography sx={{ mt: 1 }} color="#FFA629" variant="subtitle2">
               * 온도 설정 범위는 -10°C ~ 40°C 까지입니다.
