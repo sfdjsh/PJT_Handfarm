@@ -39,7 +39,6 @@ const SensorList = ({ deviceId, email }) => {
         sse = new EventSource(`${BASE_URL}/connect/${email}`)
         sse.addEventListener("connect", (e) => {
           const { data: receivedConnectData } = e;
-          console.log(receivedConnectData)
           setSensor(JSON.parse(receivedConnectData));
         });
 
@@ -71,7 +70,7 @@ const SensorList = ({ deviceId, email }) => {
       setPm2p5(sensor[deviceId].pm2p5);
       setPm10(sensor[deviceId].pm10);
       setLight(sensor[deviceId].cds);
-      setAltitude(sensor[deviceId].hight);
+      setAltitude(sensor[deviceId].height);
       setPressure(sensor[deviceId].pressure);
     } else {
       console.log("센서 렌더링중...");

@@ -24,12 +24,13 @@ const FarmRegisting = () => {
 
   useEffect(() => {
     onFarm();
+    if (myFarm.deviceInfo.length !== 0) {
+      if (myFarm.deviceNo[0] !== undefined) {
+        const deviceId = myFarm.deviceNo[0]
+        navigate(`/myfarm/${deviceId}`)
+      }
+    } 
   }, [myFarm])
-
-  if (myFarm) {
-    const deviceId = myFarm.deviceNo[0]
-    navigate(`/myfarm/${deviceId}`)
-  }
 
   const goFarmCreate = () => {
     navigate('/myfarm/create')

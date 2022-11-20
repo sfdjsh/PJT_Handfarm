@@ -84,6 +84,7 @@ const UpdateFarm = ({ deviceId }) => {
             .then((res) => {
               setUser(res.data)
               setOnDelete(false)
+              setOnUpdate(false)
               navigate('/myfarm/registing')
             })
         }
