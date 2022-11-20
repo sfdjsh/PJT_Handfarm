@@ -32,7 +32,7 @@ const TempLineGraph = ({ deviceId }) => {
     <LineChart width={350} height={300} data={data}
     margin={{left:0, top:20, right:15}}>
       <XAxis dataKey="time" />
-      <YAxis />
+      <YAxis domain={['auto', 'auto']} />
       <Legend verticalAlign="top" align="right" />
       <Line type="monotone" dataKey="temp" stroke="#8884d8"
       dot={false} strokeWidth={2}/>
