@@ -35,7 +35,7 @@ const FarmCreate = () => {
                 console.log(result)
                 if (result === 'success') {
                     setDeviceError(true)
-                    navigate('/myfarm')
+                    navigate(`/myfarm/registing`)
                 } else {
                     setDeviceError(false)
                 }

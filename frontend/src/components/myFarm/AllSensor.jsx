@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 const AllSensor = (props) => {
   const [value, setValue] = useRecoilState(changeTab)
   const navigate = useNavigate()
-
+  
   const sensorList = [
     props.pressure,
     props.temp,
