@@ -118,7 +118,7 @@
 │  │  └─com
 │  │      └─handfarm
 │  │          └─backend
-│  │              ├─config         # CORS 및 rddis, socectk 통신을 하기 위한 폴더
+│  │              ├─config         # CORS 및 redis, socket 통신을 하기 위한 폴더
 │  │              ├─controller     # Front-Back 통신을 하기 위한 폴더
 │  │              ├─domain         # 각 DB 테이블 을 설정한 도메인 폴더
 │  │                  └─entity     # JPA를 사용하기 위해 entity mapping 한 폴더
