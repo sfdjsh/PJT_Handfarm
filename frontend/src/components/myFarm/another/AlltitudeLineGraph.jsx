@@ -22,7 +22,7 @@ const AltitudeLineGraph = ({deviceId}) => {
       ...currentData,
       {
         name: "Temp",
-        altitude: datas.altitude,
+        altitude: datas.height,
         time: timer,
       },
     ]);
