@@ -2,6 +2,8 @@ import { useRef, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import * as StompJs from '@stomp/stompjs';
 import {useLocation} from "react-router-dom";
+import {chatAnother} from "../../atom";
+import {useNavigate} from "react-router-dom";
 // import instance from '../../utils/axiosConfig';
 import Box from "@mui/material/Box";
 import {userInfo} from "../../atom";
@@ -21,8 +23,10 @@ export function CreateReadChat() {
     const  apply_id  = useParams()
     const client = useRef({});
     const { toUserNickname } = location.state
+    const navigator = useNavigate();
     const scrollRef = useRef();
     const [chatList, setChatList] = useState([])
+    const [anotherUserNick, setAnotherUserNick] = useRecoilState(chatAnother)
     const [anotherProfile, setAnotherProfile] = useState("")
     // const editDone = false
     //
@@ -121,7 +125,12 @@ export function CreateReadChat() {
                          </Box>
                      )  : (
                          <Box className="chat ch1" key={index} sx={{ display : "flex",justifyContent : "left",  color : "black"}}>
-                             <Avatar alt="https://img1.daumcdn.net/thumb/R300x0/?fname=https://k.kakaocdn.net/dn/c3vWTf/btqUuNfnDsf/VQMbJlQW4ywjeI8cUE91OK/img.jpg" src={anotherProfile} />
+                             <Avatar alt="https://img1.daumcdn.net/thumb/R300x0/?fname=https://k.kakaocdn.net/dn/c3vWTf/btqUuNfnDsf/VQMbJlQW4ywjeI8cUE91OK/img.jpg"
+                                     src={anotherProfile}
+                                     onClick={() => {
+                                         navigator(`/mypage/${anotherUserNick}`)
+                                     }}
+                             />
                                  {/*<Box style={{ color : "white" }}>강현</Box>*/}
                                  <Box className="textbox">
                                      { chatting.msg }
