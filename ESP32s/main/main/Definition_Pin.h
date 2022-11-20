@@ -9,6 +9,8 @@
 
 #define NeoPixel_pin 12
 #define NeoPixel_num 12
+#define NeoPixel2_pin 23
+#define NeoPixel2_num 100
 
 #define LED_pin 14                 //Moter Driver 1 - PWM B
 #define LED_pwm 0
@@ -30,5 +32,4 @@ const int resolutino = 8;
 #define Pump_pin 5                  //Relay 1 - IN1 
 #define Heater_pin 18               //Relay 2 - IN2
 #define Cooler_pin 19               //Relay 2 - Cooler
-
-#define Cooler_Fan_pin 17
+#define Cooler_Fan_pin 17           //Relay 1 -
