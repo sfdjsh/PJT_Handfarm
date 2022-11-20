@@ -151,7 +151,7 @@ public class DeviceServiceImpl implements DeviceService {
         control = controlEntity.get().getControlArea();
         JsonObject object = new JsonObject();
         if(control.equals("co2") || control.equals("soilHumidity")){
-            object.addProperty(control, Integer.parseInt(value));
+            object.addProperty(control, String.format("%.1f", value));
         }else {
             object.addProperty(control, value);
         }
