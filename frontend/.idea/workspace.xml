@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4b81b8fd-fc66-4b80-83f5-fee977677905" name="Changes" comment="#9 feat : design">
+    <list default="true" id="4b81b8fd-fc66-4b80-83f5-fee977677905" name="Changes" comment="#hotfix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/myPage/MyPageFarm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/myPage/MyPageFarm.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,6 +73,7 @@
       <workItem from="1668470112769" duration="14953000" />
       <workItem from="1668730431162" duration="23827000" />
       <workItem from="1668830692826" duration="20104000" />
+      <workItem from="1668948167595" duration="569000" />
     </task>
     <task id="LOCAL-00001" summary="#hotfix">
       <created>1668489742145</created>
@@ -89,7 +89,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668872058527</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="#hotfix">
+      <created>1668948342750</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1668948342750</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -111,8 +118,8 @@
     <MESSAGE value="#8 feat : chatting" />
     <MESSAGE value="#9 feat : API connect" />
     <MESSAGE value="#11 feat : myPage &amp; Farmmunity" />
-    <MESSAGE value="#hotfix" />
     <MESSAGE value="#9 feat : design" />
-    <option name="LAST_COMMIT_MESSAGE" value="#9 feat : design" />
+    <MESSAGE value="#hotfix" />
+    <option name="LAST_COMMIT_MESSAGE" value="#hotfix" />
   </component>
 </project>
