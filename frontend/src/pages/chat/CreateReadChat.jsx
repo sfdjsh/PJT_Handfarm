@@ -36,6 +36,7 @@ export function CreateReadChat() {
     //         scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
     //     }
     // }, [editDone]);
+    console.log(anotherUserNick)
     useEffect(() => {
         window.scrollTo(0,document.body.scrollHeight)
     },[chatList])
@@ -128,7 +129,7 @@ export function CreateReadChat() {
                              <Avatar alt="https://img1.daumcdn.net/thumb/R300x0/?fname=https://k.kakaocdn.net/dn/c3vWTf/btqUuNfnDsf/VQMbJlQW4ywjeI8cUE91OK/img.jpg"
                                      src={anotherProfile}
                                      onClick={() => {
-                                         navigator(`/mypage/${anotherUserNick}`)
+                                         navigator(`/mypage/${chatting.sendUserNickname}`)
                                      }}
                              />
                                  {/*<Box style={{ color : "white" }}>강현</Box>*/}
