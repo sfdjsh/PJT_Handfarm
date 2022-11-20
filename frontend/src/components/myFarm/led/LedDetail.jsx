@@ -8,7 +8,7 @@ import {
   OutlinedInput,
   CardContent,
 } from "@mui/material";
-import { sensorManual, sensorSetting } from "../../../pages/api/MyFarm";
+import { sensorManual, sensorSetting, sensorAuto } from "../../../pages/api/MyFarm";
 import { useRecoilState } from "recoil";
 import { userInfo } from "../../../atom";
 
