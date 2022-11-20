@@ -9,7 +9,7 @@ const SensorInfo = ({deviceId}) => {
   const sensor = [ sensors[deviceId].temp, sensors[deviceId].humid, 
   sensors[deviceId].humidSoil, sensors[deviceId].co2, 
   sensors[deviceId].pm2p5, sensors[deviceId].pm10, sensors[deviceId].cds, 
-  sensors[deviceId].altitude, sensors[deviceId].pressure 
+  sensors[deviceId].height, sensors[deviceId].pressure 
   ]
   
   const sensorName = ['Temp', 'Humid', 'Soil_H', 'Co2', 'PM2p5m', 'PM10', 'Cds', 'altitude', 'pressure']
