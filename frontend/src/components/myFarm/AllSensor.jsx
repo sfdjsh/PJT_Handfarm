@@ -44,7 +44,7 @@ const AllSensor = (props) => {
     "Cds",
     "SoilHumid",
   ];
-  const unit = ["Kpa", "℃", "%", "ppm", "㎍/㎥", "m", "%", "lux"];
+  const unit = ["hpa", "℃", "%", "ppm", "㎍/㎥", "m", "%", "lux"];
   const sensorColor = [
     "2E3138",
     "FFA26C",
