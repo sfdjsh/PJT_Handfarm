@@ -54,6 +54,7 @@ export function CreateReadChat() {
             brokerURL: 'ws://handfarm.co.kr:8081/ws',
             onConnect: () => {
                 console.log("업데이트 됨?")
+                console.log("회복되거라")
                 console.log('success');
                 subscribe();
             },
