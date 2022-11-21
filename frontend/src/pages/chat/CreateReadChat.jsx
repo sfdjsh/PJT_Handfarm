@@ -50,13 +50,9 @@ export function CreateReadChat() {
             }))
     }, [])
     const connect = () => {
-        console.log("되나")
-        console.log("제바")
         client.current = new StompJs.Client({
-            brokerURL: 'wss://handfarm.co.kr:8081/ws',
+            brokerURL: 'ws://handfarm.co.kr:8081/ws',
             onConnect: () => {
-                console.log("회복되거라")
-                console.log("wpqfk")
                 console.log('success');
                 subscribe();
             },
