@@ -52,11 +52,15 @@ void tx(float temp, float humid, float pm2p5, float pm10, int cds, int co2, int 
 void loop() {
   //dht.readTemperature() |  dht.readHumidity() | getCDS() | getCO2(CM1106_I2C cm1106_i2c | pm2008_i2c.pm2p5_grimm  | pm2008_i2c.pm10_grimm | analogRead(Soil_pin);
 
+  int mydelay = 100;
   for(int i=0;i<100;i++){
     strip.setPixelColor(i,0,0,255);
-    strip2.setPixelColor(i,0,0,255);
+    strip2.setPixelColor(i,255,255,255);
     strip.show();
     strip2.show();
+    delay(mydelay);
+    if (mydelay<5) mydelay = 5;
+    mydelay = mydelay - 2;
   }
 
   client.loop();
@@ -71,9 +75,16 @@ void loop() {
 
   if (((millis() - Post_Time) > Post_Delay)) {
     int co2 = getCO2(cm1106_i2c);
-    int soilHumidity = analogRead(Soil_pin);
+    
+    int cnt = 0;
+    for(int i=0;i<500;i++){
+      cnt += analogRead(Soil_pin);
+    }
+    cnt /= 500;
+    int soilHumidity = cnt;
+
     pm2008_i2c.read();
-    tx(dht.readTemperature(), dht.readHumidity(), pm2008_i2c.pm2p5_grimm, pm2008_i2c.pm10_grimm, getCDS(), co2,soilHumidity,100,200);
+    tx(dht.readTemperature(), dht.readHumidity(), pm2008_i2c.pm2p5_grimm, pm2008_i2c.pm10_grimm, getCDS(), co2,soilHumidity, 999.2, 41.3);
     Post_Time = millis();
   }
 
