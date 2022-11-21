@@ -14,7 +14,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer  {
     // Client에서 Websocket을 연결할 때 사용할 API 경로 설정
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry){
-        registry.addEndpoint("/ws")
+        registry.addEndpoint("/wss")
                 .setAllowedOrigins("*");
     }
 
