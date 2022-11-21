@@ -81,7 +81,7 @@ const TempDetail = ({ deviceId }) => {
                 id="outlined-start-adornment"
                 size='small'
                 endAdornment={<InputAdornment fontWeight='bold'>°C</InputAdornment>}
-                sx={{ background: 'white', width: '11ch', fontWeight: 'bold' }}
+                sx={{ background: 'white', width: '12ch', fontWeight: 'bold' }}
                 onChange={(e) => setHighTemp(e.target.value)}
               />
             </Box>
@@ -107,7 +107,7 @@ const TempDetail = ({ deviceId }) => {
                 id="outlined-start-adornment"
                 size='small'
                 endAdornment={<InputAdornment fontWeight='bold'>°C</InputAdornment>}
-                sx={{ background: 'white', width: '11ch', fontWeight: 'bold' }}
+                sx={{ background: 'white', width: '12ch', fontWeight: 'bold' }}
                 onChange={(e) => setLowTemp(e.target.value)}
               />
             </Box>
