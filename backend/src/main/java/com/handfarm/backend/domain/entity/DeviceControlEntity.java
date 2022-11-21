@@ -1,5 +1,6 @@
 package com.handfarm.backend.domain.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,4 +34,14 @@ public class DeviceControlEntity {
 
     @Column(name = "device_control_manual")
     private Integer manualControl;
+
+    @Builder
+    public DeviceControlEntity(Integer idx, DeviceEntity deviceIdx, ControlEntity controlIdx, Integer autoControl, String autoControlval, Integer manualControl) {
+        this.idx = idx;
+        this.deviceIdx = deviceIdx;
+        this.controlIdx = controlIdx;
+        this.autoControl = autoControl;
+        this.autoControlval = autoControlval;
+        this.manualControl = manualControl;
+    }
 }
