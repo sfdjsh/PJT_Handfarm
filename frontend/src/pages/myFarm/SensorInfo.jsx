@@ -13,7 +13,7 @@ const SensorInfo = ({deviceId}) => {
   ]
   
   const sensorName = ['Temp', 'Humid', 'Soil_H', 'Co2', 'PM2p5', 'PM10', 'Cds', 'altitude', 'pressure']
-  const unit = ["℃", "%", "%", "ppm", "㎍/㎥", "㎍/㎥", "lux", "m", "%", "Kpa"];
+  const unit = ["℃", "%", "%", "ppm", "㎍/㎥", "㎍/㎥", "lux", "m", "hpa"];
 
   if (sensors[deviceId]) {
     return (

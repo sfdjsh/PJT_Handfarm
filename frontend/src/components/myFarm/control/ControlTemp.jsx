@@ -34,7 +34,7 @@ const ControlTemp = ({ controlTemp, deviceId }) => {
 
   return (
     <>
-      <Card sx={{ mt: 2, mb: 2, height: 120, backgroundColor: "#1E1E1E" }}>
+      <Card sx={{ mt: 2, mb: 2, height: 110, backgroundColor: "#1E1E1E" }}>
         <CardContent>
           <Box display="flex" alignItems="center">
             <Typography variant="h7" fontWeight="bold" color="white">
