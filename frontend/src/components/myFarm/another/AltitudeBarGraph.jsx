@@ -13,7 +13,7 @@ const AltitudeBarGraph = ({ deviceId }) => {
     setData([
       {
         name: "altitude",
-        altitude: datas.altitude,
+        altitude: datas.height,
       },
       {}
     ]);
