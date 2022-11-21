@@ -53,8 +53,8 @@ export function CreateReadChat() {
         client.current = new StompJs.Client({
             brokerURL: 'ws://handfarm.co.kr:8081/ws',
             onConnect: () => {
-                console.log("업데이트 됨?")
                 console.log("회복되거라")
+                console.log("wpqfk")
                 console.log('success');
                 subscribe();
             },
