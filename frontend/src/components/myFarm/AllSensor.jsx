@@ -283,7 +283,7 @@ const AllSensor = (props) => {
             className={sensor === undefined ? "blur-effect" : ""}
           >
             <img
-              src="/assets/sensorImg/고도센서.png"
+              src="/assets/sensorImg/고도센서_1.png"
               alt="..."
               style={{ width: "20%", margin: "5px" }}
             />
