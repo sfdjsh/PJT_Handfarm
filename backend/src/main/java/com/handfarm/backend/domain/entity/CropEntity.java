@@ -40,4 +40,7 @@ public class CropEntity {
     @Column(name = "crop_co2")
     private String cropCo2;
 
+    @Column(name = "crop_led")
+    private String cropLed;
+
 }
