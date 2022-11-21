@@ -50,6 +50,7 @@ export function CreateReadChat() {
             }))
     }, [])
     const connect = () => {
+        console.log("되나")
         client.current = new StompJs.Client({
             brokerURL: 'ws://handfarm.co.kr:8081/ws',
             onConnect: () => {
