@@ -37,7 +37,7 @@ const ControlTemp = ({ controlTemp, deviceId }) => {
       <Card sx={{ mt: 2, mb: 2, height: 120, backgroundColor: "#1E1E1E" }}>
         <CardContent>
           <Box display="flex" alignItems="center">
-            <Typography variant="h6" fontWeight="bold" color="white">
+            <Typography variant="h7" fontWeight="bold" color="white">
               온도 조절기
             </Typography>
             <Box display="flex" alignItems="center" sx={{ ml: 1 }}>
