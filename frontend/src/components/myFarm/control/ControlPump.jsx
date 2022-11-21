@@ -63,7 +63,7 @@ const ControlPump = ({ controlPump, deviceId }) => {
           </Box>
 
           <ButtonGroup
-            sx={{ background: "#424B5A", borderRadius: "20px", mt: 1 }}
+            sx={{ background: "#424B5A", borderRadius: "20px", mb: 1 }}
             display="flex"
             disabled={disabled}
           >
