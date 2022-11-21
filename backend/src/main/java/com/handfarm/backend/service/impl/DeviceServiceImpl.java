@@ -57,11 +57,11 @@ public class DeviceServiceImpl implements DeviceService {
 
     @Override
     public boolean userRegistDevice(HttpServletRequest request, DeviceRegistDto deviceRegistDto) {
-        try {
+
             String email = kakaoService.decodeToken(request.getHeader("accessToken"));
             Optional<UserEntity> userEntity = userRepository.findByUserId(email);
             Optional<DeviceEntity> deviceEntity = deviceRepository.findByDeviceNo(deviceRegistDto.getDeviceNo());
-            if(userEntity.isEmpty() || deviceEntity.isEmpty()) return false;
+            if(userEntity.isEmpty() || deviceEntity.isEmpty()) throw new NoSuchElementException();
 
             if(userDeviceRepository.findByDeviceIdxAndUserIdx(deviceEntity.get(), userEntity.get()) != null){
                 throw new NoSuchElementException();
@@ -77,11 +77,26 @@ public class DeviceServiceImpl implements DeviceService {
             userDeviceEntity.setUserIdx(userEntity.get());
             userDeviceRepository.save(userDeviceEntity);
             userRepository.save(userEntity.get());
+
+            for(int i=1; i<=4; i++){
+                Optional<ControlEntity> controlEntity = controlRepository.findById(i);
+                if(controlEntity.isEmpty()) throw new NoSuchElementException();
+                String control = "";
+                if(i==1){
+                    control = deviceEntity.get().getCrop().getCropTemp();
+                }else if(i==2){
+                    control = deviceEntity.get().getCrop().getCropCo2();
+                }else if(i==3){
+                    control = deviceEntity.get().getCrop().getCropSoilHumidity();
+                }else {
+                    control = deviceEntity.get().getCrop().getCropLed();
+                }
+                DeviceControlEntity deviceControlEntity = DeviceControlEntity.builder().deviceIdx(deviceEntity.get()).controlIdx(controlEntity.get())
+                        .autoControlval(control).autoControl(1).build();
+                deviceControlRepository.save(deviceControlEntity);
+            }
             return true;
-        }catch (Exception e){
-            e.printStackTrace();
-            return false;
-        }
+
     }
 
     @Override
@@ -136,7 +151,7 @@ public class DeviceServiceImpl implements DeviceService {
         control = controlEntity.get().getControlArea();
         JsonObject object = new JsonObject();
         if(control.equals("co2") || control.equals("soilHumidity")){
-            object.addProperty(control, Integer.parseInt(value));
+            object.addProperty(control, String.format("%.1f", value));
         }else {
             object.addProperty(control, value);
         }
@@ -168,19 +183,21 @@ public class DeviceServiceImpl implements DeviceService {
         String userId = kakaoService.decodeToken(request.getHeader("accessToken"));
         Optional<UserEntity> userEntity = userRepository.findByUserId(userId);
         if(userEntity.isEmpty()) throw new NoSuchElementException();
-        List<Map<String , Object>> deviceList = new ArrayList<>();
         List<UserDeviceEntity> userDeviceEntityList = userDeviceRepository.findByUserIdx(userEntity.get());
+        List<String> deviceNoList = new ArrayList<>();
+        Map<String, Object> deviceAll = new HashMap<>();
         for(UserDeviceEntity userDeviceEntity : userDeviceEntityList){
+            deviceNoList.add(userDeviceEntity.getDeviceIdx().getDeviceNo());
             Map<String, Object> deviceMap = new HashMap<>();
-            deviceMap.put("deviceNo", userDeviceEntity.getDeviceIdx().getDeviceNo());
             deviceMap.put("deviceName", userDeviceEntity.getDeviceIdx().getDeviceName());
             deviceMap.put("cropName", userDeviceEntity.getDeviceIdx().getCrop().getCropName());
             deviceMap.put("deviceLatitude", userDeviceEntity.getDeviceIdx().getDeviceLatitude());
             deviceMap.put("deviceLong", userDeviceEntity.getDeviceIdx().getDeviceLong());
             deviceMap.put("deviceCamera", userDeviceEntity.getDeviceIdx().getDeviceCamera());
-            deviceList.add(deviceMap);
+            deviceAll.put(userDeviceEntity.getDeviceIdx().getDeviceNo(), deviceMap);
         }
-        resultMap.put("deviceInfo", deviceList);
+        resultMap.put("deviceInfo", deviceAll);
+        resultMap.put("deviceNo", deviceNoList);
 
         return resultMap;
     }
@@ -234,6 +251,8 @@ public class DeviceServiceImpl implements DeviceService {
             control = deviceEntity.get().getCrop().getCropCo2();
         }else if(controlDto.getControlName().equals("pump")){
             control = deviceEntity.get().getCrop().getCropSoilHumidity();
+        }else if(controlDto.getControlName().equals("led")){
+            control = deviceEntity.get().getCrop().getCropLed();
         }else{
             throw new NoSuchElementException();
         }

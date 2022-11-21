@@ -52,7 +52,7 @@ public class KakoServiceImpl implements KakaoService {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id="+cliend_id); // TODO REST_API_KEY 입력
-            sb.append("&redirect_uri=http://localhost:3000/kakao"); // TODO 인가코드 받은 redirect_uri 입력
+            sb.append("&redirect_uri=https://handfarm.co.kr/kakao"); // TODO 인가코드 받은 redirect_uri 입력
             sb.append("&code=" + code);
             bw.write(sb.toString());
             bw.flush();
@@ -128,13 +128,14 @@ public class KakoServiceImpl implements KakaoService {
                             if(device.isEmpty()) throw new NoSuchElementException();
                             String Crop = device.get().getCrop().getCropName();
                             Map<String, Object> deviceMap = new HashMap<>();
-                            deviceMap.put("deviceNo", device.get().getDeviceNo());
+                            Map<String ,Object> deviceAll = new HashMap<>();
                             deviceMap.put("deviceName", device.get().getDeviceName());
                             deviceMap.put("cropName", Crop);
                             deviceMap.put("deviceLatitude", device.get().getDeviceLatitude());
                             deviceMap.put("deviceLong", device.get().getDeviceLong());
                             deviceMap.put("deviceCamera", device.get().getDeviceCamera());
-                            deviceList.add(deviceMap);
+                            deviceAll.put(device.get().getDeviceNo(), deviceMap);
+                            deviceList.add(deviceAll);
                         }
                         resultMap.put("deviceInfo", deviceList);
                     }
