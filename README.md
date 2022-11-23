@@ -1,5 +1,6 @@
 ![handfarm](./img_src/handfarmLogo.png)
 
+
 <div style="justify-content : center;">
   <h4>누구나 쉽고 편리하게 농장을 관리할 수 있는 스마트팜 플랫폼 "핸드팜"</h4>
 </div>
@@ -410,7 +411,9 @@
 </br>
 
 ###  2. Auto Control
+</br>
 
+#### 제어장치 종류
 ![sensor](./img_src/autoControl.png)
 <div style="display : flex; justify-content : center; align-items : center">
     <img src="./img_src/peltier.jpg" width="400" height="400" />
@@ -420,11 +423,23 @@
 - 햇빛이 강해지면 작물의 광합성으로 인해 온실내 이산화탄소양이 부족해지는 것을 고려하여 유동팬 2개를 설치.
 </br>
 
+#### 제어값 변경
 <div style="display : flex; justify-content : center; align-items : center">
     <img src="./img_src/default_setting_1.gif" width="250" height="500"/>
     <img src="./img_src/blank.png" width="70" height="=550"/>
     <img src="./img_src/manual_setting_1.gif" width="255" height="=550"/>
 </div>
+(왼쪽부터 "작물별 default 값 설정"         "작물별 자동값 설정")
+- 작물별 최적의 제어값을 default 값으로 설정되어있음
+- 사용자가 이 값을 변경할 수 있음
+</br>
+
+#### 제어모습
+<div style="display : flex; justify-content : center; align-items : center">
+    <img src="./img_src/heater_working_1.gif" width="250" height="250"/>
+    <img src="./img_src/cooler_working_1.gif" width="250" height="=250"/>
+</div>
+
 
 ###  3. 담배 분쇄
 
