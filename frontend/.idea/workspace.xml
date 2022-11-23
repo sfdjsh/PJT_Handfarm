@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="4b81b8fd-fc66-4b80-83f5-fee977677905" name="Changes" comment="#hotfix">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/chat/CreateReadChat.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/chat/CreateReadChat.jsx" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="F15_FE_김강현" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2GZ84PTtW3FNR6ZUGKqL6el1xrK" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Git.Branch.Popup.ShowAllRemotes&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4b81b8fd-fc66-4b80-83f5-fee977677905" name="Changes" comment="" />
+      <created>1666584553693</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1666584553693</updated>
+      <workItem from="1666584555168" duration="467000" />
+      <workItem from="1666585033641" duration="6441000" />
+      <workItem from="1666741496441" duration="6347000" />
+      <workItem from="1666828729060" duration="2831000" />
+      <workItem from="1666848317351" duration="2084000" />
+      <workItem from="1666850550646" duration="5339000" />
+      <workItem from="1667175507576" duration="20288000" />
+      <workItem from="1667291799890" duration="625000" />
+      <workItem from="1667346182810" duration="14037000" />
+      <workItem from="1667369829719" duration="5277000" />
+      <workItem from="1667456824830" duration="688000" />
+      <workItem from="1667519330918" duration="14999000" />
+      <workItem from="1667778236446" duration="6060000" />
+      <workItem from="1667865334345" duration="21699000" />
+      <workItem from="1667952019253" duration="76000" />
+      <workItem from="1667952137408" duration="20579000" />
+      <workItem from="1668039120362" duration="8096000" />
+      <workItem from="1668123446102" duration="16220000" />
+      <workItem from="1668382811171" duration="16944000" />
+      <workItem from="1668470112769" duration="14953000" />
+      <workItem from="1668730431162" duration="23827000" />
+      <workItem from="1668830692826" duration="20104000" />
+      <workItem from="1668948167595" duration="3626000" />
+      <workItem from="1668994102079" duration="1035000" />
+    </task>
+    <task id="LOCAL-00001" summary="#hotfix">
+      <created>1668489742145</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1668489742145</updated>
+    </task>
+    <task id="LOCAL-00002" summary="#9 feat : design">
+      <created>1668872058527</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1668872058527</updated>
+    </task>
+    <task id="LOCAL-00003" summary="#hotfix">
+      <created>1668948342750</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1668948342750</updated>
+    </task>
+    <task id="LOCAL-00004" summary="#hotfix">
+      <created>1668948770841</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1668948770841</updated>
+    </task>
+    <task id="LOCAL-00005" summary="#hotfix">
+      <created>1668952475214</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1668952475214</updated>
+    </task>
+    <task id="LOCAL-00006" summary="#hotfix">
+      <created>1668954555107</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1668954555107</updated>
+    </task>
+    <task id="LOCAL-00007" summary="#hotfix">
+      <created>1668994175437</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1668994175437</updated>
+    </task>
+    <task id="LOCAL-00008" summary="#hotfix">
+      <created>1668994909081</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1668994909081</updated>
+    </task>
+    <task id="LOCAL-00009" summary="#hotfix">
+      <created>1668995095036</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1668995095036</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="article, Navbar, mqtt, farmmunityMain" />
+    <MESSAGE value="#8 feat : chatting" />
+    <MESSAGE value="#9 feat : API connect" />
+    <MESSAGE value="#11 feat : myPage &amp; Farmmunity" />
+    <MESSAGE value="#9 feat : design" />
+    <MESSAGE value="#hotfix" />
+    <option name="LAST_COMMIT_MESSAGE" value="#hotfix" />
+  </component>
+</project>
