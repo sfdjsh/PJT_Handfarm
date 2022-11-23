@@ -19,7 +19,7 @@
 9. [**프로젝트 기간**](#-프로젝트-기간)
 10. [**프로젝트 관련 문서**](#-프로젝트-관련-문서)
 
-
+<br></br>
 <div id="1"></div>
 
  ## ✨ 서비스 소개
@@ -30,7 +30,6 @@
 > 누구나 쉽고, 저렴한 가격으로 작은 식물부터 농장까지 관리가 가능한 **스마트팜 플랫폼**을 구현하였습니다.<br />
 
 <br />
-<br />
 
 ### 홈파밍에 스마트팜 기술을 접목한 플랫폼 **HandFarm** 🥦
 
@@ -39,7 +38,6 @@
 </br>
 </br>
 <div id="2"></div>
-
 ## 🛠️ 기술 스택
 <img src="https://img.shields.io/badge/Java-010101?style=for-the-badge&logo=java&logoColor=#007396"/> 
 <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=Spring Boot&logoColor=white"/>
@@ -163,11 +161,11 @@
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/3ea01dfe60d17bb50af40dff911fb7da/image.png" width =200 >
+            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/3ea01dfe60d17bb50af40dff911fb7da/image.png" width =180 >
         </div> 
         </td>
         <td>
-            <img src= "https://lab.ssafy.com/s07-final/S07P31C101/uploads/4545f44b72f75995c83158bb70c1de77/image.png" width = 200>
+            <img src= "https://lab.ssafy.com/s07-final/S07P31C101/uploads/4545f44b72f75995c83158bb70c1de77/image.png" width = 180>
         </td>
         <td>
              ✔ 로그인 기능을 카카오 소셜 로그인 을 사용하여 기능을 구현하였습니다. <br><br>
@@ -201,11 +199,11 @@
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/682d23b8cfd06462a31c48dfabf6e91a/image.png" width =200 >
+            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/682d23b8cfd06462a31c48dfabf6e91a/image.png" width =140 >
         </div> 
         </td>
         <td>
-            <img src= "./img_src/mini_tomatoes.png" width = 200>
+            <img src= "./img_src/mini_tomatoes.png" width = 140>
         </td>
         <td>
              ✔ 핸드팜의 커뮤니티 공간인 파뮤니티 메인 페이지 입니다.<br>   분류 카테고리로 정보 공유, 지역 게시판 으로 분리되며<br>  클릭시 해당 커뮤니티 페이지로 이동합니다. <br><br>
@@ -220,11 +218,11 @@
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/89863a0a5af0ebae84f78d3e9027eea0/image.png" width =200 >
+            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/89863a0a5af0ebae84f78d3e9027eea0/image.png" width =210>
         </div> 
         </td>
         <td>
-            <img src= "https://lab.ssafy.com/s07-final/S07P31C101/uploads/ad371225fb8fefebe3e15be8dc1a0e8c/image.png" width = 200>
+            <img src= "https://lab.ssafy.com/s07-final/S07P31C101/uploads/ad371225fb8fefebe3e15be8dc1a0e8c/image.png" width = 210>
         </td>
         <td>
              ✔ 지역 게시판 페이지입니다. <br> 여러 지역중 원하는 태그를 선택하여 해당 지역의 커뮤니티 사용할 수 있습니다. <br> 게시글을 읽을 수 있고 작성 또한 기능 구현을 했습니다. <br><br>
@@ -239,12 +237,12 @@
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/8cf9472ff3cfd4f289792bde345b1260/image.png" width =200 >
+            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/8cf9472ff3cfd4f289792bde345b1260/image.png" width =220 >
         </div>
         </td>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/295f378c4e8ff068260d8cddd236effe/image.png" width =200 >
+            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/295f378c4e8ff068260d8cddd236effe/image.png" width =220 >
         </div> 
         </td>
         <td>
@@ -261,12 +259,12 @@
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/f80b419408ca2e75370a74cb00d2e6a3/image.png" width =200 >
+            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/f80b419408ca2e75370a74cb00d2e6a3/image.png" width =230 >
         </div> 
         </td>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/715816e43741f78ec5f228925f948826/image.png" width =200 >
+            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/715816e43741f78ec5f228925f948826/image.png" width =230 >
         </div> 
         </td>
         <td>
@@ -284,12 +282,12 @@
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="./img_src/copy.png" width =200 >
+            <img src="./img_src/copy.png" width =330 >
         </div> 
         </td>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/994fc3c1ebe378f083756366ffa8f7fe/image.png" width =200 >
+            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/994fc3c1ebe378f083756366ffa8f7fe/image.png" width =330 >
         </div> 
         </td>
         <td>
@@ -307,12 +305,12 @@
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/426aac087f6c535b7b6a737f9bb7eee4/image.png" width =200 >
+            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/426aac087f6c535b7b6a737f9bb7eee4/image.png" width =180 >
         </div> 
         </td>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/994fc3c1ebe378f083756366ffa8f7fe/image.png" width =200 >
+            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/994fc3c1ebe378f083756366ffa8f7fe/image.png" width =180 >
         </div> 
         </td>
         <td>
@@ -329,12 +327,12 @@
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="./img_src/myfarm_main.png" width =200 >
+            <img src="./img_src/myfarm_main.png" width =160 >
         </div> 
         </td>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="./img_src/myfarm_camera.png" width =200 >
+            <img src="./img_src/myfarm_camera.png" width =160 >
         </div> 
         </td>
         <td>
@@ -351,12 +349,12 @@
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="https://lab.ssafy.com/s07-bigdata-recom-sub2/S07P22C105/uploads/cd84c8ee960ef94660590676ef181b63/image.png" width =200 >
+            <img src="https://lab.ssafy.com/s07-bigdata-recom-sub2/S07P22C105/uploads/cd84c8ee960ef94660590676ef181b63/image.png" width =190 >
         </div> 
         </td>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="https://lab.ssafy.com/s07-bigdata-recom-sub2/S07P22C105/uploads/6343e7a0231007254506d60665ff743a/image.png" width =200 >
+            <img src="https://lab.ssafy.com/s07-bigdata-recom-sub2/S07P22C105/uploads/6343e7a0231007254506d60665ff743a/image.png" width =190 >
         </div> 
         </td>
         <td>
@@ -382,6 +380,9 @@
 <br/>
 
 ###  1. Modularization
+</br>
+
+#### Modularization Sensor
 ##### <CO2 센서 연결 및 해제>
 <div style="display : flex; justify-content : center; align-items : center">
     <img src="./img_src/modularization_1.gif" width="450
@@ -398,10 +399,19 @@
 </div>
 
 - I2C 통신을 통해 각각의 센서의 연결여부를 판단합니다. 해당 센서가 연결되지 않았을경우 UI에서의 블러 처리를 통해 사용자에게 알려주고 연결된 센서만 UI에 표시해줍니다.
+</br>
 
-###  2. 담배 인식 및 판별
+#### Modularization Node
+<div style="display : flex; justify-content : center; align-items : center">
+    <img src="./img_src/modularization_3.gif" width="250" height="350" style="transform:rotate(90deg);"/>
+</div>
 
-![sensor](https://user-images.githubusercontent.com/62362910/185403878-708ea2cc-fd23-4dfe-be75-847c29a625bb.png)
+- "농장 추가하기"를 통해 새로운 노드(디바이스)를 손쉽게 추가할 수 있습니다. 이를 통해 무한한 확장성을 제공합니다.
+</br>
+
+###  2. Auto Control
+
+![sensor](./img_src/autoControl.png)
 
 - 인식부에서는 CDS 조도 센서를 사용하여, 물체가 입구를 통과 할 경우 낮아지는 조도량을 측정하여 
 물체 통과를 인식합니다. 인식되지 않을경우 5초후 다음 과정은 생략됩니다.
