@@ -1,7 +1,7 @@
-![handfarm](https://lab.ssafy.com/s07-final/S07P31C101/uploads/851b1f25faeb754ac19c29854951e127/image.png)
+![handfarm](./img_src/handfarmLogo.png)
 
-<div align="center">
-  <h1>~~내 손안의 작은 농장 핸드팜~~</h1>
+<div align = "center">
+  <h4>누구나 쉽고 편리하게 농장을 관리할 수 있는 스마트팜 플랫폼 "핸드팜"</h3>
 </div>
 
 
@@ -20,24 +20,16 @@
 10. [**프로젝트 관련 문서**](#-프로젝트-관련-문서)
 
 
-
-<br/>
-
-
-
 <div id="1"></div>
 
  ## ✨ 서비스 소개
 
 #### 홈파밍과 스마트팜의 만남! 🍓🖥
 
-> 최근 코로나 19의 여파로 생긴 답답함을 풀기 위해 집 안이나 근처 텃밭에서 작은 농장을 일구는 이른바 **홈파밍**으로 불리는 산업기 급성장하고 있습니다.<br />
->
-> 또한 올해 8월 폭우 피해로 한달 새 채소의 가격이 17%정도 상승하였고 그로 인해 홈파밍이 더욱 열풍하고 있는 추세입니다.<br />
->
->
-> 이러한 "홈파밍"을 더욱 편리하게 관리할 수 있도록, **"스마트 팜"** 기술을 도입하였습니다.
+> 전문농업인이나 기업단위에서만 사용되는 기술인 스마트팜. **Modularization**을 통해 경제적으로 개인이 필요한 센서들을 선택할 수 있고 Node또한 추가할 수 있습니다. **Auto-Control**를 통해 편리성 및 안정성을 추구합니다. MQTT프로토콜을 이용해 **실시간**으로 내농장을 상태를 확인할 수도 있으며, **Farmunity**를 통해 자유로운 소통이 가능합니다.<br />
+> 누구나 쉽고, 저렴한 가격으로 작은 식물부터 농장까지 관리가 가능한 **스마트팜 플랫폼**을 구현하였습니다.<br />
 
+<br />
 <br />
 
 ### 홈파밍에 스마트팜 기술을 접목한 플랫폼 **HandFarm** 🥦
@@ -45,15 +37,10 @@
 ##### 작은 규모인 개인 화분부터, 농장 단위까지 작물 재배를 스마트하게 하고 싶은 사람이라면 누구나 쉽고 편리하게 사용할 수 있는 HandFarm을 사용해보세요!
 
 </br>
-
 </br>
-
-
-
 <div id="2"></div>
 
 ## 🛠️ 기술 스택
-
 <img src="https://img.shields.io/badge/Java-010101?style=for-the-badge&logo=java&logoColor=#007396"/> 
 <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=Spring Boot&logoColor=white"/>
 <img src="https://img.shields.io/badge/Kakao Api -000000?style=for-the-badge&logo=Kakao&logoColor=white"/>
@@ -218,7 +205,7 @@
         </div> 
         </td>
         <td>
-            <img src= "https://lab.ssafy.com/s07-final/S07P31C101/uploads/bffd225d7b8acb161684bf7d8691e511/image.png" width = 200>
+            <img src= "./img_src/mini_tomatoes.png" width = 200>
         </td>
         <td>
              ✔ 핸드팜의 커뮤니티 공간인 파뮤니티 메인 페이지 입니다.<br>   분류 카테고리로 정보 공유, 지역 게시판 으로 분리되며<br>  클릭시 해당 커뮤니티 페이지로 이동합니다. <br><br>
@@ -297,7 +284,7 @@
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/4340eb51097fa9d8f2c272ab381e66f3/image.png" width =200 >
+            <img src="./img_src/copy.png" width =200 >
         </div> 
         </td>
         <td>
@@ -342,12 +329,12 @@
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="https://lab.ssafy.com/s07-bigdata-recom-sub2/S07P22C105/uploads/93dc211d62d415706aed5a7c55cc246f/image.png" width =200 >
+            <img src="./img_src/myfarm_main.png" width =200 >
         </div> 
         </td>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="https://lab.ssafy.com/s07-bigdata-recom-sub2/S07P22C105/uploads/28e5f096f50809a6b5d5747d7b218658/image.png" width =200 >
+            <img src="./img_src/myfarm_camera.png" width =200 >
         </div> 
         </td>
         <td>
@@ -383,13 +370,18 @@
 ## 🎛️ 디바이스 주요기능
 
 ### 0. 디바이스 이미지
+#### <정면도>
+<img src="./img_src/hw_front.jpg" width="709" height="399"/>
+#### <우측면도>
+<img src="./img_src/hw_side.jpg" width="709" height="410"/>
+#### <평면도>
+<img src="./img_src/hw_up.jpg" width="709" height="410"/>
 
-<img src="https://user-images.githubusercontent.com/62362910/185401544-c46a1400-b708-4692-b073-763319dff4d5.jpg" width="332" height="591"/>
-<img src="https://user-images.githubusercontent.com/62362910/185401559-8cf49a38-1c31-4aa7-aeef-21b36b11c1f6.jpg" width="443" height="591"/>
-
-###  1. 투입구 개폐
-
-![open](https://user-images.githubusercontent.com/62362910/185402118-2ff660ec-4d82-4f81-9815-bf741753b6cb.gif)
+###  1. Modularization
+<div style="display : flex; justify-content : center; align-items : center">
+    <img src="./img_src/modularization_2.gif" width="300" height="300"/>
+    <img src="./img_src/modularization_2_1.gif" width="300" height="=600"/>
+</div>
 
 - 사용자가 디바이스 상단에 위치한 QR코드를 인식합니다. 사용자 인것이 DB측과의 지속적인 GET요청을 통하여 확인이 되면 내부의 모터가 작동하며 투입구와 내부 덮개가 열리게 됩니다. 이후 담배 인식이 되면 개폐구는 닫히게 됩니다.
 
