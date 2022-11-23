@@ -60,7 +60,8 @@ public class UserServiceImpl implements UserService {
                 Map<String, Object> deviceInfo = new HashMap<>();
                 deviceInfo.put("deviceName", userDeviceEntity.getDeviceIdx().getDeviceName());
                 deviceInfo.put("deviceCrop", userDeviceEntity.getDeviceIdx().getCrop().getCropName());
-                List<Optional<DeviceControlEntity>> deviceControlEntitylist = deviceControlRepository.findByDeviceIdx(getUserEntity.get().getDevice());
+                deviceInfo.put("deviceNo", userDeviceEntity.getDeviceIdx().getDeviceNo());
+                List<Optional<DeviceControlEntity>> deviceControlEntitylist = deviceControlRepository.findByDeviceIdx(userDeviceEntity.getDeviceIdx());
                 Map<String, Object> autoValueMap = new HashMap<>();
                 for (Optional<DeviceControlEntity> deviceControlEntity : deviceControlEntitylist) {
                     if(deviceControlEntity.isEmpty()) throw new NoSuchElementException();
@@ -96,8 +97,15 @@ public class UserServiceImpl implements UserService {
     public void editUserInfo(HttpServletRequest request, UserDto userDto){
 
             UserEntity userEntity = getUserEntity(request);
-            userEntity.setUserNickname(userDto.getUserNickname());
-            userEntity.setUserProfile(userDto.getUserProfileImg());
+            if(userDto.getUserNickname()!=null) {
+                userEntity.setUserNickname(userDto.getUserNickname());
+            }
+            if(userDto.getUserProfileImg() != null) {
+                userEntity.setUserProfile(userDto.getUserProfileImg());
+            }
+            if(userDto.getUserOpen() != null) {
+                userEntity.setUserOpen(userDto.getUserOpen());
+            }
             userRepository.save(userEntity);
 
     }
