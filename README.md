@@ -1,7 +1,7 @@
 ![handfarm](./img_src/handfarmLogo.png)
 
-<div align = "center">
-  <h4>누구나 쉽고 편리하게 농장을 관리할 수 있는 스마트팜 플랫폼 "핸드팜"</h3>
+<div style="justify-content : center;">
+  <h4>누구나 쉽고 편리하게 농장을 관리할 수 있는 스마트팜 플랫폼 "핸드팜"</h4>
 </div>
 
 
@@ -372,18 +372,32 @@
 ### 0. 디바이스 이미지
 #### <정면도>
 <img src="./img_src/hw_front.jpg" width="709" height="399"/>
+
 #### <우측면도>
 <img src="./img_src/hw_side.jpg" width="709" height="410"/>
+
 #### <평면도>
 <img src="./img_src/hw_up.jpg" width="709" height="410"/>
 
+<br/>
+
 ###  1. Modularization
+##### <CO2 센서 연결 및 해제>
 <div style="display : flex; justify-content : center; align-items : center">
-    <img src="./img_src/modularization_2.gif" width="300" height="300"/>
+    <img src="./img_src/modularization_1.gif" width="450
+    " height="300"/>
+    <img src="./img_src/modularization_1_1.gif" width="300" height="=600"/>
+</div>
+<br/>
+
+##### <미세먼지 센서 연결 및 해제>
+<div style="display : flex; justify-content : center; align-items : center">
+    <img src="./img_src/modularization_2.gif" width="450
+    " height="300"/>
     <img src="./img_src/modularization_2_1.gif" width="300" height="=600"/>
 </div>
 
-- 사용자가 디바이스 상단에 위치한 QR코드를 인식합니다. 사용자 인것이 DB측과의 지속적인 GET요청을 통하여 확인이 되면 내부의 모터가 작동하며 투입구와 내부 덮개가 열리게 됩니다. 이후 담배 인식이 되면 개폐구는 닫히게 됩니다.
+- I2C 통신을 통해 각각의 센서의 연결여부를 판단합니다. 해당 센서가 연결되지 않았을경우 UI에서의 블러 처리를 통해 사용자에게 알려주고 연결된 센서만 UI에 표시해줍니다.
 
 ###  2. 담배 인식 및 판별
 
