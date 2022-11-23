@@ -120,7 +120,7 @@
         └─com
             └─handfarm
                 └─backend          # 테스트 코드 작성 폴더
-```
+ ```
 
 #### Frontend 디렉토리 구조
 
@@ -412,11 +412,19 @@
 ###  2. Auto Control
 
 ![sensor](./img_src/autoControl.png)
+<div style="display : flex; justify-content : center; align-items : center">
+    <img src="./img_src/peltier.jpg" width="400" height="400" />
+</div>
+- 펠티어 효과를 이용하여 Heater, Cooler를 구성 & 뜨거운 공기는 위로올라가는 특성을 고려하여 Heater 부분은 온실내 아래로 위치, 차가운 공기는 아래로 가라앉는 특성을 고려 Cooler 부분은 온실내 위로 위치. 
+- 생장 LED (R:4 B:1)을 이용하여 작물의 성장을 촉진. 
+- 햇빛이 강해지면 작물의 광합성으로 인해 온실내 이산화탄소양이 부족해지는 것을 고려하여 유동팬 2개를 설치.
+</br>
 
-- 인식부에서는 CDS 조도 센서를 사용하여, 물체가 입구를 통과 할 경우 낮아지는 조도량을 측정하여 
-물체 통과를 인식합니다. 인식되지 않을경우 5초후 다음 과정은 생략됩니다.
-- 판별부에서는 정확도를 높이기 위해 3가지 센서를 사용하여 담배인지 아닌지를 판별합니다. 
-- 비접촉 온도센서에서는 적정 설정온도를, 가스 센서에서는 일정량 이상의 가스를, 공기질 센서에서는 미세먼지 량을 측정하여 3가지 판별 프로세스 중 하나라도 통과하면 담배로 인식됩니다. 
+<div style="display : flex; justify-content : center; align-items : center">
+    <img src="./img_src/default_setting_1.gif" width="250" height="500"/>
+    <img src="./img_src/blank.png" width="70" height="=550"/>
+    <img src="./img_src/manual_setting_1.gif" width="255" height="=550"/>
+</div>
 
 ###  3. 담배 분쇄
 
@@ -535,5 +543,4 @@
 | 외부서비스 정보 | [외부서비스 정보 바로가기](/exec/02_광주_1반_C101_외부_서비스_정보.pdf) |
 | 시연 시나리오   | [시연 시나리오 바로가기](/exec/07_광주_1반_시연시나리오.pdf) |
 | 발표자료        | [발표자료 바로가기](https://drive.google.com/file/d/12lOU1-kJ9XMx_7HsXzjGJ9VWt4gaxyYJ/view) |
-
 
