@@ -395,10 +395,10 @@
 
 #### Modularization Sensor
 ##### <CO2 센서 연결 및 해제>
+
 <div style="display : flex; justify-content : center; align-items : center">
-    <img src="img_src/modularization_1.gif" width="450
-    " height="300"/>
-    <img src="img_src/modularization_1_1.gif" width="300" height="=600"/>
+    <img src="./img_src/modularization_1.gif" width="450" height="300"/>
+    <img src="./img_src/modularization_1_1.gif" width="300" height="=600"/>
 </div>
 
 <br/>
@@ -443,6 +443,7 @@
     <img src="img_src/manual_setting_1.gif" width="255" height="=550"/>
 </div>
 
+
 (왼쪽부터 "작물별 default 값 설정"         "작물별 자동값 설정")
 - 작물별 최적의 제어값을 default 값으로 설정되어있음
 - 사용자가 이 값을 변경할 수 있음
@@ -478,13 +479,13 @@
 
 ## 🙌 협업 관리
 
-<img src="img_src/API.png" >
+<img src="img_src/API.PNG" >
 
 ![image-20220815204147723](https://user-images.githubusercontent.com/97595340/184630576-51f8eb89-554c-410a-ae39-05ddb6c2bccf.png)
 
 
 
-<img src="img_src/schedule.png" >
+<img src="img_src/schedule.PNG" >
 
 
 
