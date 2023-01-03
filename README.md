@@ -65,7 +65,6 @@
 <br/>
 <br/>
 
-
 <img src="https://img.shields.io/badge/ESP32-000000?style=for-the-badge&logo=ESPHome&logoColor=white">
 <img src="https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=C++&logoColor=white">
 <img src="https://img.shields.io/badge/C-A8B9CC?style=for-the-badge&logo=C&logoColor=white">
@@ -73,12 +72,7 @@
 <img src="https://img.shields.io/badge/raspberrypi 4-D12228?style=for-the-badge&logo=raspberrypi&logoColor=white">
 <img src="https://img.shields.io/badge/mqtt client-2496ED?style=for-the-badge&logo=mqtt&logoColor=white">
 
-<table>
-    <tr> 
-        <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/9eed0e64fd363bd6010809884ed96648/image.png" />
-        <img src ="https://lab.ssafy.com/s07-final/S07P31C101/uploads/3c4e0c7dd3902587f767b9f82b33c47c/image.png" />
-    </tr>
-</table>
+
 
 </br>
 </br>
@@ -87,11 +81,11 @@
 
 ## 🎛 시스템 아키텍쳐
 
-![7 광주_1반_C106조_시스템개략도](https://lab.ssafy.com/s07-final/S07P31C101/uploads/a83a14df3d32de757352a9019cb7bec3/image.png) 
+<img src = "img_src/architecture.png" >
 
 #### ERD
 
-![image-20220818102735177](https://lab.ssafy.com/s07-final/S07P31C101/uploads/7e9882cac98d57b77cf77c382b569a88/ERD.png)
+<img src="img_src/ERD.png" >
 
 
 
@@ -162,11 +156,11 @@
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/3ea01dfe60d17bb50af40dff911fb7da/image.png" width =180 >
+            <img src="img_src/mainpage.png" width = 180 >
         </div> 
         </td>
         <td>
-            <img src= "https://lab.ssafy.com/s07-final/S07P31C101/uploads/4545f44b72f75995c83158bb70c1de77/image.png" width = 180>
+            <img src= "img_src/login.png" width = 180>
         </td>
         <td>
              ✔ 로그인 기능을 카카오 소셜 로그인 을 사용하여 기능을 구현하였습니다. <br><br>
@@ -175,17 +169,18 @@
     </tr>
 </table>
 
+
 ### 2. 기기 정보 등록
 
 <table> 
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/af6a7480353db272d748d22a557333dc/image.png" width =200 >
+            <img src="img_src/device_create_1.png" width = 200 >
         </div> 
         </td>
         <td>
-            <img src= "https://lab.ssafy.com/s07-final/S07P31C101/uploads/91941ace4bb4e78e02a0565e7a3192c7/image.png" width = 200>
+            <img src= "img_src/device_create_2.png" width = 200 >
         </td>
         <td>
              ✔ 로그인에 성공하면 보유한 디바이스 정보 유뮤에 따라 패이지를 분리합니다.<br>   해당 페이지는 디바이스를 보유하지 않을떄 해당 페이지를 호출합니다. <br><br>
@@ -194,17 +189,18 @@
     </tr>
 </table>
 
+
 ### 3. 파뮤니티 메인 or 정보 공유 페이지
 
 <table> 
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/682d23b8cfd06462a31c48dfabf6e91a/image.png" width =140 >
+            <img src="img_src/fammuity_1.png" width = 140 >
         </div> 
         </td>
         <td>
-            <img src= "./img_src/mini_tomatoes.png" width = 140>
+            <img src= "./img_src/mini_tomatoes.png" width = 140 >
         </td>
         <td>
              ✔ 핸드팜의 커뮤니티 공간인 파뮤니티 메인 페이지 입니다.<br>   분류 카테고리로 정보 공유, 지역 게시판 으로 분리되며<br>  클릭시 해당 커뮤니티 페이지로 이동합니다. <br><br>
@@ -213,17 +209,18 @@
     </tr>
 </table>   
 
+
 ### 4. 지역 게시판 페이지 or 상세 게시글
 
 <table> 
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/89863a0a5af0ebae84f78d3e9027eea0/image.png" width =210>
+            <img src="img_src/article_main.png" width = 210 >
         </div> 
         </td>
         <td>
-            <img src= "https://lab.ssafy.com/s07-final/S07P31C101/uploads/ad371225fb8fefebe3e15be8dc1a0e8c/image.png" width = 210>
+            <img src= "img_src/article_detail.png" width = 210 >
         </td>
         <td>
              ✔ 지역 게시판 페이지입니다. <br> 여러 지역중 원하는 태그를 선택하여 해당 지역의 커뮤니티 사용할 수 있습니다. <br> 게시글을 읽을 수 있고 작성 또한 기능 구현을 했습니다. <br><br>
@@ -232,18 +229,19 @@
     </tr>
 </table>    
 
+
 ###  5. 실시간 채팅
 
 <table> 
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/8cf9472ff3cfd4f289792bde345b1260/image.png" width =220 >
+            <img src="img_src/chat_1.png" width = 220 >
         </div>
         </td>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/295f378c4e8ff068260d8cddd236effe/image.png" width =220 >
+            <img src="img_src/chat_2.png" width = 220 >
         </div> 
         </td>
         <td>
@@ -253,6 +251,7 @@
         </td>
     </tr>
 </table>
+
 <br />
 
 ### 6. 알림
@@ -260,12 +259,12 @@
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/f80b419408ca2e75370a74cb00d2e6a3/image.png" width =230 >
+            <img src="img_src/alarm_1.png" width =230 >
         </div> 
         </td>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/715816e43741f78ec5f228925f948826/image.png" width =230 >
+            <img src="img_src/alarm_2.png" width =230 >
         </div> 
         </td>
         <td>
@@ -275,6 +274,7 @@
         </td>
     </tr>
 </table>
+
 <br />
 
 ### 7-1. 마이페이지 - 농장 설정 값 조회 및 설정 값 복사
@@ -283,12 +283,12 @@
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="./img_src/copy.png" width =330 >
+            <img src="./img_src/copy.png" width = 330 >
         </div> 
         </td>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/994fc3c1ebe378f083756366ffa8f7fe/image.png" width =330 >
+            <img src="img_src/mypage_update.png" width = 330 >
         </div> 
         </td>
         <td>
@@ -298,6 +298,7 @@
         </td>
     </tr>
 </table>
+
 <br />
 
 ### 7-2. 마이페이지 - 작성 게시글 및 정보 수정
@@ -306,12 +307,12 @@
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/426aac087f6c535b7b6a737f9bb7eee4/image.png" width =180 >
+            <img src="img_src/mypage_article.png" width =180 >
         </div> 
         </td>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="https://lab.ssafy.com/s07-final/S07P31C101/uploads/994fc3c1ebe378f083756366ffa8f7fe/image.png" width =180 >
+            <img src="img_src/mypage_update.png" width =180 >
         </div> 
         </td>
         <td>
@@ -321,6 +322,7 @@
         </td>
     </tr>
 </table>
+
 
 ### 8-1. 마이 팜 - 농장 정보 실시간 조회
 
@@ -350,12 +352,12 @@
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="https://lab.ssafy.com/s07-bigdata-recom-sub2/S07P22C105/uploads/cd84c8ee960ef94660590676ef181b63/image.png" width =190 >
+            <img src="img_src/myfarm_main.png" width = 190 >
         </div> 
         </td>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="https://lab.ssafy.com/s07-bigdata-recom-sub2/S07P22C105/uploads/6343e7a0231007254506d60665ff743a/image.png" width =190 >
+            <img src="img_src/myfarm_camera.png" width = 190 >
         </div> 
         </td>
         <td>
@@ -386,10 +388,11 @@
 #### Modularization Sensor
 ##### <CO2 센서 연결 및 해제>
 <div style="display : flex; justify-content : center; align-items : center">
-    <img src="./img_src/modularization_1.gif" width="450
+    <img src="img_src/modularization_1.gif" width="450
     " height="300"/>
-    <img src="./img_src/modularization_1_1.gif" width="300" height="=600"/>
+    <img src="img_src/modularization_1_1.gif" width="300" height="=600"/>
 </div>
+
 <br/>
 
 ##### <미세먼지 센서 연결 및 해제>
@@ -404,8 +407,9 @@
 
 #### Modularization Node
 <div style="display : flex; justify-content : center; align-items : center">
-    <img src="./img_src/modularization_3.gif" width="250" height="350" style="transform:rotate(90deg);"/>
+    <img src="img_src/modularization_3.gif" width="250" height="350" style="transform:rotate(90deg);"/>
 </div>
+
 
 - "농장 추가하기"를 통해 새로운 노드(디바이스)를 손쉽게 추가할 수 있습니다. 이를 통해 무한한 확장성을 제공합니다.
 </br>
@@ -414,10 +418,11 @@
 </br>
 
 #### 제어장치 종류
-![sensor](./img_src/autoControl.png)
+![sensor](img_src/autoControl.png)
 <div style="display : flex; justify-content : center; align-items : center">
-    <img src="./img_src/peltier.jpg" width="400" height="400" />
+    <img src="img_src/peltier.jpg" width="400" height="400" />
 </div>
+
 - 펠티어 효과를 이용하여 Heater, Cooler를 구성 & 뜨거운 공기는 위로올라가는 특성을 고려하여 Heater 부분은 온실내 아래로 위치, 차가운 공기는 아래로 가라앉는 특성을 고려 Cooler 부분은 온실내 위로 위치. 
 - 생장 LED (R:4 B:1)을 이용하여 작물의 성장을 촉진. 
 - 햇빛이 강해지면 작물의 광합성으로 인해 온실내 이산화탄소양이 부족해지는 것을 고려하여 유동팬 2개를 설치.
@@ -425,10 +430,11 @@
 
 #### 제어값 변경
 <div style="display : flex; justify-content : center; align-items : center">
-    <img src="./img_src/default_setting_1.gif" width="250" height="500"/>
-    <img src="./img_src/blank.png" width="70" height="=550"/>
-    <img src="./img_src/manual_setting_1.gif" width="255" height="=550"/>
+    <img src="img_src/default_setting_1.gif" width="250" height="500"/>
+    <img src="img_src/blank.png" width="70" height="=550"/>
+    <img src="img_src/manual_setting_1.gif" width="255" height="=550"/>
 </div>
+
 (왼쪽부터 "작물별 default 값 설정"         "작물별 자동값 설정")
 - 작물별 최적의 제어값을 default 값으로 설정되어있음
 - 사용자가 이 값을 변경할 수 있음
@@ -440,27 +446,6 @@
     <img src="./img_src/cooler_working_1.gif" width="250" height="=250"/>
 </div>
 
-
-###  3. 담배 분쇄
-
-![grind](https://user-images.githubusercontent.com/62362910/185403679-e9990766-4514-4ee4-9586-2405be27c395.gif)
-
-- 판별부에서 담배로 인식이 된다면 곧바로 분쇄하게 됩니다. 분쇄된 담배는 일반 쓰레기와 분리되어 수거됩니다.
-
-###  4. 처리 후 사용 정보 DB 송신
-
-![get](https://user-images.githubusercontent.com/62362910/185400157-af7e391a-c9b0-4066-8b6e-0d41cc67b7c9.png)
-
-- 판별이 끝난 후 담배 인것이 확인되면 이를 DB측으로 송신합니다. 
-- DB에서는 이를 포인트로 적립시킵니다.
-
-
-###  5. 기기정보 업로드
-
-<img src="https://user-images.githubusercontent.com/62362910/185400142-e22f8ffc-08c9-417b-8cef-46a3e9dc1f27.png" width="629" height="416"/>
-
-- 1시간 마다 기기의 정보를 업로드합니다. 
-- 위의 이미지 처럼 DB의 Table에 해당되는 JSON 형식으로 POST요청을 보냅니다. 기기 ID, 사용자 이름, 기기 상태, 쓰레기 통 용량, 배터리 등의 정보를 관리자 측으로 송신합니다.
 
 
 </br>
@@ -485,17 +470,13 @@
 
 ## 🙌 협업 관리
 
-![api](https://lab.ssafy.com/s07-final/S07P31C101/uploads/9080492f8928f07e91eb9194a8f44ee9/api.png)
+<img src="img_src/API.png" >
 
 ![image-20220815204147723](https://user-images.githubusercontent.com/97595340/184630576-51f8eb89-554c-410a-ae39-05ddb6c2bccf.png)
 
-![image-20220815205046798](https://lab.ssafy.com/s07-final/S07P31C101/uploads/396e24e43bef89dff216ebef0b1738c7/image.png)
 
 
-
-
-
-
+<img src="img_src/schedule.png" >
 
 
 
