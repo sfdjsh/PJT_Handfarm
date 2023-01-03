@@ -81,7 +81,7 @@
 
 ## 🎛 시스템 아키텍쳐
 
-<img src = "./img_src/architecture.png" >
+![arhitecture](/img_src/architecture.png)
 
 #### ERD
 
