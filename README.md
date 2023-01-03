@@ -85,7 +85,7 @@
 
 #### ERD
 
-<img src="img_src/ERD.png" >
+![ERD](/img_src/ERD.PNG)
 
 
 
@@ -156,11 +156,11 @@
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="img_src/mainpage.png" width = 180 >
+            <img src="img_src/mainpage.PNG" width = 180 >
         </div> 
         </td>
         <td>
-            <img src= "img_src/login.png" width = 180>
+            <img src= "img_src/login.PNG" width = 180>
         </td>
         <td>
              ✔ 로그인 기능을 카카오 소셜 로그인 을 사용하여 기능을 구현하였습니다. <br><br>
@@ -170,17 +170,18 @@
 </table>
 
 
+
 ### 2. 기기 정보 등록
 
 <table> 
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="img_src/device_create_1.png" width = 200 >
+            <img src="img_src/device_create_1.PNG" width = 200 >
         </div> 
         </td>
         <td>
-            <img src= "img_src/device_create_2.png" width = 200 >
+            <img src= "img_src/device_create_2.PNG" width = 200 >
         </td>
         <td>
              ✔ 로그인에 성공하면 보유한 디바이스 정보 유뮤에 따라 패이지를 분리합니다.<br>   해당 페이지는 디바이스를 보유하지 않을떄 해당 페이지를 호출합니다. <br><br>
@@ -190,13 +191,14 @@
 </table>
 
 
+
 ### 3. 파뮤니티 메인 or 정보 공유 페이지
 
 <table> 
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="img_src/fammuity_1.png" width = 140 >
+            <img src="img_src/fammuity_1.PNG" width = 140 >
         </div> 
         </td>
         <td>
@@ -210,17 +212,18 @@
 </table>   
 
 
+
 ### 4. 지역 게시판 페이지 or 상세 게시글
 
 <table> 
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="img_src/article_main.png" width = 210 >
+            <img src="img_src/article_main.PNG" width = 210 >
         </div> 
         </td>
         <td>
-            <img src= "img_src/article_detail.png" width = 210 >
+            <img src= "img_src/article_detail.PNG" width = 210 >
         </td>
         <td>
              ✔ 지역 게시판 페이지입니다. <br> 여러 지역중 원하는 태그를 선택하여 해당 지역의 커뮤니티 사용할 수 있습니다. <br> 게시글을 읽을 수 있고 작성 또한 기능 구현을 했습니다. <br><br>
@@ -230,18 +233,19 @@
 </table>    
 
 
+
 ###  5. 실시간 채팅
 
 <table> 
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="img_src/chat_1.png" width = 220 >
+            <img src="img_src/chat_1.PNG" width = 220 >
         </div>
         </td>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="img_src/chat_2.png" width = 220 >
+            <img src="img_src/chat_2.PNG" width = 220 >
         </div> 
         </td>
         <td>
@@ -252,6 +256,7 @@
     </tr>
 </table>
 
+
 <br />
 
 ### 6. 알림
@@ -259,12 +264,12 @@
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="img_src/alarm_1.png" width =230 >
+            <img src="img_src/alarm_1.PNG" width =230 >
         </div> 
         </td>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="img_src/alarm_2.png" width =230 >
+            <img src="img_src/alarm_2.PNG" width =230 >
         </div> 
         </td>
         <td>
@@ -274,6 +279,7 @@
         </td>
     </tr>
 </table>
+
 
 <br />
 
@@ -288,7 +294,7 @@
         </td>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="img_src/mypage_update.png" width = 330 >
+            <img src="img_src/mypage_update.PNG" width = 330 >
         </div> 
         </td>
         <td>
@@ -299,6 +305,7 @@
     </tr>
 </table>
 
+
 <br />
 
 ### 7-2. 마이페이지 - 작성 게시글 및 정보 수정
@@ -307,12 +314,12 @@
     <tr>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="img_src/mypage_article.png" width =180 >
+            <img src="img_src/mypage_article.PNG" width =180 >
         </div> 
         </td>
         <td>
         <div style="display : flex; justify-content : center;">
-            <img src="img_src/mypage_update.png" width =180 >
+            <img src="img_src/mypage_update.PNG" width =180 >
         </div> 
         </td>
         <td>
@@ -322,6 +329,7 @@
         </td>
     </tr>
 </table>
+
 
 
 ### 8-1. 마이 팜 - 농장 정보 실시간 조회
