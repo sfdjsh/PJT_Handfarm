@@ -397,9 +397,10 @@
 ##### <CO2 센서 연결 및 해제>
 
 <div style="display : flex; justify-content : center; align-items : center">
-    <img src="./img_src/modularization_1.gif" width="450" height="300"/>
-    <img src="./img_src/modularization_1_1.gif" width="300" height="=600"/>
+    <img src="img_src/modularization_1.gif" width = "450" height = "300"/>
+    <img src="img_src/modularization_1_1.gif" width = "300" height = "600"/>
 </div>
+
 
 <br/>
 
@@ -450,10 +451,12 @@
 </br>
 
 #### 제어모습
+
 <div style="display : flex; justify-content : center; align-items : center">
-    <img src="./img_src/heater_working_1.gif" width="250" height="250"/>
-    <img src="./img_src/cooler_working_1.gif" width="250" height="=250"/>
+    <img src="img_src/heater_working_1.gif" width="250" height="250"/>
+    <img src="img_src/cooler_working_1.gif" width="250" height="=250"/>
 </div>
+
 
 
 
