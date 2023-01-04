@@ -439,7 +439,7 @@
 
 #### 제어값 변경
 <div style="display : flex; justify-content : center; align-items : center">
-    <img src="img_src/default_setting_1.gif" width="250" height="500"/>
+    <img src="img_src/default_setting.gif" width="250" height="500"/>
     <img src="img_src/blank.png" width="70" height="=550"/>
     <img src="img_src/manual_setting_1.gif" width="255" height="=550"/>
 </div>
